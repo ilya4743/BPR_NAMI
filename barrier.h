@@ -4,6 +4,8 @@
 #include"mygraph.h"
 #include "gamemap.h"
 
+template<class BarrierT>
+
 class GameMap;
 class IBarrier
 {

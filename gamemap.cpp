@@ -104,8 +104,8 @@ int GameMap::GetI(float j)
 {
         return (center - int(j / step) * num_vertices_width) / num_vertices_width;
 }
-
-void GameMap::init(IDistanceMatrix&distance,IGraph&graph)
+template<class BarrierT>
+void GameMap<BarrierT>::init(IDistanceMatrix&distance,IGraph&graph)
 {
     distance.init();
     graph.init(num_vertices_width,num_vertices_height);

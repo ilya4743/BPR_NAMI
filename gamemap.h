@@ -8,7 +8,7 @@ using namespace std;
 
 class Barrier;
 
-template<class bar>
+template<class BarrierT>
 class GameMap
 {
 public:
@@ -35,7 +35,7 @@ public:
     GameMap(Point goal_p,vector<Barrier>& barriers);
     MyGraph* graph;
     DMQuadrangle* distance;
-    vector<bar> barriers;
+    vector<Barrier> barriers;
     vector<Point> short_path;
     vector<Point> create_msg(const vector<Point>& locations, const vector<vertex_descriptor>& shortest_path);
     void print_game_map();
