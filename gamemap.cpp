@@ -94,3 +94,35 @@ void GameMap::print_game_map()
     }
     cout << endl;
 }
+
+int GameMap::GetJ(float i)
+{
+    return (center + int(i/step)) % num_vertices_width;
+}
+
+int GameMap::GetI(float j)
+{
+        return (center - int(j / step) * num_vertices_width) / num_vertices_width;
+}
+
+void GameMap::init(IDistanceMatrix&distance,IGraph&graph)
+{
+    distance.init();
+    graph.init(num_vertices_width,num_vertices_height);
+}
+
+void GameMap::doo()
+{
+    distance->init();
+    graph->init(num_vertices_width, num_vertices_height);
+    for(int i=0; i<barriers.size();i++)
+        barriers[i].init(*graph,step,*this);
+    print_game_map();
+    for(int i=0; i<barriers.size();i++)
+    {
+        barriers[i].print(*this);
+    }
+    print_way(distance,graph->search(start,goal,distance));
+    short_path=create_msg(distance->matrix,graph->search(start,goal,distance));
+
+}

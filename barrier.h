@@ -4,7 +4,8 @@
 #include"mygraph.h"
 #include "gamemap.h"
 
-/*class IBarrier
+class GameMap;
+class IBarrier
 {
 public:
     void virtual init(MyGraph& graph, float step,GameMap&g)=0;
@@ -23,6 +24,6 @@ public:
     Point center;
     Point left_top;
     Point right_bottom;
-};*/
+};
 
 #endif // BARRIER_H
