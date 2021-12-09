@@ -4,23 +4,35 @@
 #include"mygraph.h"
 #include "gamemap.h"
 
-template<class BarrierT>
-
 class GameMap;
 class IBarrier
 {
 public:
-    void virtual init(MyGraph& graph, float step,GameMap&g)=0;
+    int virtual init(MyGraph& graph, float step,GameMap&g)=0;
+    void virtual print(GameMap&g)=0;
+    virtual ~IBarrier()=0;
 };
 
 class Barrier:public IBarrier, public Point
 {
 public:
     Barrier();
-    Barrier(float x, float y, float w, float h);
-    Barrier(const Barrier& o);
-    void init(MyGraph& graph, float step, GameMap&g)override;
-    void print(GameMap&g);
+    Barrier(float x, float y);
+    Barrier(const Barrier &o);
+    int init(MyGraph& graph, float step, GameMap&g)override;
+    void print(GameMap&g)override;
+    ~Barrier();
+};
+
+class BQuadrAngle: public Barrier
+{
+public:
+    BQuadrAngle();
+    BQuadrAngle(float x, float y, float w, float h);
+    BQuadrAngle(const BQuadrAngle& o);
+    int init(MyGraph& graph, float step, GameMap&g)override;
+    void print(GameMap&g)override;
+    ~BQuadrAngle();
     float width;
     float height;
     Point center;

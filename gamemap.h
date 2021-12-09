@@ -8,7 +8,6 @@ using namespace std;
 
 class Barrier;
 
-template<class BarrierT>
 class GameMap
 {
 public:
@@ -30,21 +29,26 @@ public:
     vertex_descriptor start;
     //вершина графа куда едем
     int goal;
+    //ширина авто
+    float width_auto;
+    //высота авто
+    float height_auto;
 
     GameMap();
-    GameMap(Point goal_p,vector<Barrier>& barriers);
+    GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p, vector<Barrier*>& barriers);
     MyGraph* graph;
-    DMQuadrangle* distance;
-    vector<Barrier> barriers;
+    DistanceMatrix* distance;
+    vector<Barrier*> barriers;
     vector<Point> short_path;
-    vector<Point> create_msg(const vector<Point>& locations, const vector<vertex_descriptor>& shortest_path);
+    vector<Point> create_msg(const DistanceMatrix& locations, const vector<vertex_descriptor>& shortest_path);
     void print_game_map();
     void print_vertex_map();
-    void print_way(const DMQuadrangle* distance, const vector<vertex_descriptor>& shortest_path);
+    void print_way(const DistanceMatrix* distance, const vector<vertex_descriptor>& shortest_path);
     int GetJ(float i);
     int GetI(float j);
     void init(IDistanceMatrix&distance,IGraph&graph);
-    void doo();
+    int doo();
+    ~GameMap();
 };
 
 #endif // GAMEMAP_H

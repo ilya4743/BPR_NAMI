@@ -11,21 +11,31 @@ class IDistanceMatrix
 public:
     void virtual init()=0;
     void virtual print()=0;
+    virtual ~IDistanceMatrix()=0;
 };
 
-class DMQuadrangle: public IDistanceMatrix
+class DistanceMatrix:public IDistanceMatrix
+{
+public:
+    vector<Point> matrix;
+    void init()override;
+    void print()override;
+     ~DistanceMatrix()override;
+};
+
+class DMQuadrangle: public DistanceMatrix
 {
     int width;
     int height;
     int center;
     float step;
 public:
-    vector<Point> matrix;
     DMQuadrangle();
     DMQuadrangle(int width, int height, int center, float step);
     DMQuadrangle(const DMQuadrangle&o);
     void init() override;
     void print()override;
+    ~DMQuadrangle()override;
 };
 
 #endif // LOCATIONMAP_H

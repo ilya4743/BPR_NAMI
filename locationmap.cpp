@@ -3,6 +3,17 @@
 
 using namespace std;
 
+IDistanceMatrix::~IDistanceMatrix(){}
+
+void DistanceMatrix::init(){}
+
+void DistanceMatrix::print(){}
+
+DistanceMatrix::~DistanceMatrix()
+{
+    //cout<<"Destructor DistanceMatrix";
+}
+
 DMQuadrangle::DMQuadrangle()
 {
     this->width=0;
@@ -75,3 +86,9 @@ void DMQuadrangle::print()
         cout << endl;
     }
 }
+
+DMQuadrangle::~DMQuadrangle()
+{
+    matrix.clear();
+    //cout<<"Destructor DMQuadrangle";
+};

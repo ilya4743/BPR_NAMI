@@ -91,8 +91,9 @@ void MyGraph::print_to_graphviz()
     write_graphviz(f, *this->adj_list);
     f.close();
 }
+//DMQuadrangle
 
-vector<vertex_descriptor> MyGraph::search(vertex_descriptor start, vertex_descriptor goal,DMQuadrangle* distance)
+vector<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance )
 {
     //cout << "Start coord: {"<<setw(5)<<0<<", " << setw(5) <<0<<"}\tStart vertex: " << start << endl;
     //cout << " Goal coord: {" << setw(5) << goal_point.x << ", " << setw(5) << goal_point.y<<"}\tGoal vertex: " << goal << endl;
@@ -101,7 +102,7 @@ vector<vertex_descriptor> MyGraph::search(vertex_descriptor start, vertex_descri
     vector<float> d(num_vertices(*this->adj_list));
     try {
         // call astar named parameter interface
-        astar_search_tree(*this->adj_list, start, distance_heuristic<my_graph, float, vector<Point>>(distance->matrix, goal),
+        astar_search_tree(*this->adj_list, start, distance_heuristic<my_graph, float, vector<Point>>(distance, goal),
             predecessor_map(make_iterator_property_map(p.begin(), get(vertex_index, *this->adj_list))).
             distance_map(make_iterator_property_map(d.begin(), get(vertex_index, *this->adj_list))).
             visitor(astar_goal_visitor<vertex_descriptor>(goal)));
@@ -127,6 +128,7 @@ vector<vertex_descriptor> MyGraph::search(vertex_descriptor start, vertex_descri
         //print_way(locations, shortest_path1);
         return shortest_path1;
     }
+    throw -1;
     cout << "Didn't find a path from " << start << "to" << goal << "!" << endl;
-    //return -1;
+    //return ;
 }
