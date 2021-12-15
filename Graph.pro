@@ -15,6 +15,7 @@ SOURCES += \
         main.cpp \
         mygraph.cpp \
         mytcpserver.cpp \
+        mytcpsocket.cpp \
         point.cpp
 
 INCLUDEPATH += /usr/include/boost
@@ -30,5 +31,6 @@ HEADERS += \
     locationmap.h \
     mygraph.h \
     mytcpserver.h \
+    mytcpsocket.h \
     point.h \
     settings.h
