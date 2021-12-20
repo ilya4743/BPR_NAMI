@@ -13,10 +13,12 @@ SOURCES += \
         gamemap.cpp \
         locationmap.cpp \
         main.cpp \
+        myexception.cpp \
         mygraph.cpp \
         mytcpserver.cpp \
         mytcpsocket.cpp \
-        point.cpp
+        point.cpp \
+        settings.cpp
 
 INCLUDEPATH += /usr/include/boost
 
@@ -27,8 +29,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     barrier.h \
+    defs.h \
     gamemap.h \
     locationmap.h \
+    myexception.h \
     mygraph.h \
     mytcpserver.h \
     mytcpsocket.h \

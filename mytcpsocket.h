@@ -14,8 +14,8 @@ class MyTcpSocket : public QObject
 public:
     explicit MyTcpSocket(QObject *parent = 0);
 
-    void doConnect();
-
+    void doConnect(const QString& IP, const int PORT);
+    ~MyTcpSocket();
 signals:
 
 public slots:

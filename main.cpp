@@ -1,32 +1,28 @@
 #include <QCoreApplication>
+#include <QFile>
 //#include "mytcpserver.h"
 #include "mytcpsocket.h"
+#include "settings.h"
+#include "myexception.h"
 
 int main(int argc, char *argv[])
 {
+
     QCoreApplication a(argc, argv);
-    //MyTcpServer server;
+    try {
+        //MyTcpServer server;
+        QFile f("config.cfg");
+        if(!f.open(QIODevice::ReadOnly))
+            throw MyException("Config.cfg not found", ConfigNotFound);
+        Settings::setDefaults(f.readAll());
 
-    MyTcpSocket s;
-    s.doConnect();
+        int p=Settings::get(Settings::DEBUG_OUTPUT).toInt();
 
+        MyTcpSocket s;
+        s.doConnect(Settings::get(Settings::IP_SERVER).toString(),Settings::get(Settings::PORT).toInt());
+    }  catch (MyException& Ex) {
+        qDebug()<<Ex.GetErrorCode();
+
+    }
     return a.exec();
 }
-
-/*
- * 101
-101
-1
-10150
-2
-4
-0
-
-50
-0
-0
-10
-10*/
-
-
-

@@ -16,6 +16,7 @@ signals:
 public slots:
     void newConnection();
     void readyRead();
+
 private:
     void sendToClient(QTcpSocket* socket, QDataStream& data);
     QTcpServer *server;

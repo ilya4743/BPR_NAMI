@@ -5,6 +5,7 @@
 #include <boost/graph/astar_search.hpp>
 #include"locationmap.h"
 #include <point.h>
+#include"myexception.h"
 
 using namespace boost;
 
@@ -32,6 +33,7 @@ class IGraph
 public:
     std::vector<vertex_descriptor> virtual search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance)=0;
     void virtual init(int width, int height)=0;
+    virtual ~IGraph()=0;
 };
 
 class MyGraph:public IGraph
@@ -47,6 +49,7 @@ public:
     void print_edges();
     void print_to_graphviz();
     std::vector<vertex_descriptor> search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance)override;
+    ~MyGraph();
 };
 
 #endif // MYGRAPH_H

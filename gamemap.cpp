@@ -28,7 +28,7 @@ GameMap::GameMap()
     graph=new MyGraph(num_vertices_width*num_vertices_height);
 }
 
-GameMap::GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p,vector<Barrier*>& barriers)
+GameMap::GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p)
 {
     this->step = step;
     //ширина покрытия сетки графа
@@ -42,7 +42,7 @@ GameMap::GameMap(float width_coord, float height_coord, float step, int center, 
     //начало отсчета системы координат (наша машина)
     this->center = center;
     this->goal_point=goal_p;
-    this->barriers=barriers;
+    //this->barriers=barriers;
     start = this->center;
     //вершина графа куда едем
     goal = GetI(goal_point.y)*num_vertices_width + GetJ(goal_point.x);
@@ -61,14 +61,15 @@ void GameMap::print_way(const DistanceMatrix* distance, const vector<vertex_desc
         int d=GetI(distance->matrix[shortest_path[i]].y)+1;
         cout<<"\033["<<d<<';'<<k<<"H\033[0;31;40m*\033[0;0m";
     }
-    cout<<"\033[u";
-    cout << "\n\nCoord path:\n";
+    cout<<"\033[u\n";
+
+    /*cout << "\n\nCoord path:\n";
     cout<<distance->matrix[shortest_path[0]].x<<'\t'<<distance->matrix[shortest_path[0]].y<<endl;
     for (unsigned int i = 1; i < shortest_path.size()-1; i++)
     {
         cout << distance->matrix[shortest_path[i]].x- distance->matrix[shortest_path[i-1]].x<<'\t';
         cout<< distance->matrix[shortest_path[i]].y-distance->matrix[shortest_path[i-1]].y<<endl;
-    }/**/
+    }*/
 }
 
 vector<Point> GameMap::create_msg(const DistanceMatrix& distance, const vector<vertex_descriptor>& shortest_path)
@@ -113,40 +114,30 @@ void GameMap::init(IDistanceMatrix&distance,IGraph&graph)
     graph.init(num_vertices_width,num_vertices_height);
 }
 
-int GameMap::doo()
+void GameMap::doo()
 {
     distance->init();
     graph->init(num_vertices_width, num_vertices_height);
 
+    print_game_map();
     unsigned int i=0; int j=0;
-    while(i!=barriers.size() && j!=-2)
+    while(i!=barriers.size())
     {
         j=barriers[i]->init(*graph,step,*this);
+        if(j!=-2)
+            barriers[i]->print(*this);
         i++;
     }
-    print_game_map();
-    for(unsigned int i=0; i<barriers.size();i++)
-    {
-        barriers[i]->print(*this);
-    }
-
-    if (j==-2)
-        return -2;
-
-    try {
         vector<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
         print_way(distance,short1);
         short_path=create_msg(*distance,short1);
-    }  catch (int a) {
-        return a;
-    }
-
-    return 0;
 }
 
 GameMap::~GameMap()
 {
     delete this->distance;
     delete this->graph;
+    for(auto it= barriers.begin(); it!=barriers.end(); ++it)
+        delete(*it);
     this->barriers.clear();
 }

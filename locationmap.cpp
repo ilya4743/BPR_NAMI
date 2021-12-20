@@ -11,7 +11,7 @@ void DistanceMatrix::print(){}
 
 DistanceMatrix::~DistanceMatrix()
 {
-    //cout<<"Destructor DistanceMatrix";
+    matrix.clear();
 }
 
 DMQuadrangle::DMQuadrangle()

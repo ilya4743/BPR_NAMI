@@ -1,6 +1,7 @@
 #include "mytcpserver.h"
 #include<QProcess>
 #include "gamemap.h"
+
 MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent)
 {
     server = new QTcpServer(this);
@@ -60,8 +61,8 @@ void MyTcpServer::readyRead()
             b.push_back(new BQuadrAngle(x1,x2,x3,x4));
         }
 
-        GameMap g1(width_coord,height_coord,step,start, width_auto, height_auto, Point(x,y),b);
-        ErrorCode=g1.doo();
+        GameMap g1(width_coord,height_coord,step,start, width_auto, height_auto, Point(x,y));
+        g1.doo();
         if (ErrorCode==0)
         {
             QByteArray arr;

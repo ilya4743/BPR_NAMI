@@ -2,6 +2,12 @@
 #include "point.h"
 
 using namespace std;
+
+IGraph::~IGraph()
+{
+
+}
+
 MyGraph::MyGraph()
 {
     this->adj_list=NULL;
@@ -91,12 +97,9 @@ void MyGraph::print_to_graphviz()
     write_graphviz(f, *this->adj_list);
     f.close();
 }
-//DMQuadrangle
 
 vector<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance )
 {
-    //cout << "Start coord: {"<<setw(5)<<0<<", " << setw(5) <<0<<"}\tStart vertex: " << start << endl;
-    //cout << " Goal coord: {" << setw(5) << goal_point.x << ", " << setw(5) << goal_point.y<<"}\tGoal vertex: " << goal << endl;
 
     vector<vertex_descriptor> p(num_vertices(*this->adj_list));
     vector<float> d(num_vertices(*this->adj_list));
@@ -114,21 +117,21 @@ vector<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const ve
             if (p[v] == v)
                 break;
         }
-        //cout << "\nShortest path from " << start << " to " << goal << ": ";
         list<vertex_descriptor>::iterator spi = shortest_path.begin();
-        //cout << start;
         vector<vertex_descriptor> shortest_path1;
         shortest_path1.reserve(shortest_path.size());
         for (++spi; spi != shortest_path.end(); ++spi)
-        {
-            //cout << " -> " << *spi;
             shortest_path1.push_back(*spi);
-        }
+
         shortest_path1.push_back(start);
-        //print_way(locations, shortest_path1);
         return shortest_path1;
     }
-    throw -1;
+    throw MyException("Path not found!",PathNotFound);
     cout << "Didn't find a path from " << start << "to" << goal << "!" << endl;
-    //return ;
+}
+
+MyGraph::~MyGraph()
+{
+    adj_list->clear();
+    delete adj_list;
 }
