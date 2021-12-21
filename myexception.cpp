@@ -2,8 +2,7 @@
 
 MyException::MyException(const char *msg):exception()
 {
-    std::ostream os(NULL);
-    os<<msg;
+    this->msg=msg;
 }
 
 MyException::MyException(int ErrorCode):exception()
@@ -12,8 +11,7 @@ MyException::MyException(int ErrorCode):exception()
 }
 MyException::MyException(const char *msg,int ErrorCode):exception()
 {
-    std::ostream os(NULL);
-    os<<msg;
+    this->msg=msg;
     this->ErrorCode=ErrorCode;
 }
 MyException::~MyException()
@@ -31,5 +29,5 @@ void MyException::SetErrorCode(int ErrorCode)
 
 const char* MyException::what()const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW
 {
-    return msg;
+    return this->msg;
 }

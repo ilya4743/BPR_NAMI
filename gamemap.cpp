@@ -114,23 +114,33 @@ void GameMap::init(IDistanceMatrix&distance,IGraph&graph)
     graph.init(num_vertices_width,num_vertices_height);
 }
 
-void GameMap::doo()
+void GameMap::doo(const int DEBUG_OUTPUT)
 {
     distance->init();
     graph->init(num_vertices_width, num_vertices_height);
 
-    print_game_map();
-    unsigned int i=0; int j=0;
-    while(i!=barriers.size())
+    if(DEBUG_OUTPUT==1)
     {
-        j=barriers[i]->init(*graph,step,*this);
-        if(j!=-2)
-            barriers[i]->print(*this);
-        i++;
-    }
+        for(auto it= barriers.begin(); it!=barriers.end();)
+            if((*it)->init(*graph,step,*this)==-2)
+                it=barriers.erase(it);
+            else
+                ++it;
         vector<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
-        print_way(distance,short1);
         short_path=create_msg(*distance,short1);
+
+        print_game_map();
+        for(auto it= barriers.begin(); it!=barriers.end();++it)
+            (*it)->print(*this);
+        print_way(distance,short1);
+    }
+    else
+    {
+        for(auto it= barriers.begin(); it!=barriers.end();++it)
+            (*it)->init(*graph,step,*this);
+        vector<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
+        short_path=create_msg(*distance,short1);
+    }
 }
 
 GameMap::~GameMap()

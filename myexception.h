@@ -4,16 +4,14 @@
 
 #define PathNotFound 0
 #define ConfigNotFound -1
-//#define ConfigNotFound -1
 #define DataPackageError -3
-//#define ConfigNotFound -1
 
 
 class MyException : public std::exception
 {
 private:
     int ErrorCode;
-    char* msg;
+    const char* msg;
 public:
     MyException(const char *msg);
     MyException(int ErrorCode);

@@ -66,7 +66,9 @@ int BQuadrAngle::init(MyGraph& graph, float step, GameMap&g)
     {
         //cout<<(g.distance->matrix[0].x > this->right_bottom.x && g.distance->matrix[g.distance->matrix.size()-1].x < this->left_top.x)<<endl;
         //cout<<(g.distance->matrix[0].y < this->right_bottom.y && g.distance->matrix[g.distance->matrix.size()-1].y > this->left_top.y)<<endl;
-            return -2;
+            //return -2;
+        //delete this;
+        return -2;
     }
     else
     {

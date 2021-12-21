@@ -38,7 +38,7 @@ public:
     GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p);
     MyGraph* graph;
     DistanceMatrix* distance;
-    vector<Barrier*> barriers;
+    list<Barrier*> barriers;
     vector<Point> short_path;
     vector<Point> create_msg(const DistanceMatrix& locations, const vector<vertex_descriptor>& shortest_path);
     void print_game_map();
@@ -47,7 +47,7 @@ public:
     int GetJ(float i);
     int GetI(float j);
     void init(IDistanceMatrix&distance,IGraph&graph);
-    void doo();
+    void doo(const int DEBUG_OUTPUT);
     ~GameMap();
 };
 

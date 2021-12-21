@@ -126,7 +126,7 @@ vector<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const ve
         shortest_path1.push_back(start);
         return shortest_path1;
     }
-    throw MyException("Path not found!",PathNotFound);
+    throw MyException("Path not found!\0",PathNotFound);
     cout << "Didn't find a path from " << start << "to" << goal << "!" << endl;
 }
 

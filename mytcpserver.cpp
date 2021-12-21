@@ -62,7 +62,7 @@ void MyTcpServer::readyRead()
         }
 
         GameMap g1(width_coord,height_coord,step,start, width_auto, height_auto, Point(x,y));
-        g1.doo();
+        //g1.doo(this.DEBUG_OUTPUT);
         if (ErrorCode==0)
         {
             QByteArray arr;
