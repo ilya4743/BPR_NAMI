@@ -9,6 +9,9 @@ int Barrier::init(MyGraph& graph, float step, GameMap&g){}
 void Barrier::print(GameMap&g){}
 Barrier::~Barrier(){}
 
+bool Barrier::hasPoint(Point p, GameMap&g){}
+bool Barrier::hasVertex(int v, GameMap&g){}
+
 BQuadrAngle::BQuadrAngle():Barrier(),width(0),height(0)
 {
 
@@ -37,6 +40,7 @@ void BQuadrAngle::print(GameMap&g)
 
 int BQuadrAngle::init(MyGraph& graph, float step, GameMap&g)
 {
+    /*
     //искуственно увеличиваем препятствие, чтобы соблюсти габариты
     this->left_top.x=this->left_top.x-g.width_auto/2;
     this->left_top.y=this->left_top.y+g.height_auto/2;
@@ -54,7 +58,7 @@ int BQuadrAngle::init(MyGraph& graph, float step, GameMap&g)
 
     if (abs(this->right_bottom.y) > abs(int(this->right_bottom.y / step) * step))
         this->right_bottom.y -= abs(this->right_bottom.y - int(this->right_bottom.y / step) * step);
-
+    */
     //если препятствие не влезет на карту, то ошибка
     /*if(g.distance->matrix[0].x > this->left_top.x || g.distance->matrix[g.distance->matrix.size()-1].x < this->right_bottom.x ||
        g.distance->matrix[0].y < this->left_top.y || g.distance->matrix[g.distance->matrix.size()-1].y > this->right_bottom.y)
@@ -142,4 +146,42 @@ int BQuadrAngle::init(MyGraph& graph, float step, GameMap&g)
 BQuadrAngle::~BQuadrAngle()
 {
     //cout<<"Препятствие удалено!";
+}
+
+bool BQuadrAngle::hasPoint(Point p, GameMap&g)
+{
+    //искуственно увеличиваем препятствие, чтобы соблюсти габариты
+    this->left_top.x=this->left_top.x-g.width_auto/2;
+    this->left_top.y=this->left_top.y+g.height_auto/2;
+    this->right_bottom.x=this->right_bottom.x+g.width_auto/2;
+    this->right_bottom.y=this->right_bottom.y-g.height_auto/2;
+
+    if (abs(this->left_top.x) > abs(int(this->left_top.x / g.step) * g.step))
+        this->left_top.x -= abs(this->left_top.x - int(this->left_top.x / g.step) * g.step);
+
+    if (abs(this->right_bottom.x) > abs(int(this->right_bottom.x / g.step) * g.step))
+        this->right_bottom.x +=abs(this->right_bottom.x - int(this->right_bottom.x / g.step) * g.step);
+
+    if (abs(this->left_top.y) > abs(int(this->left_top.y / g.step) * g.step))
+        this->left_top.y +=abs(this->left_top.y - int(this->left_top.y / g.step) * g.step);
+
+    if (abs(this->right_bottom.y) > abs(int(this->right_bottom.y / g.step) * g.step))
+        this->right_bottom.y -= abs(this->right_bottom.y - int(this->right_bottom.y / g.step) * g.step);
+
+    if (this->left_top.x<=p.x && this->right_bottom.x>=p.x)
+        if(this->left_top.y>=p.y && this->right_bottom.y<=p.y)
+            return true;
+    return false;
+}
+
+bool BQuadrAngle::hasVertex(int v, GameMap&g)
+{
+    int i1=g.GetI(this->left_top.y);
+    int i2=g.GetI(this->right_bottom.y);
+    int j1=g.GetJ(this->left_top.x);
+    int j2=g.GetJ(this->right_bottom.x);
+    if(i1<=v/g.num_vertices_width && i2>=v/g.num_vertices_width)
+        if(j1<=v%g.num_vertices_width && j2>=v%g.num_vertices_width)
+            return true;
+    return false;
 }

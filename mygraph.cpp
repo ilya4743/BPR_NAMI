@@ -53,6 +53,7 @@ public:
     {
         CostType dx = m_location[m_goal].x - m_location[u].x;
         CostType dy = m_location[m_goal].y - m_location[u].y;
+        float f=sqrt(dx * dx + dy * dy);
         return ::sqrt(dx * dx + dy * dy);
     }
 private:
@@ -72,6 +73,12 @@ public:
     void examine_vertex(Vertex u, Graph& g) {
         if (u == m_goal)
             throw found_goal();
+        //cout<<u;
+    }
+    template <class Graph>
+    void finish_vertex(Vertex u, Graph& g)
+    {
+        //cout<<u<<endl;
     }
 private:
     Vertex m_goal;
@@ -126,6 +133,19 @@ vector<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const ve
         shortest_path1.push_back(start);
         return shortest_path1;
     }
+    list<vertex_descriptor> shortest_path;
+            for (vertex_descriptor v = goal;; v = p[v]) {
+                shortest_path.push_front(v);
+                if (p[v] == v)
+                    break;
+            }
+            list<vertex_descriptor>::iterator spi = shortest_path.begin();
+            vector<vertex_descriptor> shortest_path1;
+            shortest_path1.reserve(shortest_path.size());
+            for (++spi; spi != shortest_path.end(); ++spi)
+                shortest_path1.push_back(*spi);
+
+            shortest_path1.push_back(start);
     throw MyException("Path not found!\0",PathNotFound);
     cout << "Didn't find a path from " << start << "to" << goal << "!" << endl;
 }

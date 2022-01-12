@@ -78,16 +78,37 @@ void MyTcpSocket::readyRead()
             float height_auto;  //высота авто
             float x, y;         //точка маршрута
             int j;              //количество препятствий
+            int width;
+            int height;
+
+
 
             in>>width_coord>>height_coord>>step>>start;
             in>>width_auto>>height_auto;
             in>>x>>y;
             in>>j;
 
+            width=width_coord/step;
+            height=height_coord/step;
+
+            int x1=(start + int(x/step)) % width;
+            int y1=(start - int(y / step) * width) / width;
+
+            float w1=(width)-11%width;
+            float w2=(w1)-(width-1);
+            float h1=-(height-1)-int(11/width);
+            float h2=abs(h1-(height-1));
+
+            float x2=(start%width+int(x/step))*step;
+            float y2=(start/width+int(y/step))*step;
+            //int p=x1+y1;
             //если ввод некорректен
             if(width_coord <=0||height_coord<=0||step<=0||width_auto<0||height_auto<0||j<0||start<0
-            ||start>(width_coord/step*height_coord/step)){
-                throw MyException("Data package error", DataPackageError);}
+            ||start>(width_coord/step*height_coord/step))
+
+            {
+                throw MyException("Data package error", DataPackageError);
+            }
             else
             {
                 GameMap g1(width_coord,height_coord,step,start, width_auto, height_auto, Point(x,y));
@@ -98,6 +119,7 @@ void MyTcpSocket::readyRead()
                     in>>x1>>x2>>x3>>x4;
                     auto *bar=new BQuadrAngle(x1,x2,x3,x4);
                     g1.barriers.push_back(bar);
+                    //qDebug()<<(bar)->hasPoint(g1.goal_point);
                     i++;
                 }
                 if(i!=j||x3<0||x4<0){

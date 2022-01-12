@@ -118,27 +118,68 @@ void GameMap::doo(const int DEBUG_OUTPUT)
 {
     distance->init();
     graph->init(num_vertices_width, num_vertices_height);
-
-    if(DEBUG_OUTPUT==1)
+    list<Barrier*>::iterator itGP;
+    bool partial_path=false;
+    if(DEBUG_OUTPUT==1) //если дебаг выключен
     {
         for(auto it= barriers.begin(); it!=barriers.end();)
-            if((*it)->init(*graph,step,*this)==-2)
-                it=barriers.erase(it);
-            else
+            if(!(*it)->hasPoint(goal_point, *this))    //если точка конечного маршрута не попала на препятствие
+            {
+                if((*it)->init(*graph,step,*this)==-2)
+                    it=barriers.erase(it);
+                else
+                    ++it;
+            }
+            else                                //если точка конечного маршрута попала на препятствие
+            {
+                itGP=it;
                 ++it;
+                partial_path=true;
+            }
+
         vector<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
+        if(partial_path)                    //если маршрут неполный (точка конечного маршрута попала на препятствие)
+        {
+            int i=short1.size()-2;
+            while((*itGP)->hasVertex(short1[i], *this))
+            {
+                short1.erase(short1.begin()+i);
+                i--;
+            }
+        }
+
         short_path=create_msg(*distance,short1);
 
         print_game_map();
+
+
         for(auto it= barriers.begin(); it!=barriers.end();++it)
             (*it)->print(*this);
         print_way(distance,short1);
     }
-    else
+    else    //если дебаг включен
     {
         for(auto it= barriers.begin(); it!=barriers.end();++it)
-            (*it)->init(*graph,step,*this);
+            if(!(*it)->hasPoint(goal_point, *this))    //если точка конечного маршрута не попала на препятствие
+            {
+                (*it)->init(*graph,step,*this);
+            }
+            else                                //если точка конечного маршрута попала на препятствие
+            {
+                itGP=it;
+                ++it;
+                partial_path=true;
+            }
         vector<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
+        if(partial_path)                    //если маршрут неполный (точка конечного маршрута попала на препятствие)
+        {
+            int i=short1.size()-2;
+            while((*itGP)->hasVertex(short1[i], *this))
+            {
+                short1.erase(short1.begin()+i);
+                i--;
+            }
+        }
         short_path=create_msg(*distance,short1);
     }
 }
