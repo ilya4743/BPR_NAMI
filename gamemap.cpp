@@ -123,6 +123,7 @@ void GameMap::doo(const int DEBUG_OUTPUT)
     if(DEBUG_OUTPUT==1) //если дебаг выключен
     {
         for(auto it= barriers.begin(); it!=barriers.end();)
+        {
             if(!(*it)->hasPoint(goal_point, *this))    //если точка конечного маршрута не попала на препятствие
             {
                 if((*it)->init(*graph,step,*this)==-2)
@@ -136,7 +137,7 @@ void GameMap::doo(const int DEBUG_OUTPUT)
                 ++it;
                 partial_path=true;
             }
-
+}
         vector<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
         if(partial_path)                    //если маршрут неполный (точка конечного маршрута попала на препятствие)
         {
@@ -191,4 +192,13 @@ GameMap::~GameMap()
     for(auto it= barriers.begin(); it!=barriers.end(); ++it)
         delete(*it);
     this->barriers.clear();
+}
+
+void GameMap::printToFile(ofstream& out)
+{
+    out<<width_coord<<endl<<height_coord<<endl<<step<<endl<<start<<endl;
+    out<<width_auto<<endl<<height_auto<<endl<<barriers.size();
+    for(auto it= barriers.begin(); it!=barriers.end();++it)
+        out<<*(*it);
+    out<<endl;
 }

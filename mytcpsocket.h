@@ -7,6 +7,7 @@
 #include <QDebug>
 #include<QProcess>
 #include "gamemap.h"
+#include "mylog.h"
 
 class MyTcpSocket : public QObject
 {
@@ -26,7 +27,8 @@ public slots:
 
 private:
     QTcpSocket *socket;
-     int DEBUG_OUTPUT;
+    int DEBUG_OUTPUT;
+    MyLog *Logger;
 };
 
 #endif // MYTCPSOCKET_H

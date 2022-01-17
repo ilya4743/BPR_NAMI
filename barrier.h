@@ -3,6 +3,7 @@
 #include"point.h"
 #include"mygraph.h"
 #include "gamemap.h"
+#include <fstream>
 
 class GameMap;
 class IBarrier
@@ -10,6 +11,7 @@ class IBarrier
 public:
     int virtual init(MyGraph& graph, float step,GameMap&g)=0;
     void virtual print(GameMap&g)=0;
+    void virtual printToFile(ofstream &out)=0;
     virtual ~IBarrier()=0;
     virtual bool hasPoint(Point p, GameMap&g)=0;
     virtual bool hasVertex(int v, GameMap&g)=0;
@@ -26,6 +28,8 @@ public:
     ~Barrier();
     bool hasPoint(Point p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
+    void printToFile(ofstream &out)override;
+    friend ofstream& operator<<(ofstream &out, const Barrier &barrier);
 };
 
 class BQuadrAngle: public Barrier
@@ -41,9 +45,10 @@ public:
     ~BQuadrAngle();
     float width;
     float height;
-    Point center;
     Point left_top;
     Point right_bottom;
+    void printToFile(ofstream &out)override;
+    friend ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier);
 };
 
 #endif // BARRIER_H

@@ -4,6 +4,7 @@
 #include<mygraph.h>
 #include<barrier.h>
 #include<point.h>
+
 using namespace std;
 
 class Barrier;
@@ -48,6 +49,7 @@ public:
     int GetI(float j);
     void init(IDistanceMatrix&distance,IGraph&graph);
     void doo(const int DEBUG_OUTPUT);
+    void printToFile(ofstream& out);
     ~GameMap();
 };
 

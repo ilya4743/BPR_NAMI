@@ -12,6 +12,14 @@ Barrier::~Barrier(){}
 bool Barrier::hasPoint(Point p, GameMap&g){}
 bool Barrier::hasVertex(int v, GameMap&g){}
 
+void Barrier::printToFile(ofstream &out){}
+
+ofstream& operator<<(ofstream &out, const Barrier &barrier)
+{
+    out<<barrier.x<<endl<<barrier.y<<endl;
+    return out;
+}
+
 BQuadrAngle::BQuadrAngle():Barrier(),width(0),height(0)
 {
 
@@ -184,4 +192,19 @@ bool BQuadrAngle::hasVertex(int v, GameMap&g)
         if(j1<=v%g.num_vertices_width && j2>=v%g.num_vertices_width)
             return true;
     return false;
+}
+
+void BQuadrAngle::printToFile(ofstream &out)
+{
+    out<<x<<endl<<y<<endl;
+    out<<left_top<<right_bottom;
+    out<<width<<endl<<height<<endl;
+}
+
+ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier)
+{
+    out<<barrier.x<<endl<<barrier.y<<endl;
+    out<<barrier.left_top<<barrier.right_bottom;
+    out<<barrier.width<<endl<<barrier.height<<endl;
+    return out;
 }

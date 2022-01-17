@@ -1,6 +1,7 @@
 #ifndef POINT_H
 #define POINT_H
 
+#include<fstream>
 
 class Point
 {
@@ -20,5 +21,6 @@ public:
     {
 
     }
+    friend std::ofstream& operator<<(std::ofstream &out, const Point &p);
 };
 #endif // POINT_H

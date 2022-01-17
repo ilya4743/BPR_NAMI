@@ -2,8 +2,15 @@
 #include<QDataStream>
 #include<myexception.h>
 
+template<>
+void MyLog::printLogToFile( GameMap *o)
+{
+    o->printToFile(*ofs);
+}
+
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
+    Logger=new MyLog(true, "log");
 }
 
 void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_OUTPUT)
@@ -23,8 +30,11 @@ void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_O
     // this is not blocking call
 
     //"79.164.82.177", 15555
+    //string s();
+string s("Connect to host"+IP.toStdString()+to_string(PORT));
+    //Logger<<"Connect to host\t"<<PORT;
     socket->connectToHost(IP, PORT);
-
+    //Logger->printLogToFile("connectToHost");
     // we need to wait...
     if(!socket->waitForConnected(5000))
     {
@@ -34,7 +44,7 @@ void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_O
 
 void MyTcpSocket::connected()
 {
-    qDebug() << "connected...";
+    Logger->printLogToFile("connected");
     QByteArray qb;
     QDataStream d(&qb, QIODevice::WriteOnly);
     d<<(unsigned char)0x44<<(unsigned char)0x46;
@@ -44,6 +54,7 @@ void MyTcpSocket::connected()
 
 void MyTcpSocket::disconnected()
 {
+    Logger->printLogToFile("disconnected");
     qDebug() << "disconnected...";
 }
 
@@ -78,8 +89,8 @@ void MyTcpSocket::readyRead()
             float height_auto;  //высота авто
             float x, y;         //точка маршрута
             int j;              //количество препятствий
-            int width;
-            int height;
+            //int width;
+            //int height;
 
 
 
@@ -88,10 +99,10 @@ void MyTcpSocket::readyRead()
             in>>x>>y;
             in>>j;
 
-            width=width_coord/step;
-            height=height_coord/step;
+            //width=width_coord/step;
+            //height=height_coord/step;
 
-            int x1=(start + int(x/step)) % width;
+            /*int x1=(start + int(x/step)) % width;
             int y1=(start - int(y / step) * width) / width;
 
             float w1=(width)-11%width;
@@ -100,7 +111,7 @@ void MyTcpSocket::readyRead()
             float h2=abs(h1-(height-1));
 
             float x2=(start%width+int(x/step))*step;
-            float y2=(start/width+int(y/step))*step;
+            float y2=(start/width+int(y/step))*step;*/
             //int p=x1+y1;
             //если ввод некорректен
             if(width_coord <=0||height_coord<=0||step<=0||width_auto<0||height_auto<0||j<0||start<0
@@ -122,6 +133,7 @@ void MyTcpSocket::readyRead()
                     //qDebug()<<(bar)->hasPoint(g1.goal_point);
                     i++;
                 }
+                Logger->printLogToFile(&g1);
                 if(i!=j||x3<0||x4<0){
                     throw MyException("Data package error", DataPackageError);}
                 g1.doo(DEBUG_OUTPUT);
@@ -160,4 +172,5 @@ void MyTcpSocket::readyRead()
 MyTcpSocket::~MyTcpSocket()
 {
     delete socket;
+    delete Logger;
 }

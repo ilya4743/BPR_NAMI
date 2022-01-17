@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 5.0.3, 2022-01-12T12:12:29. -->
+<!-- Written by QtCreator 5.0.3, 2022-01-12T17:48:21. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -238,15 +238,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Graph2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/NAMI/ila.solomatin/Downloads/Graph_nami-NAMI/Graph.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/NAMI/ila.solomatin/Downloads/Graph_nami-NAMI/Graph.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/NAMI/ila.solomatin/Desktop/Graph_nami/Graph.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/NAMI/ila.solomatin/Desktop/Graph_nami/Graph.pro</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseTerminal">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/NAMI/ila.solomatin/build-Graph-Desktop_Qt_5_15_2_GCC_64bit-Debug</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
