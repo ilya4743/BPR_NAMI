@@ -42,13 +42,30 @@ GameMap::GameMap(float width_coord, float height_coord, float step, int center, 
     //начало отсчета системы координат (наша машина)
     this->center = center;
     this->goal_point=goal_p;
-    //this->barriers=barriers;
     start = this->center;
-    //вершина графа куда едем
-    goal = GetI(goal_point.y)*num_vertices_width + GetJ(goal_point.x);
+
     this->width_auto=width_auto;
     this->height_auto=height_auto;
     distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);
+    distance->init();
+
+    //если точка конечного маршрута вышла за пределы сетки графа по x
+    if (!(distance->matrix[0].x<=goal_point.x && distance->matrix[num_vertices_width-1].x>=goal_point.x))
+        if(goal_point.x>0)
+            goal_point.x=distance->matrix[num_vertices_width-1].x;
+        else
+            goal_point.x=distance->matrix[0].x;
+
+    //если точка конечного маршрута вышла за пределы сетки графа по y
+    if (!(distance->matrix[0].y>=goal_point.y && distance->matrix[distance->matrix.size()-1].y<=goal_point.y))
+        if(goal_point.y>0)
+            goal_point.y=distance->matrix[0].y;
+        else
+            goal_point.y=distance->matrix[distance->matrix.size()-1].y;
+
+    //вершина графа куда едем
+    goal = GetI(goal_point.y)*num_vertices_width + GetJ(goal_point.x);
+
     graph=new MyGraph(num_vertices_width*num_vertices_height);
 }
 
@@ -116,7 +133,7 @@ void GameMap::init(IDistanceMatrix&distance,IGraph&graph)
 
 void GameMap::doo(const int DEBUG_OUTPUT)
 {
-    distance->init();
+    //distance->init();
     graph->init(num_vertices_width, num_vertices_height);
     list<Barrier*>::iterator itGP;
     bool partial_path=false;

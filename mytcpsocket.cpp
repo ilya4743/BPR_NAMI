@@ -1,7 +1,9 @@
 #include "mytcpsocket.h"
 #include<QDataStream>
 #include<myexception.h>
-
+ #include <QTimer>
+#include<QTime>
+ #include <QCoreApplication>
 template<>
 void MyLog::printLogToFile( GameMap *o)
 {
@@ -10,9 +12,14 @@ void MyLog::printLogToFile( GameMap *o)
 
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
-    Logger=new MyLog(true, "log");
+    Logger=new MyLog(false, "log");
 }
-
+void delay()
+{
+    QTime dieTime= QTime::currentTime().addSecs(5);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+}
 void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_OUTPUT)
 {
     QByteArray qb;
@@ -33,13 +40,18 @@ void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_O
     //string s();
 string s("Connect to host"+IP.toStdString()+to_string(PORT));
     //Logger<<"Connect to host\t"<<PORT;
-    socket->connectToHost(IP, PORT);
+    //socket->connectToHost(IP, PORT+1);
     //Logger->printLogToFile("connectToHost");
     // we need to wait...
-    if(!socket->waitForConnected(5000))
-    {
-        qDebug() << "Error: " << socket->errorString();
-    }
+
+        socket->connectToHost(IP, PORT);
+        while(!socket->waitForConnected(30000))
+        {
+            qDebug() << "Error: " << socket->errorString();
+            qDebug() << "RECONECT!";
+            delay();
+            socket->connectToHost(IP, PORT);
+        }
 }
 
 void MyTcpSocket::connected()
