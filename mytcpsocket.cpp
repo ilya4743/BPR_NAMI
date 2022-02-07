@@ -1,9 +1,10 @@
 #include "mytcpsocket.h"
 #include<QDataStream>
 #include<myexception.h>
- #include <QTimer>
+#include <QTimer>
 #include<QTime>
- #include <QCoreApplication>
+#include <QCoreApplication>
+
 template<>
 void MyLog::printLogToFile( GameMap *o)
 {
@@ -12,16 +13,16 @@ void MyLog::printLogToFile( GameMap *o)
 
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
-    Logger=new MyLog(false, "log");
 }
-void delay()
+void delay(const int RECONNECT_TIME)
 {
-    QTime dieTime= QTime::currentTime().addSecs(5);
+    QTime dieTime= QTime::currentTime().addMSecs(RECONNECT_TIME);
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
-void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_OUTPUT)
+void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_OUTPUT, const bool PRINT_LOG, const int RECONNECT_TIME)
 {
+    Logger=new MyLog(PRINT_LOG, "log");
     QByteArray qb;
     QDataStream d(&qb, QIODevice::WriteOnly);
     this->DEBUG_OUTPUT=DEBUG_OUTPUT;
@@ -33,30 +34,20 @@ void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_O
     connect(socket, SIGNAL(readyRead()),this, SLOT(readyRead()));
 
     qDebug() << "connecting...";
-
-    // this is not blocking call
-
-    //"79.164.82.177", 15555
-    //string s();
-string s("Connect to host"+IP.toStdString()+to_string(PORT));
-    //Logger<<"Connect to host\t"<<PORT;
-    //socket->connectToHost(IP, PORT+1);
-    //Logger->printLogToFile("connectToHost");
-    // we need to wait...
-
+    Logger->printLogToFile("Connect to host");
+    socket->connectToHost(IP, PORT);
+    while(!socket->waitForConnected())
+    {
+        qDebug() << "Error: " << socket->errorString();
+        qDebug() << "Reconnect!";
+        delay(RECONNECT_TIME);
         socket->connectToHost(IP, PORT);
-        while(!socket->waitForConnected(30000))
-        {
-            qDebug() << "Error: " << socket->errorString();
-            qDebug() << "RECONECT!";
-            delay();
-            socket->connectToHost(IP, PORT);
-        }
+    }
 }
 
 void MyTcpSocket::connected()
 {
-    Logger->printLogToFile("connected");
+    Logger->printLogToFile("connected\n");
     QByteArray qb;
     QDataStream d(&qb, QIODevice::WriteOnly);
     d<<(unsigned char)0x44<<(unsigned char)0x46;
@@ -72,6 +63,7 @@ void MyTcpSocket::disconnected()
 
 void MyTcpSocket::bytesWritten(qint64 bytes)
 {
+    //Logger->printLogToFile(byte);
     //qDebug() << bytes << " bytes written...";
 }
 
@@ -131,6 +123,7 @@ void MyTcpSocket::readyRead()
 
             {
                 throw MyException("Data package error", DataPackageError);
+                Logger->printLogToFile("Data package error");
             }
             else
             {
@@ -145,10 +138,14 @@ void MyTcpSocket::readyRead()
                     //qDebug()<<(bar)->hasPoint(g1.goal_point);
                     i++;
                 }
-                Logger->printLogToFile(&g1);
                 if(i!=j||x3<0||x4<0){
-                    throw MyException("Data package error", DataPackageError);}
+                    throw MyException("Data package error", DataPackageError);
+                    Logger->printLogToFile("Data package error");
+                }
+                Logger->printLogToFile("Data recieve");
                 g1.doo(DEBUG_OUTPUT);
+                Logger->printLogToFile(&g1);
+
                 //socket->flush();
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
@@ -158,10 +155,13 @@ void MyTcpSocket::readyRead()
                 d<<(int)g1.short_path.size();
                 for(unsigned int i=0; i<g1.short_path.size();i++)
                     d<<g1.short_path[i].x<<g1.short_path[i].y;
+                //delay();
                 socket->write(arr);
                 socket->flush();
+                Logger->printLogToFile("Path send\n");
             }
         }
+        socket->readAll();
     }
     catch (MyException& Ex)
     {

@@ -154,7 +154,7 @@ void GameMap::doo(const int DEBUG_OUTPUT)
                 ++it;
                 partial_path=true;
             }
-}
+        }
         vector<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
         if(partial_path)                    //если маршрут неполный (точка конечного маршрута попала на препятствие)
         {
@@ -210,12 +210,17 @@ GameMap::~GameMap()
         delete(*it);
     this->barriers.clear();
 }
-
+#include<QTime>
 void GameMap::printToFile(ofstream& out)
 {
+    //QString str=QTime::currentTime().toString("HH:mm:ss");
+    //out<<str.toStdString();
     out<<width_coord<<endl<<height_coord<<endl<<step<<endl<<start<<endl;
-    out<<width_auto<<endl<<height_auto<<endl<<barriers.size();
+    out<<width_auto<<endl<<height_auto<<endl;
+    out<<goal_point<<barriers.size();
     for(auto it= barriers.begin(); it!=barriers.end();++it)
         out<<*(*it);
-    out<<endl;
+    out<<endl<<"Data Path\n";
+    for(int i=0;i<short_path.size();i++)
+        out<<short_path[i];
 }

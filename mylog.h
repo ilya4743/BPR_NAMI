@@ -2,9 +2,11 @@
 #define MYLOG_H
 #include <iostream>
 #include<fstream>
+#include<QString>
+#include<QTime>
 #include"gamemap.h"
 using namespace std;
-
+class GameMap;
 class MyLog
 {
 private:

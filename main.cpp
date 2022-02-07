@@ -19,7 +19,8 @@ int main(int argc, char *argv[])
         int DEBUG_OUTPUT=Settings::get(Settings::DEBUG_OUTPUT).toInt();
         f.close();
         MyTcpSocket s;
-        s.doConnect(Settings::get(Settings::IP_SERVER).toString(),Settings::get(Settings::PORT).toInt(),DEBUG_OUTPUT);
+        s.doConnect(Settings::get(Settings::IP_SERVER).toString(),Settings::get(Settings::PORT).toInt(),
+        DEBUG_OUTPUT, Settings::get(Settings::PRINT_LOG).toBool(), Settings::get(Settings::RECONNECT_TIME).toInt());
 
         return a.exec();
     }  catch (MyException& Ex)

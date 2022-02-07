@@ -13,21 +13,33 @@ void MyLog::setFilename(char* filename)
 void MyLog::printLog(char* str)
 {
     if(flag_log)
+    {
+        QString time=QTime::currentTime().toString("HH:mm:ss");
+        *os<<time.toStdString()<<'\t';
         *os << str;
+    }
 }
 
 template<>
 void MyLog::printLogToFile( const char* o)
 {
     if(flag_log)
+    {
+        QString time=QTime::currentTime().toString("HH:mm:ss");
+        *ofs<<time.toStdString()<<'\t';
         *ofs<<o<<endl;
+    }
 }
 
 template<class T>
 void MyLog::printLogToFile( T* o)
 {
     if(flag_log)
+    {
+        QString time=QTime::currentTime().toString("HH:mm:ss");
+        *ofs<<time.toStdString()<<'\t';
         *ofs<<*o<<endl;
+    }
 }
 
 template<class T>

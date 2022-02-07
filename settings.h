@@ -19,7 +19,9 @@ public:
     enum Key{
         IP_SERVER,
         PORT,
-        DEBUG_OUTPUT
+        DEBUG_OUTPUT,
+        PRINT_LOG,
+        RECONNECT_TIME
     };
 
     class ValueRef{

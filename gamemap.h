@@ -4,6 +4,7 @@
 #include<mygraph.h>
 #include<barrier.h>
 #include<point.h>
+#include"mylog.h"
 
 using namespace std;
 

@@ -15,7 +15,7 @@ class MyTcpSocket : public QObject
 public:
     explicit MyTcpSocket(QObject *parent = 0);
 
-    void doConnect(const QString& IP, const int PORT, const int DEBUG_OUTPUT);
+    void doConnect(const QString& IP, const int PORT, const int DEBUG_OUTPUT,const bool PRINT_LOG,const int RECONNECT_TIME);
     ~MyTcpSocket();
 signals:
 
