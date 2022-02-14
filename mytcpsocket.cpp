@@ -14,39 +14,46 @@ void MyLog::printLogToFile( GameMap *o)
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
 }
+
 void delay(const int RECONNECT_TIME)
 {
     QTime dieTime= QTime::currentTime().addMSecs(RECONNECT_TIME);
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
+
 void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_OUTPUT, const bool PRINT_LOG, const int RECONNECT_TIME)
 {
+    reconnect_time=RECONNECT_TIME;
+    this->IP=IP;
+    this->PORT=PORT;
     Logger=new MyLog(PRINT_LOG, "log");
     QByteArray qb;
     QDataStream d(&qb, QIODevice::WriteOnly);
     this->DEBUG_OUTPUT=DEBUG_OUTPUT;
     socket = new QTcpSocket(this);
-
     connect(socket, SIGNAL(connected()),this, SLOT(connected()));
     connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()));
     connect(socket, SIGNAL(bytesWritten(qint64)),this, SLOT(bytesWritten(qint64)));
     connect(socket, SIGNAL(readyRead()),this, SLOT(readyRead()));
-
+    connect(socket, SIGNAL(errorOccurred(QAbstractSocket::SocketError )),this,SLOT(Error(QAbstractSocket::SocketError)));
     qDebug() << "connecting...";
     Logger->printLogToFile("Connect to host");
     socket->connectToHost(IP, PORT);
-    while(!socket->waitForConnected())
-    {
-        qDebug() << "Error: " << socket->errorString();
-        qDebug() << "Reconnect!";
-        delay(RECONNECT_TIME);
-        socket->connectToHost(IP, PORT);
-    }
+}
+
+void MyTcpSocket::Error(QAbstractSocket::SocketError socketError)
+{
+    qDebug() << "Error: " << socketError;
+    qDebug()<<"Reconnect!";
+    Logger->printLogToFile("Reconnect to host");
+    delay(reconnect_time);
+    socket->connectToHost(IP, PORT);
 }
 
 void MyTcpSocket::connected()
 {
+    qDebug()<<"connected";
     Logger->printLogToFile("connected\n");
     QByteArray qb;
     QDataStream d(&qb, QIODevice::WriteOnly);
@@ -59,6 +66,10 @@ void MyTcpSocket::disconnected()
 {
     Logger->printLogToFile("disconnected");
     qDebug() << "disconnected...";
+    qDebug() << "Reconnect!";
+    Logger->printLogToFile("Reconnect to host");
+    delay(reconnect_time);
+    socket->connectToHost(IP, PORT);
 }
 
 void MyTcpSocket::bytesWritten(qint64 bytes)

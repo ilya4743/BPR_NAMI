@@ -24,11 +24,14 @@ public slots:
     void disconnected();
     void bytesWritten(qint64 bytes);
     void readyRead();
-
+    void Error(QAbstractSocket::SocketError socketError);
 private:
     QTcpSocket *socket;
     int DEBUG_OUTPUT;
     MyLog *Logger;
+    int reconnect_time;
+    QString IP;
+    int PORT;
 };
 
 #endif // MYTCPSOCKET_H
