@@ -25,6 +25,7 @@ public slots:
     void bytesWritten(qint64 bytes);
     void readyRead();
     void Error(QAbstractSocket::SocketError socketError);
+    void reconnect();
 private:
     QTcpSocket *socket;
     int DEBUG_OUTPUT;

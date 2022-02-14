@@ -17,7 +17,7 @@ CXX           = clang++
 DEFINES       = -DQT_QML_DEBUG -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../../Graph_nami -I. -I/usr/include/boost -I../../../Qt/5.15.2/gcc_64/include -I../../../Qt/5.15.2/gcc_64/include/QtNetwork -I../../../Qt/5.15.2/gcc_64/include/QtCore -I. -I../../../Qt/5.15.2/gcc_64/mkspecs/linux-clang
+INCPATH       = -I../../BPR_NAMI -I. -I/usr/include/boost -I../../../Qt/5.15.2/gcc_64/include -I../../../Qt/5.15.2/gcc_64/include/QtNetwork -I../../../Qt/5.15.2/gcc_64/include/QtCore -I. -I../../../Qt/5.15.2/gcc_64/mkspecs/linux-clang
 QMAKE         = /home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = Graph1.0.0
-DISTDIR = /home/NAMI/ila.solomatin/Desktop/Graph_nami/build/.tmp/Graph1.0.0
+DISTDIR = /home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/.tmp/Graph1.0.0
 LINK          = clang++
 LFLAGS        = -ccc-gcc-name g++ -Wl,-rpath,/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/lib
 LIBS          = $(SUBLIBS) /home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/lib/libQt5Network.so /home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/lib/libQt5Core.so -lpthread   
@@ -53,6 +53,7 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../barrier.cpp \
+		../car.cpp \
 		../gamemap.cpp \
 		../locationmap.cpp \
 		../main.cpp \
@@ -66,6 +67,7 @@ SOURCES       = ../barrier.cpp \
 		moc_mytcpsocket.cpp \
 		moc_settings.cpp
 OBJECTS       = barrier.o \
+		car.o \
 		gamemap.o \
 		locationmap.o \
 		main.o \
@@ -268,6 +270,7 @@ DIST          = ../../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.15.2/gcc_64/mkspecs/features/qt_config.prf \
 		../../../../Qt/5.15.2/gcc_64/mkspecs/linux-clang/qmake.conf \
 		../../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_post.prf \
+		../.qmake.stash \
 		../../../../Qt/5.15.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../../Qt/5.15.2/gcc_64/mkspecs/features/toolchain.prf \
 		../../../../Qt/5.15.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -287,6 +290,7 @@ DIST          = ../../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.15.2/gcc_64/mkspecs/features/yacc.prf \
 		../../../../Qt/5.15.2/gcc_64/mkspecs/features/lex.prf \
 		../../Graph.pro ../barrier.h \
+		../car.h \
 		../defs.h \
 		../gamemap.h \
 		../locationmap.h \
@@ -297,6 +301,7 @@ DIST          = ../../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../mytcpsocket.h \
 		../point.h \
 		../settings.h ../barrier.cpp \
+		../car.cpp \
 		../gamemap.cpp \
 		../locationmap.cpp \
 		../main.cpp \
@@ -507,6 +512,7 @@ Makefile: ../Graph.pro ../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/linux-clang/qmake.conf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -716,6 +722,7 @@ Makefile: ../Graph.pro ../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/qt_config.prf:
 ../../../Qt/5.15.2/gcc_64/mkspecs/linux-clang/qmake.conf:
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/toolchain.prf:
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/default_pre.prf:
@@ -750,8 +757,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../barrier.h ../defs.h ../gamemap.h ../locationmap.h ../myexception.h ../mygraph.h ../mylog.h ../mytcpserver.h ../mytcpsocket.h ../point.h ../settings.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../barrier.cpp ../gamemap.cpp ../locationmap.cpp ../main.cpp ../myexception.cpp ../mygraph.cpp ../mylog.cpp ../mytcpserver.cpp ../mytcpsocket.cpp ../point.cpp ../settings.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../barrier.h ../car.h ../defs.h ../gamemap.h ../locationmap.h ../myexception.h ../mygraph.h ../mylog.h ../mytcpserver.h ../mytcpsocket.h ../point.h ../settings.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../barrier.cpp ../car.cpp ../gamemap.cpp ../locationmap.cpp ../main.cpp ../myexception.cpp ../mygraph.cpp ../mylog.cpp ../mytcpserver.cpp ../mytcpsocket.cpp ../point.cpp ../settings.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -864,7 +871,7 @@ moc_mytcpserver.cpp: ../mytcpserver.h \
 		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qhostaddress.h \
 		moc_predefs.h \
 		../../../Qt/5.15.2/gcc_64/bin/moc
-	/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/NAMI/ila.solomatin/Desktop/Graph_nami/build/moc_predefs.h -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/mkspecs/linux-clang -I/home/NAMI/ila.solomatin/Desktop/Graph_nami -I/usr/include/boost -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/local/include -I/usr/lib/llvm-10/lib/clang/10.0.0/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../mytcpserver.h -o moc_mytcpserver.cpp
+	/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/moc_predefs.h -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/mkspecs/linux-clang -I/home/NAMI/ila.solomatin/Desktop/BPR_NAMI -I/usr/include/boost -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/local/include -I/usr/lib/llvm-10/lib/clang/10.0.0/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../mytcpserver.h -o moc_mytcpserver.cpp
 
 moc_mytcpsocket.cpp: ../mytcpsocket.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QObject \
@@ -953,7 +960,7 @@ moc_mytcpsocket.cpp: ../mytcpsocket.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
 		moc_predefs.h \
 		../../../Qt/5.15.2/gcc_64/bin/moc
-	/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/NAMI/ila.solomatin/Desktop/Graph_nami/build/moc_predefs.h -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/mkspecs/linux-clang -I/home/NAMI/ila.solomatin/Desktop/Graph_nami -I/usr/include/boost -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/local/include -I/usr/lib/llvm-10/lib/clang/10.0.0/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../mytcpsocket.h -o moc_mytcpsocket.cpp
+	/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/moc_predefs.h -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/mkspecs/linux-clang -I/home/NAMI/ila.solomatin/Desktop/BPR_NAMI -I/usr/include/boost -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/local/include -I/usr/lib/llvm-10/lib/clang/10.0.0/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../mytcpsocket.h -o moc_mytcpsocket.cpp
 
 moc_settings.cpp: ../settings.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QVariant \
@@ -1027,7 +1034,7 @@ moc_settings.cpp: ../settings.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qmetaobject.h \
 		moc_predefs.h \
 		../../../Qt/5.15.2/gcc_64/bin/moc
-	/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/NAMI/ila.solomatin/Desktop/Graph_nami/build/moc_predefs.h -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/mkspecs/linux-clang -I/home/NAMI/ila.solomatin/Desktop/Graph_nami -I/usr/include/boost -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/local/include -I/usr/lib/llvm-10/lib/clang/10.0.0/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../settings.h -o moc_settings.cpp
+	/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/moc_predefs.h -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/mkspecs/linux-clang -I/home/NAMI/ila.solomatin/Desktop/BPR_NAMI -I/usr/include/boost -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/local/include -I/usr/lib/llvm-10/lib/clang/10.0.0/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../settings.h -o moc_settings.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1099,6 +1106,9 @@ barrier.o: ../barrier.cpp ../barrier.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o barrier.o ../barrier.cpp
+
+car.o: ../car.cpp ../car.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o car.o ../car.cpp
 
 gamemap.o: ../gamemap.cpp ../gamemap.h \
 		../locationmap.h \

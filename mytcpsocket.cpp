@@ -42,13 +42,17 @@ void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_O
     socket->connectToHost(IP, PORT);
 }
 
+void MyTcpSocket::reconnect()
+{
+    socket->connectToHost(IP, PORT);
+}
+
 void MyTcpSocket::Error(QAbstractSocket::SocketError socketError)
 {
     qDebug() << "Error: " << socketError;
     qDebug()<<"Reconnect!";
     Logger->printLogToFile("Reconnect to host");
-    delay(reconnect_time);
-    socket->connectToHost(IP, PORT);
+    QTimer::singleShot(reconnect_time, this, SLOT(reconnect()));
 }
 
 void MyTcpSocket::connected()
@@ -66,10 +70,10 @@ void MyTcpSocket::disconnected()
 {
     Logger->printLogToFile("disconnected");
     qDebug() << "disconnected...";
-    qDebug() << "Reconnect!";
-    Logger->printLogToFile("Reconnect to host");
-    delay(reconnect_time);
-    socket->connectToHost(IP, PORT);
+    //qDebug() << "Reconnect!";
+    //Logger->printLogToFile("Reconnect to host");
+    //delay(reconnect_time);
+    //socket->connectToHost(IP, PORT);
 }
 
 void MyTcpSocket::bytesWritten(qint64 bytes)
@@ -104,30 +108,12 @@ void MyTcpSocket::readyRead()
             float height_auto;  //высота авто
             float x, y;         //точка маршрута
             int j;              //количество препятствий
-            //int width;
-            //int height;
-
-
 
             in>>width_coord>>height_coord>>step>>start;
             in>>width_auto>>height_auto;
             in>>x>>y;
             in>>j;
 
-            //width=width_coord/step;
-            //height=height_coord/step;
-
-            /*int x1=(start + int(x/step)) % width;
-            int y1=(start - int(y / step) * width) / width;
-
-            float w1=(width)-11%width;
-            float w2=(w1)-(width-1);
-            float h1=-(height-1)-int(11/width);
-            float h2=abs(h1-(height-1));
-
-            float x2=(start%width+int(x/step))*step;
-            float y2=(start/width+int(y/step))*step;*/
-            //int p=x1+y1;
             //если ввод некорректен
             if(width_coord <=0||height_coord<=0||step<=0||width_auto<0||height_auto<0||j<0||start<0
             ||start>(width_coord/step*height_coord/step))
@@ -156,8 +142,6 @@ void MyTcpSocket::readyRead()
                 Logger->printLogToFile("Data recieve");
                 g1.doo(DEBUG_OUTPUT);
                 Logger->printLogToFile(&g1);
-
-                //socket->flush();
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
@@ -166,7 +150,6 @@ void MyTcpSocket::readyRead()
                 d<<(int)g1.short_path.size();
                 for(unsigned int i=0; i<g1.short_path.size();i++)
                     d<<g1.short_path[i].x<<g1.short_path[i].y;
-                //delay();
                 socket->write(arr);
                 socket->flush();
                 Logger->printLogToFile("Path send\n");

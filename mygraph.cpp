@@ -41,7 +41,7 @@ void MyGraph::init(int width, int height)
         for (int j = width - 2; j >= 0; j--)
             add_edge(i * width + j, i * width - (width - 1) + j, *this->adj_list);
 }
-
+#include<QDebug>
 // euclidean distance heuristic
 template <class Graph, class CostType, class LocMap>
 class euclidean_heuristic : public astar_heuristic<Graph, CostType>
@@ -53,7 +53,9 @@ public:
     {
         CostType dx = m_location[m_goal].x - m_location[u].x;
         CostType dy = m_location[m_goal].y - m_location[u].y;
+        //qDebug()<<'('<<m_location[m_goal].x<<" - "<<m_location[u].x<<")^2 + ("<<m_location[m_goal].x<<" - "<<m_location[u].x<<")^2";
         auto t=::sqrt(dx * dx + dy * dy);
+        //qDebug()<<t;
         return ::sqrt(dx * dx + dy * dy);
     }
 private:
