@@ -1,6 +1,6 @@
 #include "mytcpsocket.h"
 #include<QDataStream>
-#include<myexception.h>
+#include"myexception.h"
 #include <QTimer>
 #include<QTime>
 #include <QCoreApplication>

@@ -7,7 +7,7 @@
 *****************************************************************************/
 
 #include <memory>
-#include "../Desktop/Graph_nami/settings.h"
+#include "../settings.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)

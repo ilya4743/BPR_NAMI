@@ -1,9 +1,9 @@
 #ifndef GAMEMAP_H
 #define GAMEMAP_H
-#include<locationmap.h>
-#include<mygraph.h>
-#include<barrier.h>
-#include<point.h>
+#include"locationmap.h"
+#include"mygraph.h"
+#include"barrier.h"
+#include"point.h"
 #include"mylog.h"
 
 using namespace std;
