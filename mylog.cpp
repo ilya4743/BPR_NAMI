@@ -20,7 +20,6 @@ void MyLog::printLog(char* str)
     }
 }
 
-template<>
 void MyLog::printLogToFile( const char* o)
 {
     if(flag_log)

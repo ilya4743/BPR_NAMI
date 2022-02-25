@@ -5,7 +5,6 @@
 #include<QTime>
 #include <QCoreApplication>
 
-template<>
 void MyLog::printLogToFile( GameMap *o)
 {
     o->printToFile(*ofs);
@@ -148,8 +147,8 @@ void MyTcpSocket::readyRead()
                 d.setByteOrder(QDataStream::LittleEndian);
                 d<<(unsigned char)0x44<<(unsigned char)0x48;
                 d<<(int)g1.short_path.size();
-                for(unsigned int i=0; i<g1.short_path.size();i++)
-                    d<<g1.short_path[i].x<<g1.short_path[i].y;
+                for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
+                    d<<(*it).x<<(*it).y;
                 socket->write(arr);
                 socket->flush();
                 Logger->printLogToFile("Path send\n");

@@ -41,11 +41,11 @@ public:
     MyGraph* graph;
     DistanceMatrix* distance;
     list<Barrier*> barriers;
-    vector<Point> short_path;
-    vector<Point> create_msg(const DistanceMatrix& locations, const vector<vertex_descriptor>& shortest_path);
+    list<Point> short_path;
+    list<Point> create_msg(const DistanceMatrix& locations, const list<vertex_descriptor>& shortest_path);
     void print_game_map();
     void print_vertex_map();
-    void print_way(const DistanceMatrix* distance, const vector<vertex_descriptor>& shortest_path);
+    void print_way(const DistanceMatrix* distance, const list<vertex_descriptor>& shortest_path);
     int GetJ(float i);
     int GetI(float j);
     void init(IDistanceMatrix&distance,IGraph&graph);

@@ -27,13 +27,13 @@ public:
     void printLog(char* str);
     template<class T>
     void printLogToFile( T *o);
-    template<>
+    //template<>
     void printLogToFile( const char* o);
-    template<>
+    //template<>
     void printLogToFile( GameMap* o);
 
-    template<class T>
-    friend ofstream& operator<<(ofstream &out, const T &o);
+    //template<class T>
+    //friend ofstream& operator<<(ofstream &out, const T &o);
 };
 
 #endif // MYLOG_H

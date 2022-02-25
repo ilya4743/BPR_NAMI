@@ -31,7 +31,7 @@ typedef typename graph_traits<my_graph>::edge_descriptor  edge_descriptor;
 class IGraph
 {
 public:
-    std::vector<vertex_descriptor> virtual search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance)=0;
+    std::list<vertex_descriptor> virtual search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance)=0;
     void virtual init(int width, int height)=0;
     virtual ~IGraph()=0;
 };
@@ -48,7 +48,7 @@ public:
     void print_vertexes();
     void print_edges();
     void print_to_graphviz();
-    std::vector<vertex_descriptor> search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance)override;
+    std::list<vertex_descriptor> search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance)override;
     ~MyGraph();
 };
 

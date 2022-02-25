@@ -69,13 +69,13 @@ GameMap::GameMap(float width_coord, float height_coord, float step, int center, 
     graph=new MyGraph(num_vertices_width*num_vertices_height);
 }
 
-void GameMap::print_way(const DistanceMatrix* distance, const vector<vertex_descriptor>& shortest_path)
+void GameMap::print_way(const DistanceMatrix* distance, const list<vertex_descriptor>& shortest_path)
 {
     cout<<"\033[s";
-    for (unsigned int i = 0; i < shortest_path.size(); i++)
+    for (auto it=shortest_path.begin(); it != shortest_path.end(); ++it)
     {
-        int k=GetJ(distance->matrix[shortest_path[i]].x)+1;
-        int d=GetI(distance->matrix[shortest_path[i]].y)+1;
+        int k=GetJ(distance->matrix[(*it)].x)+1;
+        int d=GetI(distance->matrix[(*it)].y)+1;
         cout<<"\033["<<d<<';'<<k<<"H\033[0;31;40m*\033[0;0m";
     }
     cout<<"\033[u\n";
@@ -89,16 +89,17 @@ void GameMap::print_way(const DistanceMatrix* distance, const vector<vertex_desc
     }*/
 }
 
-vector<Point> GameMap::create_msg(const DistanceMatrix& distance, const vector<vertex_descriptor>& shortest_path)
+list<Point> GameMap::create_msg(const DistanceMatrix& distance, const list<vertex_descriptor>& shortest_path)
 {
-    vector<Point> msg;
-    msg.reserve(shortest_path.size());
-    msg.push_back(Point(distance.matrix[shortest_path[0]].x,distance.matrix[shortest_path[0]].y));
-    for (unsigned int i = 1; i < shortest_path.size()-1; i++)
+    list<Point> msg;
+    msg.push_back(Point(distance.matrix[(*shortest_path.begin())].x,distance.matrix[(*shortest_path.begin())].y));
+    auto it = shortest_path.begin();
+    ++it;
+    for (;it != shortest_path.end(); ++it)
     {
         Point p;
-        p.x=distance.matrix[shortest_path[i]].x- distance.matrix[shortest_path[i-1]].x;
-        p.y=distance.matrix[shortest_path[i]].y-distance.matrix[shortest_path[i-1]].y;
+        p.x=distance.matrix[*it].x- distance.matrix[*it-1].x;
+        p.y=distance.matrix[*it].y-distance.matrix[*it-1].y;
         msg.push_back((p));
     }
     return msg;
@@ -155,17 +156,21 @@ void GameMap::doo(const int DEBUG_OUTPUT)
                 partial_path=true;
             }
         }
-        vector<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
+        list<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
+
         if(partial_path)                    //если маршрут неполный (точка конечного маршрута попала на препятствие)
         {
-            int i=short1.size()-2;
-            while((*itGP)->hasVertex(short1[i], *this))
+            auto it= short1.begin();
+            auto itEnd=short1.end();
+            //while(it!=itEnd)
+            while((*itGP)->hasVertex(*it,*this))
             {
-                short1.erase(short1.begin()+i);
-                i--;
+
+                short1.erase(it);
+                ++it;
             }
         }
-
+        list<vertex_descriptor> smoothing_path=short1;
         short_path=create_msg(*distance,short1);
 
         print_game_map();
@@ -188,14 +193,15 @@ void GameMap::doo(const int DEBUG_OUTPUT)
                 ++it;
                 partial_path=true;
             }
-        vector<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
+        list<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
         if(partial_path)                    //если маршрут неполный (точка конечного маршрута попала на препятствие)
         {
-            int i=short1.size()-2;
-            while((*itGP)->hasVertex(short1[i], *this))
+            auto itShort1=short1.end();
+            --itShort1;--itShort1;
+            while((*itGP)->hasVertex(*itShort1, *this))
             {
-                short1.erase(short1.begin()+i);
-                i--;
+                short1.erase(itShort1);
+                --itShort1;
             }
         }
         short_path=create_msg(*distance,short1);
@@ -221,6 +227,6 @@ void GameMap::printToFile(ofstream& out)
     for(auto it= barriers.begin(); it!=barriers.end();++it)
         out<<*(*it);
     out<<endl<<"Data Path\n";
-    for(int i=0;i<short_path.size();i++)
-        out<<short_path[i];
+    for(auto it=short_path.begin();it!=short_path.end();++it)
+        out<<*it;
 }

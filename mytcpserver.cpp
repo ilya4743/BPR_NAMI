@@ -68,8 +68,8 @@ void MyTcpServer::readyRead()
             QByteArray arr;
             QDataStream d(&arr, QIODevice::WriteOnly);
             d<<int(0);
-            for(int i=0; i<g1.short_path.size();i++)
-                d<<g1.short_path[i].x<<g1.short_path[i].y;
+            for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
+                d<<(*it).x<<(*it).y;
 
             socket->write(arr);
             return;

@@ -173,7 +173,7 @@ void MyGraph::print_to_graphviz()
     f.close();
 }
 
-vector<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance )
+list<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance )
 {
 
     vector<vertex_descriptor> p(num_vertices(*this->adj_list));
@@ -193,15 +193,14 @@ vector<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const ve
                 break;
         }
         list<vertex_descriptor>::iterator spi = shortest_path.begin();
-        vector<vertex_descriptor> shortest_path1;
-        shortest_path1.reserve(shortest_path.size());
+        list<vertex_descriptor> shortest_path1;
         for (++spi; spi != shortest_path.end(); ++spi)
             shortest_path1.push_back(*spi);
 
         shortest_path1.push_back(start);
         return shortest_path1;
     }
-    list<vertex_descriptor> shortest_path;
+    /*list<vertex_descriptor> shortest_path;
             for (vertex_descriptor v = goal;; v = p[v]) {
                 shortest_path.push_front(v);
                 if (p[v] == v)
@@ -213,7 +212,7 @@ vector<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const ve
             for (++spi; spi != shortest_path.end(); ++spi)
                 shortest_path1.push_back(*spi);
 
-            shortest_path1.push_back(start);
+            shortest_path1.push_back(start);*/
     throw MyException("Path not found!\0",PathNotFound);
     cout << "Didn't find a path from " << start << "to" << goal << "!" << endl;
 }
