@@ -42,7 +42,7 @@ public:
     DistanceMatrix* distance;
     list<Barrier*> barriers;
     list<Point> short_path;
-    list<Point> create_msg(const DistanceMatrix& locations, const list<vertex_descriptor>& shortest_path);
+    list<Point> create_msg(const DistanceMatrix& locations, list<vertex_descriptor>& shortest_path);
     void print_game_map();
     void print_vertex_map();
     void print_way(const DistanceMatrix* distance, const list<vertex_descriptor>& shortest_path);

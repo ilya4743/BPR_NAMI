@@ -197,7 +197,7 @@ list<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const vert
         for (++spi; spi != shortest_path.end(); ++spi)
             shortest_path1.push_back(*spi);
 
-        shortest_path1.push_back(start);
+        shortest_path1.push_front(start);
         return shortest_path1;
     }
     /*list<vertex_descriptor> shortest_path;

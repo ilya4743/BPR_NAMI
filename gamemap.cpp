@@ -1,5 +1,6 @@
 #include "gamemap.h"
 #include <boost/graph/adjacency_list.hpp>
+#include <QtDebug>
 
 GameMap::GameMap()
 {
@@ -88,11 +89,72 @@ void GameMap::print_way(const DistanceMatrix* distance, const list<vertex_descri
         cout<< distance->matrix[shortest_path[i]].y-distance->matrix[shortest_path[i-1]].y<<endl;
     }*/
 }
+//if ((x1*y2-x2*y1)*(x4-x3)-(x3*y4-x4*y3)*(x2-x1) == 0 && (x1*y2-x2*y1)*(y4-y3) - (x3*y4-x4*y3)*(y2-y1) == 0)
 
-list<Point> GameMap::create_msg(const DistanceMatrix& distance, const list<vertex_descriptor>& shortest_path)
+list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_descriptor>& shortest_path)
 {
+
     list<Point> msg;
-    msg.push_back(Point(distance.matrix[(*shortest_path.begin())].x,distance.matrix[(*shortest_path.begin())].y));
+    for(auto it = shortest_path.begin();it!=shortest_path.end();++it)
+        msg.push_back(distance.matrix[*it]);
+
+    if(msg.size()>2)
+    {
+        auto it = msg.begin();
+        auto shortIT=shortest_path.begin();
+        float x1, y1, x2, y2;
+        x1=(*it).x;
+        y1=(*it).y;
+        ++shortIT;
+        ++it;
+        x2=(*it).x;
+        y2=(*it).y;
+        //++shortIT;
+        //++it;
+        for(;it!=msg.end();)
+        {
+            if(!barriers.size()==0)
+                for(auto it1=barriers.begin();it1!=barriers.end();++it1)
+                {
+                    if(!(*it1)->isIntersection(Point(x1,y1),Point(x2,y2)))
+                    {
+                        it=msg.erase(it);
+                        shortIT=shortest_path.erase(shortIT);
+                        x2=(*it).x;
+                        y2=(*it).y;
+                    }
+                    else
+                    {
+                        x1=(*it).x;
+                        y1=(*it).y;
+                        ++it;
+                        x2=(*it).x;
+                        y2=(*it).y;
+                        break;
+                    }
+
+                }
+            else
+            {
+                msg.clear();
+                msg.push_back(Point(0, 0));
+                auto u=shortest_path.end();--u;--u;
+                msg.push_back(distance.matrix[(*u)]);
+                list<vertex_descriptor> s;
+                s.push_back(*u); ++u;
+                s.push_back(*u);
+                shortest_path.clear();
+                shortest_path=s;
+                break;
+            }
+        }
+    }
+
+    list<Point> msg1;
+
+    msg1.push_back(Point(distance.matrix[(*shortest_path.begin())].x,distance.matrix[(*shortest_path.begin())].y));
+
+
     auto it = shortest_path.begin();
     ++it;
     for (;it != shortest_path.end(); ++it)
@@ -138,7 +200,7 @@ void GameMap::doo(const int DEBUG_OUTPUT)
     graph->init(num_vertices_width, num_vertices_height);
     list<Barrier*>::iterator itGP;
     bool partial_path=false;
-    if(DEBUG_OUTPUT==1) //если дебаг выключен
+    if(DEBUG_OUTPUT==1) //если дебаг включен
     {
         for(auto it= barriers.begin(); it!=barriers.end();)
         {
@@ -180,7 +242,7 @@ void GameMap::doo(const int DEBUG_OUTPUT)
             (*it)->print(*this);
         print_way(distance,short1);
     }
-    else    //если дебаг включен
+    else    //если дебаг выключен
     {
         for(auto it= barriers.begin(); it!=barriers.end();++it)
             if(!(*it)->hasPoint(goal_point, *this))    //если точка конечного маршрута не попала на препятствие
@@ -215,6 +277,7 @@ GameMap::~GameMap()
     for(auto it= barriers.begin(); it!=barriers.end(); ++it)
         delete(*it);
     this->barriers.clear();
+    //if ((x1*y2-x2*y1)*(x4-x3)-(x3*y4-x4*y3)*(x2-x1) == 0 && (x1*y2-x2*y1)*(y4-y3) - (x3*y4-x4*y3)*(y2-y1) == 0)
 }
 #include<QTime>
 void GameMap::printToFile(ofstream& out)

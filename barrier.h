@@ -15,6 +15,7 @@ public:
     virtual ~IBarrier()=0;
     virtual bool hasPoint(Point p, GameMap&g)=0;
     virtual bool hasVertex(int v, GameMap&g)=0;
+    virtual bool isIntersection(Point a, Point b)=0;
 };
 
 class Barrier:public IBarrier, public Point
@@ -29,6 +30,7 @@ public:
     bool hasPoint(Point p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
     void printToFile(ofstream &out)override;
+    bool isIntersection(Point a, Point b)override;
     friend ofstream& operator<<(ofstream &out, const Barrier &barrier);
 };
 
@@ -48,6 +50,7 @@ public:
     Point left_top;
     Point right_bottom;
     void printToFile(ofstream &out)override;
+    bool isIntersection(Point a, Point b)override;
     friend ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier);
 };
 

@@ -11,7 +11,7 @@ Barrier::~Barrier(){}
 
 bool Barrier::hasPoint(Point p, GameMap&g){}
 bool Barrier::hasVertex(int v, GameMap&g){}
-
+bool Barrier::isIntersection(Point a, Point b){}
 void Barrier::printToFile(ofstream &out){}
 
 ofstream& operator<<(ofstream &out, const Barrier &barrier)
@@ -207,4 +207,54 @@ ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier)
     out<<barrier.left_top<<barrier.right_bottom;
     out<<barrier.width<<endl<<barrier.height<<endl;
     return out;
+}
+
+inline int area (Point a, Point b, Point c) {
+    return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+}
+
+inline bool intersect_1 (int a, int b, int c, int d) {
+    if (a > b)  swap (a, b);
+    if (c > d)  swap (c, d);
+    return max(a,c) <= min(b,d);
+}
+
+bool BQuadrAngle::isIntersection(Point a, Point b)
+{
+    Point c, d;
+    c.x=left_top.x;
+    c.y=right_bottom.y;
+    d.x=right_bottom.x;
+    d.y=right_bottom.y;
+    /*float x3, x4, y3, y4, Ua,Ub,D;
+    x3=left_top.x;
+    x4=right_bottom.x;
+    y3=right_bottom.y;
+    y4=right_bottom.y;
+    D = (x1-x2)*(y4-y3)-(x4-x3)*(y1-y2);
+    /*if (D == 0)
+    {
+        if ( (x1*y2-x2*y1)*(x4-x3) - (x3*y4-x4*y3)*(x2-x1) == 0 && (x1*y2-x2*y1)*(y4-y3) - (x3*y4-x4*y3)*(y2-y1) == 0)
+            return 1;
+        else
+            return 0;
+    }
+    else {
+        Ua=((x4-x2)*(y4-y3)-(x4-x3)*(y4-y2)) / D;
+        Ub=((x1-x2)*(y4-y2)-(x4-x2)*(y1-y2)) / D;
+        if(Ua<=1 && Ua>=0 && Ub<=1 && Ub>=0)
+            return 1;
+        else
+            return 0;
+    }*//*
+    g.distance->matrix[0].x > this->right_bottom.x || g.distance->matrix[g.distance->matrix.size()-1].x < this->left_top.x ||
+           g.distance->matrix[0].y < this->right_bottom.y || g.distance->matrix[g.distance->matrix.size()-1].y > this->left_top.y
+
+    g.distance->matrix[0].x > this->right_bottom.x || g.distance->matrix[g.distance->matrix.size()-1].x < this->left_top.x ||
+           g.distance->matrix[0].y < this->right_bottom.y || g.distance->matrix[g.distance->matrix.size()-1].y > this->left_top.y
+    if(x3<x2&&x3<x1&&x4>x2&&x4>x3&&y3>y2&&y3>y&&)*/
+    return intersect_1 (a.x, b.x, c.x, d.x)
+            && intersect_1 (a.y, b.y, c.y, d.y)
+            && area(a,b,c) * area(a,b,d) <= 0
+            && area(c,d,a) * area(c,d,b) <= 0;
 }
