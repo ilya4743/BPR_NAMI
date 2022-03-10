@@ -80,27 +80,37 @@ void GameMap::print_way(const DistanceMatrix* distance, const list<vertex_descri
         cout<<"\033["<<d<<';'<<k<<"H\033[0;31;40m*\033[0;0m";
     }
     cout<<"\033[u\n";
-
-    /*cout << "\n\nCoord path:\n";
-    cout<<distance->matrix[shortest_path[0]].x<<'\t'<<distance->matrix[shortest_path[0]].y<<endl;
-    for (unsigned int i = 1; i < shortest_path.size()-1; i++)
-    {
-        cout << distance->matrix[shortest_path[i]].x- distance->matrix[shortest_path[i-1]].x<<'\t';
-        cout<< distance->matrix[shortest_path[i]].y-distance->matrix[shortest_path[i-1]].y<<endl;
-    }*/
 }
-//if ((x1*y2-x2*y1)*(x4-x3)-(x3*y4-x4*y3)*(x2-x1) == 0 && (x1*y2-x2*y1)*(y4-y3) - (x3*y4-x4*y3)*(y2-y1) == 0)
+
 
 list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_descriptor>& shortest_path)
 {
+    int o=1;
+    if(o==1)
+    {
 
     list<Point> msg;
+
     for(auto it = shortest_path.begin();it!=shortest_path.end();++it)
         msg.push_back(distance.matrix[*it]);
 
+    if(barriers.size()==0)
+    {
+        msg.clear();
+        msg.push_back(Point(0, 0));
+        auto u=shortest_path.end();--u;
+        msg.push_back(distance.matrix[(*u)]);
+        list<vertex_descriptor> s;
+        s.push_back(*shortest_path.begin());
+        s.push_back(*u);
+        shortest_path.clear();
+        shortest_path=s;
+    }
+    else
     if(msg.size()>2)
     {
         auto it = msg.begin();
+        auto itend= msg.end();--itend;
         auto shortIT=shortest_path.begin();
         float x1, y1, x2, y2;
         x1=(*it).x;
@@ -109,47 +119,56 @@ list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_desc
         ++it;
         x2=(*it).x;
         y2=(*it).y;
-        //++shortIT;
-        //++it;
-        for(;it!=msg.end();)
+        int count=0;
+
+        Point tmp=*it;
+        unsigned long tmpshort=*shortIT;
+
+        while(it!=itend)
         {
-            if(!barriers.size()==0)
-                for(auto it1=barriers.begin();it1!=barriers.end();++it1)
+            for(auto it1=barriers.begin();it1!=barriers.end();++it1)
+            {
+                if(!(*it1)->isIntersection(Point(x1,y1),Point(x2,y2)))
                 {
-                    if(!(*it1)->isIntersection(Point(x1,y1),Point(x2,y2)))
+                    ++count;
+                    if(count==barriers.size())
                     {
+                        tmp=*it;
+                        tmpshort=*shortIT;
                         it=msg.erase(it);
                         shortIT=shortest_path.erase(shortIT);
                         x2=(*it).x;
                         y2=(*it).y;
                     }
-                    else
-                    {
-                        x1=(*it).x;
-                        y1=(*it).y;
-                        ++it;
-                        x2=(*it).x;
-                        y2=(*it).y;
-                        break;
-                    }
-
                 }
-            else
-            {
-                msg.clear();
-                msg.push_back(Point(0, 0));
-                auto u=shortest_path.end();--u;--u;
-                msg.push_back(distance.matrix[(*u)]);
-                list<vertex_descriptor> s;
-                s.push_back(*u); ++u;
-                s.push_back(*u);
-                shortest_path.clear();
-                shortest_path=s;
-                break;
+                else
+                {
+                    if(tmp.x!=(*it).x && tmp.y!=(*it).y)
+                    {
+                        *it=tmp;
+                        *shortIT=tmpshort;
+                    }
+                    x1=(*it).x;
+                    y1=(*it).y;
+                    ++it;
+                    ++shortIT;
+                    x2=(*it).x;
+                    y2=(*it).y;
+                    break;
+                }
             }
+            count=0;
+
         }
     }
+    else
+    {
 
+    }
+    return msg;
+    }
+    else
+    {
     list<Point> msg1;
 
     msg1.push_back(Point(distance.matrix[(*shortest_path.begin())].x,distance.matrix[(*shortest_path.begin())].y));
@@ -162,9 +181,10 @@ list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_desc
         Point p;
         p.x=distance.matrix[*it].x- distance.matrix[*it-1].x;
         p.y=distance.matrix[*it].y-distance.matrix[*it-1].y;
-        msg.push_back((p));
+        msg1.push_back((p));
     }
-    return msg;
+    return msg1;
+    }
 }
 
 void GameMap::print_game_map()
@@ -277,9 +297,10 @@ GameMap::~GameMap()
     for(auto it= barriers.begin(); it!=barriers.end(); ++it)
         delete(*it);
     this->barriers.clear();
-    //if ((x1*y2-x2*y1)*(x4-x3)-(x3*y4-x4*y3)*(x2-x1) == 0 && (x1*y2-x2*y1)*(y4-y3) - (x3*y4-x4*y3)*(y2-y1) == 0)
 }
+
 #include<QTime>
+
 void GameMap::printToFile(ofstream& out)
 {
     //QString str=QTime::currentTime().toString("HH:mm:ss");

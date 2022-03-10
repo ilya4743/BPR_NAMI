@@ -219,42 +219,160 @@ inline bool intersect_1 (int a, int b, int c, int d) {
     return max(a,c) <= min(b,d);
 }
 
+//bool is_point_in_path(float x, float y, vector<Point>poly)
+//     {
+
+//}
+
+class Smoother
+{
+private:
+    static bool inside(Point p, vector<float> plane)
+    {
+        float d = p.x * plane[0] + p.y * plane[1];
+        return d > plane[2];
+    }
+
+    static Point clip(Point segStart, Point segEnd, vector<float> plane)
+    {
+        float d1 = segStart.x * plane[0] + segStart.y * plane[1] - plane[2];
+        float d2 = segEnd.x * plane[0] + segEnd.y * plane[1] - plane[2];
+        float t = (0 - d1) / (d2 - d1);
+        return Point(segStart.x + t * (segEnd.x - segStart.x), segStart.y + t * (segEnd.y - segStart.y));
+    }
+public:
+    static list<Point> Polyclip(list<Point> pin, Point segStart, Point segEnd)
+    {
+        //if (pin == NULL || pin.Count < 3)
+        //    throw new ArgumentException("A polygon was not supplied.");
+        vector<float> plane;
+        plane.push_back(segStart.y-segStart.y );
+        plane.push_back(segEnd.x - segStart.x);
+        plane.push_back(0);
+        plane[2] = segStart.x * plane[0] + segStart.y * plane[1];
+        list<Point> pout;
+        Point s = *--pin.end();
+        for (auto ci = pin.begin(); ci != pin.end(); ci++)
+        {
+            Point p = *(ci);
+            if (inside(p, plane))
+            {
+                if (inside(s, plane))
+                {
+                    pout.push_back(p);
+                }
+                else
+                {
+                    Point t = clip(s, p, plane);
+                    pout.push_back(t);
+                    pout.push_back(p);
+                }
+            }
+            else
+            {
+                if (inside(s, plane))
+                {
+                    Point t = clip(s, p, plane);
+                    pout.push_back(t);
+                }
+            }
+
+            s = p;
+        }
+        return pout;
+    }
+
+    static bool SegmentIntersection(double x1, double y1, double x2, double y2,double x3, double y3, double x4, double y4)
+    {
+        double Ua, Ub, numerator_a, numerator_b, denominator;
+
+        denominator=(y4-y3)*(x1-x2)-(x4-x3)*(y1-y2);
+
+        if (denominator == 0)
+        {
+            if ( (x1*y2-x2*y1)*(x4-x3) - (x3*y4-x4*y3)*(x2-x1) == 0 && (x1*y2-x2*y1)*(y4-y3) - (x3*y4-x4*y3)*(y2-y1) == 0)
+                return true;
+            else
+                return false;
+        }
+        else
+        {
+            numerator_a=(x4-x2)*(y4-y3)-(x4-x3)*(y4-y2);
+            numerator_b=(x1-x2)*(y4-y2)-(x4-x2)*(y1-y2);
+            Ua=numerator_a/denominator;
+            Ub=numerator_b/denominator;
+
+            if(Ua >=0 && Ua <=1 && Ub >=0 && Ub <=1)
+                return true;
+            else
+                return false;
+        }
+    }
+};
+
+
+
 bool BQuadrAngle::isIntersection(Point a, Point b)
 {
+    /*//нижняя сторона
     Point c, d;
     c.x=left_top.x;
     c.y=right_bottom.y;
     d.x=right_bottom.x;
     d.y=right_bottom.y;
-    /*float x3, x4, y3, y4, Ua,Ub,D;
-    x3=left_top.x;
-    x4=right_bottom.x;
-    y3=right_bottom.y;
-    y4=right_bottom.y;
-    D = (x1-x2)*(y4-y3)-(x4-x3)*(y1-y2);
-    /*if (D == 0)
-    {
-        if ( (x1*y2-x2*y1)*(x4-x3) - (x3*y4-x4*y3)*(x2-x1) == 0 && (x1*y2-x2*y1)*(y4-y3) - (x3*y4-x4*y3)*(y2-y1) == 0)
-            return 1;
-        else
-            return 0;
-    }
-    else {
-        Ua=((x4-x2)*(y4-y3)-(x4-x3)*(y4-y2)) / D;
-        Ub=((x1-x2)*(y4-y2)-(x4-x2)*(y1-y2)) / D;
-        if(Ua<=1 && Ua>=0 && Ub<=1 && Ub>=0)
-            return 1;
-        else
-            return 0;
-    }*//*
-    g.distance->matrix[0].x > this->right_bottom.x || g.distance->matrix[g.distance->matrix.size()-1].x < this->left_top.x ||
-           g.distance->matrix[0].y < this->right_bottom.y || g.distance->matrix[g.distance->matrix.size()-1].y > this->left_top.y
 
-    g.distance->matrix[0].x > this->right_bottom.x || g.distance->matrix[g.distance->matrix.size()-1].x < this->left_top.x ||
-           g.distance->matrix[0].y < this->right_bottom.y || g.distance->matrix[g.distance->matrix.size()-1].y > this->left_top.y
-    if(x3<x2&&x3<x1&&x4>x2&&x4>x3&&y3>y2&&y3>y&&)*/
-    return intersect_1 (a.x, b.x, c.x, d.x)
-            && intersect_1 (a.y, b.y, c.y, d.y)
-            && area(a,b,c) * area(a,b,d) <= 0
-            && area(c,d,a) * area(c,d,b) <= 0;
+    //левая сторона
+    Point c1,d1;
+    c1.x=left_top.x;
+    c1.y=left_top.y;
+    d1.x=left_top.x;
+    d1.y=right_bottom.y;
+
+    //верхняя сторона
+    Point c2,d2;
+    c2.x=left_top.x;
+    c2.y=left_top.y;
+    d2.x=right_bottom.x;
+    d2.y=left_top.y;
+
+    //правая
+    Point c3,d3;
+    c3.x=right_bottom.x;
+    c3.y=left_top.y;
+    d3.x=right_bottom.x;
+    d3.y=right_bottom.y;*/
+
+    vector<Point>poly;
+
+
+    poly.push_back(Point(left_top.x,left_top.y));
+    poly.push_back(Point(right_bottom.x,left_top.y));
+    poly.push_back(Point(right_bottom.x,right_bottom.y));
+    poly.push_back(Point(left_top.x,right_bottom.y));
+
+    list<Point> poly1;
+    //x-width/2,y+height/2
+    poly1.push_back(poly[0]);
+    poly1.push_back(poly[1]);
+    poly1.push_back(poly[2]);
+    poly1.push_back(poly[3]);
+    poly1.push_back(poly[0]);
+    auto kkk=Smoother::Polyclip(poly1,b,a);
+    int seg=0;
+    /*bool b1=Smoother::SegmentIntersection(x-width/2,y+height/2, x+width/2,y+height/2,   a.x,a.y,b.x,b.y);
+    bool b2=Smoother::SegmentIntersection(x+width/2,y+height/2, x+width/2,y-height/2,   a.x,a.y,b.x,b.y);
+    bool b3=Smoother::SegmentIntersection(x-width/2,y-height/2, x+width/2,y-height/2,   a.x,a.y,b.x,b.y);
+    bool b4=Smoother::SegmentIntersection(x-width/2,y+height/2, x-width/2,y-height/2,   a.x,a.y,b.x,b.y);*/
+
+    bool b1=Smoother::SegmentIntersection(left_top.x,left_top.y,        right_bottom.x,left_top.y,      a.x,a.y,b.x,b.y);
+    bool b2=Smoother::SegmentIntersection(right_bottom.x,left_top.y,    right_bottom.x,right_bottom.y,  a.x,a.y,b.x,b.y);
+    bool b3=Smoother::SegmentIntersection(left_top.x,right_bottom.y,    right_bottom.x,right_bottom.y,  a.x,a.y,b.x,b.y);
+    bool b4=Smoother::SegmentIntersection(left_top.x,left_top.y,        left_top.x,right_bottom.y,      a.x,a.y,b.x,b.y);
+
+   return b1||b2||b3||b4;
+
+    if(kkk.size()>0)
+    return true;
+    else
+        return false;
 }
