@@ -60,11 +60,9 @@ SOURCES       = ../barrier.cpp \
 		../myexception.cpp \
 		../mygraph.cpp \
 		../mylog.cpp \
-		../mytcpserver.cpp \
 		../mytcpsocket.cpp \
 		../point.cpp \
-		../settings.cpp moc_mytcpserver.cpp \
-		moc_mytcpsocket.cpp \
+		../settings.cpp moc_mytcpsocket.cpp \
 		moc_settings.cpp
 OBJECTS       = barrier.o \
 		car.o \
@@ -74,11 +72,9 @@ OBJECTS       = barrier.o \
 		myexception.o \
 		mygraph.o \
 		mylog.o \
-		mytcpserver.o \
 		mytcpsocket.o \
 		point.o \
 		settings.o \
-		moc_mytcpserver.o \
 		moc_mytcpsocket.o \
 		moc_settings.o
 DIST          = ../../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
@@ -299,7 +295,6 @@ DIST          = ../../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../myexception.h \
 		../mygraph.h \
 		../mylog.h \
-		../mytcpserver.h \
 		../mytcpsocket.h \
 		../point.h \
 		../settings.h ../barrier.cpp \
@@ -310,7 +305,6 @@ DIST          = ../../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../myexception.cpp \
 		../mygraph.cpp \
 		../mylog.cpp \
-		../mytcpserver.cpp \
 		../mytcpsocket.cpp \
 		../point.cpp \
 		../settings.cpp
@@ -763,8 +757,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../barrier.h ../car.h ../defs.h ../gamemap.h ../locationmap.h ../myexception.h ../mygraph.h ../mylog.h ../mytcpserver.h ../mytcpsocket.h ../point.h ../settings.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../barrier.cpp ../car.cpp ../gamemap.cpp ../locationmap.cpp ../main.cpp ../myexception.cpp ../mygraph.cpp ../mylog.cpp ../mytcpserver.cpp ../mytcpsocket.cpp ../point.cpp ../settings.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../barrier.h ../car.h ../defs.h ../gamemap.h ../locationmap.h ../myexception.h ../mygraph.h ../mylog.h ../mytcpsocket.h ../point.h ../settings.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../barrier.cpp ../car.cpp ../gamemap.cpp ../locationmap.cpp ../main.cpp ../myexception.cpp ../mygraph.cpp ../mylog.cpp ../mytcpsocket.cpp ../point.cpp ../settings.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -796,89 +790,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h ../../../Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mytcpserver.cpp moc_mytcpsocket.cpp moc_settings.cpp
+compiler_moc_header_make_all: moc_mytcpsocket.cpp moc_settings.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mytcpserver.cpp moc_mytcpsocket.cpp moc_settings.cpp
-moc_mytcpserver.cpp: ../mytcpserver.h \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/QTcpSocket \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qtcpsocket.h \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qabstractsocket.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qset.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QDataStream \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QObject \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/QTcpServer \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qtcpserver.h \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qhostaddress.h \
-		moc_predefs.h \
-		../../../Qt/5.15.2/gcc_64/bin/moc
-	/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/moc_predefs.h -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/mkspecs/linux-g++ -I/home/NAMI/ila.solomatin/Desktop/BPR_NAMI -I/usr/include/boost -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtGui -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/local/include -I/usr/lib/llvm-10/lib/clang/10.0.0/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../mytcpserver.h -o moc_mytcpserver.cpp
-
+	-$(DEL_FILE) moc_mytcpsocket.cpp moc_settings.cpp
 moc_mytcpsocket.cpp: ../mytcpsocket.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QObject \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
@@ -1170,7 +1084,27 @@ gamemap.o: ../gamemap.cpp ../gamemap.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/QtDebug \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gamemap.o ../gamemap.cpp
 
 locationmap.o: ../locationmap.cpp ../locationmap.h \
@@ -1407,96 +1341,6 @@ mylog.o: ../mylog.cpp ../mylog.h \
 		../barrier.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mylog.o ../mylog.cpp
 
-mytcpserver.o: ../mytcpserver.cpp ../mytcpserver.h \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/QTcpSocket \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qtcpsocket.h \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qabstractsocket.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qset.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QDataStream \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QObject \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/QTcpServer \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qtcpserver.h \
-		../../../Qt/5.15.2/gcc_64/include/QtNetwork/qhostaddress.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QProcess \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qprocess.h \
-		../gamemap.h \
-		../locationmap.h \
-		../point.h \
-		../mygraph.h \
-		../myexception.h \
-		../barrier.h \
-		../mylog.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QString \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QTime \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mytcpserver.o ../mytcpserver.cpp
-
 mytcpsocket.o: ../mytcpsocket.cpp ../mytcpsocket.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QObject \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
@@ -1668,9 +1512,6 @@ settings.o: ../settings.cpp ../settings.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QRegExp \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QStringList
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o settings.o ../settings.cpp
-
-moc_mytcpserver.o: moc_mytcpserver.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mytcpserver.o moc_mytcpserver.cpp
 
 moc_mytcpsocket.o: moc_mytcpsocket.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mytcpsocket.o moc_mytcpsocket.cpp

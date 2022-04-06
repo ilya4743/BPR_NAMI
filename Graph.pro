@@ -17,7 +17,6 @@ SOURCES += \
         myexception.cpp \
         mygraph.cpp \
         mylog.cpp \
-        mytcpserver.cpp \
         mytcpsocket.cpp \
         point.cpp \
         settings.cpp
@@ -38,7 +37,6 @@ HEADERS += \
     myexception.h \
     mygraph.h \
     mylog.h \
-    mytcpserver.h \
     mytcpsocket.h \
     point.h \
     settings.h

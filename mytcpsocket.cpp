@@ -12,6 +12,7 @@ void MyLog::printLogToFile( GameMap *o)
 
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
+    isSmoothing=false;
 }
 
 void delay(const int RECONNECT_TIME)
@@ -123,7 +124,7 @@ void MyTcpSocket::readyRead()
             }
             else
             {
-                GameMap g1(width_coord,height_coord,step,start, width_auto, height_auto, Point(x,y));
+                GameMap g1(width_coord,height_coord,step,start, width_auto, height_auto, Point(x,y), isSmoothing);
                 float x1, x2, x3=0,x4=0;
                 int i=0;
                 while (x3>=0 && x4>=0 && i!=j)
@@ -153,6 +154,11 @@ void MyTcpSocket::readyRead()
                 socket->flush();
                 Logger->printLogToFile("Path send\n");
             }
+        }
+        if(b1==0x44 && b2==0x48)
+        {
+                in>>isSmoothing;
+            qDebug()<<"Change Mode "<<isSmoothing;
         }
         socket->readAll();
     }

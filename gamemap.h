@@ -37,11 +37,12 @@ public:
     float height_auto;
 
     GameMap();
-    GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p);
+    GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p, bool isSmoothing);
     MyGraph* graph;
     DistanceMatrix* distance;
     list<Barrier*> barriers;
     list<Point> short_path;
+    bool isSmoothing;
     list<Point> create_msg(const DistanceMatrix& locations, list<vertex_descriptor>& shortest_path);
     void print_game_map();
     void print_vertex_map();

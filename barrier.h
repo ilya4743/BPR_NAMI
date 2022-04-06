@@ -9,9 +9,9 @@ class GameMap;
 class IBarrier
 {
 public:
-    int virtual init(MyGraph& graph, float step,GameMap&g)=0;
-    void virtual print(GameMap&g)=0;
-    void virtual printToFile(ofstream &out)=0;
+    virtual int  init(MyGraph& graph, float step,GameMap&g)=0;
+    virtual void  print(GameMap&g)=0;
+    virtual void  printToFile(ofstream &out)=0;
     virtual ~IBarrier()=0;
     virtual bool hasPoint(Point p, GameMap&g)=0;
     virtual bool hasVertex(int v, GameMap&g)=0;

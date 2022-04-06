@@ -33,6 +33,7 @@ private:
     int reconnect_time;
     QString IP;
     int PORT;
+    bool isSmoothing;
 };
 
 #endif // MYTCPSOCKET_H

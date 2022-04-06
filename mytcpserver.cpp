@@ -61,7 +61,7 @@ void MyTcpServer::readyRead()
             b.push_back(new BQuadrAngle(x1,x2,x3,x4));
         }
 
-        GameMap g1(width_coord,height_coord,step,start, width_auto, height_auto, Point(x,y));
+        GameMap g1(width_coord,height_coord,step,start, width_auto, height_auto, Point(x,y), isSmoothing);
         //g1.doo(this.DEBUG_OUTPUT);
         if (ErrorCode==0)
         {

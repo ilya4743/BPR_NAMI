@@ -29,7 +29,7 @@ GameMap::GameMap()
     graph=new MyGraph(num_vertices_width*num_vertices_height);
 }
 
-GameMap::GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p)
+GameMap::GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p, bool isSmoothing)
 {
     this->step = step;
     //ширина покрытия сетки графа
@@ -68,6 +68,8 @@ GameMap::GameMap(float width_coord, float height_coord, float step, int center, 
     goal = GetI(goal_point.y)*num_vertices_width + GetJ(goal_point.x);
 
     graph=new MyGraph(num_vertices_width*num_vertices_height);
+
+    this->isSmoothing=isSmoothing;
 }
 
 void GameMap::print_way(const DistanceMatrix* distance, const list<vertex_descriptor>& shortest_path)
@@ -85,8 +87,7 @@ void GameMap::print_way(const DistanceMatrix* distance, const list<vertex_descri
 
 list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_descriptor>& shortest_path)
 {
-    int o=1;
-    if(o==1)
+    if(isSmoothing)
     {
 
     list<Point> msg;
