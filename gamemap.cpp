@@ -94,16 +94,17 @@ list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_desc
 
     for(auto it = shortest_path.begin();it!=shortest_path.end();++it)
         msg.push_back(distance.matrix[*it]);
-
+    msg.push_front(*(--msg.end()));
+    msg.pop_back();
     if(barriers.size()==0)
     {
         msg.clear();
         msg.push_back(Point(0, 0));
-        auto u=shortest_path.end();--u;
+        auto u=shortest_path.end();--u;--u;
         msg.push_back(distance.matrix[(*u)]);
         list<vertex_descriptor> s;
-        s.push_back(*shortest_path.begin());
-        s.push_back(*u);
+        s.push_back(*(++u));
+        s.push_back(*(--u));
         shortest_path.clear();
         shortest_path=s;
     }
@@ -161,29 +162,24 @@ list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_desc
             count=0;
 
         }
-    }
-    else
-    {
 
     }
-    return msg;
+        return msg;
     }
     else
     {
     list<Point> msg1;
-
-    msg1.push_back(Point(distance.matrix[(*shortest_path.begin())].x,distance.matrix[(*shortest_path.begin())].y));
-
-
-    auto it = shortest_path.begin();
-    ++it;
-    for (;it != shortest_path.end(); ++it)
+    auto it1 = shortest_path.begin();
+    auto it2 = shortest_path.begin();
+    msg1.push_back(distance.matrix[*it1]);
+    for (++it1;it1 != --shortest_path.end(); ++it1)
     {
         Point p;
-        p.x=distance.matrix[*it].x- distance.matrix[*it-1].x;
-        p.y=distance.matrix[*it].y-distance.matrix[*it-1].y;
-        msg1.push_back((p));
+        p.x=distance.matrix[*it1].x- distance.matrix[*it2].x;
+        p.y=distance.matrix[*it1].y-distance.matrix[*it2++].y;
+        msg1.push_back(p);
     }
+    msg1.push_back(distance.matrix[*(--shortest_path.end())]);
     return msg1;
     }
 }

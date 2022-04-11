@@ -155,7 +155,7 @@ void MyTcpSocket::readyRead()
                 Logger->printLogToFile("Path send\n");
             }
         }
-        if(b1==0x44 && b2==0x48)
+        else if(b1==0x44 && b2==0x48)
         {
                 in>>isSmoothing;
             qDebug()<<"Change Mode "<<isSmoothing;
