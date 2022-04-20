@@ -1,0 +1,207 @@
+.TH "BQuadrAngle" 3 "Ср 20 Апр 2022" "Version 1.0" "Блок принятия решений" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+BQuadrAngle \- Класс прямоугольного препятствия  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <barrier\&.h>\fP
+.PP
+Базовые классы:\fBBarrier\fP\&.
+.SS "Открытые члены"
+
+.in +1c
+.ti -1c
+.RI "\fBBQuadrAngle\fP ()"
+.br
+.RI "Конструктор по умолчанию "
+.ti -1c
+.RI "\fBBQuadrAngle\fP (float \fBx\fP, float \fBy\fP, float w, float h)"
+.br
+.RI "Конструктор с параметрами "
+.ti -1c
+.RI "\fBBQuadrAngle\fP (const \fBBQuadrAngle\fP &o)"
+.br
+.RI "Конструктор копирования "
+.ti -1c
+.RI "\fB~BQuadrAngle\fP ()"
+.br
+.RI "Деструктор "
+.ti -1c
+.RI "int \fBinit\fP (\fBMyGraph\fP &graph, float step, \fBGameMap\fP &g) override"
+.br
+.RI "Инициализация препятсвия на графе "
+.ti -1c
+.RI "void \fBprint\fP (\fBGameMap\fP &g) override"
+.br
+.RI "Печать препятствия в консоль "
+.ti -1c
+.RI "bool \fBhasPoint\fP (\fBPoint\fP p, \fBGameMap\fP &g) override"
+.br
+.RI "Принадлежит ли точка пространства препятствию "
+.ti -1c
+.RI "bool \fBhasVertex\fP (int v, \fBGameMap\fP &g) override"
+.br
+.RI "Принадлежит ли вершина графа препятствию "
+.ti -1c
+.RI "void \fBprintToFile\fP (ofstream &out) override"
+.br
+.RI "Печать препятствия в файл "
+.ti -1c
+.RI "bool \fBisIntersection\fP (\fBPoint\fP a, \fBPoint\fP b) override"
+.br
+.RI "Проверка на пересечение отрезка и препятствия "
+.in -1c
+.SS "Открытые атрибуты"
+
+.in +1c
+.ti -1c
+.RI "float \fBwidth\fP"
+.br
+.RI "Ширина препятствия "
+.ti -1c
+.RI "float \fBheight\fP"
+.br
+.RI "Высота препятствия "
+.ti -1c
+.RI "\fBPoint\fP \fBleft_top\fP"
+.br
+.RI "Левая верхняя точка препятствия "
+.ti -1c
+.RI "\fBPoint\fP \fBright_bottom\fP"
+.br
+.RI "Правая нижняя препятствия "
+.in -1c
+.SS "Друзья"
+
+.in +1c
+.ti -1c
+.RI "ofstream & \fBoperator<<\fP (ofstream &out, const \fBBQuadrAngle\fP &barrier)"
+.br
+.in -1c
+.SH "Подробное описание"
+.PP 
+Класс прямоугольного препятствия 
+.SH "Конструктор(ы)"
+.PP 
+.SS "BQuadrAngle::BQuadrAngle ()"
+
+.PP
+Конструктор по умолчанию 
+.SS "BQuadrAngle::BQuadrAngle (float x, float y, float w, float h)"
+
+.PP
+Конструктор с параметрами 
+.SS "BQuadrAngle::BQuadrAngle (const \fBBQuadrAngle\fP & o)"
+
+.PP
+Конструктор копирования 
+.SS "BQuadrAngle::~BQuadrAngle ()"
+
+.PP
+Деструктор 
+.SH "Методы"
+.PP 
+.SS "bool BQuadrAngle::hasPoint (\fBPoint\fP p, \fBGameMap\fP & g)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Принадлежит ли точка пространства препятствию 
+.PP
+\fBАргументы\fP
+.RS 4
+\fIp\fP точка, которую проверям 
+.br
+\fIg\fP поле 
+.RE
+.PP
+
+.PP
+Переопределяет метод предка \fBBarrier\fP\&.
+.SS "bool BQuadrAngle::hasVertex (int v, \fBGameMap\fP & g)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Принадлежит ли вершина графа препятствию 
+.PP
+\fBАргументы\fP
+.RS 4
+\fIv\fP вершина графа, которую проверям 
+.br
+\fIg\fP поле 
+.RE
+.PP
+
+.PP
+Переопределяет метод предка \fBBarrier\fP\&.
+.SS "int BQuadrAngle::init (\fBMyGraph\fP & graph, float step, \fBGameMap\fP & g)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Инициализация препятсвия на графе 
+.PP
+\fBАргументы\fP
+.RS 4
+\fIgrah\fP граф, на который необходимо наложить препятствие 
+.br
+\fIstep\fP шаг сетки графа 
+.br
+\fIg\fP поле 
+.RE
+.PP
+
+.PP
+Переопределяет метод предка \fBBarrier\fP\&.
+.SS "bool BQuadrAngle::isIntersection (\fBPoint\fP a, \fBPoint\fP b)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Проверка на пересечение отрезка и препятствия 
+.PP
+\fBАргументы\fP
+.RS 4
+\fIa\fP координаты начала отрезка 
+.br
+\fIb\fP координаты конеца отрезка 
+.RE
+.PP
+
+.PP
+Переопределяет метод предка \fBBarrier\fP\&.
+.SS "void BQuadrAngle::print (\fBGameMap\fP & g)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Печать препятствия в консоль 
+.PP
+Переопределяет метод предка \fBBarrier\fP\&.
+.SS "void BQuadrAngle::printToFile (ofstream & out)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Печать препятствия в файл 
+.PP
+Переопределяет метод предка \fBBarrier\fP\&.
+.SH "Документация по друзьям класса и функциям, относящимся к классу"
+.PP 
+.SS "ofstream& operator<< (ofstream & out, const \fBBQuadrAngle\fP & barrier)\fC [friend]\fP"
+
+.SH "Данные класса"
+.PP 
+.SS "float BQuadrAngle::height"
+
+.PP
+Высота препятствия 
+.SS "\fBPoint\fP BQuadrAngle::left_top"
+
+.PP
+Левая верхняя точка препятствия 
+.SS "\fBPoint\fP BQuadrAngle::right_bottom"
+
+.PP
+Правая нижняя препятствия 
+.SS "float BQuadrAngle::width"
+
+.PP
+Ширина препятствия 
+
+.SH "Автор"
+.PP 
+Автоматически создано Doxygen для Блок принятия решений из исходного текста\&.

@@ -1,0 +1,185 @@
+\hypertarget{class_i_barrier}{}\doxysection{Класс I\+Barrier}
+\label{class_i_barrier}\index{IBarrier@{IBarrier}}
+
+
+Интерфейс препятствия  
+
+
+
+
+{\ttfamily \#include $<$barrier.\+h$>$}
+
+
+
+Граф наследования\+:I\+Barrier\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_i_barrier__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Граф связей класса I\+Barrier\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{class_i_barrier__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Открытые члены}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_i_barrier_a0df414b21927d4b74ba7482a1d3ed078}{$\sim$\+I\+Barrier}} ()=0
+\begin{DoxyCompactList}\small\item\em Виртуальный деструктор \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{class_i_barrier_ac1dcdf6a8af4c2eee8888ab585d3da2b}{init}} (\mbox{\hyperlink{class_my_graph}{My\+Graph}} \&graph, float step, \mbox{\hyperlink{class_game_map}{Game\+Map}} \&g)=0
+\begin{DoxyCompactList}\small\item\em Инициализация препятсвия на графе \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_i_barrier_a4e23dfd474cad1a0a5db427a7d0ca200}{print}} (\mbox{\hyperlink{class_game_map}{Game\+Map}} \&g)=0
+\begin{DoxyCompactList}\small\item\em Печать препятствия в консоль \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_i_barrier_a6f8c7a5f5c46185327144e36d6f5fcf8}{print\+To\+File}} (ofstream \&out)=0
+\begin{DoxyCompactList}\small\item\em Печать препятствия в файл \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_i_barrier_aa179279b81c852d5a1343094ee03e659}{has\+Point}} (\mbox{\hyperlink{class_point}{Point}} p, \mbox{\hyperlink{class_game_map}{Game\+Map}} \&g)=0
+\begin{DoxyCompactList}\small\item\em Принадлежит ли точка пространства препятствию \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_i_barrier_a26430b6531e8cd53ca98bdd35892902a}{has\+Vertex}} (int v, \mbox{\hyperlink{class_game_map}{Game\+Map}} \&g)=0
+\begin{DoxyCompactList}\small\item\em Принадлежит ли вершина графа препятствию \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_i_barrier_af183467a66192f3a97072188ee04ff27}{is\+Intersection}} (\mbox{\hyperlink{class_point}{Point}} a, \mbox{\hyperlink{class_point}{Point}} b)=0
+\begin{DoxyCompactList}\small\item\em Проверка на пересечение отрезка и препятствия \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Подробное описание}
+Интерфейс препятствия 
+
+\doxysubsection{Конструктор(ы)}
+\mbox{\Hypertarget{class_i_barrier_a0df414b21927d4b74ba7482a1d3ed078}\label{class_i_barrier_a0df414b21927d4b74ba7482a1d3ed078}} 
+\index{IBarrier@{IBarrier}!````~IBarrier@{$\sim$IBarrier}}
+\index{````~IBarrier@{$\sim$IBarrier}!IBarrier@{IBarrier}}
+\doxysubsubsection{\texorpdfstring{$\sim$IBarrier()}{~IBarrier()}}
+{\footnotesize\ttfamily I\+Barrier\+::$\sim$\+I\+Barrier (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Виртуальный деструктор 
+
+
+
+\doxysubsection{Методы}
+\mbox{\Hypertarget{class_i_barrier_aa179279b81c852d5a1343094ee03e659}\label{class_i_barrier_aa179279b81c852d5a1343094ee03e659}} 
+\index{IBarrier@{IBarrier}!hasPoint@{hasPoint}}
+\index{hasPoint@{hasPoint}!IBarrier@{IBarrier}}
+\doxysubsubsection{\texorpdfstring{hasPoint()}{hasPoint()}}
+{\footnotesize\ttfamily virtual bool I\+Barrier\+::has\+Point (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_point}{Point}}}]{p,  }\item[{\mbox{\hyperlink{class_game_map}{Game\+Map}} \&}]{g }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Принадлежит ли точка пространства препятствию 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em p} & точка, которую проверям \\
+\hline
+{\em g} & поле \\
+\hline
+\end{DoxyParams}
+
+
+Замещается в \mbox{\hyperlink{class_b_quadr_angle_a2ca62924bc0b2a224b5caa1e2005bae3}{B\+Quadr\+Angle}} и \mbox{\hyperlink{class_barrier_a7ea2dbc7df902e5b07ec9d453f01d893}{Barrier}}.
+
+\mbox{\Hypertarget{class_i_barrier_a26430b6531e8cd53ca98bdd35892902a}\label{class_i_barrier_a26430b6531e8cd53ca98bdd35892902a}} 
+\index{IBarrier@{IBarrier}!hasVertex@{hasVertex}}
+\index{hasVertex@{hasVertex}!IBarrier@{IBarrier}}
+\doxysubsubsection{\texorpdfstring{hasVertex()}{hasVertex()}}
+{\footnotesize\ttfamily virtual bool I\+Barrier\+::has\+Vertex (\begin{DoxyParamCaption}\item[{int}]{v,  }\item[{\mbox{\hyperlink{class_game_map}{Game\+Map}} \&}]{g }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Принадлежит ли вершина графа препятствию 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em v} & вершина графа, которую проверям \\
+\hline
+{\em g} & поле \\
+\hline
+\end{DoxyParams}
+
+
+Замещается в \mbox{\hyperlink{class_b_quadr_angle_a21c35e7922c5302c0be26a75f3e62190}{B\+Quadr\+Angle}} и \mbox{\hyperlink{class_barrier_a4dfe848d6eb7ddea723e8c135e71cf77}{Barrier}}.
+
+\mbox{\Hypertarget{class_i_barrier_ac1dcdf6a8af4c2eee8888ab585d3da2b}\label{class_i_barrier_ac1dcdf6a8af4c2eee8888ab585d3da2b}} 
+\index{IBarrier@{IBarrier}!init@{init}}
+\index{init@{init}!IBarrier@{IBarrier}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily virtual int I\+Barrier\+::init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_my_graph}{My\+Graph}} \&}]{graph,  }\item[{float}]{step,  }\item[{\mbox{\hyperlink{class_game_map}{Game\+Map}} \&}]{g }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Инициализация препятсвия на графе 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em grah} & граф, на который необходимо наложить препятствие \\
+\hline
+{\em step} & шаг сетки графа \\
+\hline
+{\em g} & поле \\
+\hline
+\end{DoxyParams}
+
+
+Замещается в \mbox{\hyperlink{class_b_quadr_angle_a1c97316b5f4c0ba6bf6d45d848c202a1}{B\+Quadr\+Angle}} и \mbox{\hyperlink{class_barrier_ae62c63c5f41491ffb75c9fd7ce122708}{Barrier}}.
+
+\mbox{\Hypertarget{class_i_barrier_af183467a66192f3a97072188ee04ff27}\label{class_i_barrier_af183467a66192f3a97072188ee04ff27}} 
+\index{IBarrier@{IBarrier}!isIntersection@{isIntersection}}
+\index{isIntersection@{isIntersection}!IBarrier@{IBarrier}}
+\doxysubsubsection{\texorpdfstring{isIntersection()}{isIntersection()}}
+{\footnotesize\ttfamily virtual bool I\+Barrier\+::is\+Intersection (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_point}{Point}}}]{a,  }\item[{\mbox{\hyperlink{class_point}{Point}}}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Проверка на пересечение отрезка и препятствия 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em a} & координаты начала отрезка \\
+\hline
+{\em b} & координаты конеца отрезка \\
+\hline
+\end{DoxyParams}
+
+
+Замещается в \mbox{\hyperlink{class_b_quadr_angle_a5e48d06681e8bc08ff181b6f8fd451f3}{B\+Quadr\+Angle}} и \mbox{\hyperlink{class_barrier_acea663d8b5f0f3385640906a39f0a359}{Barrier}}.
+
+\mbox{\Hypertarget{class_i_barrier_a4e23dfd474cad1a0a5db427a7d0ca200}\label{class_i_barrier_a4e23dfd474cad1a0a5db427a7d0ca200}} 
+\index{IBarrier@{IBarrier}!print@{print}}
+\index{print@{print}!IBarrier@{IBarrier}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily virtual void I\+Barrier\+::print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_game_map}{Game\+Map}} \&}]{g }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Печать препятствия в консоль 
+
+
+
+Замещается в \mbox{\hyperlink{class_b_quadr_angle_a4f460b2bdb76d128bffe29e0494154c7}{B\+Quadr\+Angle}} и \mbox{\hyperlink{class_barrier_a8e4419ff13d5a87a28031e4ac97406d6}{Barrier}}.
+
+\mbox{\Hypertarget{class_i_barrier_a6f8c7a5f5c46185327144e36d6f5fcf8}\label{class_i_barrier_a6f8c7a5f5c46185327144e36d6f5fcf8}} 
+\index{IBarrier@{IBarrier}!printToFile@{printToFile}}
+\index{printToFile@{printToFile}!IBarrier@{IBarrier}}
+\doxysubsubsection{\texorpdfstring{printToFile()}{printToFile()}}
+{\footnotesize\ttfamily virtual void I\+Barrier\+::print\+To\+File (\begin{DoxyParamCaption}\item[{ofstream \&}]{out }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Печать препятствия в файл 
+
+
+
+Замещается в \mbox{\hyperlink{class_b_quadr_angle_a0f8263ad99fa3e6e6558aba3f95115ce}{B\+Quadr\+Angle}} и \mbox{\hyperlink{class_barrier_a9209e4bc6504b17d9948216eab0b4fe3}{Barrier}}.
+
+
+
+Объявления и описания членов классов находятся в файлах\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{barrier_8h}{barrier.\+h}}\item 
+\mbox{\hyperlink{barrier_8cpp}{barrier.\+cpp}}\end{DoxyCompactItemize}

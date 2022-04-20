@@ -31,7 +31,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     barrier.h \
     car.h \
-    defs.h \
     gamemap.h \
     locationmap.h \
     myexception.h \

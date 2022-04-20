@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Блок принятия решений: Исходный файл settings.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Блок принятия решений
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">settings.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="settings_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef SETTINGS_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define SETTINGS_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QVariant&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QSettings&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;QMetaEnum&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="class_settings.html">    8</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_settings.html">Settings</a>{</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    Q_GADGET</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    Q_ENUMS(<a class="code" href="class_settings.html#aef094a045233b770234eda15bd1836be">Section</a>)</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    Q_ENUMS(<a class="code" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1">Key</a>)</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="class_settings.html#aef094a045233b770234eda15bd1836be">   13</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="class_settings.html#aef094a045233b770234eda15bd1836be">Section</a>{</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_settings.html#aef094a045233b770234eda15bd1836beab1060779470d117b910529235d525318">   14</a></span>&#160;        <a class="code" href="class_settings.html#aef094a045233b770234eda15bd1836beab1060779470d117b910529235d525318">General</a>,</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="class_settings.html#aef094a045233b770234eda15bd1836beaf4c8b94b2d1095a2c9936d233907491a">   15</a></span>&#160;        <a class="code" href="class_settings.html#aef094a045233b770234eda15bd1836beaf4c8b94b2d1095a2c9936d233907491a">Network</a>,</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="class_settings.html#aef094a045233b770234eda15bd1836bea9f04a943aecc82776185eff992eb0e62">   16</a></span>&#160;        <a class="code" href="class_settings.html#aef094a045233b770234eda15bd1836bea9f04a943aecc82776185eff992eb0e62">Debug</a></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    };</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1">   19</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1">Key</a>{</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1a358549c76a6679b04f16ae714146fb2b">   20</a></span>&#160;        <a class="code" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1a358549c76a6679b04f16ae714146fb2b">IP_SERVER</a>,</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1ac1e7823f527439437d465b2e4fc75233">   21</a></span>&#160;        <a class="code" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1ac1e7823f527439437d465b2e4fc75233">PORT</a>,</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1ae3ee8bfa5fe2ec7b0db0e67508cc2b10">   22</a></span>&#160;        <a class="code" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1ae3ee8bfa5fe2ec7b0db0e67508cc2b10">DEBUG_OUTPUT</a>,</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1a9a8ecff1052f21be3a65cd038c5993bf">   23</a></span>&#160;        <a class="code" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1a9a8ecff1052f21be3a65cd038c5993bf">PRINT_LOG</a>,</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1ad6422be833ec887ed8900f1c06f34589">   24</a></span>&#160;        <a class="code" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1ad6422be833ec887ed8900f1c06f34589">RECONNECT_TIME</a></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    };</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="class_settings_1_1_value_ref.html">   27</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_settings_1_1_value_ref.html">ValueRef</a>{</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="class_settings_1_1_value_ref.html#a59e3f8422ccad6f3f965d89c94693483">   29</a></span>&#160;        <a class="code" href="class_settings_1_1_value_ref.html#a59e3f8422ccad6f3f965d89c94693483">ValueRef</a>(<a class="code" href="class_settings.html">Settings</a> &amp;st, <span class="keyword">const</span> QString &amp;kp) :</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            parent(st), keyPath(kp){}</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="class_settings_1_1_value_ref.html">ValueRef</a> &amp; <a class="code" href="class_settings_1_1_value_ref.html#a33bdb0e0cffd4998509cd8045fd4b0c7">operator = </a>(<span class="keyword">const</span> QVariant &amp;d);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="class_settings.html">Settings</a> &amp;parent;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">const</span> QString keyPath;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    };</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_settings.html#aabf3ca829d2a55f4c4425af4970985eb">setDefaults</a>(<span class="keyword">const</span> QString &amp;str);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">static</span> QVariant <a class="code" href="class_settings.html#a9ea64457bb744ac35d14ceb85707f94c">get</a>(<a class="code" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1">Key</a>, <a class="code" href="class_settings.html#aef094a045233b770234eda15bd1836be">Section</a> <span class="comment">/*s*/</span> = <a class="code" href="class_settings.html#aef094a045233b770234eda15bd1836beab1060779470d117b910529235d525318">General</a>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">static</span> ValueRef <a class="code" href="class_settings.html#ae9b360a02f30d7ed47b333360c2bac9f">set</a>(<a class="code" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1">Key</a>, <a class="code" href="class_settings.html#aef094a045233b770234eda15bd1836be">Section</a> <span class="comment">/*s*/</span> = <a class="code" href="class_settings.html#aef094a045233b770234eda15bd1836beab1060779470d117b910529235d525318">General</a>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    QString keyPath(<a class="code" href="class_settings.html#aef094a045233b770234eda15bd1836be">Section</a>, <a class="code" href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1">Key</a>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">static</span> <a class="code" href="class_settings.html">Settings</a> &amp; instance();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    QMetaEnum keys;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    QMetaEnum sections;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    QMap&lt;QString, QVariant&gt; defaults;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    QSettings conf;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="class_settings.html">Settings</a>();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="class_settings.html">Settings</a>(<span class="keyword">const</span> <a class="code" href="class_settings.html">Settings</a> &amp;);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="class_settings.html">Settings</a> &amp; operator = (<span class="keyword">const</span> <a class="code" href="class_settings.html">Settings</a> &amp;);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif // SETTINGS_H</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclass_settings_html_aef094a045233b770234eda15bd1836beab1060779470d117b910529235d525318"><div class="ttname"><a href="class_settings.html#aef094a045233b770234eda15bd1836beab1060779470d117b910529235d525318">Settings::General</a></div><div class="ttdeci">@ General</div><div class="ttdef"><b>Definition:</b> settings.h:14</div></div>
+<div class="ttc" id="aclass_settings_html_aa3d4cdd99815c689fd4e18ac34a699c1a9a8ecff1052f21be3a65cd038c5993bf"><div class="ttname"><a href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1a9a8ecff1052f21be3a65cd038c5993bf">Settings::PRINT_LOG</a></div><div class="ttdeci">@ PRINT_LOG</div><div class="ttdef"><b>Definition:</b> settings.h:23</div></div>
+<div class="ttc" id="asettings_8h_html"><div class="ttname"><a href="settings_8h.html">settings.h</a></div></div>
+<div class="ttc" id="aclass_settings_html_aa3d4cdd99815c689fd4e18ac34a699c1ae3ee8bfa5fe2ec7b0db0e67508cc2b10"><div class="ttname"><a href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1ae3ee8bfa5fe2ec7b0db0e67508cc2b10">Settings::DEBUG_OUTPUT</a></div><div class="ttdeci">@ DEBUG_OUTPUT</div><div class="ttdef"><b>Definition:</b> settings.h:22</div></div>
+<div class="ttc" id="aclass_settings_html"><div class="ttname"><a href="class_settings.html">Settings</a></div><div class="ttdef"><b>Definition:</b> settings.h:8</div></div>
+<div class="ttc" id="aclass_settings_html_aa3d4cdd99815c689fd4e18ac34a699c1"><div class="ttname"><a href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1">Settings::Key</a></div><div class="ttdeci">Key</div><div class="ttdef"><b>Definition:</b> settings.h:19</div></div>
+<div class="ttc" id="aclass_settings_1_1_value_ref_html"><div class="ttname"><a href="class_settings_1_1_value_ref.html">Settings::ValueRef</a></div><div class="ttdef"><b>Definition:</b> settings.h:27</div></div>
+<div class="ttc" id="aclass_settings_html_a9ea64457bb744ac35d14ceb85707f94c"><div class="ttname"><a href="class_settings.html#a9ea64457bb744ac35d14ceb85707f94c">Settings::get</a></div><div class="ttdeci">static QVariant get(Key, Section=General)</div><div class="ttdef"><b>Definition:</b> settings.cpp:17</div></div>
+<div class="ttc" id="aclass_settings_html_ae9b360a02f30d7ed47b333360c2bac9f"><div class="ttname"><a href="class_settings.html#ae9b360a02f30d7ed47b333360c2bac9f">Settings::set</a></div><div class="ttdeci">static ValueRef set(Key, Section=General)</div><div class="ttdef"><b>Definition:</b> settings.cpp:23</div></div>
+<div class="ttc" id="aclass_settings_html_aa3d4cdd99815c689fd4e18ac34a699c1ac1e7823f527439437d465b2e4fc75233"><div class="ttname"><a href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1ac1e7823f527439437d465b2e4fc75233">Settings::PORT</a></div><div class="ttdeci">@ PORT</div><div class="ttdef"><b>Definition:</b> settings.h:21</div></div>
+<div class="ttc" id="aclass_settings_html_aef094a045233b770234eda15bd1836beaf4c8b94b2d1095a2c9936d233907491a"><div class="ttname"><a href="class_settings.html#aef094a045233b770234eda15bd1836beaf4c8b94b2d1095a2c9936d233907491a">Settings::Network</a></div><div class="ttdeci">@ Network</div><div class="ttdef"><b>Definition:</b> settings.h:15</div></div>
+<div class="ttc" id="aclass_settings_1_1_value_ref_html_a59e3f8422ccad6f3f965d89c94693483"><div class="ttname"><a href="class_settings_1_1_value_ref.html#a59e3f8422ccad6f3f965d89c94693483">Settings::ValueRef::ValueRef</a></div><div class="ttdeci">ValueRef(Settings &amp;st, const QString &amp;kp)</div><div class="ttdef"><b>Definition:</b> settings.h:29</div></div>
+<div class="ttc" id="aclass_settings_1_1_value_ref_html_a33bdb0e0cffd4998509cd8045fd4b0c7"><div class="ttname"><a href="class_settings_1_1_value_ref.html#a33bdb0e0cffd4998509cd8045fd4b0c7">Settings::ValueRef::operator=</a></div><div class="ttdeci">ValueRef &amp; operator=(const QVariant &amp;d)</div><div class="ttdef"><b>Definition:</b> settings.cpp:54</div></div>
+<div class="ttc" id="aclass_settings_html_aa3d4cdd99815c689fd4e18ac34a699c1a358549c76a6679b04f16ae714146fb2b"><div class="ttname"><a href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1a358549c76a6679b04f16ae714146fb2b">Settings::IP_SERVER</a></div><div class="ttdeci">@ IP_SERVER</div><div class="ttdef"><b>Definition:</b> settings.h:20</div></div>
+<div class="ttc" id="aclass_settings_html_aef094a045233b770234eda15bd1836bea9f04a943aecc82776185eff992eb0e62"><div class="ttname"><a href="class_settings.html#aef094a045233b770234eda15bd1836bea9f04a943aecc82776185eff992eb0e62">Settings::Debug</a></div><div class="ttdeci">@ Debug</div><div class="ttdef"><b>Definition:</b> settings.h:16</div></div>
+<div class="ttc" id="aclass_settings_html_aef094a045233b770234eda15bd1836be"><div class="ttname"><a href="class_settings.html#aef094a045233b770234eda15bd1836be">Settings::Section</a></div><div class="ttdeci">Section</div><div class="ttdef"><b>Definition:</b> settings.h:13</div></div>
+<div class="ttc" id="aclass_settings_html_aa3d4cdd99815c689fd4e18ac34a699c1ad6422be833ec887ed8900f1c06f34589"><div class="ttname"><a href="class_settings.html#aa3d4cdd99815c689fd4e18ac34a699c1ad6422be833ec887ed8900f1c06f34589">Settings::RECONNECT_TIME</a></div><div class="ttdeci">@ RECONNECT_TIME</div><div class="ttdef"><b>Definition:</b> settings.h:24</div></div>
+<div class="ttc" id="aclass_settings_html_aabf3ca829d2a55f4c4425af4970985eb"><div class="ttname"><a href="class_settings.html#aabf3ca829d2a55f4c4425af4970985eb">Settings::setDefaults</a></div><div class="ttdeci">static void setDefaults(const QString &amp;str)</div><div class="ttdef"><b>Definition:</b> settings.cpp:28</div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

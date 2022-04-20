@@ -1,9 +1,13 @@
 #include <QCoreApplication>
 #include <QFile>
-//#include "mytcpserver.h"
 #include "mytcpsocket.h"
 #include "settings.h"
 #include "myexception.h"
+
+/**
+@mainpage Блок принятия решений Документация
+@details Прив <b> рврвар </b>
+*/
 
 int main(int argc, char *argv[])
 {

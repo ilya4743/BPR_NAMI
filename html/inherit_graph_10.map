@@ -1,0 +1,6 @@
+<map id="Иерархия классов. Графический вид." name="Иерархия классов. Графический вид.">
+<area shape="rect" id="node1" href="$class_i_barrier.html" title="Интерфейс препятствия" alt="" coords="5,5,76,32"/>
+<area shape="rect" id="node2" href="$class_barrier.html" title="Базовый класс препятствия" alt="" coords="124,31,191,57"/>
+<area shape="rect" id="node3" href="$class_b_quadr_angle.html" title="Класс прямоугольного препятствия" alt="" coords="239,31,345,57"/>
+<area shape="rect" id="node4" href="$class_point.html" title="Класс точки" alt="" coords="13,56,68,83"/>
+</map>

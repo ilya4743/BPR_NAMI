@@ -1,0 +1,5 @@
+<map id="GameMap::init" name="GameMap::init">
+<area shape="rect" id="node1" title=" " alt="" coords="5,31,124,57"/>
+<area shape="rect" id="node2" href="$class_distance_matrix.html#a7cd9e3c3faa88b095d133248ecf21837" title="Инициализация матрицы расстояний" alt="" coords="172,5,323,32"/>
+<area shape="rect" id="node3" href="$class_my_graph.html#ad3738a91901c84ca908bc25103425af2" title="Инициализация связей графа" alt="" coords="192,56,303,83"/>
+</map>

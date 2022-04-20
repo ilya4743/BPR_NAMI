@@ -70,16 +70,11 @@ void MyTcpSocket::disconnected()
 {
     Logger->printLogToFile("disconnected");
     qDebug() << "disconnected...";
-    //qDebug() << "Reconnect!";
-    //Logger->printLogToFile("Reconnect to host");
-    //delay(reconnect_time);
-    //socket->connectToHost(IP, PORT);
 }
 
 void MyTcpSocket::bytesWritten(qint64 bytes)
 {
-    //Logger->printLogToFile(byte);
-    //qDebug() << bytes << " bytes written...";
+
 }
 
 void MyTcpSocket::readyRead()
@@ -166,7 +161,6 @@ void MyTcpSocket::readyRead()
     {
         socket->readAll();
         QProcess::execute("clear");
-        //socket->flush();
         qDebug()<<Ex.what();
         qDebug()<<"Error "<<Ex.GetErrorCode();
         QByteArray error;

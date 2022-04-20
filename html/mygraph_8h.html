@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Блок принятия решений: Файл mygraph.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Блок принятия решений
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Классы</a> &#124;
+<a href="#typedef-members">Определения типов</a>  </div>
+  <div class="headertitle">
+<div class="title">Файл mygraph.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;boost/graph/adjacency_list.hpp&gt;</code><br />
+<code>#include &lt;boost/graph/graphviz.hpp&gt;</code><br />
+<code>#include &lt;boost/graph/astar_search.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="locationmap_8h_source.html">locationmap.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="point_8h_source.html">point.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="myexception_8h_source.html">myexception.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Граф включаемых заголовочных файлов для mygraph.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="mygraph_8h__incl.png" border="0" usemap="#mygraph_8h" alt=""/></div>
+<map name="mygraph_8h" id="mygraph_8h">
+<area shape="rect" title=" " alt="" coords="567,5,659,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,175,121"/>
+<area shape="rect" title=" " alt="" coords="199,87,386,114"/>
+<area shape="rect" title=" " alt="" coords="411,87,625,114"/>
+<area shape="rect" href="locationmap_8h.html" title=" " alt="" coords="793,87,907,114"/>
+<area shape="rect" href="point_8h.html" title=" " alt="" coords="909,169,975,196"/>
+<area shape="rect" href="myexception_8h.html" title=" " alt="" coords="649,87,768,114"/>
+<area shape="rect" title=" " alt="" coords="691,169,771,196"/>
+<area shape="rect" title=" " alt="" coords="819,169,881,196"/>
+<area shape="rect" title=" " alt="" coords="905,244,979,271"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+Граф файлов, в которые включается этот файл:</div>
+<div class="dyncontent">
+<div class="center"><img src="mygraph_8h__dep__incl.png" border="0" usemap="#mygraph_8hdep" alt=""/></div>
+<map name="mygraph_8hdep" id="mygraph_8hdep">
+<area shape="rect" title=" " alt="" coords="178,5,270,32"/>
+<area shape="rect" href="barrier_8h.html" title=" " alt="" coords="109,80,187,107"/>
+<area shape="rect" href="gamemap_8h.html" title=" " alt="" coords="137,155,237,181"/>
+<area shape="rect" href="mygraph_8cpp.html" title=" " alt="" coords="261,80,368,107"/>
+<area shape="rect" href="barrier_8cpp.html" title=" " alt="" coords="21,155,113,181"/>
+<area shape="rect" href="mylog_8h.html" title=" " alt="" coords="149,229,224,256"/>
+<area shape="rect" href="mytcpsocket_8h.html" title=" " alt="" coords="53,304,171,331"/>
+<area shape="rect" href="gamemap_8cpp.html" title=" " alt="" coords="248,229,363,256"/>
+<area shape="rect" href="mylog_8cpp.html" title=" " alt="" coords="195,304,285,331"/>
+<area shape="rect" href="main_8cpp.html" title=" " alt="" coords="5,379,88,405"/>
+<area shape="rect" href="mytcpsocket_8cpp.html" title=" " alt="" coords="113,379,245,405"/>
+</map>
+</div>
+</div>
+<p><a href="mygraph_8h_source.html">См. исходные тексты.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Классы</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_graph.html">IGraph</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Интерфейс графа  <a href="class_i_graph.html#details">Подробнее...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_my_graph.html">MyGraph</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Класс для построения неориентированного прямоугольного графа  <a href="class_my_graph.html#details">Подробнее...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Определения типов</h2></td></tr>
+<tr class="memitem:abe71c5364bf3287c01551a85cea55d8c"><td class="memItemLeft" align="right" valign="top">typedef boost::property&lt; boost::edge_weight_t, float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mygraph_8h.html#abe71c5364bf3287c01551a85cea55d8c">weight</a></td></tr>
+<tr class="memdesc:abe71c5364bf3287c01551a85cea55d8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вес ребра  <a href="mygraph_8h.html#abe71c5364bf3287c01551a85cea55d8c">Подробнее...</a><br /></td></tr>
+<tr class="separator:abe71c5364bf3287c01551a85cea55d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee22870dc930c7bd9eccb03de0e00357"><td class="memItemLeft" align="right" valign="top">typedef adjacency_list&lt; vecS, vecS, undirectedS, boost::no_property, <a class="el" href="mygraph_8h.html#abe71c5364bf3287c01551a85cea55d8c">weight</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a></td></tr>
+<tr class="memdesc:aee22870dc930c7bd9eccb03de0e00357"><td class="mdescLeft">&#160;</td><td class="mdescRight">Граф (список смежности)  <a href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">Подробнее...</a><br /></td></tr>
+<tr class="separator:aee22870dc930c7bd9eccb03de0e00357"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af023f2d9f7adf6f36bd358fd96b634ef"><td class="memItemLeft" align="right" valign="top">typedef boost::graph_traits&lt; <a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &gt;::<a class="el" href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a></td></tr>
+<tr class="memdesc:af023f2d9f7adf6f36bd358fd96b634ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Итератор дуг  <a href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">Подробнее...</a><br /></td></tr>
+<tr class="separator:af023f2d9f7adf6f36bd358fd96b634ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdfb7d0d95351fc6faba8ee4ef60523f"><td class="memItemLeft" align="right" valign="top">typedef boost::graph_traits&lt; <a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &gt;::<a class="el" href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a></td></tr>
+<tr class="memdesc:abdfb7d0d95351fc6faba8ee4ef60523f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Итератор вершин  <a href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">Подробнее...</a><br /></td></tr>
+<tr class="separator:abdfb7d0d95351fc6faba8ee4ef60523f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c7f893c0e29cf5f9755ecf83d138fb1"><td class="memItemLeft" align="right" valign="top">typedef boost::property_map&lt; <a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>, boost::edge_weight_t &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mygraph_8h.html#a8c7f893c0e29cf5f9755ecf83d138fb1">Weight_Map</a></td></tr>
+<tr class="memdesc:a8c7f893c0e29cf5f9755ecf83d138fb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Карта весов рёбер  <a href="mygraph_8h.html#a8c7f893c0e29cf5f9755ecf83d138fb1">Подробнее...</a><br /></td></tr>
+<tr class="separator:a8c7f893c0e29cf5f9755ecf83d138fb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa58dc6cf2f9b8325283debb4d6ef927a"><td class="memItemLeft" align="right" valign="top">typedef std::pair&lt; <a class="el" href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a>, <a class="el" href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mygraph_8h.html#aa58dc6cf2f9b8325283debb4d6ef927a">edgePair</a></td></tr>
+<tr class="memdesc:aa58dc6cf2f9b8325283debb4d6ef927a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Пара итераторов для ребра  <a href="mygraph_8h.html#aa58dc6cf2f9b8325283debb4d6ef927a">Подробнее...</a><br /></td></tr>
+<tr class="separator:aa58dc6cf2f9b8325283debb4d6ef927a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ef5e0746fa2757b7ce780cceb77e7e1"><td class="memItemLeft" align="right" valign="top">typedef std::pair&lt; <a class="el" href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a>, <a class="el" href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mygraph_8h.html#a4ef5e0746fa2757b7ce780cceb77e7e1">vertexPair</a></td></tr>
+<tr class="memdesc:a4ef5e0746fa2757b7ce780cceb77e7e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Пара итераторов для вершины  <a href="mygraph_8h.html#a4ef5e0746fa2757b7ce780cceb77e7e1">Подробнее...</a><br /></td></tr>
+<tr class="separator:a4ef5e0746fa2757b7ce780cceb77e7e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad33c7f8ba634f860bfe3dc13b6b703da"><td class="memItemLeft" align="right" valign="top">typedef graph_traits&lt; <a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &gt;::<a class="el" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a></td></tr>
+<tr class="memdesc:ad33c7f8ba634f860bfe3dc13b6b703da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Дескриптор вершин  <a href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">Подробнее...</a><br /></td></tr>
+<tr class="separator:ad33c7f8ba634f860bfe3dc13b6b703da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a270670947027c86d3e0b6407a192eaee"><td class="memItemLeft" align="right" valign="top">typedef graph_traits&lt; <a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &gt;::<a class="el" href="mygraph_8h.html#a270670947027c86d3e0b6407a192eaee">edge_descriptor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mygraph_8h.html#a270670947027c86d3e0b6407a192eaee">edge_descriptor</a></td></tr>
+<tr class="memdesc:a270670947027c86d3e0b6407a192eaee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Дескриптор рёбер  <a href="mygraph_8h.html#a270670947027c86d3e0b6407a192eaee">Подробнее...</a><br /></td></tr>
+<tr class="separator:a270670947027c86d3e0b6407a192eaee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Типы</h2>
+<a id="a270670947027c86d3e0b6407a192eaee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a270670947027c86d3e0b6407a192eaee">&#9670;&nbsp;</a></span>edge_descriptor</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef graph_traits&lt;<a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>&gt;::<a class="el" href="mygraph_8h.html#a270670947027c86d3e0b6407a192eaee">edge_descriptor</a> <a class="el" href="mygraph_8h.html#a270670947027c86d3e0b6407a192eaee">edge_descriptor</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Дескриптор рёбер </p>
+
+</div>
+</div>
+<a id="af023f2d9f7adf6f36bd358fd96b634ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af023f2d9f7adf6f36bd358fd96b634ef">&#9670;&nbsp;</a></span>edge_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef boost::graph_traits&lt;<a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>&gt;::<a class="el" href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a> <a class="el" href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Итератор дуг </p>
+
+</div>
+</div>
+<a id="aa58dc6cf2f9b8325283debb4d6ef927a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa58dc6cf2f9b8325283debb4d6ef927a">&#9670;&nbsp;</a></span>edgePair</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::pair&lt;<a class="el" href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a>, <a class="el" href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a>&gt; <a class="el" href="mygraph_8h.html#aa58dc6cf2f9b8325283debb4d6ef927a">edgePair</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Пара итераторов для ребра </p>
+
+</div>
+</div>
+<a id="aee22870dc930c7bd9eccb03de0e00357"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee22870dc930c7bd9eccb03de0e00357">&#9670;&nbsp;</a></span>my_graph</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef adjacency_list&lt;vecS, vecS, undirectedS, boost::no_property, <a class="el" href="mygraph_8h.html#abe71c5364bf3287c01551a85cea55d8c">weight</a>&gt; <a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Граф (список смежности) </p>
+
+</div>
+</div>
+<a id="ad33c7f8ba634f860bfe3dc13b6b703da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad33c7f8ba634f860bfe3dc13b6b703da">&#9670;&nbsp;</a></span>vertex_descriptor</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef graph_traits&lt;<a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>&gt;::<a class="el" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> <a class="el" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Дескриптор вершин </p>
+
+</div>
+</div>
+<a id="abdfb7d0d95351fc6faba8ee4ef60523f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdfb7d0d95351fc6faba8ee4ef60523f">&#9670;&nbsp;</a></span>vertex_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef boost::graph_traits&lt;<a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>&gt;::<a class="el" href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a> <a class="el" href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Итератор вершин </p>
+
+</div>
+</div>
+<a id="a4ef5e0746fa2757b7ce780cceb77e7e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ef5e0746fa2757b7ce780cceb77e7e1">&#9670;&nbsp;</a></span>vertexPair</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::pair&lt;<a class="el" href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a>, <a class="el" href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a>&gt; <a class="el" href="mygraph_8h.html#a4ef5e0746fa2757b7ce780cceb77e7e1">vertexPair</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Пара итераторов для вершины </p>
+
+</div>
+</div>
+<a id="abe71c5364bf3287c01551a85cea55d8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe71c5364bf3287c01551a85cea55d8c">&#9670;&nbsp;</a></span>weight</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef boost::property&lt;boost::edge_weight_t, float&gt; <a class="el" href="mygraph_8h.html#abe71c5364bf3287c01551a85cea55d8c">weight</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Вес ребра </p>
+
+</div>
+</div>
+<a id="a8c7f893c0e29cf5f9755ecf83d138fb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c7f893c0e29cf5f9755ecf83d138fb1">&#9670;&nbsp;</a></span>Weight_Map</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef boost::property_map&lt;<a class="el" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>, boost::edge_weight_t&gt;::type <a class="el" href="mygraph_8h.html#a8c7f893c0e29cf5f9755ecf83d138fb1">Weight_Map</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Карта весов рёбер </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

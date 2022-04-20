@@ -1,0 +1,73 @@
+.TH "MyLog" 3 "Ср 20 Апр 2022" "Version 1.0" "Блок принятия решений" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+MyLog
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <mylog\&.h>\fP
+.SS "Открытые члены"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetLog\fP (bool b)"
+.br
+.ti -1c
+.RI "void \fBsetFilename\fP (char *filename)"
+.br
+.ti -1c
+.RI "\fBMyLog\fP (bool flag, char *filename)"
+.br
+.ti -1c
+.RI "\fB~MyLog\fP ()"
+.br
+.ti -1c
+.RI "void \fBprintLog\fP (char *str)"
+.br
+.ti -1c
+.RI "template<class T > void \fBprintLogToFile\fP (T *o)"
+.br
+.ti -1c
+.RI "void \fBprintLogToFile\fP (const char *o)"
+.br
+.ti -1c
+.RI "void \fBprintLogToFile\fP (\fBGameMap\fP *o)"
+.br
+.in -1c
+.SS "Открытые атрибуты"
+
+.in +1c
+.ti -1c
+.RI "ofstream * \fBofs\fP"
+.br
+.in -1c
+.SH "Конструктор(ы)"
+.PP 
+.SS "MyLog::MyLog (bool flag, char * filename)"
+
+.SS "MyLog::~MyLog ()"
+
+.SH "Методы"
+.PP 
+.SS "void MyLog::printLog (char * str)"
+
+.SS "void MyLog::printLogToFile (const char * o)"
+
+.SS "void MyLog::printLogToFile (\fBGameMap\fP * o)"
+
+.SS "template<class T > void MyLog::printLogToFile (T * o)"
+
+.SS "void MyLog::setFilename (char * filename)"
+
+.SS "void MyLog::setLog (bool b)"
+
+.SH "Данные класса"
+.PP 
+.SS "ofstream* MyLog::ofs"
+
+
+.SH "Автор"
+.PP 
+Автоматически создано Doxygen для Блок принятия решений из исходного текста\&.

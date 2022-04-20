@@ -1,0 +1,73 @@
+.TH "DistanceMatrix" 3 "Ср 20 Апр 2022" "Version 1.0" "Блок принятия решений" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DistanceMatrix \- Базовый класс матрицы расстояний  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <locationmap\&.h>\fP
+.PP
+Базовые классы:\fBIDistanceMatrix\fP\&.
+.PP
+Производные классы:\fBDMQuadrangle\fP\&.
+.SS "Открытые члены"
+
+.in +1c
+.ti -1c
+.RI "void \fBinit\fP () override"
+.br
+.RI "Инициализация матрицы расстояний "
+.ti -1c
+.RI "void \fBprint\fP () override"
+.br
+.RI "Печать матрицы расстояний в консоль "
+.ti -1c
+.RI "\fB~DistanceMatrix\fP () override"
+.br
+.in -1c
+.SS "Открытые атрибуты"
+
+.in +1c
+.ti -1c
+.RI "vector< \fBPoint\fP > \fBmatrix\fP"
+.br
+.RI "Вектор точек будущей матрицы "
+.in -1c
+.SH "Подробное описание"
+.PP 
+Базовый класс матрицы расстояний 
+.SH "Конструктор(ы)"
+.PP 
+.SS "DistanceMatrix::~DistanceMatrix ()\fC [override]\fP"
+
+.SH "Методы"
+.PP 
+.SS "void DistanceMatrix::init ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Инициализация матрицы расстояний 
+.PP
+Замещает \fBIDistanceMatrix\fP\&.
+.PP
+Переопределяется в \fBDMQuadrangle\fP\&.
+.SS "void DistanceMatrix::print ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Печать матрицы расстояний в консоль 
+.PP
+Замещает \fBIDistanceMatrix\fP\&.
+.PP
+Переопределяется в \fBDMQuadrangle\fP\&.
+.SH "Данные класса"
+.PP 
+.SS "vector<\fBPoint\fP> DistanceMatrix::matrix"
+
+.PP
+Вектор точек будущей матрицы 
+
+.SH "Автор"
+.PP 
+Автоматически создано Doxygen для Блок принятия решений из исходного текста\&.

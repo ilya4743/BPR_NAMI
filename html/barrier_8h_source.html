@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Блок принятия решений: Исходный файл barrier.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Блок принятия решений
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">barrier.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="barrier_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef BARRIER_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define BARRIER_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include&quot;<a class="code" href="point_8h.html">point.h</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include&quot;<a class="code" href="mygraph_8h.html">mygraph.h</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="gamemap_8h.html">gamemap.h</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">class </span><a class="code" href="class_game_map.html">GameMap</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="class_i_barrier.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_i_barrier.html">IBarrier</a></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_i_barrier.html#a0df414b21927d4b74ba7482a1d3ed078">~IBarrier</a>()=0;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span>  <a class="code" href="class_i_barrier.html#ac1dcdf6a8af4c2eee8888ab585d3da2b">init</a>(<a class="code" href="class_my_graph.html">MyGraph</a>&amp; graph, <span class="keywordtype">float</span> step,<a class="code" href="class_game_map.html">GameMap</a>&amp;g)=0;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span>  <a class="code" href="class_i_barrier.html#a4e23dfd474cad1a0a5db427a7d0ca200">print</a>(<a class="code" href="class_game_map.html">GameMap</a>&amp;g)=0;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span>  <a class="code" href="class_i_barrier.html#a6f8c7a5f5c46185327144e36d6f5fcf8">printToFile</a>(ofstream &amp;out)=0;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_i_barrier.html#aa179279b81c852d5a1343094ee03e659">hasPoint</a>(<a class="code" href="class_point.html">Point</a> p, <a class="code" href="class_game_map.html">GameMap</a>&amp;g)=0;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_i_barrier.html#a26430b6531e8cd53ca98bdd35892902a">hasVertex</a>(<span class="keywordtype">int</span> v, <a class="code" href="class_game_map.html">GameMap</a>&amp;g)=0;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_i_barrier.html#af183467a66192f3a97072188ee04ff27">isIntersection</a>(<a class="code" href="class_point.html">Point</a> a, <a class="code" href="class_point.html">Point</a> b)=0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="class_barrier.html">   46</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_barrier.html">Barrier</a>:<span class="keyword">public</span> <a class="code" href="class_i_barrier.html">IBarrier</a>, <span class="keyword">public</span> <a class="code" href="class_point.html">Point</a></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="class_barrier.html#a462a2435e07b6fabc0265011f03310ee">Barrier</a>();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="class_barrier.html#a462a2435e07b6fabc0265011f03310ee">Barrier</a>(<span class="keywordtype">float</span> <a class="code" href="class_point.html#a05dfe2dfbde813ad234b514f30e662f1">x</a>, <span class="keywordtype">float</span> <a class="code" href="class_point.html#a6101960c8d2d4e8ea1d32c9234bbeb8d">y</a>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="class_barrier.html#a462a2435e07b6fabc0265011f03310ee">Barrier</a>(<span class="keyword">const</span> <a class="code" href="class_barrier.html">Barrier</a> &amp;o);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="class_barrier.html#a401f40e73302009b305904ffc7825304">~Barrier</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_barrier.html#ae62c63c5f41491ffb75c9fd7ce122708">init</a>(<a class="code" href="class_my_graph.html">MyGraph</a>&amp; graph, <span class="keywordtype">float</span> step, <a class="code" href="class_game_map.html">GameMap</a>&amp;g)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_barrier.html#a8e4419ff13d5a87a28031e4ac97406d6">print</a>(<a class="code" href="class_game_map.html">GameMap</a>&amp;g)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_barrier.html#a7ea2dbc7df902e5b07ec9d453f01d893">hasPoint</a>(<a class="code" href="class_point.html">Point</a> p, <a class="code" href="class_game_map.html">GameMap</a>&amp;g)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_barrier.html#a4dfe848d6eb7ddea723e8c135e71cf77">hasVertex</a>(<span class="keywordtype">int</span> v, <a class="code" href="class_game_map.html">GameMap</a>&amp;g)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_barrier.html#a9209e4bc6504b17d9948216eab0b4fe3">printToFile</a>(ofstream &amp;out)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_barrier.html#acea663d8b5f0f3385640906a39f0a359">isIntersection</a>(<a class="code" href="class_point.html">Point</a> a, <a class="code" href="class_point.html">Point</a> b)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">friend</span> ofstream&amp; <a class="code" href="class_barrier.html#ace3bdd2ec209f660d02fed2d83b683bb">operator&lt;&lt;</a>(ofstream &amp;out, <span class="keyword">const</span> <a class="code" href="class_barrier.html">Barrier</a> &amp;barrier);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;};</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="class_b_quadr_angle.html">   69</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_b_quadr_angle.html">BQuadrAngle</a>: <span class="keyword">public</span> <a class="code" href="class_barrier.html">Barrier</a></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="class_b_quadr_angle.html#aa4754c3691ee7616521619a0464b2c05">BQuadrAngle</a>();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="class_b_quadr_angle.html#aa4754c3691ee7616521619a0464b2c05">BQuadrAngle</a>(<span class="keywordtype">float</span> <a class="code" href="class_point.html#a05dfe2dfbde813ad234b514f30e662f1">x</a>, <span class="keywordtype">float</span> <a class="code" href="class_point.html#a6101960c8d2d4e8ea1d32c9234bbeb8d">y</a>, <span class="keywordtype">float</span> w, <span class="keywordtype">float</span> h);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="class_b_quadr_angle.html#aa4754c3691ee7616521619a0464b2c05">BQuadrAngle</a>(<span class="keyword">const</span> <a class="code" href="class_b_quadr_angle.html">BQuadrAngle</a>&amp; o);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="class_b_quadr_angle.html#a2225534b3f62a56100da39858e9dfaf0">~BQuadrAngle</a>();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_b_quadr_angle.html#a1c97316b5f4c0ba6bf6d45d848c202a1">init</a>(<a class="code" href="class_my_graph.html">MyGraph</a>&amp; graph, <span class="keywordtype">float</span> step, <a class="code" href="class_game_map.html">GameMap</a>&amp;g)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_b_quadr_angle.html#a4f460b2bdb76d128bffe29e0494154c7">print</a>(<a class="code" href="class_game_map.html">GameMap</a>&amp;g)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_b_quadr_angle.html#a2ca62924bc0b2a224b5caa1e2005bae3">hasPoint</a>(<a class="code" href="class_point.html">Point</a> p, <a class="code" href="class_game_map.html">GameMap</a>&amp;g)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_b_quadr_angle.html#a21c35e7922c5302c0be26a75f3e62190">hasVertex</a>(<span class="keywordtype">int</span> v, <a class="code" href="class_game_map.html">GameMap</a>&amp;g)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_b_quadr_angle.html#a0f8263ad99fa3e6e6558aba3f95115ce">printToFile</a>(ofstream &amp;out)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_b_quadr_angle.html#a5e48d06681e8bc08ff181b6f8fd451f3">isIntersection</a>(<a class="code" href="class_point.html">Point</a> a, <a class="code" href="class_point.html">Point</a> b)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">friend</span> ofstream&amp; <a class="code" href="class_b_quadr_angle.html#a8108186f7bbbd6abbe868a868132d020">operator&lt;&lt;</a>(ofstream &amp;out, <span class="keyword">const</span> <a class="code" href="class_b_quadr_angle.html">BQuadrAngle</a> &amp;barrier);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="class_b_quadr_angle.html#af715770c207c675daa1ac62fd3c129f0">   91</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="class_b_quadr_angle.html#af715770c207c675daa1ac62fd3c129f0">width</a>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="class_b_quadr_angle.html#a2baf97c5c4951a3720d084ce9e3c2596">   93</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="class_b_quadr_angle.html#a2baf97c5c4951a3720d084ce9e3c2596">height</a>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="class_b_quadr_angle.html#aa472b8aba69bb114d50845140216aa7a">   95</a></span>&#160;    <a class="code" href="class_point.html">Point</a> <a class="code" href="class_b_quadr_angle.html#aa472b8aba69bb114d50845140216aa7a">left_top</a>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="class_b_quadr_angle.html#af65eb702226d79819a9bef15849010d9">   97</a></span>&#160;    <a class="code" href="class_point.html">Point</a> <a class="code" href="class_b_quadr_angle.html#af65eb702226d79819a9bef15849010d9">right_bottom</a>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;};</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">#endif // BARRIER_H</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclass_b_quadr_angle_html_a2225534b3f62a56100da39858e9dfaf0"><div class="ttname"><a href="class_b_quadr_angle.html#a2225534b3f62a56100da39858e9dfaf0">BQuadrAngle::~BQuadrAngle</a></div><div class="ttdeci">~BQuadrAngle()</div><div class="ttdoc">Деструктор</div><div class="ttdef"><b>Definition:</b> barrier.cpp:154</div></div>
+<div class="ttc" id="apoint_8h_html"><div class="ttname"><a href="point_8h.html">point.h</a></div></div>
+<div class="ttc" id="aclass_point_html"><div class="ttname"><a href="class_point.html">Point</a></div><div class="ttdoc">Класс точки</div><div class="ttdef"><b>Definition:</b> point.h:6</div></div>
+<div class="ttc" id="aclass_point_html_a05dfe2dfbde813ad234b514f30e662f1"><div class="ttname"><a href="class_point.html#a05dfe2dfbde813ad234b514f30e662f1">Point::x</a></div><div class="ttdeci">float x</div><div class="ttdef"><b>Definition:</b> point.h:10</div></div>
+<div class="ttc" id="aclass_smoother_html_a2294ade30f1cab89f02b7c6e6272ba2d"><div class="ttname"><a href="class_smoother.html#a2294ade30f1cab89f02b7c6e6272ba2d">Smoother::SegmentIntersection</a></div><div class="ttdeci">static bool SegmentIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)</div><div class="ttdef"><b>Definition:</b> barrier.cpp:286</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_a21c35e7922c5302c0be26a75f3e62190"><div class="ttname"><a href="class_b_quadr_angle.html#a21c35e7922c5302c0be26a75f3e62190">BQuadrAngle::hasVertex</a></div><div class="ttdeci">bool hasVertex(int v, GameMap &amp;g) override</div><div class="ttdoc">Принадлежит ли вершина графа препятствию</div><div class="ttdef"><b>Definition:</b> barrier.cpp:185</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_aa472b8aba69bb114d50845140216aa7a"><div class="ttname"><a href="class_b_quadr_angle.html#aa472b8aba69bb114d50845140216aa7a">BQuadrAngle::left_top</a></div><div class="ttdeci">Point left_top</div><div class="ttdoc">Левая верхняя точка препятствия</div><div class="ttdef"><b>Definition:</b> barrier.h:95</div></div>
+<div class="ttc" id="aclass_barrier_html_a9209e4bc6504b17d9948216eab0b4fe3"><div class="ttname"><a href="class_barrier.html#a9209e4bc6504b17d9948216eab0b4fe3">Barrier::printToFile</a></div><div class="ttdeci">void printToFile(ofstream &amp;out) override</div><div class="ttdoc">Печать препятствия в файл</div><div class="ttdef"><b>Definition:</b> barrier.cpp:15</div></div>
+<div class="ttc" id="aclass_game_map_html_a7e5f2b32ea31f0af1c31550052f36d03"><div class="ttname"><a href="class_game_map.html#a7e5f2b32ea31f0af1c31550052f36d03">GameMap::height_auto</a></div><div class="ttdeci">float height_auto</div><div class="ttdoc">Высота авто</div><div class="ttdef"><b>Definition:</b> gamemap.h:53</div></div>
+<div class="ttc" id="aclass_barrier_html_a4dfe848d6eb7ddea723e8c135e71cf77"><div class="ttname"><a href="class_barrier.html#a4dfe848d6eb7ddea723e8c135e71cf77">Barrier::hasVertex</a></div><div class="ttdeci">bool hasVertex(int v, GameMap &amp;g) override</div><div class="ttdoc">Принадлежит ли вершина графа препятствию</div><div class="ttdef"><b>Definition:</b> barrier.cpp:13</div></div>
+<div class="ttc" id="aclass_game_map_html_a629b23c27bc82f6fa442eebb3fede3eb"><div class="ttname"><a href="class_game_map.html#a629b23c27bc82f6fa442eebb3fede3eb">GameMap::distance</a></div><div class="ttdeci">DistanceMatrix * distance</div><div class="ttdoc">Матрица расстояний навигационного графа</div><div class="ttdef"><b>Definition:</b> gamemap.h:65</div></div>
+<div class="ttc" id="amygraph_8h_html"><div class="ttname"><a href="mygraph_8h.html">mygraph.h</a></div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_a5e48d06681e8bc08ff181b6f8fd451f3"><div class="ttname"><a href="class_b_quadr_angle.html#a5e48d06681e8bc08ff181b6f8fd451f3">BQuadrAngle::isIntersection</a></div><div class="ttdeci">bool isIntersection(Point a, Point b) override</div><div class="ttdoc">Проверка на пересечение отрезка и препятствия</div><div class="ttdef"><b>Definition:</b> barrier.cpp:314</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_aa4754c3691ee7616521619a0464b2c05"><div class="ttname"><a href="class_b_quadr_angle.html#aa4754c3691ee7616521619a0464b2c05">BQuadrAngle::BQuadrAngle</a></div><div class="ttdeci">BQuadrAngle()</div><div class="ttdoc">Конструктор по умолчанию</div><div class="ttdef"><b>Definition:</b> barrier.cpp:23</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html"><div class="ttname"><a href="class_b_quadr_angle.html">BQuadrAngle</a></div><div class="ttdoc">Класс прямоугольного препятствия</div><div class="ttdef"><b>Definition:</b> barrier.h:69</div></div>
+<div class="ttc" id="aclass_barrier_html_ace3bdd2ec209f660d02fed2d83b683bb"><div class="ttname"><a href="class_barrier.html#ace3bdd2ec209f660d02fed2d83b683bb">Barrier::operator&lt;&lt;</a></div><div class="ttdeci">friend ofstream &amp; operator&lt;&lt;(ofstream &amp;out, const Barrier &amp;barrier)</div><div class="ttdef"><b>Definition:</b> barrier.cpp:17</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_af65eb702226d79819a9bef15849010d9"><div class="ttname"><a href="class_b_quadr_angle.html#af65eb702226d79819a9bef15849010d9">BQuadrAngle::right_bottom</a></div><div class="ttdeci">Point right_bottom</div><div class="ttdoc">Правая нижняя препятствия</div><div class="ttdef"><b>Definition:</b> barrier.h:97</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_a2ca62924bc0b2a224b5caa1e2005bae3"><div class="ttname"><a href="class_b_quadr_angle.html#a2ca62924bc0b2a224b5caa1e2005bae3">BQuadrAngle::hasPoint</a></div><div class="ttdeci">bool hasPoint(Point p, GameMap &amp;g) override</div><div class="ttdoc">Принадлежит ли точка пространства препятствию</div><div class="ttdef"><b>Definition:</b> barrier.cpp:159</div></div>
+<div class="ttc" id="aclass_i_barrier_html_aa179279b81c852d5a1343094ee03e659"><div class="ttname"><a href="class_i_barrier.html#aa179279b81c852d5a1343094ee03e659">IBarrier::hasPoint</a></div><div class="ttdeci">virtual bool hasPoint(Point p, GameMap &amp;g)=0</div><div class="ttdoc">Принадлежит ли точка пространства препятствию</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_a4f460b2bdb76d128bffe29e0494154c7"><div class="ttname"><a href="class_b_quadr_angle.html#a4f460b2bdb76d128bffe29e0494154c7">BQuadrAngle::print</a></div><div class="ttdeci">void print(GameMap &amp;g) override</div><div class="ttdoc">Печать препятствия в консоль</div><div class="ttdef"><b>Definition:</b> barrier.cpp:40</div></div>
+<div class="ttc" id="aclass_point_html_a6101960c8d2d4e8ea1d32c9234bbeb8d"><div class="ttname"><a href="class_point.html#a6101960c8d2d4e8ea1d32c9234bbeb8d">Point::y</a></div><div class="ttdeci">float y</div><div class="ttdef"><b>Definition:</b> point.h:11</div></div>
+<div class="ttc" id="aclass_i_barrier_html_a4e23dfd474cad1a0a5db427a7d0ca200"><div class="ttname"><a href="class_i_barrier.html#a4e23dfd474cad1a0a5db427a7d0ca200">IBarrier::print</a></div><div class="ttdeci">virtual void print(GameMap &amp;g)=0</div><div class="ttdoc">Печать препятствия в консоль</div></div>
+<div class="ttc" id="aclass_my_graph_html_ae9bc027b6b44efc21bfff335dfdddf1e"><div class="ttname"><a href="class_my_graph.html#ae9bc027b6b44efc21bfff335dfdddf1e">MyGraph::adj_list</a></div><div class="ttdeci">my_graph * adj_list</div><div class="ttdoc">Граф (список смежности)</div><div class="ttdef"><b>Definition:</b> mygraph.h:63</div></div>
+<div class="ttc" id="aclass_my_graph_html"><div class="ttname"><a href="class_my_graph.html">MyGraph</a></div><div class="ttdoc">Класс для построения неориентированного прямоугольного графа</div><div class="ttdef"><b>Definition:</b> mygraph.h:59</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_af715770c207c675daa1ac62fd3c129f0"><div class="ttname"><a href="class_b_quadr_angle.html#af715770c207c675daa1ac62fd3c129f0">BQuadrAngle::width</a></div><div class="ttdeci">float width</div><div class="ttdoc">Ширина препятствия</div><div class="ttdef"><b>Definition:</b> barrier.h:91</div></div>
+<div class="ttc" id="aclass_barrier_html"><div class="ttname"><a href="class_barrier.html">Barrier</a></div><div class="ttdoc">Базовый класс препятствия</div><div class="ttdef"><b>Definition:</b> barrier.h:46</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_a1c97316b5f4c0ba6bf6d45d848c202a1"><div class="ttname"><a href="class_b_quadr_angle.html#a1c97316b5f4c0ba6bf6d45d848c202a1">BQuadrAngle::init</a></div><div class="ttdeci">int init(MyGraph &amp;graph, float step, GameMap &amp;g) override</div><div class="ttdoc">Инициализация препятсвия на графе</div><div class="ttdef"><b>Definition:</b> barrier.cpp:49</div></div>
+<div class="ttc" id="abarrier_8cpp_html_acb77b415022a8d36c33c7ab82588c303"><div class="ttname"><a href="barrier_8cpp.html#acb77b415022a8d36c33c7ab82588c303">area</a></div><div class="ttdeci">int area(Point a, Point b, Point c)</div><div class="ttdef"><b>Definition:</b> barrier.cpp:212</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_a8108186f7bbbd6abbe868a868132d020"><div class="ttname"><a href="class_b_quadr_angle.html#a8108186f7bbbd6abbe868a868132d020">BQuadrAngle::operator&lt;&lt;</a></div><div class="ttdeci">friend ofstream &amp; operator&lt;&lt;(ofstream &amp;out, const BQuadrAngle &amp;barrier)</div><div class="ttdef"><b>Definition:</b> barrier.cpp:204</div></div>
+<div class="ttc" id="aclass_barrier_html_ae62c63c5f41491ffb75c9fd7ce122708"><div class="ttname"><a href="class_barrier.html#ae62c63c5f41491ffb75c9fd7ce122708">Barrier::init</a></div><div class="ttdeci">int init(MyGraph &amp;graph, float step, GameMap &amp;g) override</div><div class="ttdoc">Инициализация препятсвия на графе</div><div class="ttdef"><b>Definition:</b> barrier.cpp:8</div></div>
+<div class="ttc" id="aclass_barrier_html_a462a2435e07b6fabc0265011f03310ee"><div class="ttname"><a href="class_barrier.html#a462a2435e07b6fabc0265011f03310ee">Barrier::Barrier</a></div><div class="ttdeci">Barrier()</div><div class="ttdoc">Конструктор по умолчанию</div><div class="ttdef"><b>Definition:</b> barrier.cpp:5</div></div>
+<div class="ttc" id="abarrier_8h_html"><div class="ttname"><a href="barrier_8h.html">barrier.h</a></div></div>
+<div class="ttc" id="aclass_i_barrier_html_a6f8c7a5f5c46185327144e36d6f5fcf8"><div class="ttname"><a href="class_i_barrier.html#a6f8c7a5f5c46185327144e36d6f5fcf8">IBarrier::printToFile</a></div><div class="ttdeci">virtual void printToFile(ofstream &amp;out)=0</div><div class="ttdoc">Печать препятствия в файл</div></div>
+<div class="ttc" id="aclass_game_map_html_adadb7aa01c19cadbcf6dd24bbc959bf3"><div class="ttname"><a href="class_game_map.html#adadb7aa01c19cadbcf6dd24bbc959bf3">GameMap::num_vertices_height</a></div><div class="ttdeci">int num_vertices_height</div><div class="ttdoc">Количество вершин графа по высоте</div><div class="ttdef"><b>Definition:</b> gamemap.h:35</div></div>
+<div class="ttc" id="aclass_barrier_html_a8e4419ff13d5a87a28031e4ac97406d6"><div class="ttname"><a href="class_barrier.html#a8e4419ff13d5a87a28031e4ac97406d6">Barrier::print</a></div><div class="ttdeci">void print(GameMap &amp;g) override</div><div class="ttdoc">Печать препятствия в консоль</div><div class="ttdef"><b>Definition:</b> barrier.cpp:9</div></div>
+<div class="ttc" id="aclass_i_barrier_html_ac1dcdf6a8af4c2eee8888ab585d3da2b"><div class="ttname"><a href="class_i_barrier.html#ac1dcdf6a8af4c2eee8888ab585d3da2b">IBarrier::init</a></div><div class="ttdeci">virtual int init(MyGraph &amp;graph, float step, GameMap &amp;g)=0</div><div class="ttdoc">Инициализация препятсвия на графе</div></div>
+<div class="ttc" id="aclass_game_map_html_a95a7a6d7b41609bc3f2f3b53e7aaa3bc"><div class="ttname"><a href="class_game_map.html#a95a7a6d7b41609bc3f2f3b53e7aaa3bc">GameMap::GetJ</a></div><div class="ttdeci">int GetJ(float i)</div><div class="ttdef"><b>Definition:</b> gamemap.cpp:198</div></div>
+<div class="ttc" id="abarrier_8cpp_html_ae83de2efa9e18d4bf80a0e667c002a76"><div class="ttname"><a href="barrier_8cpp.html#ae83de2efa9e18d4bf80a0e667c002a76">intersect_1</a></div><div class="ttdeci">bool intersect_1(int a, int b, int c, int d)</div><div class="ttdef"><b>Definition:</b> barrier.cpp:216</div></div>
+<div class="ttc" id="aclass_game_map_html_a63ff2fd31964cc04840e44703a3dc245"><div class="ttname"><a href="class_game_map.html#a63ff2fd31964cc04840e44703a3dc245">GameMap::width_auto</a></div><div class="ttdeci">float width_auto</div><div class="ttdoc">Ширина авто</div><div class="ttdef"><b>Definition:</b> gamemap.h:50</div></div>
+<div class="ttc" id="aclass_smoother_html_a37e1343e1864fd701e6bbf25f7e895fa"><div class="ttname"><a href="class_smoother.html#a37e1343e1864fd701e6bbf25f7e895fa">Smoother::Polyclip</a></div><div class="ttdeci">static list&lt; Point &gt; Polyclip(list&lt; Point &gt; pin, Point segStart, Point segEnd)</div><div class="ttdef"><b>Definition:</b> barrier.cpp:245</div></div>
+<div class="ttc" id="aclass_smoother_html"><div class="ttname"><a href="class_smoother.html">Smoother</a></div><div class="ttdoc">Класс сглаживания пути</div><div class="ttdef"><b>Definition:</b> barrier.cpp:228</div></div>
+<div class="ttc" id="aclass_i_barrier_html_a0df414b21927d4b74ba7482a1d3ed078"><div class="ttname"><a href="class_i_barrier.html#a0df414b21927d4b74ba7482a1d3ed078">IBarrier::~IBarrier</a></div><div class="ttdeci">virtual ~IBarrier()=0</div><div class="ttdoc">Виртуальный деструктор</div><div class="ttdef"><b>Definition:</b> barrier.cpp:3</div></div>
+<div class="ttc" id="aclass_barrier_html_a7ea2dbc7df902e5b07ec9d453f01d893"><div class="ttname"><a href="class_barrier.html#a7ea2dbc7df902e5b07ec9d453f01d893">Barrier::hasPoint</a></div><div class="ttdeci">bool hasPoint(Point p, GameMap &amp;g) override</div><div class="ttdoc">Принадлежит ли точка пространства препятствию</div><div class="ttdef"><b>Definition:</b> barrier.cpp:12</div></div>
+<div class="ttc" id="agamemap_8h_html"><div class="ttname"><a href="gamemap_8h.html">gamemap.h</a></div></div>
+<div class="ttc" id="aclass_i_barrier_html_a26430b6531e8cd53ca98bdd35892902a"><div class="ttname"><a href="class_i_barrier.html#a26430b6531e8cd53ca98bdd35892902a">IBarrier::hasVertex</a></div><div class="ttdeci">virtual bool hasVertex(int v, GameMap &amp;g)=0</div><div class="ttdoc">Принадлежит ли вершина графа препятствию</div></div>
+<div class="ttc" id="aclass_distance_matrix_html_aee7257fcc81de2e4f1240385dee8c03a"><div class="ttname"><a href="class_distance_matrix.html#aee7257fcc81de2e4f1240385dee8c03a">DistanceMatrix::matrix</a></div><div class="ttdeci">vector&lt; Point &gt; matrix</div><div class="ttdoc">Вектор точек будущей матрицы</div><div class="ttdef"><b>Definition:</b> locationmap.h:28</div></div>
+<div class="ttc" id="aclass_game_map_html"><div class="ttname"><a href="class_game_map.html">GameMap</a></div><div class="ttdoc">Класс игрового поля</div><div class="ttdef"><b>Definition:</b> gamemap.h:19</div></div>
+<div class="ttc" id="aclass_game_map_html_a2b1837a8151efc6d79085860916cef44"><div class="ttname"><a href="class_game_map.html#a2b1837a8151efc6d79085860916cef44">GameMap::GetI</a></div><div class="ttdeci">int GetI(float j)</div><div class="ttdef"><b>Definition:</b> gamemap.cpp:203</div></div>
+<div class="ttc" id="aclass_i_barrier_html"><div class="ttname"><a href="class_i_barrier.html">IBarrier</a></div><div class="ttdoc">Интерфейс препятствия</div><div class="ttdef"><b>Definition:</b> barrier.h:10</div></div>
+<div class="ttc" id="aclass_barrier_html_acea663d8b5f0f3385640906a39f0a359"><div class="ttname"><a href="class_barrier.html#acea663d8b5f0f3385640906a39f0a359">Barrier::isIntersection</a></div><div class="ttdeci">bool isIntersection(Point a, Point b) override</div><div class="ttdoc">Проверка на пересечение отрезка и препятствия</div><div class="ttdef"><b>Definition:</b> barrier.cpp:14</div></div>
+<div class="ttc" id="aclass_i_barrier_html_af183467a66192f3a97072188ee04ff27"><div class="ttname"><a href="class_i_barrier.html#af183467a66192f3a97072188ee04ff27">IBarrier::isIntersection</a></div><div class="ttdeci">virtual bool isIntersection(Point a, Point b)=0</div><div class="ttdoc">Проверка на пересечение отрезка и препятствия</div></div>
+<div class="ttc" id="aclass_point_html_ad92f2337b839a94ce97dcdb439b4325a"><div class="ttname"><a href="class_point.html#ad92f2337b839a94ce97dcdb439b4325a">Point::Point</a></div><div class="ttdeci">Point()</div><div class="ttdoc">Конструктор по умолчанию</div><div class="ttdef"><b>Definition:</b> point.h:13</div></div>
+<div class="ttc" id="abarrier_8cpp_html_ace3bdd2ec209f660d02fed2d83b683bb"><div class="ttname"><a href="barrier_8cpp.html#ace3bdd2ec209f660d02fed2d83b683bb">operator&lt;&lt;</a></div><div class="ttdeci">ofstream &amp; operator&lt;&lt;(ofstream &amp;out, const Barrier &amp;barrier)</div><div class="ttdef"><b>Definition:</b> barrier.cpp:17</div></div>
+<div class="ttc" id="aclass_barrier_html_a401f40e73302009b305904ffc7825304"><div class="ttname"><a href="class_barrier.html#a401f40e73302009b305904ffc7825304">Barrier::~Barrier</a></div><div class="ttdeci">~Barrier()</div><div class="ttdoc">Деструктор</div><div class="ttdef"><b>Definition:</b> barrier.cpp:10</div></div>
+<div class="ttc" id="aclass_game_map_html_a7c01fd27f05d1ceac7f75bd59c7bfde2"><div class="ttname"><a href="class_game_map.html#a7c01fd27f05d1ceac7f75bd59c7bfde2">GameMap::step</a></div><div class="ttdeci">float step</div><div class="ttdoc">Шаг вершин графа</div><div class="ttdef"><b>Definition:</b> gamemap.h:23</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_a0f8263ad99fa3e6e6558aba3f95115ce"><div class="ttname"><a href="class_b_quadr_angle.html#a0f8263ad99fa3e6e6558aba3f95115ce">BQuadrAngle::printToFile</a></div><div class="ttdeci">void printToFile(ofstream &amp;out) override</div><div class="ttdoc">Печать препятствия в файл</div><div class="ttdef"><b>Definition:</b> barrier.cpp:197</div></div>
+<div class="ttc" id="aclass_game_map_html_a33cc22ad45d59218a1f3c87ad9b92e54"><div class="ttname"><a href="class_game_map.html#a33cc22ad45d59218a1f3c87ad9b92e54">GameMap::num_vertices_width</a></div><div class="ttdeci">int num_vertices_width</div><div class="ttdoc">Количество вершин графа по ширине</div><div class="ttdef"><b>Definition:</b> gamemap.h:32</div></div>
+<div class="ttc" id="aclass_b_quadr_angle_html_a2baf97c5c4951a3720d084ce9e3c2596"><div class="ttname"><a href="class_b_quadr_angle.html#a2baf97c5c4951a3720d084ce9e3c2596">BQuadrAngle::height</a></div><div class="ttdeci">float height</div><div class="ttdoc">Высота препятствия</div><div class="ttdef"><b>Definition:</b> barrier.h:93</div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

@@ -1,0 +1,452 @@
+\hypertarget{class_game_map}{}\doxysection{Класс Game\+Map}
+\label{class_game_map}\index{GameMap@{GameMap}}
+
+
+Класс игрового поля  
+
+
+
+
+{\ttfamily \#include $<$gamemap.\+h$>$}
+
+
+
+Граф связей класса Game\+Map\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_game_map__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Открытые члены}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_game_map_aae71e5694cf19612fcaa4c1e21b03b71}{Game\+Map}} ()
+\begin{DoxyCompactList}\small\item\em Конструктор по умолчанию \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_game_map_aa6dccd582fe7b1ea6e69b71f3bbf13dd}{Game\+Map}} (float \mbox{\hyperlink{class_game_map_af86a8d6cf40a7bbb52a5d9d0be8b45e1}{width\+\_\+coord}}, float \mbox{\hyperlink{class_game_map_ae9175e0b73359bb0e0fed2154430294f}{height\+\_\+coord}}, float \mbox{\hyperlink{class_game_map_a7c01fd27f05d1ceac7f75bd59c7bfde2}{step}}, int \mbox{\hyperlink{class_game_map_a4868180e76490db7927012a33edbc59f}{center}}, float \mbox{\hyperlink{class_game_map_a63ff2fd31964cc04840e44703a3dc245}{width\+\_\+auto}}, float \mbox{\hyperlink{class_game_map_a7e5f2b32ea31f0af1c31550052f36d03}{height\+\_\+auto}}, \mbox{\hyperlink{class_point}{Point}} goal\+\_\+p, bool \mbox{\hyperlink{class_game_map_a12b491ba82ffd693322f55aacda6ae6b}{is\+Smoothing}})
+\begin{DoxyCompactList}\small\item\em Конструктор с параметрами \end{DoxyCompactList}\item 
+list$<$ \mbox{\hyperlink{class_point}{Point}} $>$ \mbox{\hyperlink{class_game_map_a3f763920da07f8dc611bbf9c66fd91ed}{create\+\_\+msg}} (const \mbox{\hyperlink{class_distance_matrix}{Distance\+Matrix}} \&locations, list$<$ \mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}} $>$ \&shortest\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Формирование сообщения под отправку \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_map_a0339eb58395ade3f2170380509eb846f}{print\+\_\+game\+\_\+map}} ()
+\begin{DoxyCompactList}\small\item\em Печать игрового поля в консоль \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_map_a99ca7e4a3adbd50a9f786335145dbb87}{print\+\_\+vertex\+\_\+map}} ()
+\begin{DoxyCompactList}\small\item\em Печать вершин игрового поля в консоль \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_map_a14240bed9cdec955cc9de95e27fb6610}{print\+\_\+way}} (const \mbox{\hyperlink{class_distance_matrix}{Distance\+Matrix}} $\ast$\mbox{\hyperlink{class_game_map_a629b23c27bc82f6fa442eebb3fede3eb}{distance}}, const list$<$ \mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}} $>$ \&shortest\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Печать пути \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_game_map_a95a7a6d7b41609bc3f2f3b53e7aaa3bc}{GetJ}} (float i)
+\item 
+int \mbox{\hyperlink{class_game_map_a2b1837a8151efc6d79085860916cef44}{GetI}} (float j)
+\item 
+void \mbox{\hyperlink{class_game_map_a7afd409eb7275e12c2c72508fe3f911c}{init}} (\mbox{\hyperlink{class_i_distance_matrix}{I\+Distance\+Matrix}} \&\mbox{\hyperlink{class_game_map_a629b23c27bc82f6fa442eebb3fede3eb}{distance}}, \mbox{\hyperlink{class_i_graph}{I\+Graph}} \&\mbox{\hyperlink{class_game_map_ad25f7c90bda38c484268ef920f460ba9}{graph}})
+\item 
+void \mbox{\hyperlink{class_game_map_a15a6c6deceffbd0a74cc420f57f5176c}{doo}} (const int D\+E\+B\+U\+G\+\_\+\+O\+U\+T\+P\+UT)
+\item 
+void \mbox{\hyperlink{class_game_map_a8929c599ea51f58d4ba140f19d36a721}{print\+To\+File}} (ofstream \&out)
+\begin{DoxyCompactList}\small\item\em Печать в файл \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_game_map_a85d51ef20c2d27f11c739ff02d5717c3}{$\sim$\+Game\+Map}} ()
+\begin{DoxyCompactList}\small\item\em Деструктор \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Открытые атрибуты}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{class_game_map_a7c01fd27f05d1ceac7f75bd59c7bfde2}{step}}
+\begin{DoxyCompactList}\small\item\em Шаг вершин графа \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_game_map_af86a8d6cf40a7bbb52a5d9d0be8b45e1}{width\+\_\+coord}}
+\begin{DoxyCompactList}\small\item\em Ширина покрытия сетки графа \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_game_map_ae9175e0b73359bb0e0fed2154430294f}{height\+\_\+coord}}
+\begin{DoxyCompactList}\small\item\em Высота покрытия сетки графа \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_game_map_a33cc22ad45d59218a1f3c87ad9b92e54}{num\+\_\+vertices\+\_\+width}}
+\begin{DoxyCompactList}\small\item\em Количество вершин графа по ширине \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_game_map_adadb7aa01c19cadbcf6dd24bbc959bf3}{num\+\_\+vertices\+\_\+height}}
+\begin{DoxyCompactList}\small\item\em Количество вершин графа по высоте \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_game_map_a4868180e76490db7927012a33edbc59f}{center}}
+\begin{DoxyCompactList}\small\item\em Начало отсчета системы координат (наша машина) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_point}{Point}} \mbox{\hyperlink{class_game_map_a728706d2dc214a37d49c37d9051d1c2b}{goal\+\_\+point}}
+\begin{DoxyCompactList}\small\item\em Точка конечного маршрута \end{DoxyCompactList}\item 
+\mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}} \mbox{\hyperlink{class_game_map_a86322bd3272d74a135d19a4ff12b9cf0}{start}}
+\begin{DoxyCompactList}\small\item\em Вершина графа откуда стартует авто \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_game_map_afcba43bb1e488216abcdcc5cd3c60695}{goal}}
+\begin{DoxyCompactList}\small\item\em Вершина графа куда едем \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_game_map_a63ff2fd31964cc04840e44703a3dc245}{width\+\_\+auto}}
+\begin{DoxyCompactList}\small\item\em Ширина авто \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_game_map_a7e5f2b32ea31f0af1c31550052f36d03}{height\+\_\+auto}}
+\begin{DoxyCompactList}\small\item\em Высота авто \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_my_graph}{My\+Graph}} $\ast$ \mbox{\hyperlink{class_game_map_ad25f7c90bda38c484268ef920f460ba9}{graph}}
+\begin{DoxyCompactList}\small\item\em Навигационный граф \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_distance_matrix}{Distance\+Matrix}} $\ast$ \mbox{\hyperlink{class_game_map_a629b23c27bc82f6fa442eebb3fede3eb}{distance}}
+\begin{DoxyCompactList}\small\item\em Матрица расстояний навигационного графа \end{DoxyCompactList}\item 
+list$<$ \mbox{\hyperlink{class_barrier}{Barrier}} $\ast$ $>$ \mbox{\hyperlink{class_game_map_a7c328402950d89a9a9b9e93316a19b69}{barriers}}
+\begin{DoxyCompactList}\small\item\em Список препятствий \end{DoxyCompactList}\item 
+list$<$ \mbox{\hyperlink{class_point}{Point}} $>$ \mbox{\hyperlink{class_game_map_a3dab6c2380e5d14970bc5a560a328bc6}{short\+\_\+path}}
+\begin{DoxyCompactList}\small\item\em Кратчайший путь \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_game_map_a12b491ba82ffd693322f55aacda6ae6b}{is\+Smoothing}}
+\begin{DoxyCompactList}\small\item\em Конструктор с параметрами \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Подробное описание}
+Класс игрового поля 
+
+Игровое поле представляет из себя матрицу расстояний ({\bfseries{distance}}) наложенную на граф ({\bfseries{graph}}), см. рис. ниже 
+
+ 
+
+\doxysubsection{Конструктор(ы)}
+\mbox{\Hypertarget{class_game_map_aae71e5694cf19612fcaa4c1e21b03b71}\label{class_game_map_aae71e5694cf19612fcaa4c1e21b03b71}} 
+\index{GameMap@{GameMap}!GameMap@{GameMap}}
+\index{GameMap@{GameMap}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{GameMap()}{GameMap()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Game\+Map\+::\+Game\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Конструктор по умолчанию 
+
+Граф вызовов\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=332pt]{class_game_map_aae71e5694cf19612fcaa4c1e21b03b71_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_game_map_aa6dccd582fe7b1ea6e69b71f3bbf13dd}\label{class_game_map_aa6dccd582fe7b1ea6e69b71f3bbf13dd}} 
+\index{GameMap@{GameMap}!GameMap@{GameMap}}
+\index{GameMap@{GameMap}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{GameMap()}{GameMap()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Game\+Map\+::\+Game\+Map (\begin{DoxyParamCaption}\item[{float}]{width\+\_\+coord,  }\item[{float}]{height\+\_\+coord,  }\item[{float}]{step,  }\item[{int}]{center,  }\item[{float}]{width\+\_\+auto,  }\item[{float}]{height\+\_\+auto,  }\item[{\mbox{\hyperlink{class_point}{Point}}}]{goal\+\_\+p,  }\item[{bool}]{is\+Smoothing }\end{DoxyParamCaption})}
+
+
+
+Конструктор с параметрами 
+
+Граф вызовов\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_game_map_aa6dccd582fe7b1ea6e69b71f3bbf13dd_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_game_map_a85d51ef20c2d27f11c739ff02d5717c3}\label{class_game_map_a85d51ef20c2d27f11c739ff02d5717c3}} 
+\index{GameMap@{GameMap}!````~GameMap@{$\sim$GameMap}}
+\index{````~GameMap@{$\sim$GameMap}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{$\sim$GameMap()}{~GameMap()}}
+{\footnotesize\ttfamily Game\+Map\+::$\sim$\+Game\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Деструктор 
+
+
+
+\doxysubsection{Методы}
+\mbox{\Hypertarget{class_game_map_a3f763920da07f8dc611bbf9c66fd91ed}\label{class_game_map_a3f763920da07f8dc611bbf9c66fd91ed}} 
+\index{GameMap@{GameMap}!create\_msg@{create\_msg}}
+\index{create\_msg@{create\_msg}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{create\_msg()}{create\_msg()}}
+{\footnotesize\ttfamily list$<$ \mbox{\hyperlink{class_point}{Point}} $>$ Game\+Map\+::create\+\_\+msg (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_distance_matrix}{Distance\+Matrix}} \&}]{locations,  }\item[{list$<$ \mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}} $>$ \&}]{shortest\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Формирование сообщения под отправку 
+
+Граф вызова функции\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_game_map_a3f763920da07f8dc611bbf9c66fd91ed_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_game_map_a15a6c6deceffbd0a74cc420f57f5176c}\label{class_game_map_a15a6c6deceffbd0a74cc420f57f5176c}} 
+\index{GameMap@{GameMap}!doo@{doo}}
+\index{doo@{doo}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{doo()}{doo()}}
+{\footnotesize\ttfamily void Game\+Map\+::doo (\begin{DoxyParamCaption}\item[{const int}]{D\+E\+B\+U\+G\+\_\+\+O\+U\+T\+P\+UT }\end{DoxyParamCaption})}
+
+Граф вызовов\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_game_map_a15a6c6deceffbd0a74cc420f57f5176c_cgraph}
+\end{center}
+\end{figure}
+Граф вызова функции\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_game_map_a15a6c6deceffbd0a74cc420f57f5176c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_game_map_a2b1837a8151efc6d79085860916cef44}\label{class_game_map_a2b1837a8151efc6d79085860916cef44}} 
+\index{GameMap@{GameMap}!GetI@{GetI}}
+\index{GetI@{GetI}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{GetI()}{GetI()}}
+{\footnotesize\ttfamily int Game\+Map\+::\+GetI (\begin{DoxyParamCaption}\item[{float}]{j }\end{DoxyParamCaption})}
+
+Граф вызова функции\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_game_map_a2b1837a8151efc6d79085860916cef44_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_game_map_a95a7a6d7b41609bc3f2f3b53e7aaa3bc}\label{class_game_map_a95a7a6d7b41609bc3f2f3b53e7aaa3bc}} 
+\index{GameMap@{GameMap}!GetJ@{GetJ}}
+\index{GetJ@{GetJ}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{GetJ()}{GetJ()}}
+{\footnotesize\ttfamily int Game\+Map\+::\+GetJ (\begin{DoxyParamCaption}\item[{float}]{i }\end{DoxyParamCaption})}
+
+Граф вызова функции\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_game_map_a95a7a6d7b41609bc3f2f3b53e7aaa3bc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_game_map_a7afd409eb7275e12c2c72508fe3f911c}\label{class_game_map_a7afd409eb7275e12c2c72508fe3f911c}} 
+\index{GameMap@{GameMap}!init@{init}}
+\index{init@{init}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Game\+Map\+::init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_i_distance_matrix}{I\+Distance\+Matrix}} \&}]{distance,  }\item[{\mbox{\hyperlink{class_i_graph}{I\+Graph}} \&}]{graph }\end{DoxyParamCaption})}
+
+Граф вызовов\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=318pt]{class_game_map_a7afd409eb7275e12c2c72508fe3f911c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_game_map_a0339eb58395ade3f2170380509eb846f}\label{class_game_map_a0339eb58395ade3f2170380509eb846f}} 
+\index{GameMap@{GameMap}!print\_game\_map@{print\_game\_map}}
+\index{print\_game\_map@{print\_game\_map}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{print\_game\_map()}{print\_game\_map()}}
+{\footnotesize\ttfamily void Game\+Map\+::print\+\_\+game\+\_\+map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Печать игрового поля в консоль 
+
+Граф вызова функции\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_game_map_a0339eb58395ade3f2170380509eb846f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_game_map_a99ca7e4a3adbd50a9f786335145dbb87}\label{class_game_map_a99ca7e4a3adbd50a9f786335145dbb87}} 
+\index{GameMap@{GameMap}!print\_vertex\_map@{print\_vertex\_map}}
+\index{print\_vertex\_map@{print\_vertex\_map}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{print\_vertex\_map()}{print\_vertex\_map()}}
+{\footnotesize\ttfamily void Game\+Map\+::print\+\_\+vertex\+\_\+map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Печать вершин игрового поля в консоль 
+
+\mbox{\Hypertarget{class_game_map_a14240bed9cdec955cc9de95e27fb6610}\label{class_game_map_a14240bed9cdec955cc9de95e27fb6610}} 
+\index{GameMap@{GameMap}!print\_way@{print\_way}}
+\index{print\_way@{print\_way}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{print\_way()}{print\_way()}}
+{\footnotesize\ttfamily void Game\+Map\+::print\+\_\+way (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_distance_matrix}{Distance\+Matrix}} $\ast$}]{distance,  }\item[{const list$<$ \mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}} $>$ \&}]{shortest\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Печать пути 
+
+Граф вызовов\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{class_game_map_a14240bed9cdec955cc9de95e27fb6610_cgraph}
+\end{center}
+\end{figure}
+Граф вызова функции\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_game_map_a14240bed9cdec955cc9de95e27fb6610_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_game_map_a8929c599ea51f58d4ba140f19d36a721}\label{class_game_map_a8929c599ea51f58d4ba140f19d36a721}} 
+\index{GameMap@{GameMap}!printToFile@{printToFile}}
+\index{printToFile@{printToFile}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{printToFile()}{printToFile()}}
+{\footnotesize\ttfamily void Game\+Map\+::print\+To\+File (\begin{DoxyParamCaption}\item[{ofstream \&}]{out }\end{DoxyParamCaption})}
+
+
+
+Печать в файл 
+
+Граф вызова функции\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_game_map_a8929c599ea51f58d4ba140f19d36a721_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Данные класса}
+\mbox{\Hypertarget{class_game_map_a7c328402950d89a9a9b9e93316a19b69}\label{class_game_map_a7c328402950d89a9a9b9e93316a19b69}} 
+\index{GameMap@{GameMap}!barriers@{barriers}}
+\index{barriers@{barriers}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{barriers}{barriers}}
+{\footnotesize\ttfamily list$<$\mbox{\hyperlink{class_barrier}{Barrier}}$\ast$$>$ Game\+Map\+::barriers}
+
+
+
+Список препятствий 
+
+\mbox{\Hypertarget{class_game_map_a4868180e76490db7927012a33edbc59f}\label{class_game_map_a4868180e76490db7927012a33edbc59f}} 
+\index{GameMap@{GameMap}!center@{center}}
+\index{center@{center}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{center}{center}}
+{\footnotesize\ttfamily int Game\+Map\+::center}
+
+
+
+Начало отсчета системы координат (наша машина) 
+
+\mbox{\Hypertarget{class_game_map_a629b23c27bc82f6fa442eebb3fede3eb}\label{class_game_map_a629b23c27bc82f6fa442eebb3fede3eb}} 
+\index{GameMap@{GameMap}!distance@{distance}}
+\index{distance@{distance}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{distance}{distance}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_distance_matrix}{Distance\+Matrix}}$\ast$ Game\+Map\+::distance}
+
+
+
+Матрица расстояний навигационного графа 
+
+\mbox{\Hypertarget{class_game_map_afcba43bb1e488216abcdcc5cd3c60695}\label{class_game_map_afcba43bb1e488216abcdcc5cd3c60695}} 
+\index{GameMap@{GameMap}!goal@{goal}}
+\index{goal@{goal}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{goal}{goal}}
+{\footnotesize\ttfamily int Game\+Map\+::goal}
+
+
+
+Вершина графа куда едем 
+
+\mbox{\Hypertarget{class_game_map_a728706d2dc214a37d49c37d9051d1c2b}\label{class_game_map_a728706d2dc214a37d49c37d9051d1c2b}} 
+\index{GameMap@{GameMap}!goal\_point@{goal\_point}}
+\index{goal\_point@{goal\_point}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{goal\_point}{goal\_point}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_point}{Point}} Game\+Map\+::goal\+\_\+point}
+
+
+
+Точка конечного маршрута 
+
+\mbox{\Hypertarget{class_game_map_ad25f7c90bda38c484268ef920f460ba9}\label{class_game_map_ad25f7c90bda38c484268ef920f460ba9}} 
+\index{GameMap@{GameMap}!graph@{graph}}
+\index{graph@{graph}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{graph}{graph}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_my_graph}{My\+Graph}}$\ast$ Game\+Map\+::graph}
+
+
+
+Навигационный граф 
+
+\mbox{\Hypertarget{class_game_map_a7e5f2b32ea31f0af1c31550052f36d03}\label{class_game_map_a7e5f2b32ea31f0af1c31550052f36d03}} 
+\index{GameMap@{GameMap}!height\_auto@{height\_auto}}
+\index{height\_auto@{height\_auto}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{height\_auto}{height\_auto}}
+{\footnotesize\ttfamily float Game\+Map\+::height\+\_\+auto}
+
+
+
+Высота авто 
+
+\mbox{\Hypertarget{class_game_map_ae9175e0b73359bb0e0fed2154430294f}\label{class_game_map_ae9175e0b73359bb0e0fed2154430294f}} 
+\index{GameMap@{GameMap}!height\_coord@{height\_coord}}
+\index{height\_coord@{height\_coord}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{height\_coord}{height\_coord}}
+{\footnotesize\ttfamily float Game\+Map\+::height\+\_\+coord}
+
+
+
+Высота покрытия сетки графа 
+
+\mbox{\Hypertarget{class_game_map_a12b491ba82ffd693322f55aacda6ae6b}\label{class_game_map_a12b491ba82ffd693322f55aacda6ae6b}} 
+\index{GameMap@{GameMap}!isSmoothing@{isSmoothing}}
+\index{isSmoothing@{isSmoothing}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{isSmoothing}{isSmoothing}}
+{\footnotesize\ttfamily bool Game\+Map\+::is\+Smoothing}
+
+
+
+Конструктор с параметрами 
+
+\mbox{\Hypertarget{class_game_map_adadb7aa01c19cadbcf6dd24bbc959bf3}\label{class_game_map_adadb7aa01c19cadbcf6dd24bbc959bf3}} 
+\index{GameMap@{GameMap}!num\_vertices\_height@{num\_vertices\_height}}
+\index{num\_vertices\_height@{num\_vertices\_height}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{num\_vertices\_height}{num\_vertices\_height}}
+{\footnotesize\ttfamily int Game\+Map\+::num\+\_\+vertices\+\_\+height}
+
+
+
+Количество вершин графа по высоте 
+
+\mbox{\Hypertarget{class_game_map_a33cc22ad45d59218a1f3c87ad9b92e54}\label{class_game_map_a33cc22ad45d59218a1f3c87ad9b92e54}} 
+\index{GameMap@{GameMap}!num\_vertices\_width@{num\_vertices\_width}}
+\index{num\_vertices\_width@{num\_vertices\_width}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{num\_vertices\_width}{num\_vertices\_width}}
+{\footnotesize\ttfamily int Game\+Map\+::num\+\_\+vertices\+\_\+width}
+
+
+
+Количество вершин графа по ширине 
+
+\mbox{\Hypertarget{class_game_map_a3dab6c2380e5d14970bc5a560a328bc6}\label{class_game_map_a3dab6c2380e5d14970bc5a560a328bc6}} 
+\index{GameMap@{GameMap}!short\_path@{short\_path}}
+\index{short\_path@{short\_path}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{short\_path}{short\_path}}
+{\footnotesize\ttfamily list$<$\mbox{\hyperlink{class_point}{Point}}$>$ Game\+Map\+::short\+\_\+path}
+
+
+
+Кратчайший путь 
+
+\mbox{\Hypertarget{class_game_map_a86322bd3272d74a135d19a4ff12b9cf0}\label{class_game_map_a86322bd3272d74a135d19a4ff12b9cf0}} 
+\index{GameMap@{GameMap}!start@{start}}
+\index{start@{start}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{start}{start}}
+{\footnotesize\ttfamily \mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}} Game\+Map\+::start}
+
+
+
+Вершина графа откуда стартует авто 
+
+\mbox{\Hypertarget{class_game_map_a7c01fd27f05d1ceac7f75bd59c7bfde2}\label{class_game_map_a7c01fd27f05d1ceac7f75bd59c7bfde2}} 
+\index{GameMap@{GameMap}!step@{step}}
+\index{step@{step}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{step}{step}}
+{\footnotesize\ttfamily float Game\+Map\+::step}
+
+
+
+Шаг вершин графа 
+
+\mbox{\Hypertarget{class_game_map_a63ff2fd31964cc04840e44703a3dc245}\label{class_game_map_a63ff2fd31964cc04840e44703a3dc245}} 
+\index{GameMap@{GameMap}!width\_auto@{width\_auto}}
+\index{width\_auto@{width\_auto}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{width\_auto}{width\_auto}}
+{\footnotesize\ttfamily float Game\+Map\+::width\+\_\+auto}
+
+
+
+Ширина авто 
+
+\mbox{\Hypertarget{class_game_map_af86a8d6cf40a7bbb52a5d9d0be8b45e1}\label{class_game_map_af86a8d6cf40a7bbb52a5d9d0be8b45e1}} 
+\index{GameMap@{GameMap}!width\_coord@{width\_coord}}
+\index{width\_coord@{width\_coord}!GameMap@{GameMap}}
+\doxysubsubsection{\texorpdfstring{width\_coord}{width\_coord}}
+{\footnotesize\ttfamily float Game\+Map\+::width\+\_\+coord}
+
+
+
+Ширина покрытия сетки графа 
+
+
+
+Объявления и описания членов классов находятся в файлах\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{gamemap_8h}{gamemap.\+h}}\item 
+\mbox{\hyperlink{gamemap_8cpp}{gamemap.\+cpp}}\end{DoxyCompactItemize}

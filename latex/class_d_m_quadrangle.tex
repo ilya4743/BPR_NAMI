@@ -1,0 +1,133 @@
+\hypertarget{class_d_m_quadrangle}{}\doxysection{Класс D\+M\+Quadrangle}
+\label{class_d_m_quadrangle}\index{DMQuadrangle@{DMQuadrangle}}
+
+
+Класс прямоугольной матрицы расстояний  
+
+
+
+
+{\ttfamily \#include $<$locationmap.\+h$>$}
+
+
+
+Граф наследования\+:D\+M\+Quadrangle\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{class_d_m_quadrangle__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Граф связей класса D\+M\+Quadrangle\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{class_d_m_quadrangle__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Открытые члены}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_d_m_quadrangle_a8c581c0edabaff6d6a4edba7f5eb9696}{D\+M\+Quadrangle}} ()
+\begin{DoxyCompactList}\small\item\em Конструктор по умолчанию \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_d_m_quadrangle_a6bc15d3a1c2f6101a073509349144b15}{D\+M\+Quadrangle}} (int width, int height, int center, float step)
+\begin{DoxyCompactList}\small\item\em Конструктор с параметрами \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_d_m_quadrangle_aab6e8b60b71dfd0938a17fdc4cc87439}{D\+M\+Quadrangle}} (const \mbox{\hyperlink{class_d_m_quadrangle}{D\+M\+Quadrangle}} \&o)
+\begin{DoxyCompactList}\small\item\em Конструктор копирования \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_d_m_quadrangle_aa98484f7f712892e234abed75f5301ed}{init}} () override
+\begin{DoxyCompactList}\small\item\em Инициализация матрицы расстояний \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_d_m_quadrangle_a0a31caf018daf0fbdd97295f40591d13}{print}} () override
+\begin{DoxyCompactList}\small\item\em Печать матрицы расстояний в консоль \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_d_m_quadrangle_a0ecdcef890f696e4d97b1ee2b7d9652e}{$\sim$\+D\+M\+Quadrangle}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Дополнительные унаследованные члены}
+
+
+\doxysubsection{Подробное описание}
+Класс прямоугольной матрицы расстояний 
+
+Матрица создается на базе вектора точек (x, y). ~\newline
+Значение {\bfseries{width}} задает количество элементов матрицы по ширине. ~\newline
+Значение {\bfseries{height}} задает количетво элементов матрицы по высоте. ~\newline
+Значение {\bfseries{step}}(шаг) отвечает за расстояние от одной точки до другой. ~\newline
+Значение {\bfseries{center}} задает номер элемента матрицы, который будет считаться точкой отсчета. ~\newline
+На рисунке представлена схема прямоугольной матрицы расстояний, с точкой отсчета в элементе под номером 12. 
+
+ 
+
+\doxysubsection{Конструктор(ы)}
+\mbox{\Hypertarget{class_d_m_quadrangle_a8c581c0edabaff6d6a4edba7f5eb9696}\label{class_d_m_quadrangle_a8c581c0edabaff6d6a4edba7f5eb9696}} 
+\index{DMQuadrangle@{DMQuadrangle}!DMQuadrangle@{DMQuadrangle}}
+\index{DMQuadrangle@{DMQuadrangle}!DMQuadrangle@{DMQuadrangle}}
+\doxysubsubsection{\texorpdfstring{DMQuadrangle()}{DMQuadrangle()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily D\+M\+Quadrangle\+::\+D\+M\+Quadrangle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Конструктор по умолчанию 
+
+\mbox{\Hypertarget{class_d_m_quadrangle_a6bc15d3a1c2f6101a073509349144b15}\label{class_d_m_quadrangle_a6bc15d3a1c2f6101a073509349144b15}} 
+\index{DMQuadrangle@{DMQuadrangle}!DMQuadrangle@{DMQuadrangle}}
+\index{DMQuadrangle@{DMQuadrangle}!DMQuadrangle@{DMQuadrangle}}
+\doxysubsubsection{\texorpdfstring{DMQuadrangle()}{DMQuadrangle()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily D\+M\+Quadrangle\+::\+D\+M\+Quadrangle (\begin{DoxyParamCaption}\item[{int}]{width,  }\item[{int}]{height,  }\item[{int}]{center,  }\item[{float}]{step }\end{DoxyParamCaption})}
+
+
+
+Конструктор с параметрами 
+
+\mbox{\Hypertarget{class_d_m_quadrangle_aab6e8b60b71dfd0938a17fdc4cc87439}\label{class_d_m_quadrangle_aab6e8b60b71dfd0938a17fdc4cc87439}} 
+\index{DMQuadrangle@{DMQuadrangle}!DMQuadrangle@{DMQuadrangle}}
+\index{DMQuadrangle@{DMQuadrangle}!DMQuadrangle@{DMQuadrangle}}
+\doxysubsubsection{\texorpdfstring{DMQuadrangle()}{DMQuadrangle()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily D\+M\+Quadrangle\+::\+D\+M\+Quadrangle (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_d_m_quadrangle}{D\+M\+Quadrangle}} \&}]{o }\end{DoxyParamCaption})}
+
+
+
+Конструктор копирования 
+
+\mbox{\Hypertarget{class_d_m_quadrangle_a0ecdcef890f696e4d97b1ee2b7d9652e}\label{class_d_m_quadrangle_a0ecdcef890f696e4d97b1ee2b7d9652e}} 
+\index{DMQuadrangle@{DMQuadrangle}!````~DMQuadrangle@{$\sim$DMQuadrangle}}
+\index{````~DMQuadrangle@{$\sim$DMQuadrangle}!DMQuadrangle@{DMQuadrangle}}
+\doxysubsubsection{\texorpdfstring{$\sim$DMQuadrangle()}{~DMQuadrangle()}}
+{\footnotesize\ttfamily D\+M\+Quadrangle\+::$\sim$\+D\+M\+Quadrangle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+\doxysubsection{Методы}
+\mbox{\Hypertarget{class_d_m_quadrangle_aa98484f7f712892e234abed75f5301ed}\label{class_d_m_quadrangle_aa98484f7f712892e234abed75f5301ed}} 
+\index{DMQuadrangle@{DMQuadrangle}!init@{init}}
+\index{init@{init}!DMQuadrangle@{DMQuadrangle}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void D\+M\+Quadrangle\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Инициализация матрицы расстояний 
+
+
+
+Переопределяет метод предка \mbox{\hyperlink{class_distance_matrix_a7cd9e3c3faa88b095d133248ecf21837}{Distance\+Matrix}}.
+
+\mbox{\Hypertarget{class_d_m_quadrangle_a0a31caf018daf0fbdd97295f40591d13}\label{class_d_m_quadrangle_a0a31caf018daf0fbdd97295f40591d13}} 
+\index{DMQuadrangle@{DMQuadrangle}!print@{print}}
+\index{print@{print}!DMQuadrangle@{DMQuadrangle}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void D\+M\+Quadrangle\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Печать матрицы расстояний в консоль 
+
+
+
+Переопределяет метод предка \mbox{\hyperlink{class_distance_matrix_ae9246db1af3bed1bab8ef1e30317b6e4}{Distance\+Matrix}}.
+
+
+
+Объявления и описания членов классов находятся в файлах\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{locationmap_8h}{locationmap.\+h}}\item 
+\mbox{\hyperlink{locationmap_8cpp}{locationmap.\+cpp}}\end{DoxyCompactItemize}

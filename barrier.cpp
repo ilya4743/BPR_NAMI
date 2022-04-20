@@ -224,6 +224,7 @@ inline bool intersect_1 (int a, int b, int c, int d) {
 
 //}
 
+/// Класс сглаживания пути
 class Smoother
 {
 private:
@@ -310,48 +311,15 @@ public:
     }
 };
 
-
-
 bool BQuadrAngle::isIntersection(Point a, Point b)
 {
-    /*//нижняя сторона
-    Point c, d;
-    c.x=left_top.x;
-    c.y=right_bottom.y;
-    d.x=right_bottom.x;
-    d.y=right_bottom.y;
-
-    //левая сторона
-    Point c1,d1;
-    c1.x=left_top.x;
-    c1.y=left_top.y;
-    d1.x=left_top.x;
-    d1.y=right_bottom.y;
-
-    //верхняя сторона
-    Point c2,d2;
-    c2.x=left_top.x;
-    c2.y=left_top.y;
-    d2.x=right_bottom.x;
-    d2.y=left_top.y;
-
-    //правая
-    Point c3,d3;
-    c3.x=right_bottom.x;
-    c3.y=left_top.y;
-    d3.x=right_bottom.x;
-    d3.y=right_bottom.y;*/
-
     vector<Point>poly;
-
-
     poly.push_back(Point(left_top.x,left_top.y));
     poly.push_back(Point(right_bottom.x,left_top.y));
     poly.push_back(Point(right_bottom.x,right_bottom.y));
     poly.push_back(Point(left_top.x,right_bottom.y));
 
     list<Point> poly1;
-    //x-width/2,y+height/2
     poly1.push_back(poly[0]);
     poly1.push_back(poly[1]);
     poly1.push_back(poly[2]);
@@ -359,10 +327,6 @@ bool BQuadrAngle::isIntersection(Point a, Point b)
     poly1.push_back(poly[0]);
     auto kkk=Smoother::Polyclip(poly1,b,a);
     int seg=0;
-    /*bool b1=Smoother::SegmentIntersection(x-width/2,y+height/2, x+width/2,y+height/2,   a.x,a.y,b.x,b.y);
-    bool b2=Smoother::SegmentIntersection(x+width/2,y+height/2, x+width/2,y-height/2,   a.x,a.y,b.x,b.y);
-    bool b3=Smoother::SegmentIntersection(x-width/2,y-height/2, x+width/2,y-height/2,   a.x,a.y,b.x,b.y);
-    bool b4=Smoother::SegmentIntersection(x-width/2,y+height/2, x-width/2,y-height/2,   a.x,a.y,b.x,b.y);*/
 
     bool b1=Smoother::SegmentIntersection(left_top.x,left_top.y,        right_bottom.x,left_top.y,      a.x,a.y,b.x,b.y);
     bool b2=Smoother::SegmentIntersection(right_bottom.x,left_top.y,    right_bottom.x,right_bottom.y,  a.x,a.y,b.x,b.y);

@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Блок принятия решений: Исходный файл mygraph.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Блок принятия решений
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">mygraph.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="mygraph_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef MYGRAPH_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define MYGRAPH_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;boost/graph/adjacency_list.hpp&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;boost/graph/graphviz.hpp&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;boost/graph/astar_search.hpp&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include&quot;<a class="code" href="locationmap_8h.html">locationmap.h</a>&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="point_8h.html">point.h</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include&quot;<a class="code" href="myexception_8h.html">myexception.h</a>&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span>boost;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="mygraph_8h.html#abe71c5364bf3287c01551a85cea55d8c">   13</a></span>&#160;<span class="keyword">typedef</span> boost::property&lt;boost::edge_weight_t, float&gt; <a class="code" href="mygraph_8h.html#abe71c5364bf3287c01551a85cea55d8c">weight</a>;</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">   15</a></span>&#160;<span class="keyword">typedef</span> adjacency_list&lt;vecS, vecS, undirectedS, boost::no_property, weight&gt; <a class="code" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">   17</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">boost::graph_traits&lt;my_graph&gt;::edge_iterator</a> <a class="code" href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">   19</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">boost::graph_traits&lt;my_graph&gt;::vertex_iterator</a> <a class="code" href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="mygraph_8h.html#a8c7f893c0e29cf5f9755ecf83d138fb1">   21</a></span>&#160;<span class="keyword">typedef</span> boost::property_map&lt;my_graph, boost::edge_weight_t&gt;::type <a class="code" href="mygraph_8h.html#a8c7f893c0e29cf5f9755ecf83d138fb1">Weight_Map</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="mygraph_8h.html#aa58dc6cf2f9b8325283debb4d6ef927a">   23</a></span>&#160;<span class="keyword">typedef</span> std::pair&lt;edge_iterator, edge_iterator&gt; <a class="code" href="mygraph_8h.html#aa58dc6cf2f9b8325283debb4d6ef927a">edgePair</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="mygraph_8h.html#a4ef5e0746fa2757b7ce780cceb77e7e1">   25</a></span>&#160;<span class="keyword">typedef</span> std::pair&lt;vertex_iterator, vertex_iterator&gt; <a class="code" href="mygraph_8h.html#a4ef5e0746fa2757b7ce780cceb77e7e1">vertexPair</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">   27</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">graph_traits&lt;my_graph&gt;::vertex_descriptor</a> <a class="code" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="mygraph_8h.html#a270670947027c86d3e0b6407a192eaee">   29</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code" href="mygraph_8h.html#a270670947027c86d3e0b6407a192eaee">graph_traits&lt;my_graph&gt;::edge_descriptor</a>  <a class="code" href="mygraph_8h.html#a270670947027c86d3e0b6407a192eaee">edge_descriptor</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="class_i_graph.html">   32</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_i_graph.html">IGraph</a></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    std::list&lt;vertex_descriptor&gt; <span class="keyword">virtual</span> search(<span class="keyword">const</span> <a class="code" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> start,<span class="keyword">const</span> <a class="code" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> goal,<span class="keyword">const</span> vector&lt;Point&gt;&amp; distance)=0;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> <span class="keyword">virtual</span> init(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height)=0;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_i_graph.html">IGraph</a>()=0;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="class_my_graph.html">   59</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_my_graph.html">MyGraph</a>:<span class="keyword">public</span> <a class="code" href="class_i_graph.html">IGraph</a></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="class_my_graph.html#ae9bc027b6b44efc21bfff335dfdddf1e">   63</a></span>&#160;    <a class="code" href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>* <a class="code" href="class_my_graph.html#ae9bc027b6b44efc21bfff335dfdddf1e">adj_list</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="class_my_graph.html">MyGraph</a>();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="class_my_graph.html">MyGraph</a>(<span class="keywordtype">int</span> num_vertices);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="class_my_graph.html">MyGraph</a>(<a class="code" href="class_my_graph.html">MyGraph</a>&amp;o);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    ~<a class="code" href="class_my_graph.html">MyGraph</a>();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">void</span> init(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::list&lt;vertex_descriptor&gt; search(<span class="keyword">const</span> <a class="code" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> start,<span class="keyword">const</span> <a class="code" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> goal,<span class="keyword">const</span> vector&lt;Point&gt;&amp; distance)<span class="keyword">override</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span> print_vertexes();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">void</span> print_edges();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">void</span> print_to_graphviz();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;};</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#endif // MYGRAPH_H</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclass_my_graph_html_a4e49a1e84789225da50aee23a912b75e"><div class="ttname"><a href="class_my_graph.html#a4e49a1e84789225da50aee23a912b75e">MyGraph::~MyGraph</a></div><div class="ttdeci">~MyGraph()</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:203</div></div>
+<div class="ttc" id="aclass_my_graph_html_a28bf434d062ec896de127989fe9ed303"><div class="ttname"><a href="class_my_graph.html#a28bf434d062ec896de127989fe9ed303">MyGraph::MyGraph</a></div><div class="ttdeci">MyGraph()</div><div class="ttdoc">Конструктор по умолчанию</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:11</div></div>
+<div class="ttc" id="amygraph_8h_html_abdfb7d0d95351fc6faba8ee4ef60523f"><div class="ttname"><a href="mygraph_8h.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a></div><div class="ttdeci">boost::graph_traits&lt; my_graph &gt;::vertex_iterator vertex_iterator</div><div class="ttdoc">Итератор вершин</div><div class="ttdef"><b>Definition:</b> mygraph.h:19</div></div>
+<div class="ttc" id="apoint_8h_html"><div class="ttname"><a href="point_8h.html">point.h</a></div></div>
+<div class="ttc" id="aclass_my_graph_html_ad3738a91901c84ca908bc25103425af2"><div class="ttname"><a href="class_my_graph.html#ad3738a91901c84ca908bc25103425af2">MyGraph::init</a></div><div class="ttdeci">void init(int width, int height) override</div><div class="ttdoc">Инициализация связей графа</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:26</div></div>
+<div class="ttc" id="aclasscross__heuristic_html_a9f330cc24589a17d028e98f9ae25bcc8"><div class="ttname"><a href="classcross__heuristic.html#a9f330cc24589a17d028e98f9ae25bcc8">cross_heuristic::Vertex</a></div><div class="ttdeci">graph_traits&lt; Graph &gt;::vertex_descriptor Vertex</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:111</div></div>
+<div class="ttc" id="aclasseuclidean__heuristic_html_abe749723335b5dc8ca7db5f8851bffe3"><div class="ttname"><a href="classeuclidean__heuristic.html#abe749723335b5dc8ca7db5f8851bffe3">euclidean_heuristic::Vertex</a></div><div class="ttdeci">graph_traits&lt; Graph &gt;::vertex_descriptor Vertex</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:52</div></div>
+<div class="ttc" id="amygraph_8h_html_af023f2d9f7adf6f36bd358fd96b634ef"><div class="ttname"><a href="mygraph_8h.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a></div><div class="ttdeci">boost::graph_traits&lt; my_graph &gt;::edge_iterator edge_iterator</div><div class="ttdoc">Итератор дуг</div><div class="ttdef"><b>Definition:</b> mygraph.h:17</div></div>
+<div class="ttc" id="aclassastar__goal__visitor_html_a0f1979c739f424a69bac999be7882df0"><div class="ttname"><a href="classastar__goal__visitor.html#a0f1979c739f424a69bac999be7882df0">astar_goal_visitor::astar_goal_visitor</a></div><div class="ttdeci">astar_goal_visitor(Vertex goal)</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:141</div></div>
+<div class="ttc" id="amyexception_8h_html"><div class="ttname"><a href="myexception_8h.html">myexception.h</a></div></div>
+<div class="ttc" id="amyexception_8h_html_a33170a554ebdcac33db4132d8dfe1b51"><div class="ttname"><a href="myexception_8h.html#a33170a554ebdcac33db4132d8dfe1b51">PathNotFound</a></div><div class="ttdeci">#define PathNotFound</div><div class="ttdoc">Путь не найден исключений</div><div class="ttdef"><b>Definition:</b> myexception.h:6</div></div>
+<div class="ttc" id="amygraph_8h_html"><div class="ttname"><a href="mygraph_8h.html">mygraph.h</a></div></div>
+<div class="ttc" id="aclassdiagonal__heuristic_html_a99e01af261981eb18c1a8b4bf1806422"><div class="ttname"><a href="classdiagonal__heuristic.html#a99e01af261981eb18c1a8b4bf1806422">diagonal_heuristic::diagonal_heuristic</a></div><div class="ttdeci">diagonal_heuristic(LocMap l, Vertex goal)</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:92</div></div>
+<div class="ttc" id="aclass_i_graph_html"><div class="ttname"><a href="class_i_graph.html">IGraph</a></div><div class="ttdoc">Интерфейс графа</div><div class="ttdef"><b>Definition:</b> mygraph.h:32</div></div>
+<div class="ttc" id="aclass_my_graph_html_a4a094e1d4c4325a692be7db5dc235bc3"><div class="ttname"><a href="class_my_graph.html#a4a094e1d4c4325a692be7db5dc235bc3">MyGraph::print_vertexes</a></div><div class="ttdeci">void print_vertexes()</div><div class="ttdoc">Печать номеров вершин в консоль</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:156</div></div>
+<div class="ttc" id="aclassdiagonal__heuristic_html_a7b7baee59d7760e7ec988e2da457afe3"><div class="ttname"><a href="classdiagonal__heuristic.html#a7b7baee59d7760e7ec988e2da457afe3">diagonal_heuristic::Vertex</a></div><div class="ttdeci">graph_traits&lt; Graph &gt;::vertex_descriptor Vertex</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:91</div></div>
+<div class="ttc" id="amygraph_8h_html_aa58dc6cf2f9b8325283debb4d6ef927a"><div class="ttname"><a href="mygraph_8h.html#aa58dc6cf2f9b8325283debb4d6ef927a">edgePair</a></div><div class="ttdeci">std::pair&lt; edge_iterator, edge_iterator &gt; edgePair</div><div class="ttdoc">Пара итераторов для ребра</div><div class="ttdef"><b>Definition:</b> mygraph.h:23</div></div>
+<div class="ttc" id="aclassastar__goal__visitor_html_a19e3c75926ba173cadb870607b281399"><div class="ttname"><a href="classastar__goal__visitor.html#a19e3c75926ba173cadb870607b281399">astar_goal_visitor::finish_vertex</a></div><div class="ttdeci">void finish_vertex(Vertex u, Graph &amp;g)</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:148</div></div>
+<div class="ttc" id="aclassdiagonal__heuristic_html_ab4418ef56185a199bebb94c6a634d8ae"><div class="ttname"><a href="classdiagonal__heuristic.html#ab4418ef56185a199bebb94c6a634d8ae">diagonal_heuristic::operator()</a></div><div class="ttdeci">CostType operator()(Vertex u)</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:93</div></div>
+<div class="ttc" id="aclassdiagonal__heuristic_html"><div class="ttname"><a href="classdiagonal__heuristic.html">diagonal_heuristic</a></div><div class="ttdef"><b>Definition:</b> mygraph.cpp:88</div></div>
+<div class="ttc" id="amygraph_8h_html_abe71c5364bf3287c01551a85cea55d8c"><div class="ttname"><a href="mygraph_8h.html#abe71c5364bf3287c01551a85cea55d8c">weight</a></div><div class="ttdeci">boost::property&lt; boost::edge_weight_t, float &gt; weight</div><div class="ttdoc">Вес ребра</div><div class="ttdef"><b>Definition:</b> mygraph.h:13</div></div>
+<div class="ttc" id="aclass_my_graph_html_ae9bc027b6b44efc21bfff335dfdddf1e"><div class="ttname"><a href="class_my_graph.html#ae9bc027b6b44efc21bfff335dfdddf1e">MyGraph::adj_list</a></div><div class="ttdeci">my_graph * adj_list</div><div class="ttdoc">Граф (список смежности)</div><div class="ttdef"><b>Definition:</b> mygraph.h:63</div></div>
+<div class="ttc" id="aclass_my_graph_html"><div class="ttname"><a href="class_my_graph.html">MyGraph</a></div><div class="ttdoc">Класс для построения неориентированного прямоугольного графа</div><div class="ttdef"><b>Definition:</b> mygraph.h:59</div></div>
+<div class="ttc" id="amygraph_8h_html_a8c7f893c0e29cf5f9755ecf83d138fb1"><div class="ttname"><a href="mygraph_8h.html#a8c7f893c0e29cf5f9755ecf83d138fb1">Weight_Map</a></div><div class="ttdeci">boost::property_map&lt; my_graph, boost::edge_weight_t &gt;::type Weight_Map</div><div class="ttdoc">Карта весов рёбер</div><div class="ttdef"><b>Definition:</b> mygraph.h:21</div></div>
+<div class="ttc" id="aclasseuclidean__heuristic_html"><div class="ttname"><a href="classeuclidean__heuristic.html">euclidean_heuristic</a></div><div class="ttdef"><b>Definition:</b> mygraph.cpp:49</div></div>
+<div class="ttc" id="amygraph_8h_html_a270670947027c86d3e0b6407a192eaee"><div class="ttname"><a href="mygraph_8h.html#a270670947027c86d3e0b6407a192eaee">edge_descriptor</a></div><div class="ttdeci">graph_traits&lt; my_graph &gt;::edge_descriptor edge_descriptor</div><div class="ttdoc">Дескриптор рёбер</div><div class="ttdef"><b>Definition:</b> mygraph.h:29</div></div>
+<div class="ttc" id="amygraph_8h_html_ad33c7f8ba634f860bfe3dc13b6b703da"><div class="ttname"><a href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a></div><div class="ttdeci">graph_traits&lt; my_graph &gt;::vertex_descriptor vertex_descriptor</div><div class="ttdoc">Дескриптор вершин</div><div class="ttdef"><b>Definition:</b> mygraph.h:27</div></div>
+<div class="ttc" id="aclass_my_graph_html_a00bb5bb25468b96cc227f58497a1ee52"><div class="ttname"><a href="class_my_graph.html#a00bb5bb25468b96cc227f58497a1ee52">MyGraph::print_edges</a></div><div class="ttdeci">void print_edges()</div><div class="ttdoc">Печать дуг в консоль</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:163</div></div>
+<div class="ttc" id="amygraph_8h_html_a4ef5e0746fa2757b7ce780cceb77e7e1"><div class="ttname"><a href="mygraph_8h.html#a4ef5e0746fa2757b7ce780cceb77e7e1">vertexPair</a></div><div class="ttdeci">std::pair&lt; vertex_iterator, vertex_iterator &gt; vertexPair</div><div class="ttdoc">Пара итераторов для вершины</div><div class="ttdef"><b>Definition:</b> mygraph.h:25</div></div>
+<div class="ttc" id="aclasseuclidean__heuristic_html_a657bf64cd5c5111c7262121b88312f1b"><div class="ttname"><a href="classeuclidean__heuristic.html#a657bf64cd5c5111c7262121b88312f1b">euclidean_heuristic::euclidean_heuristic</a></div><div class="ttdeci">euclidean_heuristic(LocMap l, Vertex goal)</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:53</div></div>
+<div class="ttc" id="aclasscross__heuristic_html_a4ff4e32642afe2bc4852816433ae6f27"><div class="ttname"><a href="classcross__heuristic.html#a4ff4e32642afe2bc4852816433ae6f27">cross_heuristic::cross_heuristic</a></div><div class="ttdeci">cross_heuristic(LocMap l, Vertex goal, Vertex s)</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:112</div></div>
+<div class="ttc" id="aclass_my_graph_html_a0ceb6e1522bcf659ecdb4c66409d8278"><div class="ttname"><a href="class_my_graph.html#a0ceb6e1522bcf659ecdb4c66409d8278">MyGraph::print_to_graphviz</a></div><div class="ttdeci">void print_to_graphviz()</div><div class="ttdoc">Печать графа в graphviz.</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:170</div></div>
+<div class="ttc" id="aclass_my_graph_html_ac208588b40687cd35675f6055cda415d"><div class="ttname"><a href="class_my_graph.html#ac208588b40687cd35675f6055cda415d">MyGraph::search</a></div><div class="ttdeci">std::list&lt; vertex_descriptor &gt; search(const vertex_descriptor start, const vertex_descriptor goal, const vector&lt; Point &gt; &amp;distance) override</div><div class="ttdoc">Поиск путь на графе</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:177</div></div>
+<div class="ttc" id="aclasscross__heuristic_html"><div class="ttname"><a href="classcross__heuristic.html">cross_heuristic</a></div><div class="ttdef"><b>Definition:</b> mygraph.cpp:108</div></div>
+<div class="ttc" id="aclassastar__goal__visitor_html_a6fe99fb1a077810406056b7040efca99"><div class="ttname"><a href="classastar__goal__visitor.html#a6fe99fb1a077810406056b7040efca99">astar_goal_visitor::examine_vertex</a></div><div class="ttdeci">void examine_vertex(Vertex u, Graph &amp;g)</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:143</div></div>
+<div class="ttc" id="aclasseuclidean__heuristic_html_a73806368aff300789e11999800551ad0"><div class="ttname"><a href="classeuclidean__heuristic.html#a73806368aff300789e11999800551ad0">euclidean_heuristic::operator()</a></div><div class="ttdeci">CostType operator()(Vertex u)</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:54</div></div>
+<div class="ttc" id="aclassastar__goal__visitor_html"><div class="ttname"><a href="classastar__goal__visitor.html">astar_goal_visitor</a></div><div class="ttdef"><b>Definition:</b> mygraph.cpp:138</div></div>
+<div class="ttc" id="aclasscross__heuristic_html_adffc0d73cb219a5ae50e22dedb5be8aa"><div class="ttname"><a href="classcross__heuristic.html#adffc0d73cb219a5ae50e22dedb5be8aa">cross_heuristic::operator()</a></div><div class="ttdeci">CostType operator()(Vertex u)</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:113</div></div>
+<div class="ttc" id="aclass_my_exception_html"><div class="ttname"><a href="class_my_exception.html">MyException</a></div><div class="ttdoc">Класс исключений</div><div class="ttdef"><b>Definition:</b> myexception.h:15</div></div>
+<div class="ttc" id="amygraph_8h_html_aee22870dc930c7bd9eccb03de0e00357"><div class="ttname"><a href="mygraph_8h.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a></div><div class="ttdeci">adjacency_list&lt; vecS, vecS, undirectedS, boost::no_property, weight &gt; my_graph</div><div class="ttdoc">Граф (список смежности)</div><div class="ttdef"><b>Definition:</b> mygraph.h:15</div></div>
+<div class="ttc" id="aclass_i_graph_html_aa4cea79b834790cc5f9b6743f1584f4c"><div class="ttname"><a href="class_i_graph.html#aa4cea79b834790cc5f9b6743f1584f4c">IGraph::~IGraph</a></div><div class="ttdeci">virtual ~IGraph()=0</div><div class="ttdoc">Виртуальный деструктор</div><div class="ttdef"><b>Definition:</b> mygraph.cpp:6</div></div>
+<div class="ttc" id="alocationmap_8h_html"><div class="ttname"><a href="locationmap_8h.html">locationmap.h</a></div></div>
+<div class="ttc" id="astructfound__goal_html"><div class="ttname"><a href="structfound__goal.html">found_goal</a></div><div class="ttdef"><b>Definition:</b> mygraph.cpp:134</div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

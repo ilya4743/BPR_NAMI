@@ -1,0 +1,10 @@
+<map id="GameMap::doo" name="GameMap::doo">
+<area shape="rect" id="node1" title=" " alt="" coords="5,107,127,133"/>
+<area shape="rect" id="node2" href="$class_game_map.html#a3f763920da07f8dc611bbf9c66fd91ed" title="Формирование сообщения под отправку" alt="" coords="191,5,365,32"/>
+<area shape="rect" id="node3" href="$class_my_graph.html#ad3738a91901c84ca908bc25103425af2" title="Инициализация связей графа" alt="" coords="223,56,333,83"/>
+<area shape="rect" id="node4" href="$class_game_map.html#a0339eb58395ade3f2170380509eb846f" title="Печать игрового поля в консоль" alt="" coords="175,107,381,133"/>
+<area shape="rect" id="node5" href="$class_game_map.html#a14240bed9cdec955cc9de95e27fb6610" title="Печать пути" alt="" coords="197,157,359,184"/>
+<area shape="rect" id="node8" href="$class_my_graph.html#ac208588b40687cd35675f6055cda415d" title="Поиск путь на графе" alt="" coords="212,208,344,235"/>
+<area shape="rect" id="node6" href="$class_game_map.html#a2b1837a8151efc6d79085860916cef44" title=" " alt="" coords="429,132,553,159"/>
+<area shape="rect" id="node7" href="$class_game_map.html#a95a7a6d7b41609bc3f2f3b53e7aaa3bc" title=" " alt="" coords="429,183,553,209"/>
+</map>

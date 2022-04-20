@@ -1,0 +1,5 @@
+<map id="BQuadrAngle::print" name="BQuadrAngle::print">
+<area shape="rect" id="node1" title="Печать препятствия в консоль" alt="" coords="5,31,151,57"/>
+<area shape="rect" id="node2" href="$class_game_map.html#a2b1837a8151efc6d79085860916cef44" title=" " alt="" coords="199,5,323,32"/>
+<area shape="rect" id="node3" href="$class_game_map.html#a95a7a6d7b41609bc3f2f3b53e7aaa3bc" title=" " alt="" coords="199,56,323,83"/>
+</map>

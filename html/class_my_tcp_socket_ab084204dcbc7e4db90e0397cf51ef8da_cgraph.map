@@ -1,0 +1,14 @@
+<map id="MyTcpSocket::readyRead" name="MyTcpSocket::readyRead">
+<area shape="rect" id="node1" title=" " alt="" coords="5,183,189,209"/>
+<area shape="rect" id="node2" href="$class_game_map.html#a15a6c6deceffbd0a74cc420f57f5176c" title=" " alt="" coords="277,107,399,133"/>
+<area shape="rect" id="node10" href="$class_my_exception.html#a97d66c42f3d03eefdbaba65c74842587" title=" " alt="" coords="237,157,439,184"/>
+<area shape="rect" id="node11" href="$class_my_log.html#a2de868aef67e8c205ef0d199a2b8eb82" title=" " alt="" coords="257,208,419,235"/>
+<area shape="rect" id="node12" href="$class_my_exception.html#a5c774a1bfa5d16717442b513b5f5800d" title=" " alt="" coords="265,259,411,285"/>
+<area shape="rect" id="node3" href="$class_game_map.html#a3f763920da07f8dc611bbf9c66fd91ed" title="Формирование сообщения под отправку" alt="" coords="503,5,677,32"/>
+<area shape="rect" id="node4" href="$class_my_graph.html#ad3738a91901c84ca908bc25103425af2" title="Инициализация связей графа" alt="" coords="535,56,645,83"/>
+<area shape="rect" id="node5" href="$class_game_map.html#a0339eb58395ade3f2170380509eb846f" title="Печать игрового поля в консоль" alt="" coords="487,107,693,133"/>
+<area shape="rect" id="node6" href="$class_game_map.html#a14240bed9cdec955cc9de95e27fb6610" title="Печать пути" alt="" coords="509,157,671,184"/>
+<area shape="rect" id="node9" href="$class_my_graph.html#ac208588b40687cd35675f6055cda415d" title="Поиск путь на графе" alt="" coords="524,208,656,235"/>
+<area shape="rect" id="node7" href="$class_game_map.html#a2b1837a8151efc6d79085860916cef44" title=" " alt="" coords="741,132,865,159"/>
+<area shape="rect" id="node8" href="$class_game_map.html#a95a7a6d7b41609bc3f2f3b53e7aaa3bc" title=" " alt="" coords="741,183,865,209"/>
+</map>

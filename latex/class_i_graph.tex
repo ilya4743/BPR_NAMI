@@ -1,0 +1,115 @@
+\hypertarget{class_i_graph}{}\doxysection{Класс I\+Graph}
+\label{class_i_graph}\index{IGraph@{IGraph}}
+
+
+Интерфейс графа  
+
+
+
+
+{\ttfamily \#include $<$mygraph.\+h$>$}
+
+
+
+Граф наследования\+:I\+Graph\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=200pt]{class_i_graph__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Граф связей класса I\+Graph\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=156pt]{class_i_graph__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Открытые члены}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::list$<$ \mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}} $>$ \mbox{\hyperlink{class_i_graph_a0ca9333784dfc2e08d262cfb49f3913e}{search}} (const \mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}} start, const \mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}} goal, const vector$<$ \mbox{\hyperlink{class_point}{Point}} $>$ \&distance)=0
+\begin{DoxyCompactList}\small\item\em Поиск путь на графе \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_i_graph_a764ff5996b5b925750e921faf3707cee}{init}} (int width, int height)=0
+\begin{DoxyCompactList}\small\item\em Инициализация связей графа \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{class_i_graph_aa4cea79b834790cc5f9b6743f1584f4c}{$\sim$\+I\+Graph}} ()=0
+\begin{DoxyCompactList}\small\item\em Виртуальный деструктор \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Подробное описание}
+Интерфейс графа 
+
+\doxysubsection{Конструктор(ы)}
+\mbox{\Hypertarget{class_i_graph_aa4cea79b834790cc5f9b6743f1584f4c}\label{class_i_graph_aa4cea79b834790cc5f9b6743f1584f4c}} 
+\index{IGraph@{IGraph}!````~IGraph@{$\sim$IGraph}}
+\index{````~IGraph@{$\sim$IGraph}!IGraph@{IGraph}}
+\doxysubsubsection{\texorpdfstring{$\sim$IGraph()}{~IGraph()}}
+{\footnotesize\ttfamily I\+Graph\+::$\sim$\+I\+Graph (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Виртуальный деструктор 
+
+
+
+\doxysubsection{Методы}
+\mbox{\Hypertarget{class_i_graph_a764ff5996b5b925750e921faf3707cee}\label{class_i_graph_a764ff5996b5b925750e921faf3707cee}} 
+\index{IGraph@{IGraph}!init@{init}}
+\index{init@{init}!IGraph@{IGraph}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily virtual void I\+Graph\+::init (\begin{DoxyParamCaption}\item[{int}]{width,  }\item[{int}]{height }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Инициализация связей графа 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em width} & количество вершин графа по ширине \\
+\hline
+{\em height} & количество вершин графа по высоте \\
+\hline
+\end{DoxyParams}
+
+
+Замещается в \mbox{\hyperlink{class_my_graph_ad3738a91901c84ca908bc25103425af2}{My\+Graph}}.
+
+\mbox{\Hypertarget{class_i_graph_a0ca9333784dfc2e08d262cfb49f3913e}\label{class_i_graph_a0ca9333784dfc2e08d262cfb49f3913e}} 
+\index{IGraph@{IGraph}!search@{search}}
+\index{search@{search}!IGraph@{IGraph}}
+\doxysubsubsection{\texorpdfstring{search()}{search()}}
+{\footnotesize\ttfamily virtual std\+::list$<$\mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}}$>$ I\+Graph\+::search (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}}}]{start,  }\item[{const \mbox{\hyperlink{mygraph_8h_ad33c7f8ba634f860bfe3dc13b6b703da}{vertex\+\_\+descriptor}}}]{goal,  }\item[{const vector$<$ \mbox{\hyperlink{class_point}{Point}} $>$ \&}]{distance }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Поиск путь на графе 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em start} & вершина графа, отвечающая за начало пути \\
+\hline
+{\em goal} & вершина графа, отвечающая за конец пути \\
+\hline
+{\em distance} & матрица расстояний \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+вектор вершин графа, через которые пролегает путь 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Исключения}
+{\em -\/1} & путь не найден \\
+\hline
+\end{DoxyExceptions}
+
+
+Замещается в \mbox{\hyperlink{class_my_graph_ac208588b40687cd35675f6055cda415d}{My\+Graph}}.
+
+
+
+Объявления и описания членов классов находятся в файлах\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{mygraph_8h}{mygraph.\+h}}\item 
+\mbox{\hyperlink{mygraph_8cpp}{mygraph.\+cpp}}\end{DoxyCompactItemize}

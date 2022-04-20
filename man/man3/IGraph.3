@@ -1,0 +1,86 @@
+.TH "IGraph" 3 "Ср 20 Апр 2022" "Version 1.0" "Блок принятия решений" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+IGraph \- Интерфейс графа  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <mygraph\&.h>\fP
+.PP
+Производные классы:\fBMyGraph\fP\&.
+.SS "Открытые члены"
+
+.in +1c
+.ti -1c
+.RI "virtual std::list< \fBvertex_descriptor\fP > \fBsearch\fP (const \fBvertex_descriptor\fP start, const \fBvertex_descriptor\fP goal, const vector< \fBPoint\fP > &distance)=0"
+.br
+.RI "Поиск путь на графе "
+.ti -1c
+.RI "virtual void \fBinit\fP (int width, int height)=0"
+.br
+.RI "Инициализация связей графа "
+.ti -1c
+.RI "virtual \fB~IGraph\fP ()=0"
+.br
+.RI "Виртуальный деструктор "
+.in -1c
+.SH "Подробное описание"
+.PP 
+Интерфейс графа 
+.SH "Конструктор(ы)"
+.PP 
+.SS "IGraph::~IGraph ()\fC [pure virtual]\fP"
+
+.PP
+Виртуальный деструктор 
+.SH "Методы"
+.PP 
+.SS "virtual void IGraph::init (int width, int height)\fC [pure virtual]\fP"
+
+.PP
+Инициализация связей графа 
+.PP
+\fBАргументы\fP
+.RS 4
+\fIwidth\fP количество вершин графа по ширине 
+.br
+\fIheight\fP количество вершин графа по высоте 
+.RE
+.PP
+
+.PP
+Замещается в \fBMyGraph\fP\&.
+.SS "virtual std::list<\fBvertex_descriptor\fP> IGraph::search (const \fBvertex_descriptor\fP start, const \fBvertex_descriptor\fP goal, const vector< \fBPoint\fP > & distance)\fC [pure virtual]\fP"
+
+.PP
+Поиск путь на графе 
+.PP
+\fBАргументы\fP
+.RS 4
+\fIstart\fP вершина графа, отвечающая за начало пути 
+.br
+\fIgoal\fP вершина графа, отвечающая за конец пути 
+.br
+\fIdistance\fP матрица расстояний 
+.RE
+.PP
+\fBВозвращает\fP
+.RS 4
+вектор вершин графа, через которые пролегает путь 
+.RE
+.PP
+\fBИсключения\fP
+.RS 4
+\fI-1\fP путь не найден 
+.RE
+.PP
+
+.PP
+Замещается в \fBMyGraph\fP\&.
+
+.SH "Автор"
+.PP 
+Автоматически создано Doxygen для Блок принятия решений из исходного текста\&.

@@ -40,6 +40,8 @@ void MyGraph::init(int width, int height)
     for (int i = height - 1; i > 0; i--)
         for (int j = width - 2; j >= 0; j--)
             add_edge(i * width + j, i * width - (width - 1) + j, *this->adj_list);
+
+    print_to_graphviz();
 }
 #include<QDebug>
 // euclidean distance heuristic

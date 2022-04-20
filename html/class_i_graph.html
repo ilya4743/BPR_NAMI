@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Блок принятия решений: Класс IGraph</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Блок принятия решений
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Открытые члены</a> &#124;
+<a href="class_i_graph-members.html">Полный список членов класса</a>  </div>
+  <div class="headertitle">
+<div class="title">Класс IGraph<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Интерфейс графа  
+ <a href="class_i_graph.html#details">Подробнее...</a></p>
+
+<p><code>#include &lt;<a class="el" href="mygraph_8h_source.html">mygraph.h</a>&gt;</code></p>
+<div class="dynheader">
+Граф наследования:IGraph:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_i_graph__inherit__graph.png" border="0" usemap="#_i_graph_inherit__map" alt="Inheritance graph"/></div>
+<map name="_i_graph_inherit__map" id="_i_graph_inherit__map">
+<area shape="rect" title="Интерфейс графа" alt="" coords="35,5,136,112"/>
+<area shape="rect" href="class_my_graph.html" title="Класс для построения неориентированного прямоугольного графа" alt="" coords="5,160,165,355"/>
+</map>
+</div>
+<div class="dynheader">
+Граф связей класса IGraph:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_i_graph__coll__graph.png" border="0" usemap="#_i_graph_coll__map" alt="Collaboration graph"/></div>
+<map name="_i_graph_coll__map" id="_i_graph_coll__map">
+<area shape="rect" title="Интерфейс графа" alt="" coords="5,5,107,112"/>
+</map>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Открытые члены</h2></td></tr>
+<tr class="memitem:a0ca9333784dfc2e08d262cfb49f3913e"><td class="memItemLeft" align="right" valign="top">virtual std::list&lt; <a class="el" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_graph.html#a0ca9333784dfc2e08d262cfb49f3913e">search</a> (const <a class="el" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> start, const <a class="el" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> goal, const vector&lt; <a class="el" href="class_point.html">Point</a> &gt; &amp;distance)=0</td></tr>
+<tr class="memdesc:a0ca9333784dfc2e08d262cfb49f3913e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Поиск путь на графе  <a href="class_i_graph.html#a0ca9333784dfc2e08d262cfb49f3913e">Подробнее...</a><br /></td></tr>
+<tr class="separator:a0ca9333784dfc2e08d262cfb49f3913e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a764ff5996b5b925750e921faf3707cee"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_graph.html#a764ff5996b5b925750e921faf3707cee">init</a> (int width, int height)=0</td></tr>
+<tr class="memdesc:a764ff5996b5b925750e921faf3707cee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Инициализация связей графа  <a href="class_i_graph.html#a764ff5996b5b925750e921faf3707cee">Подробнее...</a><br /></td></tr>
+<tr class="separator:a764ff5996b5b925750e921faf3707cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4cea79b834790cc5f9b6743f1584f4c"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_graph.html#aa4cea79b834790cc5f9b6743f1584f4c">~IGraph</a> ()=0</td></tr>
+<tr class="memdesc:aa4cea79b834790cc5f9b6743f1584f4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Виртуальный деструктор  <a href="class_i_graph.html#aa4cea79b834790cc5f9b6743f1584f4c">Подробнее...</a><br /></td></tr>
+<tr class="separator:aa4cea79b834790cc5f9b6743f1584f4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Интерфейс графа </p>
+</div><h2 class="groupheader">Конструктор(ы)</h2>
+<a id="aa4cea79b834790cc5f9b6743f1584f4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4cea79b834790cc5f9b6743f1584f4c">&#9670;&nbsp;</a></span>~IGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">IGraph::~IGraph </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Виртуальный деструктор </p>
+
+</div>
+</div>
+<h2 class="groupheader">Методы</h2>
+<a id="a764ff5996b5b925750e921faf3707cee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a764ff5996b5b925750e921faf3707cee">&#9670;&nbsp;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void IGraph::init </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Инициализация связей графа </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>количество вершин графа по ширине </td></tr>
+    <tr><td class="paramname">height</td><td>количество вершин графа по высоте </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Замещается в <a class="el" href="class_my_graph.html#ad3738a91901c84ca908bc25103425af2">MyGraph</a>.</p>
+
+</div>
+</div>
+<a id="a0ca9333784dfc2e08d262cfb49f3913e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ca9333784dfc2e08d262cfb49f3913e">&#9670;&nbsp;</a></span>search()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::list&lt;<a class="el" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a>&gt; IGraph::search </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a>&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="mygraph_8h.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a>&#160;</td>
+          <td class="paramname"><em>goal</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; <a class="el" href="class_point.html">Point</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>distance</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Поиск путь на графе </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">start</td><td>вершина графа, отвечающая за начало пути </td></tr>
+    <tr><td class="paramname">goal</td><td>вершина графа, отвечающая за конец пути </td></tr>
+    <tr><td class="paramname">distance</td><td>матрица расстояний </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>вектор вершин графа, через которые пролегает путь </dd></dl>
+<dl class="exception"><dt>Исключения</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">-1</td><td>путь не найден </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Замещается в <a class="el" href="class_my_graph.html#ac208588b40687cd35675f6055cda415d">MyGraph</a>.</p>
+
+</div>
+</div>
+<hr/>Объявления и описания членов классов находятся в файлах:<ul>
+<li><a class="el" href="mygraph_8h_source.html">mygraph.h</a></li>
+<li><a class="el" href="mygraph_8cpp.html">mygraph.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

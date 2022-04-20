@@ -1,0 +1,77 @@
+.TH "Point" 3 "Ср 20 Апр 2022" "Version 1.0" "Блок принятия решений" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Point \- Класс точки  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <point\&.h>\fP
+.PP
+Производные классы:\fBBarrier\fP\&.
+.SS "Открытые члены"
+
+.in +1c
+.ti -1c
+.RI "\fBPoint\fP ()"
+.br
+.RI "Конструктор по умолчанию "
+.ti -1c
+.RI "\fBPoint\fP (float \fBx\fP, float \fBy\fP)"
+.br
+.RI "Конструктор с параметрами "
+.ti -1c
+.RI "\fBPoint\fP (const \fBPoint\fP &o)"
+.br
+.RI "Конструктор копирования "
+.in -1c
+.SS "Открытые атрибуты"
+
+.in +1c
+.ti -1c
+.RI "float \fBx\fP"
+.br
+.ti -1c
+.RI "float \fBy\fP"
+.br
+.in -1c
+.SS "Друзья"
+
+.in +1c
+.ti -1c
+.RI "std::ofstream & \fBoperator<<\fP (std::ofstream &out, const \fBPoint\fP &p)"
+.br
+.in -1c
+.SH "Подробное описание"
+.PP 
+Класс точки 
+.SH "Конструктор(ы)"
+.PP 
+.SS "Point::Point ()\fC [inline]\fP"
+
+.PP
+Конструктор по умолчанию 
+.SS "Point::Point (float x, float y)\fC [inline]\fP"
+
+.PP
+Конструктор с параметрами 
+.SS "Point::Point (const \fBPoint\fP & o)\fC [inline]\fP"
+
+.PP
+Конструктор копирования 
+.SH "Документация по друзьям класса и функциям, относящимся к классу"
+.PP 
+.SS "std::ofstream& operator<< (std::ofstream & out, const \fBPoint\fP & p)\fC [friend]\fP"
+
+.SH "Данные класса"
+.PP 
+.SS "float Point::x"
+
+.SS "float Point::y"
+
+
+.SH "Автор"
+.PP 
+Автоматически создано Doxygen для Блок принятия решений из исходного текста\&.

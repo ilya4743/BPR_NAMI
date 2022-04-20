@@ -289,7 +289,6 @@ DIST          = ../../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.15.2/gcc_64/mkspecs/features/lex.prf \
 		../../Graph.pro ../barrier.h \
 		../car.h \
-		../defs.h \
 		../gamemap.h \
 		../locationmap.h \
 		../myexception.h \
@@ -757,7 +756,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../barrier.h ../car.h ../defs.h ../gamemap.h ../locationmap.h ../myexception.h ../mygraph.h ../mylog.h ../mytcpsocket.h ../point.h ../settings.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../barrier.h ../car.h ../gamemap.h ../locationmap.h ../myexception.h ../mygraph.h ../mylog.h ../mytcpsocket.h ../point.h ../settings.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../barrier.cpp ../car.cpp ../gamemap.cpp ../locationmap.cpp ../main.cpp ../myexception.cpp ../mygraph.cpp ../mylog.cpp ../mytcpsocket.cpp ../point.cpp ../settings.cpp $(DISTDIR)/
 
 

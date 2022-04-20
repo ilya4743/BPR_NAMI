@@ -1,0 +1,101 @@
+.TH "Car" 3 "Ср 20 Апр 2022" "Version 1.0" "Блок принятия решений" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Car \- Класс автомобиля  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <car\&.h>\fP
+.SS "Открытые члены"
+
+.in +1c
+.ti -1c
+.RI "\fBCar\fP ()"
+.br
+.RI "Конструктор по умолчанию "
+.ti -1c
+.RI "\fBCar\fP (float \fBwidth\fP, float \fBheight\fP, float \fBspeed\fP)"
+.br
+.RI "Конструктор с параметрами "
+.ti -1c
+.RI "\fBCar\fP (const \fBCar\fP &car)"
+.br
+.RI "Конструктор копирования "
+.in -1c
+.SS "Открытые атрибуты"
+
+.in +1c
+.ti -1c
+.RI "float \fBwidth\fP"
+.br
+.RI "Ширина авто "
+.ti -1c
+.RI "float \fBheight\fP"
+.br
+.RI "Высота авто "
+.ti -1c
+.RI "float \fBspeed\fP"
+.br
+.RI "Скорость авто "
+.in -1c
+.SH "Подробное описание"
+.PP 
+Класс автомобиля 
+.SH "Конструктор(ы)"
+.PP 
+.SS "Car::Car ()"
+
+.PP
+Конструктор по умолчанию 
+.SS "Car::Car (float width, float height, float speed)\fC [inline]\fP"
+
+.PP
+Конструктор с параметрами 
+.PP
+\fBАргументы\fP
+.RS 4
+\fIwidth\fP ширина авто 
+.br
+\fIheight\fP высота авто 
+.br
+\fIspeed\fP скорость авто 
+.RE
+.PP
+
+.SS "Car::Car (const \fBCar\fP & car)\fC [inline]\fP"
+
+.PP
+Конструктор копирования 
+.PP
+\fBАргументы\fP
+.RS 4
+\fIcar\fP экземпляр авто 
+.RE
+.PP
+\fBВозвращает\fP
+.RS 4
+экземпляр авто 
+.RE
+.PP
+
+.SH "Данные класса"
+.PP 
+.SS "float Car::height"
+
+.PP
+Высота авто 
+.SS "float Car::speed"
+
+.PP
+Скорость авто 
+.SS "float Car::width"
+
+.PP
+Ширина авто 
+
+.SH "Автор"
+.PP 
+Автоматически создано Doxygen для Блок принятия решений из исходного текста\&.

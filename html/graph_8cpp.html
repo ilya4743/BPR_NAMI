@@ -1,0 +1,773 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>My Project: Файл graph.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">My Project
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Классы</a> &#124;
+<a href="#typedef-members">Определения типов</a> &#124;
+<a href="#func-members">Функции</a> &#124;
+<a href="#var-members">Переменные</a>  </div>
+  <div class="headertitle">
+<div class="title">Файл graph.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;boost/graph/astar_search.hpp&gt;</code><br />
+<code>#include &lt;boost/config.hpp&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;boost/graph/adjacency_list.hpp&gt;</code><br />
+<code>#include &lt;boost/tuple/tuple.hpp&gt;</code><br />
+<code>#include &lt;boost/graph/graphviz.hpp&gt;</code><br />
+<code>#include &lt;boost/random.hpp&gt;</code><br />
+<code>#include &lt;boost/graph/random.hpp&gt;</code><br />
+<code>#include &lt;iosfwd&gt;</code><br />
+<code>#include &lt;windows.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Граф включаемых заголовочных файлов для graph.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="graph_8cpp__incl.png" border="0" usemap="#graph_8cpp" alt=""/></div>
+<map name="graph_8cpp" id="graph_8cpp">
+<area shape="rect" title=" " alt="" coords="811,5,897,32"/>
+<area shape="rect" title=" " alt="" coords="5,87,220,114"/>
+<area shape="rect" title=" " alt="" coords="245,87,375,114"/>
+<area shape="rect" title=" " alt="" coords="399,87,479,114"/>
+<area shape="rect" title=" " alt="" coords="504,87,567,114"/>
+<area shape="rect" title=" " alt="" coords="591,87,650,114"/>
+<area shape="rect" title=" " alt="" coords="675,80,844,121"/>
+<area shape="rect" title=" " alt="" coords="869,87,1029,114"/>
+<area shape="rect" title=" " alt="" coords="1053,87,1239,114"/>
+<area shape="rect" title=" " alt="" coords="1264,87,1404,114"/>
+<area shape="rect" title=" " alt="" coords="1429,87,1610,114"/>
+<area shape="rect" title=" " alt="" coords="1635,87,1700,114"/>
+<area shape="rect" title=" " alt="" coords="1725,87,1815,114"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Классы</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdistance__heuristic.html">distance_heuristic&lt; Graph, CostType, LocMap &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfound__goal.html">found_goal</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classastar__goal__visitor.html">astar_goal_visitor&lt; Vertex &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlocation.html">location</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpoint.html">point</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfigure.html">figure</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Определения типов</h2></td></tr>
+<tr class="memitem:abe71c5364bf3287c01551a85cea55d8c"><td class="memItemLeft" align="right" valign="top">typedef boost::property&lt; boost::edge_weight_t, float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#abe71c5364bf3287c01551a85cea55d8c">weight</a></td></tr>
+<tr class="separator:abe71c5364bf3287c01551a85cea55d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee22870dc930c7bd9eccb03de0e00357"><td class="memItemLeft" align="right" valign="top">typedef adjacency_list&lt; vecS, vecS, undirectedS, boost::no_property, <a class="el" href="graph_8cpp.html#abe71c5364bf3287c01551a85cea55d8c">weight</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a></td></tr>
+<tr class="separator:aee22870dc930c7bd9eccb03de0e00357"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af023f2d9f7adf6f36bd358fd96b634ef"><td class="memItemLeft" align="right" valign="top">typedef boost::graph_traits&lt; <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &gt;::<a class="el" href="graph_8cpp.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a></td></tr>
+<tr class="separator:af023f2d9f7adf6f36bd358fd96b634ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdfb7d0d95351fc6faba8ee4ef60523f"><td class="memItemLeft" align="right" valign="top">typedef boost::graph_traits&lt; <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &gt;::<a class="el" href="graph_8cpp.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a></td></tr>
+<tr class="separator:abdfb7d0d95351fc6faba8ee4ef60523f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c7f893c0e29cf5f9755ecf83d138fb1"><td class="memItemLeft" align="right" valign="top">typedef boost::property_map&lt; <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>, boost::edge_weight_t &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a8c7f893c0e29cf5f9755ecf83d138fb1">Weight_Map</a></td></tr>
+<tr class="separator:a8c7f893c0e29cf5f9755ecf83d138fb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a823b409ee39808ce429a03fe3ae45dbd"><td class="memItemLeft" align="right" valign="top">typedef pair&lt; <a class="el" href="graph_8cpp.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a>, <a class="el" href="graph_8cpp.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a823b409ee39808ce429a03fe3ae45dbd">edgePair</a></td></tr>
+<tr class="separator:a823b409ee39808ce429a03fe3ae45dbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8608618dad23bfafc7ee439278483dfd"><td class="memItemLeft" align="right" valign="top">typedef pair&lt; <a class="el" href="graph_8cpp.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a>, <a class="el" href="graph_8cpp.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a8608618dad23bfafc7ee439278483dfd">vertexPair</a></td></tr>
+<tr class="separator:a8608618dad23bfafc7ee439278483dfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad33c7f8ba634f860bfe3dc13b6b703da"><td class="memItemLeft" align="right" valign="top">typedef graph_traits&lt; <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &gt;::<a class="el" href="graph_8cpp.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a></td></tr>
+<tr class="separator:ad33c7f8ba634f860bfe3dc13b6b703da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a270670947027c86d3e0b6407a192eaee"><td class="memItemLeft" align="right" valign="top">typedef graph_traits&lt; <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &gt;::<a class="el" href="graph_8cpp.html#a270670947027c86d3e0b6407a192eaee">edge_descriptor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a270670947027c86d3e0b6407a192eaee">edge_descriptor</a></td></tr>
+<tr class="separator:a270670947027c86d3e0b6407a192eaee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:a35ff99e318c05543d7856a469e78b0f4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a35ff99e318c05543d7856a469e78b0f4">GetI</a> (float j)</td></tr>
+<tr class="separator:a35ff99e318c05543d7856a469e78b0f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1fd58553de8e24cce94378743428dff"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#ac1fd58553de8e24cce94378743428dff">GetJ</a> (float i)</td></tr>
+<tr class="separator:ac1fd58553de8e24cce94378743428dff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaae675ae9e1b4362f8de1ef4e6d67af8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#aaae675ae9e1b4362f8de1ef4e6d67af8">print_vertexes</a> (const <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;g)</td></tr>
+<tr class="separator:aaae675ae9e1b4362f8de1ef4e6d67af8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9b30b33e73cfb0960d0491f40ec5ace"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#af9b30b33e73cfb0960d0491f40ec5ace">print_vertex_map</a> (const <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;g)</td></tr>
+<tr class="separator:af9b30b33e73cfb0960d0491f40ec5ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21f6e10949958b044387c853d48b36fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a21f6e10949958b044387c853d48b36fd">print_edges</a> (const <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;g)</td></tr>
+<tr class="separator:a21f6e10949958b044387c853d48b36fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a768a7f1ad7118d778f673c6319da7ab4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a768a7f1ad7118d778f673c6319da7ab4">print_in_to_graphviz</a> (const <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;g)</td></tr>
+<tr class="separator:a768a7f1ad7118d778f673c6319da7ab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5caf5bf0a08c7a0a437369c4a682c014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a5caf5bf0a08c7a0a437369c4a682c014">print_game_map</a> ()</td></tr>
+<tr class="separator:a5caf5bf0a08c7a0a437369c4a682c014"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae673761ebec28f06a3a35e29a6a79b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#aae673761ebec28f06a3a35e29a6a79b9">print_here</a> (int x, int y)</td></tr>
+<tr class="separator:aae673761ebec28f06a3a35e29a6a79b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad806dbffc3c6188374e83f8490818206"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#ad806dbffc3c6188374e83f8490818206">color_change</a> (int x, int y, WORD w)</td></tr>
+<tr class="separator:ad806dbffc3c6188374e83f8490818206"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a907c2566caa7b602d890b44d8c2f20bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a907c2566caa7b602d890b44d8c2f20bd">print_game_figure</a> (<a class="el" href="structfigure.html">figure</a> &amp;f1, <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;g)</td></tr>
+<tr class="separator:a907c2566caa7b602d890b44d8c2f20bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a434170b54795ead9001bd113db24c489"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a434170b54795ead9001bd113db24c489">print_way</a> (const vector&lt; <a class="el" href="structlocation.html">location</a> &gt; &amp;locations, const vector&lt; <a class="el" href="graph_8cpp.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> &gt; &amp;shortest_path)</td></tr>
+<tr class="separator:a434170b54795ead9001bd113db24c489"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9123b08f76a60be1194869d320f6361"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#af9123b08f76a60be1194869d320f6361">init_location_map</a> (vector&lt; <a class="el" href="structlocation.html">location</a> &gt; &amp;locations)</td></tr>
+<tr class="separator:af9123b08f76a60be1194869d320f6361"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a5a4044f729cb5b47acd06f4873673a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a3a5a4044f729cb5b47acd06f4873673a">print_location_map</a> (vector&lt; <a class="el" href="structlocation.html">location</a> &gt; &amp;locations)</td></tr>
+<tr class="separator:a3a5a4044f729cb5b47acd06f4873673a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7fa7528c3f04f6dfa0b36ae9886bab9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#af7fa7528c3f04f6dfa0b36ae9886bab9">init_graph</a> (<a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;test)</td></tr>
+<tr class="separator:af7fa7528c3f04f6dfa0b36ae9886bab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Переменные</h2></td></tr>
+<tr class="memitem:a96db377b634d90d8ae0226a62393045e"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a96db377b634d90d8ae0226a62393045e">step</a> = 0.25</td></tr>
+<tr class="separator:a96db377b634d90d8ae0226a62393045e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae63d6e71f9c245caa94554f9942fffdd"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#ae63d6e71f9c245caa94554f9942fffdd">width_coord</a> =16</td></tr>
+<tr class="separator:ae63d6e71f9c245caa94554f9942fffdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01c6d00ad5b143e62d04781a158c8ec8"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a01c6d00ad5b143e62d04781a158c8ec8">height_coord</a> =5.2</td></tr>
+<tr class="separator:a01c6d00ad5b143e62d04781a158c8ec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a837aabdd54757cb86d0f66387511753f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a837aabdd54757cb86d0f66387511753f">width</a> = <a class="el" href="graph_8cpp.html#ae63d6e71f9c245caa94554f9942fffdd">width_coord</a>/<a class="el" href="graph_8cpp.html#a96db377b634d90d8ae0226a62393045e">step</a></td></tr>
+<tr class="separator:a837aabdd54757cb86d0f66387511753f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad13e9131f5062934438fa82334e4b2ee"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#ad13e9131f5062934438fa82334e4b2ee">height</a> = <a class="el" href="graph_8cpp.html#a01c6d00ad5b143e62d04781a158c8ec8">height_coord</a>/<a class="el" href="graph_8cpp.html#a96db377b634d90d8ae0226a62393045e">step</a></td></tr>
+<tr class="separator:ad13e9131f5062934438fa82334e4b2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aa9299881dd7a517fc51a78e0a50d1a"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a1aa9299881dd7a517fc51a78e0a50d1a">center</a> = (<a class="el" href="graph_8cpp.html#a837aabdd54757cb86d0f66387511753f">width</a> / 2) + ((<a class="el" href="graph_8cpp.html#ad13e9131f5062934438fa82334e4b2ee">height</a> - 1) * <a class="el" href="graph_8cpp.html#a837aabdd54757cb86d0f66387511753f">width</a>)</td></tr>
+<tr class="separator:a1aa9299881dd7a517fc51a78e0a50d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb575142652ba6f84a4814ec533e6bc6"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structpoint.html">point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#afb575142652ba6f84a4814ec533e6bc6">goal_point</a> (-0.4, 2)</td></tr>
+<tr class="separator:afb575142652ba6f84a4814ec533e6bc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a353cf09f02c4e0d437e34ac07497d0e7"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="graph_8cpp.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a353cf09f02c4e0d437e34ac07497d0e7">start</a> = <a class="el" href="graph_8cpp.html#a1aa9299881dd7a517fc51a78e0a50d1a">center</a></td></tr>
+<tr class="separator:a353cf09f02c4e0d437e34ac07497d0e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a323c47e06c08f44c6a11e5e112979e72"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="graph_8cpp.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8cpp.html#a323c47e06c08f44c6a11e5e112979e72">goal</a> = <a class="el" href="graph_8cpp.html#a35ff99e318c05543d7856a469e78b0f4">GetI</a>(goal_point.y)*<a class="el" href="graph_8cpp.html#a837aabdd54757cb86d0f66387511753f">width</a> + <a class="el" href="graph_8cpp.html#ac1fd58553de8e24cce94378743428dff">GetJ</a>(goal_point.x)</td></tr>
+<tr class="separator:a323c47e06c08f44c6a11e5e112979e72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Типы</h2>
+<a id="a270670947027c86d3e0b6407a192eaee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a270670947027c86d3e0b6407a192eaee">&#9670;&nbsp;</a></span>edge_descriptor</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef graph_traits&lt;<a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>&gt;::<a class="el" href="graph_8cpp.html#a270670947027c86d3e0b6407a192eaee">edge_descriptor</a> <a class="el" href="graph_8cpp.html#a270670947027c86d3e0b6407a192eaee">edge_descriptor</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af023f2d9f7adf6f36bd358fd96b634ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af023f2d9f7adf6f36bd358fd96b634ef">&#9670;&nbsp;</a></span>edge_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef boost::graph_traits&lt;<a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>&gt;::<a class="el" href="graph_8cpp.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a> <a class="el" href="graph_8cpp.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a823b409ee39808ce429a03fe3ae45dbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a823b409ee39808ce429a03fe3ae45dbd">&#9670;&nbsp;</a></span>edgePair</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef pair&lt;<a class="el" href="graph_8cpp.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a>, <a class="el" href="graph_8cpp.html#af023f2d9f7adf6f36bd358fd96b634ef">edge_iterator</a>&gt; <a class="el" href="graph_8cpp.html#a823b409ee39808ce429a03fe3ae45dbd">edgePair</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aee22870dc930c7bd9eccb03de0e00357"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee22870dc930c7bd9eccb03de0e00357">&#9670;&nbsp;</a></span>my_graph</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef adjacency_list&lt;vecS, vecS, undirectedS, boost::no_property, <a class="el" href="graph_8cpp.html#abe71c5364bf3287c01551a85cea55d8c">weight</a>&gt; <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad33c7f8ba634f860bfe3dc13b6b703da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad33c7f8ba634f860bfe3dc13b6b703da">&#9670;&nbsp;</a></span>vertex_descriptor</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef graph_traits&lt;<a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>&gt;::<a class="el" href="graph_8cpp.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> <a class="el" href="graph_8cpp.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abdfb7d0d95351fc6faba8ee4ef60523f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdfb7d0d95351fc6faba8ee4ef60523f">&#9670;&nbsp;</a></span>vertex_iterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef boost::graph_traits&lt;<a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>&gt;::<a class="el" href="graph_8cpp.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a> <a class="el" href="graph_8cpp.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8608618dad23bfafc7ee439278483dfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8608618dad23bfafc7ee439278483dfd">&#9670;&nbsp;</a></span>vertexPair</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef pair&lt;<a class="el" href="graph_8cpp.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a>, <a class="el" href="graph_8cpp.html#abdfb7d0d95351fc6faba8ee4ef60523f">vertex_iterator</a>&gt; <a class="el" href="graph_8cpp.html#a8608618dad23bfafc7ee439278483dfd">vertexPair</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abe71c5364bf3287c01551a85cea55d8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe71c5364bf3287c01551a85cea55d8c">&#9670;&nbsp;</a></span>weight</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef boost::property&lt;boost::edge_weight_t, float&gt; <a class="el" href="graph_8cpp.html#abe71c5364bf3287c01551a85cea55d8c">weight</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8c7f893c0e29cf5f9755ecf83d138fb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c7f893c0e29cf5f9755ecf83d138fb1">&#9670;&nbsp;</a></span>Weight_Map</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef boost::property_map&lt;<a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a>, boost::edge_weight_t&gt;::type <a class="el" href="graph_8cpp.html#a8c7f893c0e29cf5f9755ecf83d138fb1">Weight_Map</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Функции</h2>
+<a id="ad806dbffc3c6188374e83f8490818206"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad806dbffc3c6188374e83f8490818206">&#9670;&nbsp;</a></span>color_change()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void color_change </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">WORD&#160;</td>
+          <td class="paramname"><em>w</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a35ff99e318c05543d7856a469e78b0f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35ff99e318c05543d7856a469e78b0f4">&#9670;&nbsp;</a></span>GetI()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int GetI </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>j</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac1fd58553de8e24cce94378743428dff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1fd58553de8e24cce94378743428dff">&#9670;&nbsp;</a></span>GetJ()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int GetJ </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af7fa7528c3f04f6dfa0b36ae9886bab9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7fa7528c3f04f6dfa0b36ae9886bab9">&#9670;&nbsp;</a></span>init_graph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void init_graph </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;&#160;</td>
+          <td class="paramname"><em>test</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af9123b08f76a60be1194869d320f6361"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9123b08f76a60be1194869d320f6361">&#9670;&nbsp;</a></span>init_location_map()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void init_location_map </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="structlocation.html">location</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>locations</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&nbsp;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a21f6e10949958b044387c853d48b36fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21f6e10949958b044387c853d48b36fd">&#9670;&nbsp;</a></span>print_edges()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_edges </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;&#160;</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a907c2566caa7b602d890b44d8c2f20bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a907c2566caa7b602d890b44d8c2f20bd">&#9670;&nbsp;</a></span>print_game_figure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_game_figure </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structfigure.html">figure</a> &amp;&#160;</td>
+          <td class="paramname"><em>f1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;&#160;</td>
+          <td class="paramname"><em>g</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5caf5bf0a08c7a0a437369c4a682c014"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5caf5bf0a08c7a0a437369c4a682c014">&#9670;&nbsp;</a></span>print_game_map()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_game_map </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae673761ebec28f06a3a35e29a6a79b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae673761ebec28f06a3a35e29a6a79b9">&#9670;&nbsp;</a></span>print_here()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_here </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a768a7f1ad7118d778f673c6319da7ab4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a768a7f1ad7118d778f673c6319da7ab4">&#9670;&nbsp;</a></span>print_in_to_graphviz()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_in_to_graphviz </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;&#160;</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3a5a4044f729cb5b47acd06f4873673a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a5a4044f729cb5b47acd06f4873673a">&#9670;&nbsp;</a></span>print_location_map()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_location_map </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="structlocation.html">location</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>locations</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af9b30b33e73cfb0960d0491f40ec5ace"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b30b33e73cfb0960d0491f40ec5ace">&#9670;&nbsp;</a></span>print_vertex_map()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_vertex_map </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;&#160;</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaae675ae9e1b4362f8de1ef4e6d67af8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaae675ae9e1b4362f8de1ef4e6d67af8">&#9670;&nbsp;</a></span>print_vertexes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_vertexes </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="graph_8cpp.html#aee22870dc930c7bd9eccb03de0e00357">my_graph</a> &amp;&#160;</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a434170b54795ead9001bd113db24c489"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a434170b54795ead9001bd113db24c489">&#9670;&nbsp;</a></span>print_way()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_way </td>
+          <td>(</td>
+          <td class="paramtype">const vector&lt; <a class="el" href="structlocation.html">location</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>locations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; <a class="el" href="graph_8cpp.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>shortest_path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Переменные</h2>
+<a id="a1aa9299881dd7a517fc51a78e0a50d1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1aa9299881dd7a517fc51a78e0a50d1a">&#9670;&nbsp;</a></span>center</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int center = (<a class="el" href="graph_8cpp.html#a837aabdd54757cb86d0f66387511753f">width</a> / 2) + ((<a class="el" href="graph_8cpp.html#ad13e9131f5062934438fa82334e4b2ee">height</a> - 1) * <a class="el" href="graph_8cpp.html#a837aabdd54757cb86d0f66387511753f">width</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a323c47e06c08f44c6a11e5e112979e72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a323c47e06c08f44c6a11e5e112979e72">&#9670;&nbsp;</a></span>goal</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="graph_8cpp.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> goal = <a class="el" href="graph_8cpp.html#a35ff99e318c05543d7856a469e78b0f4">GetI</a>(goal_point.y)*<a class="el" href="graph_8cpp.html#a837aabdd54757cb86d0f66387511753f">width</a> + <a class="el" href="graph_8cpp.html#ac1fd58553de8e24cce94378743428dff">GetJ</a>(goal_point.x)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb575142652ba6f84a4814ec533e6bc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb575142652ba6f84a4814ec533e6bc6">&#9670;&nbsp;</a></span>goal_point</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structpoint.html">point</a> goal_point(-0.4, 2)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad13e9131f5062934438fa82334e4b2ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad13e9131f5062934438fa82334e4b2ee">&#9670;&nbsp;</a></span>height</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int height = <a class="el" href="graph_8cpp.html#a01c6d00ad5b143e62d04781a158c8ec8">height_coord</a>/<a class="el" href="graph_8cpp.html#a96db377b634d90d8ae0226a62393045e">step</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a01c6d00ad5b143e62d04781a158c8ec8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01c6d00ad5b143e62d04781a158c8ec8">&#9670;&nbsp;</a></span>height_coord</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const float height_coord =5.2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a353cf09f02c4e0d437e34ac07497d0e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a353cf09f02c4e0d437e34ac07497d0e7">&#9670;&nbsp;</a></span>start</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="graph_8cpp.html#ad33c7f8ba634f860bfe3dc13b6b703da">vertex_descriptor</a> start = <a class="el" href="graph_8cpp.html#a1aa9299881dd7a517fc51a78e0a50d1a">center</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a96db377b634d90d8ae0226a62393045e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96db377b634d90d8ae0226a62393045e">&#9670;&nbsp;</a></span>step</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const float step = 0.25</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a837aabdd54757cb86d0f66387511753f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a837aabdd54757cb86d0f66387511753f">&#9670;&nbsp;</a></span>width</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int width = <a class="el" href="graph_8cpp.html#ae63d6e71f9c245caa94554f9942fffdd">width_coord</a>/<a class="el" href="graph_8cpp.html#a96db377b634d90d8ae0226a62393045e">step</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae63d6e71f9c245caa94554f9942fffdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae63d6e71f9c245caa94554f9942fffdd">&#9670;&nbsp;</a></span>width_coord</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const float width_coord =16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

@@ -1,0 +1,153 @@
+.TH "MyGraph" 3 "Ср 20 Апр 2022" "Version 1.0" "Блок принятия решений" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+MyGraph \- Класс для построения неориентированного прямоугольного графа  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <mygraph\&.h>\fP
+.PP
+Базовые классы:\fBIGraph\fP\&.
+.SS "Открытые члены"
+
+.in +1c
+.ti -1c
+.RI "\fBMyGraph\fP ()"
+.br
+.RI "Конструктор по умолчанию "
+.ti -1c
+.RI "\fBMyGraph\fP (int num_vertices)"
+.br
+.RI "Конструктор с параметрами "
+.ti -1c
+.RI "\fBMyGraph\fP (\fBMyGraph\fP &o)"
+.br
+.RI "Конструктор копирования "
+.ti -1c
+.RI "\fB~MyGraph\fP ()"
+.br
+.ti -1c
+.RI "void \fBinit\fP (int width, int height) override"
+.br
+.RI "Инициализация связей графа "
+.ti -1c
+.RI "std::list< \fBvertex_descriptor\fP > \fBsearch\fP (const \fBvertex_descriptor\fP start, const \fBvertex_descriptor\fP goal, const vector< \fBPoint\fP > &distance) override"
+.br
+.RI "Поиск путь на графе "
+.ti -1c
+.RI "void \fBprint_vertexes\fP ()"
+.br
+.RI "Печать номеров вершин в консоль "
+.ti -1c
+.RI "void \fBprint_edges\fP ()"
+.br
+.RI "Печать дуг в консоль "
+.ti -1c
+.RI "void \fBprint_to_graphviz\fP ()"
+.br
+.RI "Печать графа в graphviz\&. "
+.in -1c
+.SS "Открытые атрибуты"
+
+.in +1c
+.ti -1c
+.RI "\fBmy_graph\fP * \fBadj_list\fP"
+.br
+.RI "Граф (список смежности) "
+.in -1c
+.SH "Подробное описание"
+.PP 
+Класс для построения неориентированного прямоугольного графа 
+
+Значение \fBwidth\fP и \fBheight\fP неориентированного прямоугольного графа задают количество вершин по ширине и высоте соответственно\&. 
+.br
+Рёбра графа связывают смежные пары вершин по горизонтали, вертикали, главной и побочной диагонали\&. 
+.br
+На рисунке изображена схема неориентированного прямоугольного графа 
+.PP
+ 
+.SH "Конструктор(ы)"
+.PP 
+.SS "MyGraph::MyGraph ()"
+
+.PP
+Конструктор по умолчанию 
+.SS "MyGraph::MyGraph (int num_vertices)"
+
+.PP
+Конструктор с параметрами 
+.SS "MyGraph::MyGraph (\fBMyGraph\fP & o)"
+
+.PP
+Конструктор копирования 
+.SS "MyGraph::~MyGraph ()"
+
+.SH "Методы"
+.PP 
+.SS "void MyGraph::init (int width, int height)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Инициализация связей графа 
+.PP
+\fBАргументы\fP
+.RS 4
+\fIwidth\fP количество вершин графа по ширине 
+.br
+\fIheight\fP количество вершин графа по высоте 
+.RE
+.PP
+
+.PP
+Замещает \fBIGraph\fP\&.
+.SS "void MyGraph::print_edges ()"
+
+.PP
+Печать дуг в консоль 
+.SS "void MyGraph::print_to_graphviz ()"
+
+.PP
+Печать графа в graphviz\&. 
+.SS "void MyGraph::print_vertexes ()"
+
+.PP
+Печать номеров вершин в консоль 
+.SS "list< \fBvertex_descriptor\fP > MyGraph::search (const \fBvertex_descriptor\fP start, const \fBvertex_descriptor\fP goal, const vector< \fBPoint\fP > & distance)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Поиск путь на графе 
+.PP
+\fBАргументы\fP
+.RS 4
+\fIstart\fP вершина графа, отвечающая за начало пути 
+.br
+\fIgoal\fP вершина графа, отвечающая за конец пути 
+.br
+\fIdistance\fP матрица расстояний 
+.RE
+.PP
+\fBВозвращает\fP
+.RS 4
+вектор вершин графа, через которые пролегает путь 
+.RE
+.PP
+\fBИсключения\fP
+.RS 4
+\fI-1\fP путь не найден 
+.RE
+.PP
+
+.PP
+Замещает \fBIGraph\fP\&.
+.SH "Данные класса"
+.PP 
+.SS "\fBmy_graph\fP* MyGraph::adj_list"
+
+.PP
+Граф (список смежности) 
+
+.SH "Автор"
+.PP 
+Автоматически создано Doxygen для Блок принятия решений из исходного текста\&.
