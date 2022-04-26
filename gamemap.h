@@ -1,11 +1,11 @@
 #ifndef GAMEMAP_H
 #define GAMEMAP_H
-#include"locationmap.h"
-#include"mygraph.h"
-#include"barrier.h"
-#include"point.h"
-#include"mylog.h"
-
+#include "locationmap.h"
+#include "mygraph.h"
+#include "barrier.h"
+#include "point.h"
+#include "mylog.h"
+#include "car.h"
 using namespace std;
 
 class Barrier;
@@ -19,8 +19,6 @@ class Barrier;
 class GameMap
 {
 public:
-    /// Шаг вершин графа
-    float step;
 
     /// Ширина покрытия сетки графа
     float width_coord;
@@ -28,14 +26,14 @@ public:
     /// Высота покрытия сетки графа
     float height_coord;
 
+    /// Шаг вершин графа
+    float step;
+
     /// Количество вершин графа по ширине
     int num_vertices_width;
 
     /// Количество вершин графа по высоте
     int num_vertices_height;
-
-    /// Начало отсчета системы координат (наша машина)
-    int center;
 
     /// Точка конечного маршрута
     Point goal_point;
@@ -44,13 +42,10 @@ public:
     vertex_descriptor start;
 
     /// Вершина графа куда едем
-    int goal;
+    vertex_descriptor goal;
 
-    /// Ширина авто
-    float width_auto;
-
-    /// Высота авто
-    float height_auto;
+    /// Автомобиль
+    Car car;
 
     /// Конструктор по умолчанию
     GameMap();
@@ -76,17 +71,9 @@ public:
     /// Формирование сообщения под отправку
     list<Point> create_msg(const DistanceMatrix& locations, list<vertex_descriptor>& shortest_path);
 
-    /// Печать игрового поля в консоль
-    void print_game_map();
-
-    /// Печать вершин игрового поля в консоль
-    void print_vertex_map();
-
-    /// Печать пути
-    void print_way(const DistanceMatrix* distance, const list<vertex_descriptor>& shortest_path);
-
     int GetJ(float i);
     int GetI(float j);
+
     void init(IDistanceMatrix&distance,IGraph&graph);
     void doo(const int DEBUG_OUTPUT);
 
@@ -95,6 +82,23 @@ public:
 
     /// Деструктор
     ~GameMap();
+
+    friend ostream& operator <<(ostream &out, const Car &b);
+    friend istream& operator >>(istream &in, Car &b);
+};
+
+class GameMapPrinter
+{
+public:
+    /// Печать игрового поля в консоль
+    static void print_game_map(const GameMap &map);
+
+    /// Печать вершин игрового поля в консоль
+    static void print_vertex_map(const GameMap &map);
+
+    /// Печать пути
+    static void print_way(DistanceMatrix& distance, const list<vertex_descriptor>& shortest_path);
+
 };
 
 #endif // GAMEMAP_H

@@ -9,33 +9,24 @@ void DistanceMatrix::init(){}
 
 void DistanceMatrix::print(){}
 
+int DistanceMatrix::GetI(float j){}
+int DistanceMatrix::GetJ(float i){}
+
 DistanceMatrix::~DistanceMatrix()
 {
     matrix.clear();
 }
 
-DMQuadrangle::DMQuadrangle()
+DMQuadrangle::DMQuadrangle():width(0),height(0),center(0),step(0)
 {
-    this->width=0;
-    this->height=0;
-    this->center=0;
-    this->step=0;
 }
 
-DMQuadrangle::DMQuadrangle(int width, int height, int center, float step)
+DMQuadrangle::DMQuadrangle(int width, int height, int center, float step):width(width),height(height),center(center),step(step)
 {
-    this->width=width;
-    this->height=height;
-    this->center=center;
-    this->step=step;
 }
 
-DMQuadrangle::DMQuadrangle(const DMQuadrangle&o)
+DMQuadrangle::DMQuadrangle(const DMQuadrangle &o):width(o.width),height(o.height), center(o.center), step(o.step)
 {
-    this->width=o.width;
-    this->height=o.height;
-    this->center=o.center;
-    this->step=o.step;
 }
 
 void DMQuadrangle::init()
@@ -92,3 +83,13 @@ DMQuadrangle::~DMQuadrangle()
     matrix.clear();
     //cout<<"Destructor DMQuadrangle";
 };
+
+int DMQuadrangle::GetI(float j)
+{
+    return (center - int(j / step) * width) / width;
+}
+
+int DMQuadrangle::GetJ(float i)
+{
+    return (center + int(i/step)) % width;
+}

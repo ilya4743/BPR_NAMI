@@ -16,6 +16,10 @@ public:
     /// Печать матрицы расстояний в консоль
     void virtual print()=0;
 
+    int virtual GetI(float j)=0;
+
+    int virtual GetJ(float i)=0;
+
     /// Виртуальный деструктор
     virtual ~IDistanceMatrix()=0;
 };
@@ -28,6 +32,8 @@ public:
     vector<Point> matrix;
     void init()override;
     void print()override;
+    int GetI(float j)override;
+    int GetJ(float i)override;
      ~DistanceMatrix()override;
 };
 
@@ -65,6 +71,9 @@ public:
 
     /// Конструктор копирования
     DMQuadrangle(const DMQuadrangle&o);
+
+    int GetI(float j)override;
+    int GetJ(float i)override;
 
     void init() override;
     void print()override;

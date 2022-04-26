@@ -1,7 +1,11 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include<fstream>
+#include<iostream>
+#include <fstream>
+
+using namespace std;
+
 /// Класс точки
 class Point
 {
@@ -24,6 +28,8 @@ public:
     {
 
     }
-    friend std::ofstream& operator<<(std::ofstream &out, const Point &p);
+    friend ofstream& operator<<(ofstream &out, const Point &point);
+    friend ostream& operator <<(ostream &out, const Point &point);
+    friend istream& operator >>(istream &in, Point &point);
 };
 #endif // POINT_H

@@ -48,40 +48,10 @@ void BQuadrAngle::print(GameMap&g)
 
 int BQuadrAngle::init(MyGraph& graph, float step, GameMap&g)
 {
-    /*
-    //искуственно увеличиваем препятствие, чтобы соблюсти габариты
-    this->left_top.x=this->left_top.x-g.width_auto/2;
-    this->left_top.y=this->left_top.y+g.height_auto/2;
-    this->right_bottom.x=this->right_bottom.x+g.width_auto/2;
-    this->right_bottom.y=this->right_bottom.y-g.height_auto/2;
-
-    if (abs(this->left_top.x) > abs(int(this->left_top.x / step) * step))
-        this->left_top.x -= abs(this->left_top.x - int(this->left_top.x / step) * step);
-
-    if (abs(this->right_bottom.x) > abs(int(this->right_bottom.x / step) * step))
-        this->right_bottom.x +=abs(this->right_bottom.x - int(this->right_bottom.x / step) * step);
-
-    if (abs(this->left_top.y) > abs(int(this->left_top.y / step) * step))
-        this->left_top.y +=abs(this->left_top.y - int(this->left_top.y / step) * step);
-
-    if (abs(this->right_bottom.y) > abs(int(this->right_bottom.y / step) * step))
-        this->right_bottom.y -= abs(this->right_bottom.y - int(this->right_bottom.y / step) * step);
-    */
-    //если препятствие не влезет на карту, то ошибка
-    /*if(g.distance->matrix[0].x > this->left_top.x || g.distance->matrix[g.distance->matrix.size()-1].x < this->right_bottom.x ||
-       g.distance->matrix[0].y < this->left_top.y || g.distance->matrix[g.distance->matrix.size()-1].y > this->right_bottom.y)
-        return -2;*/
-
     //если препятсвие никак не влезет на карту, то вернуть 0 иначе попытаться впихнуть хоть как-нибудь
     if(g.distance->matrix[0].x > this->right_bottom.x || g.distance->matrix[g.distance->matrix.size()-1].x < this->left_top.x ||
        g.distance->matrix[0].y < this->right_bottom.y || g.distance->matrix[g.distance->matrix.size()-1].y > this->left_top.y)
-    {
-        //cout<<(g.distance->matrix[0].x > this->right_bottom.x && g.distance->matrix[g.distance->matrix.size()-1].x < this->left_top.x)<<endl;
-        //cout<<(g.distance->matrix[0].y < this->right_bottom.y && g.distance->matrix[g.distance->matrix.size()-1].y > this->left_top.y)<<endl;
-            //return -2;
-        //delete this;
         return -2;
-    }
     else
     {
         if (g.distance->matrix[0].x > this->left_top.x)
@@ -159,10 +129,10 @@ BQuadrAngle::~BQuadrAngle()
 bool BQuadrAngle::hasPoint(Point p, GameMap&g)
 {
     //искуственно увеличиваем препятствие, чтобы соблюсти габариты
-    this->left_top.x=this->left_top.x-g.width_auto/2;
-    this->left_top.y=this->left_top.y+g.height_auto/2;
-    this->right_bottom.x=this->right_bottom.x+g.width_auto/2;
-    this->right_bottom.y=this->right_bottom.y-g.height_auto/2;
+    this->left_top.x=this->left_top.x-g.car.width/2;
+    this->left_top.y=this->left_top.y+g.car.height/2;
+    this->right_bottom.x=this->right_bottom.x+g.car.width/2;
+    this->right_bottom.y=this->right_bottom.y-g.car.height/2;
 
     if (abs(this->left_top.x) > abs(int(this->left_top.x / g.step) * g.step))
         this->left_top.x -= abs(this->left_top.x - int(this->left_top.x / g.step) * g.step);
@@ -218,11 +188,6 @@ inline bool intersect_1 (int a, int b, int c, int d) {
     if (c > d)  swap (c, d);
     return max(a,c) <= min(b,d);
 }
-
-//bool is_point_in_path(float x, float y, vector<Point>poly)
-//     {
-
-//}
 
 /// Класс сглаживания пути
 class Smoother
@@ -339,4 +304,22 @@ bool BQuadrAngle::isIntersection(Point a, Point b)
     return true;
     else
         return false;
+}
+
+ostream& operator<<(ostream &out, const BQuadrAngle &barrier)
+{
+    out<<barrier.width<<endl<<barrier.height<<endl;
+    out<<barrier.left_top<<endl<<barrier.right_bottom<<endl;
+    out<<Point(barrier.x,barrier.y);
+    return out;
+}
+
+istream& operator>>(istream &in, BQuadrAngle &barrier)
+{
+    in>>barrier.width>>barrier.height;
+    in>>barrier.left_top>>barrier.right_bottom;
+    in>>barrier.x>>barrier.y;
+    barrier.left_top=Point(barrier.x-barrier.width/2.0,barrier.y+barrier.height/2.0);
+    barrier.right_bottom=Point(barrier.x+barrier.width/2.0,barrier.y-barrier.height/2.0);
+    return in;
 }

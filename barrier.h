@@ -86,6 +86,8 @@ public:
     bool isIntersection(Point a, Point b)override;
 
     friend ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier);
+    friend ostream& operator<<(ostream &out, const BQuadrAngle &barrier);
+    friend istream& operator>>(istream &in, BQuadrAngle &barrier);
 
     /// Ширина препятствия
     float width;
