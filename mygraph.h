@@ -75,15 +75,22 @@ public:
 
     void init(int width, int height)override;
     std::list<vertex_descriptor> search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance)override;
+};
 
+class MyGraphPrinter
+{
+public:
     /// Печать номеров вершин в консоль
-    void print_vertexes();
+    template<class Graph>
+    void print_vertexes(const Graph& graph);
 
     /// Печать дуг в консоль
-    void print_edges();
+    template<class Graph>
+    void print_edges(const Graph& graph);
 
     /// Печать графа в graphviz
-    void print_to_graphviz();
+    template<class Graph>
+    void print_to_graphviz(const Graph& graph, const string& filename);
 };
 
 #endif // MYGRAPH_H

@@ -18,10 +18,10 @@ public:
     /// @param grah граф, на который необходимо наложить препятствие
     /// @param step шаг сетки графа
     /// @param g поле
-    virtual int  init(MyGraph& graph, float step,GameMap&g)=0;
+    virtual int  init(MyGraph& graph, DMQuadrangle& distance)=0;
 
     /// Печать препятствия в консоль
-    virtual void  print(GameMap&g)=0;
+    virtual void  print(IDistanceMatrixAdapter &adapter)=0;
 
     /// Печать препятствия в файл
     virtual void  printToFile(ofstream &out)=0;
@@ -55,8 +55,8 @@ public:
     /// Деструктор
     ~Barrier();
 
-    int init(MyGraph& graph, float step, GameMap&g)override;
-    void print(GameMap&g)override;
+    int init(MyGraph& graph, DMQuadrangle& distance)override;
+    void print(IDistanceMatrixAdapter &adapter)override;
     bool hasPoint(Point p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
     void printToFile(ofstream &out)override;
@@ -78,8 +78,8 @@ public:
     /// Деструктор
     ~BQuadrAngle();
 
-    int init(MyGraph& graph, float step, GameMap&g)override;
-    void print(GameMap&g)override;
+    int init(MyGraph& graph, DMQuadrangle& distance)override;
+    void print(IDistanceMatrixAdapter &adapter)override;
     bool hasPoint(Point p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
     void printToFile(ofstream &out)override;

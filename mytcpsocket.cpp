@@ -5,9 +5,9 @@
 #include<QTime>
 #include <QCoreApplication>
 
-void MyLog::printLogToFile( GameMap *o)
+void MyLog::printLogToFile(const GameMap& map)
 {
-    o->printToFile(*ofs);
+    GameMapPrinter::printToFile(map,*ofs);
 }
 
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
@@ -136,7 +136,7 @@ void MyTcpSocket::readyRead()
                 }
                 Logger->printLogToFile("Data recieve");
                 g1.doo(DEBUG_OUTPUT);
-                Logger->printLogToFile(&g1);
+                Logger->printLogToFile(g1);
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);

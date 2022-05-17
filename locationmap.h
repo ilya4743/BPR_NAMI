@@ -13,13 +13,6 @@ public:
     /// Инициализация матрицы расстояний
     void virtual init()=0;
 
-    /// Печать матрицы расстояний в консоль
-    void virtual print()=0;
-
-    int virtual GetI(float j)=0;
-
-    int virtual GetJ(float i)=0;
-
     /// Виртуальный деструктор
     virtual ~IDistanceMatrix()=0;
 };
@@ -31,9 +24,6 @@ public:
     /// Вектор точек будущей матрицы
     vector<Point> matrix;
     void init()override;
-    void print()override;
-    int GetI(float j)override;
-    int GetJ(float i)override;
      ~DistanceMatrix()override;
 };
 
@@ -50,7 +40,7 @@ public:
 */
 class DMQuadrangle: public DistanceMatrix
 {
-private:
+public:
     /// Ширина матрицы
     int width;
 
@@ -72,13 +62,44 @@ public:
     /// Конструктор копирования
     DMQuadrangle(const DMQuadrangle&o);
 
-    int GetI(float j)override;
-    int GetJ(float i)override;
-
     void init() override;
-    void print()override;
     ~DMQuadrangle()override;
+};
 
+class DistanceMatrixPrinter
+{
+public:
+    template<class DistanceMatrix>
+    void print(const DistanceMatrix& distance);
+};
+
+class IDistanceMatrixAdapter
+{
+public:
+    int virtual GetI(float j)=0;
+    int virtual GetJ(float i)=0;
+};
+
+class DistanceMatrixAdapter:public IDistanceMatrixAdapter
+{
+public:
+
+    DMQuadrangle* distance;
+
+    DistanceMatrixAdapter(DMQuadrangle *distance)
+    {
+        this->distance=distance;
+    }
+
+    int GetI(float j)
+    {
+        return (distance->center - int(j / distance->step) * distance->width) / distance->width;
+    }
+
+    int GetJ(float i)
+    {
+        return (distance->center + int(i/distance->step)) % distance->width;
+    }
 };
 
 #endif // LOCATIONMAP_H

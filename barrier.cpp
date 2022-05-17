@@ -5,10 +5,9 @@ IBarrier::~IBarrier(){}
 Barrier::Barrier():Point(){}
 Barrier::Barrier(float x, float y):Point(x,y){}
 Barrier::Barrier(const Barrier&o):Point(o){}
-int Barrier::init(MyGraph& graph, float step, GameMap&g){}
-void Barrier::print(GameMap&g){}
+int Barrier::init(MyGraph& graph, DMQuadrangle& distance){}
 Barrier::~Barrier(){}
-
+void Barrier::print(IDistanceMatrixAdapter &adapter){}
 bool Barrier::hasPoint(Point p, GameMap&g){}
 bool Barrier::hasVertex(int v, GameMap&g){}
 bool Barrier::isIntersection(Point a, Point b){}
@@ -37,83 +36,84 @@ BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o.x,o.y),width(o.width),h
 
 }
 
-void BQuadrAngle::print(GameMap&g)
+void BQuadrAngle::print(IDistanceMatrixAdapter &adapter)
 {
     cout<<"\033[s";
-    for (int i = g.GetI(this->left_top.y); i <= g.GetI(this->right_bottom.y); i++)
-        for (int j = g.GetJ(this->left_top.x); j <= g.GetJ(this->right_bottom.x); j++)
+    for (int i = adapter.GetI(left_top.y); i <= adapter.GetI(right_bottom.y); i++)
+        for (int j = adapter.GetJ(left_top.x); j <= adapter.GetJ(right_bottom.x); j++)
             cout<<"\033["<<i+1<<';'<<j+1<<"H\033[0;37;47m \033[0;0m";
     cout<<"\033[u";
 }
 
-int BQuadrAngle::init(MyGraph& graph, float step, GameMap&g)
+int BQuadrAngle::init(MyGraph& graph, DMQuadrangle& distance)
 {
+    IDistanceMatrixAdapter* g=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(&distance));
     //если препятсвие никак не влезет на карту, то вернуть 0 иначе попытаться впихнуть хоть как-нибудь
-    if(g.distance->matrix[0].x > this->right_bottom.x || g.distance->matrix[g.distance->matrix.size()-1].x < this->left_top.x ||
-       g.distance->matrix[0].y < this->right_bottom.y || g.distance->matrix[g.distance->matrix.size()-1].y > this->left_top.y)
+    if(distance.matrix[0].x > right_bottom.x || distance.matrix[distance.matrix.size()-1].x < left_top.x ||
+       distance.matrix[0].y < right_bottom.y || distance.matrix[distance.matrix.size()-1].y > left_top.y)
         return -2;
     else
     {
-        if (g.distance->matrix[0].x > this->left_top.x)
-            this->left_top.x=g.distance->matrix[0].x;
+        if (distance.matrix[0].x > left_top.x)
+            left_top.x=distance.matrix[0].x;
 
-        if (g.distance->matrix[0].y < this->left_top.y)
-            this->left_top.y=g.distance->matrix[0].y;
+        if (distance.matrix[0].y < left_top.y)
+            left_top.y=distance.matrix[0].y;
 
-        if (g.distance->matrix[g.distance->matrix.size()-1].x < this->right_bottom.x)
-            this->right_bottom.x=g.distance->matrix[g.distance->matrix.size()-1].x;
+        if (distance.matrix[distance.matrix.size()-1].x < right_bottom.x)
+            right_bottom.x=distance.matrix[distance.matrix.size()-1].x;
 
-        if (g.distance->matrix[g.distance->matrix.size()-1].y > this->right_bottom.y)
-            this->right_bottom.y=g.distance->matrix[g.distance->matrix.size()-1].y;
+        if (distance.matrix[distance.matrix.size()-1].y > right_bottom.y)
+            right_bottom.y=distance.matrix[distance.matrix.size()-1].y;
 
         //соседние по горизонтали
-        for (int i = g.GetI(this->left_top.y); i <= g.GetI(this->right_bottom.y); i++)
+        for (int i = g->GetI(left_top.y); i <= g->GetI(right_bottom.y); i++)
         {
-            for (int j = g.GetJ(this->left_top.x); j <= g.GetJ(this->right_bottom.x) + 1; j++)
+            for (int j = g->GetJ(left_top.x); j <= g->GetJ(right_bottom.x) + 1; j++)
             {
-                if (j == 0 || j == g.num_vertices_width)continue;
+                if (j == 0 || j == distance.width)continue;
 
-                int u = i * g.num_vertices_width + j - 1;
-                int v = i * g.num_vertices_width + j;
+                int u = i * distance.width + j - 1;
+                int v = i * distance.width + j;
                 remove_edge(u, v, *graph.adj_list);
             }
         }
 
         //соседние по вертикале
-        for (int i = g.GetI(this->left_top.y); i <= g.GetI(this->right_bottom.y) + 1; i++)
+        for (int i = g->GetI(left_top.y); i <= g->GetI(right_bottom.y) + 1; i++)
         {
-            if (i == 0 || i == g.num_vertices_height)continue;
+            if (i == 0 || i == distance.height)continue;
 
-            for (int j = g.GetJ(this->left_top.x); j <= g.GetJ(this->right_bottom.x); j++)
+            for (int j = g->GetJ(left_top.x); j <= g->GetJ(right_bottom.x); j++)
             {
-                int u2 = (i - 1) * g.num_vertices_width + j;
-                int v2 = (i)*g.num_vertices_width + j;
+                int u2 = (i - 1) * distance.width + j;
+                int v2 = (i)*distance.width + j;
                 remove_edge(u2, v2, *graph.adj_list);
             }
         }
 
         //главная диагональ
-        for (int i = g.GetI(this->left_top.y); i <= g.GetI(this->right_bottom.y) + 1; i++)
+        for (int i = g->GetI(left_top.y); i <= g->GetI(right_bottom.y) + 1; i++)
         {
-            if (i == 0 || i == g.num_vertices_height)continue;
-            for (int j = g.GetJ(this->left_top.x); j <= g.GetJ(this->right_bottom.x) + 1; j++)
+            if (i == 0 || i == distance.height)continue;
+            for (int j = g->GetJ(left_top.x); j <= g->GetJ(right_bottom.x) + 1; j++)
             {
-                if (j == 0 || j == g.num_vertices_width)continue;
-                int u1 = (i - 1) * g.num_vertices_width + j - 1;
-                int v1 = (i)*g.num_vertices_width + j;
+                if (j == 0 || j == distance.width)continue;
+                int u1 = (i - 1) * distance.width + j - 1;
+                int v1 = (i)*distance.width + j;
                 remove_edge(u1, v1, *graph.adj_list);
             }
         }
 
         //побочная диагональ
-        for (int i = g.GetI(this->right_bottom.y) + 1; i >= g.GetI(this->left_top.y); i--)
+        for (int i = g->GetI(right_bottom.y) + 1; i >= g->GetI(left_top.y); i--)
         {
-            if (i == g.num_vertices_height || i==0)continue;
-            for (int j = g.GetJ(this->right_bottom.x) + 1; j >= g.GetJ(this->left_top.x); j--)
+            if (i == distance.height || i==0)continue;
+            for (int j = g->GetJ(right_bottom.x) + 1; j >= g->GetJ(left_top.x); j--)
             {
-                if (j == g.num_vertices_width || j == 0)continue;
-                int u1 = (i)*g.num_vertices_width + j - 1;
-                int v1 = (i - 1) * g.num_vertices_width + j;
+                if (j == distance.width || j == 0)continue;
+                int u1 = (i)*distance.width + j - 1;
+                int v1 = (i - 1) * distance.width + j;
                 remove_edge(u1, v1, *graph.adj_list);
             }
         }
@@ -129,37 +129,39 @@ BQuadrAngle::~BQuadrAngle()
 bool BQuadrAngle::hasPoint(Point p, GameMap&g)
 {
     //искуственно увеличиваем препятствие, чтобы соблюсти габариты
-    this->left_top.x=this->left_top.x-g.car.width/2;
-    this->left_top.y=this->left_top.y+g.car.height/2;
-    this->right_bottom.x=this->right_bottom.x+g.car.width/2;
-    this->right_bottom.y=this->right_bottom.y-g.car.height/2;
+    left_top.x=left_top.x-g.car.width/2;
+    left_top.y=left_top.y+g.car.height/2;
+    right_bottom.x=right_bottom.x+g.car.width/2;
+    right_bottom.y=right_bottom.y-g.car.height/2;
 
-    if (abs(this->left_top.x) > abs(int(this->left_top.x / g.step) * g.step))
-        this->left_top.x -= abs(this->left_top.x - int(this->left_top.x / g.step) * g.step);
+    if (abs(left_top.x) > abs(int(left_top.x / g.step) * g.step))
+        left_top.x -= abs(left_top.x - int(left_top.x / g.step) * g.step);
 
-    if (abs(this->right_bottom.x) > abs(int(this->right_bottom.x / g.step) * g.step))
-        this->right_bottom.x +=abs(this->right_bottom.x - int(this->right_bottom.x / g.step) * g.step);
+    if (abs(right_bottom.x) > abs(int(right_bottom.x / g.step) * g.step))
+        right_bottom.x +=abs(right_bottom.x - int(right_bottom.x / g.step) * g.step);
 
-    if (abs(this->left_top.y) > abs(int(this->left_top.y / g.step) * g.step))
-        this->left_top.y +=abs(this->left_top.y - int(this->left_top.y / g.step) * g.step);
+    if (abs(left_top.y) > abs(int(left_top.y / g.step) * g.step))
+        left_top.y +=abs(left_top.y - int(left_top.y / g.step) * g.step);
 
-    if (abs(this->right_bottom.y) > abs(int(this->right_bottom.y / g.step) * g.step))
-        this->right_bottom.y -= abs(this->right_bottom.y - int(this->right_bottom.y / g.step) * g.step);
+    if (abs(right_bottom.y) > abs(int(right_bottom.y / g.step) * g.step))
+        right_bottom.y -= abs(right_bottom.y - int(right_bottom.y / g.step) * g.step);
 
-    if (this->left_top.x<=p.x && this->right_bottom.x>=p.x)
-        if(this->left_top.y>=p.y && this->right_bottom.y<=p.y)
+    if (left_top.x<=p.x && right_bottom.x>=p.x)
+        if(left_top.y>=p.y && right_bottom.y<=p.y)
             return true;
     return false;
 }
 
 bool BQuadrAngle::hasVertex(int v, GameMap&g)
 {
-    int i1=g.GetI(this->left_top.y);
-    int i2=g.GetI(this->right_bottom.y);
-    int j1=g.GetJ(this->left_top.x);
-    int j2=g.GetJ(this->right_bottom.x);
-    if(i1<=v/g.num_vertices_width && i2>=v/g.num_vertices_width)
-        if(j1<=v%g.num_vertices_width && j2>=v%g.num_vertices_width)
+
+    int i1=g.adapter->GetI(left_top.y);
+    int i2=g.adapter->GetI(right_bottom.y);
+    int j1=g.adapter->GetJ(left_top.x);
+    int j2=g.adapter->GetJ(right_bottom.x);
+    auto d=dynamic_cast<DMQuadrangle*>(g.distance);
+    if(i1<=v/d->width && i2>=v/d->width)
+        if(j1<=v%d->width && j2>=v%d->width)
             return true;
     return false;
 }

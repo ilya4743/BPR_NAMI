@@ -47,12 +47,6 @@ public:
     /// Автомобиль
     Car car;
 
-    /// Конструктор по умолчанию
-    GameMap();
-
-    /// Конструктор с параметрами
-    GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p, bool isSmoothing);
-
     /// Навигационный граф
     MyGraph* graph;
 
@@ -65,20 +59,24 @@ public:
     /// Кратчайший путь
     list<Point> short_path;
 
-    /// Конструктор с параметрами
     bool isSmoothing;
+
+    IDistanceMatrixAdapter* adapter;
 
     /// Формирование сообщения под отправку
     list<Point> create_msg(const DistanceMatrix& locations, list<vertex_descriptor>& shortest_path);
 
-    int GetJ(float i);
-    int GetI(float j);
+    /// Конструктор по умолчанию
+    GameMap();
 
-    void init(IDistanceMatrix&distance,IGraph&graph);
+    /// Конструктор с параметрами
+    GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p, bool isSmoothing);
+
+    /// Инициализация карты
+    void init();
+
+
     void doo(const int DEBUG_OUTPUT);
-
-    /// Печать в файл
-    void printToFile(ofstream& out);
 
     /// Деструктор
     ~GameMap();
@@ -97,8 +95,10 @@ public:
     static void print_vertex_map(const GameMap &map);
 
     /// Печать пути
-    static void print_way(DistanceMatrix& distance, const list<vertex_descriptor>& shortest_path);
+    static void print_way(const GameMap& distance, const list<vertex_descriptor>& shortest_path);
 
+    /// Печать в файл
+    static void printToFile(const GameMap& map, ofstream& out);
 };
 
 #endif // GAMEMAP_H

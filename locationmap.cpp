@@ -7,11 +7,6 @@ IDistanceMatrix::~IDistanceMatrix(){}
 
 void DistanceMatrix::init(){}
 
-void DistanceMatrix::print(){}
-
-int DistanceMatrix::GetI(float j){}
-int DistanceMatrix::GetJ(float i){}
-
 DistanceMatrix::~DistanceMatrix()
 {
     matrix.clear();
@@ -67,29 +62,20 @@ void DMQuadrangle::init()
     }
 }
 
-void DMQuadrangle::print()
-{
-    cout << "locations:\n";
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < width; j++)
-            cout <<'{'<< setw(5) << matrix[i*width+j].x<<','<<setw(5) << matrix[i * width + j].y<<'}'<<' ';
-        cout << endl;
-    }
-}
-
 DMQuadrangle::~DMQuadrangle()
 {
     matrix.clear();
     //cout<<"Destructor DMQuadrangle";
 };
 
-int DMQuadrangle::GetI(float j)
+template<class DistanceMatrix>
+void DistanceMatrixPrinter::print(const DistanceMatrix& distance)
 {
-    return (center - int(j / step) * width) / width;
-}
-
-int DMQuadrangle::GetJ(float i)
-{
-    return (center + int(i/step)) % width;
+    cout << "locations:\n";
+    for (int i = 0; i < distance.height; i++)
+    {
+        for (int j = 0; j < distance.width; j++)
+            cout <<'{'<< setw(5) << distance.matrix[i*distance.width+j].x<<','<<setw(5) << distance.matrix[i * distance.width + j].y<<'}'<<' ';
+        cout << endl;
+    }
 }

@@ -40,8 +40,6 @@ void MyGraph::init(int width, int height)
     for (int i = height - 1; i > 0; i--)
         for (int j = width - 2; j >= 0; j--)
             add_edge(i * width + j, i * width - (width - 1) + j, *this->adj_list);
-
-    print_to_graphviz();
 }
 #include<QDebug>
 // euclidean distance heuristic
@@ -153,27 +151,6 @@ private:
     Vertex m_goal;
 };
 
-void MyGraph::print_vertexes()
-{
-    cout << "Vertex:\n";
-    for (vertexPair vi = vertices(*this->adj_list); vi.first != vi.second; ++vi.first)
-        cout << *vi.first << endl;
-}
-
-void MyGraph::print_edges()
-{
-    cout << "Edges:\n";
-    for (edgePair ei = edges(*this->adj_list); ei.first != ei.second; ++ei.first)
-        cout << *ei.first << endl;
-}
-
-void MyGraph::print_to_graphviz()
-{
-    ofstream f("graph.dot");
-    write_graphviz(f, *this->adj_list);
-    f.close();
-}
-
 list<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance )
 {
     vector<vertex_descriptor> p(num_vertices(*this->adj_list));
@@ -204,4 +181,28 @@ MyGraph::~MyGraph()
 {
     adj_list->clear();
     delete adj_list;
+}
+
+template<class Graph>
+void MyGraphPrinter::print_vertexes(const Graph& graph)
+{
+    cout << "Vertex:\n";
+    for (vertexPair vi = vertices(graph.adj_list); vi.first != vi.second; ++vi.first)
+        cout << *vi.first << endl;
+}
+
+template<class Graph>
+void print_edges(const Graph& graph)
+{
+    cout << "Edges:\n";
+    for (edgePair ei = edges(graph.adj_list); ei.first != ei.second; ++ei.first)
+        cout << *ei.first << endl;
+}
+
+template<class Graph>
+void print_to_graphviz(const Graph& graph, const string& filename)
+{
+    ofstream f(filename);
+    write_graphviz(f, graph.adj_list);
+    f.close();
 }

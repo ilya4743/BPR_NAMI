@@ -1,6 +1,7 @@
 #include "gamemap.h"
 #include <boost/graph/adjacency_list.hpp>
 #include <QtDebug>
+#include<QTime>
 
 GameMap::GameMap()
 {
@@ -12,42 +13,24 @@ GameMap::GameMap(float width_coord, float height_coord, float step, int center, 
     goal_point(goal_p),start(center),goal(),car(Car(width_auto,height_auto,0)),
     isSmoothing(isSmoothing)
 {
-
     distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);
-    distance->init();
-
-    //если точка конечного маршрута вышла за пределы сетки графа по x
-    if (!(distance->matrix[0].x<=goal_point.x && distance->matrix[num_vertices_width-1].x>=goal_point.x))
-        if(goal_point.x>0)
-            goal_point.x=distance->matrix[num_vertices_width-1].x;
-        else
-            goal_point.x=distance->matrix[0].x;
-
-    //если точка конечного маршрута вышла за пределы сетки графа по y
-    if (!(distance->matrix[0].y>=goal_point.y && distance->matrix[distance->matrix.size()-1].y<=goal_point.y))
-        if(goal_point.y>0)
-            goal_point.y=distance->matrix[0].y;
-        else
-            goal_point.y=distance->matrix[distance->matrix.size()-1].y;
-
+    adapter=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(distance));
     //вершина графа куда едем
-    goal = distance->GetI(goal_p.y)*num_vertices_width + distance->GetJ(goal_p.x);
-
+    goal = adapter->GetI(goal_p.y)*num_vertices_width + adapter->GetJ(goal_p.x);
     graph=new MyGraph(num_vertices_width*num_vertices_height);
 }
 
-void GameMapPrinter::print_way(DistanceMatrix& distance,const list<vertex_descriptor>& shortest_path)
+void GameMapPrinter::print_way(const GameMap& map,const list<vertex_descriptor>& shortest_path)
 {
     cout<<"\033[s";
     for (auto it=shortest_path.begin(); it != shortest_path.end(); ++it)
     {
-        int k=distance.GetJ(distance.matrix[(*it)].x)+1;
-        int d=distance.GetI(distance.matrix[(*it)].y)+1;
+        int k=map.adapter->GetJ(map.distance->matrix[(*it)].x)+1;
+        int d=map.adapter->GetI(map.distance->matrix[(*it)].y)+1;
         cout<<"\033["<<d<<';'<<k<<"H\033[0;31;40m*\033[0;0m";
     }
     cout<<"\033[u\n";
 }
-
 
 list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_descriptor>& shortest_path)
 {
@@ -159,26 +142,30 @@ void GameMapPrinter::print_game_map(const GameMap& map)
     cout << endl;
 }
 
-int GameMap::GetJ(float i)
+void GameMap::init()
 {
-    return (start + int(i/step)) % num_vertices_width;
-}
-
-int GameMap::GetI(float j)
-{
-        return (start - int(j / step) * num_vertices_width) / num_vertices_width;
-}
-
-void GameMap::init(IDistanceMatrix&distance,IGraph&graph)
-{
-    distance.init();
-    graph.init(num_vertices_width,num_vertices_height);
+    distance->init();
+    graph->init(num_vertices_width,num_vertices_height);
 }
 
 void GameMap::doo(const int DEBUG_OUTPUT)
 {
-    //distance->init();
-    graph->init(num_vertices_width, num_vertices_height);
+    init();
+
+    //если точка конечного маршрута вышла за пределы сетки графа по x
+    if (!(distance->matrix[0].x<=goal_point.x && distance->matrix[num_vertices_width-1].x>=goal_point.x))
+        if(goal_point.x>0)
+            goal_point.x=distance->matrix[num_vertices_width-1].x;
+        else
+            goal_point.x=distance->matrix[0].x;
+
+    //если точка конечного маршрута вышла за пределы сетки графа по y
+    if (!(distance->matrix[0].y>=goal_point.y && distance->matrix[distance->matrix.size()-1].y<=goal_point.y))
+        if(goal_point.y>0)
+            goal_point.y=distance->matrix[0].y;
+        else
+            goal_point.y=distance->matrix[distance->matrix.size()-1].y;
+
     list<Barrier*>::iterator itGP;
     bool partial_path=false;
     if(DEBUG_OUTPUT==1) //если дебаг включен
@@ -187,7 +174,7 @@ void GameMap::doo(const int DEBUG_OUTPUT)
         {
             if(!(*it)->hasPoint(goal_point, *this))    //если точка конечного маршрута не попала на препятствие
             {
-                if((*it)->init(*graph,step,*this)==-2)
+                if((*it)->init(*graph,*(dynamic_cast<DMQuadrangle*>(distance)))==-2)
                     it=barriers.erase(it);
                 else
                     ++it;
@@ -220,15 +207,15 @@ void GameMap::doo(const int DEBUG_OUTPUT)
 
 
         for(auto it= barriers.begin(); it!=barriers.end();++it)
-            (*it)->print(*this);
-        GameMapPrinter::print_way(*distance, short1);
+            (*it)->print(*adapter);
+        GameMapPrinter::print_way(*this, short1);
     }
     else    //если дебаг выключен
     {
         for(auto it= barriers.begin(); it!=barriers.end();++it)
             if(!(*it)->hasPoint(goal_point, *this))    //если точка конечного маршрута не попала на препятствие
             {
-                (*it)->init(*graph,step,*this);
+                (*it)->init(*graph,*(dynamic_cast<DMQuadrangle*>(distance)));
             }
             else                                //если точка конечного маршрута попала на препятствие
             {
@@ -260,33 +247,39 @@ GameMap::~GameMap()
     this->barriers.clear();
 }
 
-#include<QTime>
-
-void GameMap::printToFile(ofstream& out)
+void GameMapPrinter::printToFile(const GameMap& map, ofstream& out)
 {
-    //QString str=QTime::currentTime().toString("HH:mm:ss");
-    //out<<str.toStdString();
-    out<<width_coord<<endl<<height_coord<<endl<<step<<endl<<start<<endl;
-    out<<car<<endl;
-    out<<goal_point<<barriers.size();
-    for(auto it= barriers.begin(); it!=barriers.end();++it)
+    out<<map.width_coord<<endl<<map.height_coord<<endl<<map.step<<endl<<map.start<<endl;
+    out<<map.car<<endl;
+    out<<map.goal_point<<map.barriers.size();
+    for(auto it= map.barriers.begin(); it!=map.barriers.end();++it)
         out<<*(*it);
     out<<endl<<"Data Path\n";
-    for(auto it=short_path.begin();it!=short_path.end();++it)
+    for(auto it=map.short_path.begin();it!=map.short_path.end();++it)
         out<<*it;
 }
 
-//ДОДЕЛАТЬ!
 ostream& operator <<(ostream &out, const GameMap &map)
 {
     out<<map.width_coord<<endl<<map.height_coord<<endl<<map.step<<endl;
     out<<map.goal_point<<endl<<map.start<<endl<<map.goal<<endl;
     out<<map.car<<map.barriers.size()<<endl;
-    //for(unsigned int i=0; i<map.barriers.size(); i++)
-    //    map.barriers[i];
+    for(auto it=map.barriers.begin(); it!=map.barriers.end(); ++it)
+        out<<*it;
+    return out;
 }
 
 istream& operator >>(istream &in, GameMap &map)
 {
-
+    int barrier_size;
+    in>>map.width_coord>>map.height_coord>>map.step;
+    in>>map.goal_point>>map.start>>map.goal;
+    in>>map.car>>barrier_size;
+    for(int i=0; i<barrier_size; i++)
+    {
+        BQuadrAngle barrier;
+        in>>barrier;
+        map.barriers.push_back(&barrier);
+     }
+    return in;
 }
