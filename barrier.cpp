@@ -2,9 +2,11 @@
 
 IBarrier::~IBarrier(){}
 
-Barrier::Barrier():Point(){}
-Barrier::Barrier(float x, float y):Point(x,y){}
-Barrier::Barrier(const Barrier&o):Point(o){}
+Barrier::Barrier():position(Position()){}
+Barrier::Barrier(float x, float y, float z, float w, float sx, float sy, float sz):position(Position(x,y,z,w)), scale(Scale(sx,sy,sz)){}
+Barrier::Barrier(const Position& position, const Scale& scale):position(position),scale(scale){}
+Barrier::Barrier(const Barrier&o):position(o.position),scale(o.scale){}
+
 int Barrier::init(MyGraph& graph, DMQuadrangle& distance){}
 Barrier::~Barrier(){}
 void Barrier::print(IDistanceMatrixAdapter &adapter){}
@@ -15,7 +17,7 @@ void Barrier::printToFile(ofstream &out){}
 
 ofstream& operator<<(ofstream &out, const Barrier &barrier)
 {
-    out<<barrier.x<<endl<<barrier.y<<endl;
+    out<<barrier.position<<endl;
     return out;
 }
 
@@ -24,14 +26,13 @@ BQuadrAngle::BQuadrAngle():Barrier(),width(0),height(0)
 
 }
 
-BQuadrAngle::BQuadrAngle(float x, float y, float w, float h):Barrier(x,y),width(w),height(h),
-    left_top(x-w/2.0,y+h/2.0), right_bottom(x+w/2.0,y-h/2.0)
+BQuadrAngle::BQuadrAngle(float x, float y, float z, float w, float sx, float sy, float sz):Barrier(x,y,z,w,sx,sy,sz),
+    left_top(x-sx/2.0,y+sy/2.0), right_bottom(x+sx/2.0,y-sy/2.0)
 {
 
 }
 
-BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o.x,o.y),width(o.width),height(o.height),
-    left_top(o.left_top),right_bottom(o.right_bottom)
+BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o.position, o.scale),left_top(o.left_top),right_bottom(o.right_bottom)
 {
 
 }
@@ -154,7 +155,6 @@ bool BQuadrAngle::hasPoint(Point p, GameMap&g)
 
 bool BQuadrAngle::hasVertex(int v, GameMap&g)
 {
-
     int i1=g.adapter->GetI(left_top.y);
     int i2=g.adapter->GetI(right_bottom.y);
     int j1=g.adapter->GetJ(left_top.x);
@@ -168,16 +168,16 @@ bool BQuadrAngle::hasVertex(int v, GameMap&g)
 
 void BQuadrAngle::printToFile(ofstream &out)
 {
-    out<<x<<endl<<y<<endl;
+    out<<position;
+    out<<scale;
     out<<left_top<<right_bottom;
-    out<<width<<endl<<height<<endl;
 }
 
 ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier)
 {
-    out<<barrier.x<<endl<<barrier.y<<endl;
+    out<<barrier.position;
+    out<<barrier.scale;
     out<<barrier.left_top<<barrier.right_bottom;
-    out<<barrier.width<<endl<<barrier.height<<endl;
     return out;
 }
 
@@ -310,18 +310,59 @@ bool BQuadrAngle::isIntersection(Point a, Point b)
 
 ostream& operator<<(ostream &out, const BQuadrAngle &barrier)
 {
+    out<<barrier.position<<endl;
+    out<<barrier.scale<<endl;
     out<<barrier.width<<endl<<barrier.height<<endl;
     out<<barrier.left_top<<endl<<barrier.right_bottom<<endl;
-    out<<Point(barrier.x,barrier.y);
     return out;
 }
 
 istream& operator>>(istream &in, BQuadrAngle &barrier)
 {
-    in>>barrier.width>>barrier.height;
+    in>>barrier.position;
+    in>>barrier.scale;
     in>>barrier.left_top>>barrier.right_bottom;
-    in>>barrier.x>>barrier.y;
-    barrier.left_top=Point(barrier.x-barrier.width/2.0,barrier.y+barrier.height/2.0);
-    barrier.right_bottom=Point(barrier.x+barrier.width/2.0,barrier.y-barrier.height/2.0);
+    barrier.left_top=Point(barrier.position.x-barrier.width/2.0,barrier.position.y+barrier.height/2.0);
+    barrier.right_bottom=Point(barrier.position.x+barrier.width/2.0,barrier.position.y-barrier.height/2.0);
+    return in;
+}
+
+QDataStream& operator <<(QDataStream &out, const Barrier &b)
+{
+    out.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
+    out.setByteOrder(QDataStream::LittleEndian);
+    out << b.position;
+    out << b.scale;
+    return out;
+}
+
+QDataStream& operator >>(QDataStream &in, Barrier &b)
+{
+    in.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
+    in.setByteOrder(QDataStream::LittleEndian);
+    in >> b.position;
+    in >> b.scale;
+    return in;
+}
+
+QDataStream& operator <<(QDataStream &out, const BQuadrAngle &b)
+{
+    out.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
+    out.setByteOrder(QDataStream::LittleEndian);
+    out << b.position;
+    out << b.scale;
+    out << b.left_top;
+    out << b.right_bottom;
+    return out;
+}
+
+QDataStream& operator >>(QDataStream &in, BQuadrAngle &b)
+{
+    in.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
+    in.setByteOrder(QDataStream::LittleEndian);
+    in >> b.position;
+    in >> b.scale;
+    in >> b.left_top;
+    in >> b.right_bottom;
     return in;
 }

@@ -122,18 +122,21 @@ void MyTcpSocket::readyRead()
                 GameMap g1(width_coord,height_coord,step,start, width_auto, height_auto, Point(x,y), isSmoothing);
                 float x1, x2, x3=0,x4=0;
                 int i=0;
-                while (x3>=0 && x4>=0 && i!=j)
+                //while (x3>=0 && x4>=0 && i!=j)
+                //{
+                while (in.atEnd())
                 {
-                    in>>x1>>x2>>x3>>x4;
-                    auto *bar=new BQuadrAngle(x1,x2,x3,x4);
-                    g1.barriers.push_back(bar);
+                    BQuadrAngle bar;
+                    in>>bar;
+                    g1.barriers.push_back(&bar);
                     //qDebug()<<(bar)->hasPoint(g1.goal_point);
                     i++;
                 }
-                if(i!=j||x3<0||x4<0){
-                    throw MyException("Data package error", DataPackageError);
-                    Logger->printLogToFile("Data package error");
-                }
+                //}
+                //if(i!=j||x3<0||x4<0){
+                //    throw MyException("Data package error", DataPackageError);
+                //    Logger->printLogToFile("Data package error");
+                //}
                 Logger->printLogToFile("Data recieve");
                 g1.doo(DEBUG_OUTPUT);
                 Logger->printLogToFile(g1);

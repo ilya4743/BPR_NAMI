@@ -4,6 +4,7 @@
 #include"mygraph.h"
 #include "gamemap.h"
 #include <fstream>
+#include <QDataStream>
 
 class GameMap;
 /// @brief Интерфейс препятствия
@@ -43,17 +44,21 @@ public:
 };
 
 /// @brief Базовый класс препятствия
-class Barrier:public IBarrier, public Point
+class Barrier:public IBarrier
 {
 public:
     /// Конструктор по умолчанию
     Barrier();
     /// Конструктор с параметрами
-    Barrier(float x, float y);
+    Barrier(float x, float y, float z, float w, float sx, float sy, float sz);
+    Barrier(const Position& position, const Scale& scale);
     /// Конструктор копирования
     Barrier(const Barrier &o);
     /// Деструктор
     ~Barrier();
+
+    Position position;
+    Scale scale;
 
     int init(MyGraph& graph, DMQuadrangle& distance)override;
     void print(IDistanceMatrixAdapter &adapter)override;
@@ -63,6 +68,8 @@ public:
     bool isIntersection(Point a, Point b)override;
 
     friend ofstream& operator<<(ofstream &out, const Barrier &barrier);
+    friend QDataStream& operator <<(QDataStream &out, const Barrier &b);
+    friend QDataStream& operator >>(QDataStream &in, Barrier &b);
 };
 
 /// @brief Класс прямоугольного препятствия
@@ -72,7 +79,7 @@ public:
     /// Конструктор по умолчанию
     BQuadrAngle();
     /// Конструктор с параметрами
-    BQuadrAngle(float x, float y, float w, float h);
+    BQuadrAngle(float x, float y, float z, float w, float sx, float sy, float sz);
     /// Конструктор копирования
     BQuadrAngle(const BQuadrAngle& o);
     /// Деструктор
@@ -88,6 +95,8 @@ public:
     friend ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier);
     friend ostream& operator<<(ostream &out, const BQuadrAngle &barrier);
     friend istream& operator>>(istream &in, BQuadrAngle &barrier);
+    friend QDataStream& operator <<(QDataStream &out, const BQuadrAngle &b);
+    friend QDataStream& operator >>(QDataStream &in, BQuadrAngle &b);
 
     /// Ширина препятствия
     float width;

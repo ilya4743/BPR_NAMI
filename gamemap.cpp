@@ -283,3 +283,14 @@ istream& operator >>(istream &in, GameMap &map)
      }
     return in;
 }
+
+QDataStream& operator <<(QDataStream &out, const GameMap &map)
+{
+
+    return out;
+}
+
+QDataStream& operator >>(QDataStream &in, GameMap &map)
+{
+    return in;
+}
