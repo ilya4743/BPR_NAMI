@@ -21,7 +21,7 @@ ofstream& operator<<(ofstream &out, const Barrier &barrier)
     return out;
 }
 
-BQuadrAngle::BQuadrAngle():Barrier(),width(0),height(0)
+BQuadrAngle::BQuadrAngle():Barrier()
 {
 
 }
@@ -130,10 +130,10 @@ BQuadrAngle::~BQuadrAngle()
 bool BQuadrAngle::hasPoint(Point p, GameMap&g)
 {
     //искуственно увеличиваем препятствие, чтобы соблюсти габариты
-    left_top.x=left_top.x-g.car.width/2;
-    left_top.y=left_top.y+g.car.height/2;
-    right_bottom.x=right_bottom.x+g.car.width/2;
-    right_bottom.y=right_bottom.y-g.car.height/2;
+    left_top.x=left_top.x-g.car.scale.x/2;
+    left_top.y=left_top.y+g.car.scale.y/2;
+    right_bottom.x=right_bottom.x+g.car.scale.x/2;
+    right_bottom.y=right_bottom.y-g.car.scale.y/2;
 
     if (abs(left_top.x) > abs(int(left_top.x / g.step) * g.step))
         left_top.x -= abs(left_top.x - int(left_top.x / g.step) * g.step);
@@ -312,7 +312,7 @@ ostream& operator<<(ostream &out, const BQuadrAngle &barrier)
 {
     out<<barrier.position<<endl;
     out<<barrier.scale<<endl;
-    out<<barrier.width<<endl<<barrier.height<<endl;
+    out<<barrier.scale.x<<endl<<barrier.scale.y<<endl;
     out<<barrier.left_top<<endl<<barrier.right_bottom<<endl;
     return out;
 }
@@ -322,8 +322,8 @@ istream& operator>>(istream &in, BQuadrAngle &barrier)
     in>>barrier.position;
     in>>barrier.scale;
     in>>barrier.left_top>>barrier.right_bottom;
-    barrier.left_top=Point(barrier.position.x-barrier.width/2.0,barrier.position.y+barrier.height/2.0);
-    barrier.right_bottom=Point(barrier.position.x+barrier.width/2.0,barrier.position.y-barrier.height/2.0);
+    barrier.left_top=Point(barrier.position.x-barrier.scale.x/2.0,barrier.position.y+barrier.scale.y/2.0);
+    barrier.right_bottom=Point(barrier.position.x+barrier.scale.x/2.0,barrier.position.y-barrier.scale.y/2.0);
     return in;
 }
 

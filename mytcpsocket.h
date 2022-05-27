@@ -8,6 +8,7 @@
 #include<QProcess>
 #include "gamemap.h"
 #include "mylog.h"
+#include "car.h"
 
 class MyTcpSocket : public QObject
 {

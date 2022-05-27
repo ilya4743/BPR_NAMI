@@ -99,44 +99,37 @@ void MyTcpSocket::readyRead()
             float height_coord; //высота поля в координатах
             float step;         //шаг сетки
             int start;          //начальное положение авто (номер вершины графа)
-            float width_auto;   //ширина авто
-            float height_auto;  //высота авто
-            float x, y;         //точка маршрута
+            Car car;
+            //float width_auto;   //ширина авто
+            //float height_auto;  //высота авто
+            //float x, y;         //точка маршрута
+            Position goal;
             int j;              //количество препятствий
 
             in>>width_coord>>height_coord>>step>>start;
-            in>>width_auto>>height_auto;
-            in>>x>>y;
+            in>>car;
+            in>>goal;
             in>>j;
 
             //если ввод некорректен
-            if(width_coord <=0||height_coord<=0||step<=0||width_auto<0||height_auto<0||j<0||start<0
-            ||start>(width_coord/step*height_coord/step))
+            //if(width_coord <=0||height_coord<=0||step<=0||width_auto<0||height_auto<0||j<0||start<0
+            //||start>(width_coord/step*height_coord/step))
 
+            //{
+            //    throw MyException("Data package error", DataPackageError);
+            //    Logger->printLogToFile("Data package error");
+            //}
+            //else
             {
-                throw MyException("Data package error", DataPackageError);
-                Logger->printLogToFile("Data package error");
-            }
-            else
-            {
-                GameMap g1(width_coord,height_coord,step,start, width_auto, height_auto, Point(x,y), isSmoothing);
-                float x1, x2, x3=0,x4=0;
+                GameMap g1(width_coord,height_coord,step,start, car.scale.x, car.scale.y, Point(goal.x,goal.y), isSmoothing);
                 int i=0;
-                //while (x3>=0 && x4>=0 && i!=j)
-                //{
                 while (in.atEnd())
                 {
                     BQuadrAngle bar;
                     in>>bar;
                     g1.barriers.push_back(&bar);
-                    //qDebug()<<(bar)->hasPoint(g1.goal_point);
                     i++;
                 }
-                //}
-                //if(i!=j||x3<0||x4<0){
-                //    throw MyException("Data package error", DataPackageError);
-                //    Logger->printLogToFile("Data package error");
-                //}
                 Logger->printLogToFile("Data recieve");
                 g1.doo(DEBUG_OUTPUT);
                 Logger->printLogToFile(g1);

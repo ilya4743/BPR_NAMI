@@ -10,7 +10,7 @@ GameMap::GameMap()
 GameMap::GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p, bool isSmoothing):
     width_coord(width_coord),height_coord(height_coord),step(step),
     num_vertices_width(width_coord/step), num_vertices_height(height_coord/step),
-    goal_point(goal_p),start(center),goal(),car(Car(width_auto,height_auto,0)),
+    goal_point(goal_p),start(center),goal(),car(Car(Scale(width_auto,height_auto,0),0)),
     isSmoothing(isSmoothing)
 {
     distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);
@@ -122,8 +122,8 @@ list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_desc
     for (++it1;it1 != --shortest_path.end(); ++it1)
     {
         Point p;
-        p.x=distance.matrix[*it1].x- distance.matrix[*it2].x;
-        p.y=distance.matrix[*it1].y-distance.matrix[*it2++].y;
+        p.x=distance.matrix[*it1].x - distance.matrix[*it2].x;
+        p.y=distance.matrix[*it1].y - distance.matrix[*it2++].y;
         msg1.push_back(p);
     }
     msg1.push_back(distance.matrix[*(--shortest_path.end())]);
@@ -192,10 +192,8 @@ void GameMap::doo(const int DEBUG_OUTPUT)
         {
             auto it= short1.begin();
             auto itEnd=short1.end();
-            //while(it!=itEnd)
             while((*itGP)->hasVertex(*it,*this))
             {
-
                 short1.erase(it);
                 ++it;
             }

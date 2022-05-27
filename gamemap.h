@@ -81,8 +81,10 @@ public:
     /// Деструктор
     ~GameMap();
 
-    friend ostream& operator <<(ostream &out, const Car &b);
-    friend istream& operator >>(istream &in, Car &b);
+    friend ostream& operator <<(ostream &out, const GameMap &map);
+    friend istream& operator >>(istream &in, GameMap &map);
+    friend QDataStream& operator <<(QDataStream &out, const GameMap &map);
+    friend QDataStream& operator >>(QDataStream &in, GameMap &map);
 };
 
 class GameMapPrinter

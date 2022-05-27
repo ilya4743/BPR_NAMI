@@ -56,8 +56,9 @@ public:
     Barrier(const Barrier &o);
     /// Деструктор
     ~Barrier();
-
+    /// Позиция
     Position position;
+    /// Масштабирование
     Scale scale;
 
     int init(MyGraph& graph, DMQuadrangle& distance)override;
@@ -98,10 +99,6 @@ public:
     friend QDataStream& operator <<(QDataStream &out, const BQuadrAngle &b);
     friend QDataStream& operator >>(QDataStream &in, BQuadrAngle &b);
 
-    /// Ширина препятствия
-    float width;
-    /// Высота препятствия
-    float height;
     /// Левая верхняя точка препятствия
     Point left_top;
     /// Правая нижняя препятствия
