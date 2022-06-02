@@ -2,6 +2,7 @@
 #define CAR_H
 #include<iostream>
 #include"point.h"
+#include <OgreMatrix4.h>
 
 using namespace std;
 
@@ -16,7 +17,9 @@ public:
     /// @param width ширина авто
     /// @param height высота авто
     /// @param speed скорость авто
-    Car(Scale scale, float speed);
+    Car(float m00, float m01, float m02, float m03,
+        float m10, float m11, float m12, float m13,
+        float m20, float m21, float m22, float m23, float speed);
 
     /// @brief Конструктор копирования
     /// @param car экземпляр авто
@@ -24,10 +27,16 @@ public:
     Car(const Car&car);
 
     /// Масштабирование
-    Scale scale;
+    //Scale scale;
 
     /// Скорость авто
     float speed;
+
+    Ogre::Affine3 affine3;
+
+    Ogre::Vector3 position;
+    Ogre::Vector3 scale;
+    Ogre::Quaternion rotation;
 
     friend ostream& operator <<(ostream &out, const Car &b);
     friend istream& operator >>(istream &in, Car &b);

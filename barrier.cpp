@@ -2,17 +2,22 @@
 
 IBarrier::~IBarrier(){}
 
-Barrier::Barrier():position(Position()){}
-Barrier::Barrier(float x, float y, float z, float w, float sx, float sy, float sz):position(Position(x,y,z,w)), scale(Scale(sx,sy,sz)){}
-Barrier::Barrier(const Position& position, const Scale& scale):position(position),scale(scale){}
-Barrier::Barrier(const Barrier&o):position(o.position),scale(o.scale){}
+Barrier::Barrier():affine3(),position(), scale(), rotation(){}
+Barrier::Barrier(float m00, float m01, float m02, float m03,
+                 float m10, float m11, float m12, float m13,
+                 float m20, float m21, float m22, float m23):affine3(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23)
+{
+    affine3.decomposition(position, scale, rotation);
+}
+
+Barrier::Barrier(const Barrier&o):affine3(o.affine3), position(o.position),scale(o.scale), rotation(o.rotation){}
 
 int Barrier::init(MyGraph& graph, DMQuadrangle& distance){}
 Barrier::~Barrier(){}
 void Barrier::print(IDistanceMatrixAdapter &adapter){}
-bool Barrier::hasPoint(Point p, GameMap&g){}
+bool Barrier::hasPoint(Ogre::Vector3 p, GameMap&g){}
 bool Barrier::hasVertex(int v, GameMap&g){}
-bool Barrier::isIntersection(Point a, Point b){}
+bool Barrier::isIntersection(Ogre::Vector3 a, Ogre::Vector3 b){}
 void Barrier::printToFile(ofstream &out){}
 
 ofstream& operator<<(ofstream &out, const Barrier &barrier)
@@ -21,18 +26,20 @@ ofstream& operator<<(ofstream &out, const Barrier &barrier)
     return out;
 }
 
-BQuadrAngle::BQuadrAngle():Barrier()
+BQuadrAngle::BQuadrAngle():Barrier(),left_top(),right_bottom()
 {
 
 }
 
-BQuadrAngle::BQuadrAngle(float x, float y, float z, float w, float sx, float sy, float sz):Barrier(x,y,z,w,sx,sy,sz),
-    left_top(x-sx/2.0,y+sy/2.0), right_bottom(x+sx/2.0,y-sy/2.0)
+BQuadrAngle::BQuadrAngle(float m00, float m01, float m02, float m03,
+                         float m10, float m11, float m12, float m13,
+                         float m20, float m21, float m22, float m23):Barrier(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23),
+    left_top(position.x-scale.x/2.0,position.y+scale.y/2.0, position.z), right_bottom(position.x+scale.x/2.0,position.y-scale.y/2.0, position.z)
 {
 
 }
 
-BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o.position, o.scale),left_top(o.left_top),right_bottom(o.right_bottom)
+BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o),left_top(o.left_top),right_bottom(o.right_bottom)
 {
 
 }
@@ -127,7 +134,7 @@ BQuadrAngle::~BQuadrAngle()
     //cout<<"Препятствие удалено!";
 }
 
-bool BQuadrAngle::hasPoint(Point p, GameMap&g)
+bool BQuadrAngle::hasPoint(Ogre::Vector3 p, GameMap&g)
 {
     //искуственно увеличиваем препятствие, чтобы соблюсти габариты
     left_top.x=left_top.x-g.car.scale.x/2;
@@ -181,7 +188,7 @@ ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier)
     return out;
 }
 
-inline int area (Point a, Point b, Point c) {
+inline int area (Ogre::Vector3 a, Ogre::Vector3 b, Ogre::Vector3 c) {
     return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 }
 
@@ -195,21 +202,21 @@ inline bool intersect_1 (int a, int b, int c, int d) {
 class Smoother
 {
 private:
-    static bool inside(Point p, vector<float> plane)
+    static bool inside(Ogre::Vector3 p, vector<float> plane)
     {
         float d = p.x * plane[0] + p.y * plane[1];
         return d > plane[2];
     }
 
-    static Point clip(Point segStart, Point segEnd, vector<float> plane)
+    static Ogre::Vector3 clip(Ogre::Vector3 segStart, Ogre::Vector3 segEnd, vector<float> plane)
     {
         float d1 = segStart.x * plane[0] + segStart.y * plane[1] - plane[2];
         float d2 = segEnd.x * plane[0] + segEnd.y * plane[1] - plane[2];
         float t = (0 - d1) / (d2 - d1);
-        return Point(segStart.x + t * (segEnd.x - segStart.x), segStart.y + t * (segEnd.y - segStart.y));
+        return Ogre::Vector3(segStart.x + t * (segEnd.x - segStart.x), segStart.y + t * (segEnd.y - segStart.y),0);
     }
 public:
-    static list<Point> Polyclip(list<Point> pin, Point segStart, Point segEnd)
+    static list<Ogre::Vector3> Polyclip(list<Ogre::Vector3> pin, Ogre::Vector3 segStart, Ogre::Vector3 segEnd)
     {
         //if (pin == NULL || pin.Count < 3)
         //    throw new ArgumentException("A polygon was not supplied.");
@@ -218,11 +225,11 @@ public:
         plane.push_back(segEnd.x - segStart.x);
         plane.push_back(0);
         plane[2] = segStart.x * plane[0] + segStart.y * plane[1];
-        list<Point> pout;
-        Point s = *--pin.end();
+        list<Ogre::Vector3> pout;
+        Ogre::Vector3 s = *--pin.end();
         for (auto ci = pin.begin(); ci != pin.end(); ci++)
         {
-            Point p = *(ci);
+            Ogre::Vector3 p = *(ci);
             if (inside(p, plane))
             {
                 if (inside(s, plane))
@@ -231,7 +238,7 @@ public:
                 }
                 else
                 {
-                    Point t = clip(s, p, plane);
+                    Ogre::Vector3 t = clip(s, p, plane);
                     pout.push_back(t);
                     pout.push_back(p);
                 }
@@ -240,7 +247,7 @@ public:
             {
                 if (inside(s, plane))
                 {
-                    Point t = clip(s, p, plane);
+                    Ogre::Vector3 t = clip(s, p, plane);
                     pout.push_back(t);
                 }
             }
@@ -278,15 +285,15 @@ public:
     }
 };
 
-bool BQuadrAngle::isIntersection(Point a, Point b)
+bool BQuadrAngle::isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)
 {
-    vector<Point>poly;
-    poly.push_back(Point(left_top.x,left_top.y));
-    poly.push_back(Point(right_bottom.x,left_top.y));
-    poly.push_back(Point(right_bottom.x,right_bottom.y));
-    poly.push_back(Point(left_top.x,right_bottom.y));
+    vector<Ogre::Vector3>poly;
+    poly.push_back(Ogre::Vector3(left_top.x,left_top.y,0));
+    poly.push_back(Ogre::Vector3(right_bottom.x,left_top.y,0));
+    poly.push_back(Ogre::Vector3(right_bottom.x,right_bottom.y,0));
+    poly.push_back(Ogre::Vector3(left_top.x,right_bottom.y,0));
 
-    list<Point> poly1;
+    list<Ogre::Vector3> poly1;
     poly1.push_back(poly[0]);
     poly1.push_back(poly[1]);
     poly1.push_back(poly[2]);
@@ -319,11 +326,12 @@ ostream& operator<<(ostream &out, const BQuadrAngle &barrier)
 
 istream& operator>>(istream &in, BQuadrAngle &barrier)
 {
-    in>>barrier.position;
-    in>>barrier.scale;
-    in>>barrier.left_top>>barrier.right_bottom;
-    barrier.left_top=Point(barrier.position.x-barrier.scale.x/2.0,barrier.position.y+barrier.scale.y/2.0);
-    barrier.right_bottom=Point(barrier.position.x+barrier.scale.x/2.0,barrier.position.y-barrier.scale.y/2.0);
+    //in>>barrier.position;
+    //in>>barrier.scale;
+    in>>barrier.left_top.x>>barrier.left_top.y>>barrier.left_top.z;
+    in>>barrier.right_bottom.x>>barrier.right_bottom.y>>barrier.right_bottom.z;
+    //barrier.left_top=Ogre::Vector3(barrier.position.x-barrier.scale.x/2.0,barrier.position.y+barrier.scale.y/2.0);
+    //barrier.right_bottom=Ogre::Vector3(barrier.position.x+barrier.scale.x/2.0,barrier.position.y-barrier.scale.y/2.0);
     return in;
 }
 
@@ -331,8 +339,8 @@ QDataStream& operator <<(QDataStream &out, const Barrier &b)
 {
     out.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
     out.setByteOrder(QDataStream::LittleEndian);
-    out << b.position;
-    out << b.scale;
+    //out << b.position;
+    //out << b.scale;
     return out;
 }
 
@@ -340,8 +348,8 @@ QDataStream& operator >>(QDataStream &in, Barrier &b)
 {
     in.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
     in.setByteOrder(QDataStream::LittleEndian);
-    in >> b.position;
-    in >> b.scale;
+    //in >> b.position;
+    //in >> b.scale;
     return in;
 }
 
@@ -349,10 +357,10 @@ QDataStream& operator <<(QDataStream &out, const BQuadrAngle &b)
 {
     out.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
     out.setByteOrder(QDataStream::LittleEndian);
-    out << b.position;
-    out << b.scale;
-    out << b.left_top;
-    out << b.right_bottom;
+    //out << b.position;
+    //out << b.scale;
+    out << b.left_top.x<< b.left_top.y<< b.left_top.z;
+    out << b.right_bottom.x<< b.right_bottom.y<< b.right_bottom.z;
     return out;
 }
 
@@ -360,9 +368,9 @@ QDataStream& operator >>(QDataStream &in, BQuadrAngle &b)
 {
     in.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
     in.setByteOrder(QDataStream::LittleEndian);
-    in >> b.position;
-    in >> b.scale;
-    in >> b.left_top;
-    in >> b.right_bottom;
+    //in >> b.position;
+    //in >> b.scale;
+    in>>b.left_top.x>>b.left_top.y>>b.left_top.z;
+    in>>b.right_bottom.x>>b.right_bottom.y>>b.right_bottom.z;
     return in;
 }

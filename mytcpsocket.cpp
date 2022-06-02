@@ -98,30 +98,25 @@ void MyTcpSocket::readyRead()
             float width_coord;  //ширина поля в координатах
             float height_coord; //высота поля в координатах
             float step;         //шаг сетки
-            int start;          //начальное положение авто (номер вершины графа)
+            int center;         //начальное положение авто (номер вершины графа)
+            float m00, m01, m02, m03;
+            float m10, m11, m12, m13;
+            float m20, m21, m22, m23;
+            float speed;
             Car car;
-            //float width_auto;   //ширина авто
-            //float height_auto;  //высота авто
-            //float x, y;         //точка маршрута
             Position goal;
             int j;              //количество препятствий
 
-            in>>width_coord>>height_coord>>step>>start;
-            in>>car;
+            in>>width_coord>>height_coord>>step>>center;
+            in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23>>speed;
+
             in>>goal;
             in>>j;
 
-            //если ввод некорректен
-            //if(width_coord <=0||height_coord<=0||step<=0||width_auto<0||height_auto<0||j<0||start<0
-            //||start>(width_coord/step*height_coord/step))
-
-            //{
-            //    throw MyException("Data package error", DataPackageError);
-            //    Logger->printLogToFile("Data package error");
-            //}
-            //else
-            {
-                GameMap g1(width_coord,height_coord,step,start, car.scale.x, car.scale.y, Point(goal.x,goal.y), isSmoothing);
+                GameMap g1(width_coord,height_coord,step,center,
+                           m00, m01, m02, m03,
+                           m10, m11, m12, m13,
+                           m20, m21, m22, m23, speed, Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
                 int i=0;
                 while (in.atEnd())
                 {
@@ -144,7 +139,6 @@ void MyTcpSocket::readyRead()
                 socket->write(arr);
                 socket->flush();
                 Logger->printLogToFile("Path send\n");
-            }
         }
         else if(b1==0x44 && b2==0x48)
         {

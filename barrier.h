@@ -5,6 +5,7 @@
 #include "gamemap.h"
 #include <fstream>
 #include <QDataStream>
+#include <OgreMatrix4.h>
 
 class GameMap;
 /// @brief Интерфейс препятствия
@@ -30,7 +31,7 @@ public:
     /// @brief Принадлежит ли точка пространства препятствию
     /// @param p точка, которую проверям
     /// @param g поле
-    virtual bool hasPoint(Point p, GameMap&g)=0;
+    virtual bool hasPoint(Ogre::Vector3 p, GameMap&g)=0;
 
     /// @brief Принадлежит ли вершина графа препятствию
     /// @param v вершина графа, которую проверям
@@ -40,7 +41,7 @@ public:
     /// @brief Проверка на пересечение отрезка и препятствия
     /// @param a координаты начала отрезка
     /// @param b координаты конеца отрезка
-    virtual bool isIntersection(Point a, Point b)=0;
+    virtual bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)=0;
 };
 
 /// @brief Базовый класс препятствия
@@ -50,23 +51,30 @@ public:
     /// Конструктор по умолчанию
     Barrier();
     /// Конструктор с параметрами
-    Barrier(float x, float y, float z, float w, float sx, float sy, float sz);
-    Barrier(const Position& position, const Scale& scale);
+    Barrier(float m00, float m01, float m02, float m03,
+            float m10, float m11, float m12, float m13,
+            float m20, float m21, float m22, float m23);
+
     /// Конструктор копирования
     Barrier(const Barrier &o);
     /// Деструктор
     ~Barrier();
     /// Позиция
-    Position position;
+    //Position position;
     /// Масштабирование
-    Scale scale;
+    //Scale scale;
+
+    Ogre::Affine3 affine3;
+    Ogre::Vector3 position;
+    Ogre::Vector3 scale;
+    Ogre::Quaternion rotation;
 
     int init(MyGraph& graph, DMQuadrangle& distance)override;
     void print(IDistanceMatrixAdapter &adapter)override;
-    bool hasPoint(Point p, GameMap&g)override;
+    bool hasPoint(Ogre::Vector3 p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
     void printToFile(ofstream &out)override;
-    bool isIntersection(Point a, Point b)override;
+    bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)override;
 
     friend ofstream& operator<<(ofstream &out, const Barrier &barrier);
     friend QDataStream& operator <<(QDataStream &out, const Barrier &b);
@@ -80,7 +88,9 @@ public:
     /// Конструктор по умолчанию
     BQuadrAngle();
     /// Конструктор с параметрами
-    BQuadrAngle(float x, float y, float z, float w, float sx, float sy, float sz);
+    BQuadrAngle(float m00, float m01, float m02, float m03,
+                float m10, float m11, float m12, float m13,
+                float m20, float m21, float m22, float m23);
     /// Конструктор копирования
     BQuadrAngle(const BQuadrAngle& o);
     /// Деструктор
@@ -88,10 +98,10 @@ public:
 
     int init(MyGraph& graph, DMQuadrangle& distance)override;
     void print(IDistanceMatrixAdapter &adapter)override;
-    bool hasPoint(Point p, GameMap&g)override;
+    bool hasPoint(Ogre::Vector3 p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
     void printToFile(ofstream &out)override;
-    bool isIntersection(Point a, Point b)override;
+    bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)override;
 
     friend ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier);
     friend ostream& operator<<(ostream &out, const BQuadrAngle &barrier);
@@ -100,9 +110,9 @@ public:
     friend QDataStream& operator >>(QDataStream &in, BQuadrAngle &b);
 
     /// Левая верхняя точка препятствия
-    Point left_top;
+    Ogre::Vector3 left_top;
     /// Правая нижняя препятствия
-    Point right_bottom;
+    Ogre::Vector3 right_bottom;
 };
 
 #endif // BARRIER_H

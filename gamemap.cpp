@@ -7,10 +7,15 @@ GameMap::GameMap()
 {
 }
 
-GameMap::GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p, bool isSmoothing):
+GameMap::GameMap(float width_coord, float height_coord, float step, int center,
+                 float m00, float m01, float m02, float m03,
+                 float m10, float m11, float m12, float m13,
+                 float m20, float m21, float m22, float m23, float speed,
+                 Ogre::Vector3 goal_p,
+                 bool isSmoothing):
     width_coord(width_coord),height_coord(height_coord),step(step),
     num_vertices_width(width_coord/step), num_vertices_height(height_coord/step),
-    goal_point(goal_p),start(center),goal(),car(Car(Scale(width_auto,height_auto,0),0)),
+    goal_point(goal_p),start(center),goal(),car(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23,speed),
     isSmoothing(isSmoothing)
 {
     distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);
@@ -32,23 +37,23 @@ void GameMapPrinter::print_way(const GameMap& map,const list<vertex_descriptor>&
     cout<<"\033[u\n";
 }
 
-list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_descriptor>& shortest_path)
+list<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_descriptor>& shortest_path)
 {
     if(isSmoothing)
     {
 
-    list<Point> msg;
+    list<Ogre::Vector3> msg;
 
     for(auto it = shortest_path.begin();it!=shortest_path.end();++it)
-        msg.push_back(distance.matrix[*it]);
+        msg.push_back(Ogre::Vector3(distance.matrix[*it].x,distance.matrix[*it].y,0));
     msg.push_front(*(--msg.end()));
     msg.pop_back();
     if(barriers.size()==0)
     {
         msg.clear();
-        msg.push_back(Point(0, 0));
+        msg.push_back(Ogre::Vector3(0, 0,0));
         auto u=shortest_path.end();--u;--u;
-        msg.push_back(distance.matrix[(*u)]);
+        msg.push_back(Ogre::Vector3(distance.matrix[(*u)].x, distance.matrix[(*u)].y,0));
         list<vertex_descriptor> s;
         s.push_back(*(++u));
         s.push_back(*(--u));
@@ -70,14 +75,14 @@ list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_desc
         y2=(*it).y;
         int count=0;
 
-        Point tmp=*it;
+        Ogre::Vector3 tmp=*it;
         unsigned long tmpshort=*shortIT;
 
         while(it!=itend)
         {
             for(auto it1=barriers.begin();it1!=barriers.end();++it1)
             {
-                if(!(*it1)->isIntersection(Point(x1,y1),Point(x2,y2)))
+                if(!(*it1)->isIntersection(Ogre::Vector3(x1, y1, 0),Ogre::Vector3(x2,y2,0)))
                 {
                     ++count;
                     if(count==barriers.size())
@@ -115,18 +120,18 @@ list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_desc
     }
     else
     {
-    list<Point> msg1;
+    list<Ogre::Vector3> msg1;
     auto it1 = shortest_path.begin();
     auto it2 = shortest_path.begin();
-    msg1.push_back(distance.matrix[*it1]);
+    msg1.push_back(Ogre::Vector3(distance.matrix[*it1].x,distance.matrix[*it1].y,0));
     for (++it1;it1 != --shortest_path.end(); ++it1)
     {
-        Point p;
+        Ogre::Vector3 p;
         p.x=distance.matrix[*it1].x - distance.matrix[*it2].x;
         p.y=distance.matrix[*it1].y - distance.matrix[*it2++].y;
         msg1.push_back(p);
     }
-    msg1.push_back(distance.matrix[*(--shortest_path.end())]);
+    msg1.push_back(Ogre::Vector3(distance.matrix[*(--shortest_path.end())].x,distance.matrix[*(--shortest_path.end())].y,0));
     return msg1;
     }
 }
@@ -271,7 +276,8 @@ istream& operator >>(istream &in, GameMap &map)
 {
     int barrier_size;
     in>>map.width_coord>>map.height_coord>>map.step;
-    in>>map.goal_point>>map.start>>map.goal;
+    in>>map.goal_point.x>>map.goal_point.y>>map.goal_point.z;
+    in>>map.start>>map.goal;
     in>>map.car>>barrier_size;
     for(int i=0; i<barrier_size; i++)
     {

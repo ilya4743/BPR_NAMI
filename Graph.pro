@@ -1,4 +1,4 @@
-QT += gui
+#QT -= gui
 QT += network
 QT+=core
 CONFIG += c++11 console
@@ -39,3 +39,16 @@ HEADERS += \
     mytcpsocket.h \
     point.h \
     settings.h
+    INCLUDEPATH += /home/NAMI/ila.solomatin/Downloads/ogre-13.3.1/OgreMain/include/
+
+LIBS += -L$$PWD/../../Downloads/ogre-13.3.1/build/lib/ -lOgreBites
+
+INCLUDEPATH += $$PWD/../../Downloads/ogre-13.3.1/build/include
+DEPENDPATH += $$PWD/../../Downloads/ogre-13.3.1/build/include
+
+INCLUDEPATH += /home/NAMI/ila.solomatin/Downloads/ogre-13.3.1/OgreMain/include/
+
+unix:!macx: LIBS += -L$$PWD/../Downloads/ogre-13.3.1/build/lib/ -lOgreMain
+
+INCLUDEPATH += $$PWD/../Downloads/ogre-13.3.1/build/include
+DEPENDPATH += $$PWD/../Downloads/ogre-13.3.1/build/include

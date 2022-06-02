@@ -6,6 +6,8 @@
 #include "point.h"
 #include "mylog.h"
 #include "car.h"
+#include <OgreVector.h>
+
 using namespace std;
 
 class Barrier;
@@ -36,7 +38,7 @@ public:
     int num_vertices_height;
 
     /// Точка конечного маршрута
-    Point goal_point;
+    Ogre::Vector3 goal_point;
 
     /// Вершина графа откуда стартует авто
     vertex_descriptor start;
@@ -57,20 +59,25 @@ public:
     list<Barrier*> barriers;
 
     /// Кратчайший путь
-    list<Point> short_path;
+    list<Ogre::Vector3> short_path;
 
     bool isSmoothing;
 
     IDistanceMatrixAdapter* adapter;
 
     /// Формирование сообщения под отправку
-    list<Point> create_msg(const DistanceMatrix& locations, list<vertex_descriptor>& shortest_path);
+    list<Ogre::Vector3> create_msg(const DistanceMatrix& locations, list<vertex_descriptor>& shortest_path);
 
     /// Конструктор по умолчанию
     GameMap();
 
     /// Конструктор с параметрами
-    GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p, bool isSmoothing);
+    GameMap(float width_coord, float height_coord, float step, int center,
+            float m00, float m01, float m02, float m03,
+            float m10, float m11, float m12, float m13,
+            float m20, float m21, float m22, float m23, float speed,
+            Ogre::Vector3 goal_p,
+            bool isSmoothing);
 
     /// Инициализация карты
     void init();
