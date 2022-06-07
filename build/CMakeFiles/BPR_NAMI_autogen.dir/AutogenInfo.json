@@ -1,0 +1,132 @@
+{
+	"BUILD_DIR" : "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/BPR_NAMI_autogen",
+	"CMAKE_BINARY_DIR" : "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI",
+	"CMAKE_EXECUTABLE" : "/usr/bin/cmake",
+	"CMAKE_SOURCE_DIR" : "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI",
+	"HEADERS" : 
+	[
+		[
+			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/barrier.h",
+			"MU",
+			"EWIEGA46WW/moc_barrier.cpp"
+		],
+		[
+			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/car.h",
+			"MU",
+			"EWIEGA46WW/moc_car.cpp"
+		],
+		[
+			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/gamemap.h",
+			"MU",
+			"EWIEGA46WW/moc_gamemap.cpp"
+		],
+		[
+			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/locationmap.h",
+			"MU",
+			"EWIEGA46WW/moc_locationmap.cpp"
+		],
+		[
+			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/myexception.h",
+			"MU",
+			"EWIEGA46WW/moc_myexception.cpp"
+		],
+		[
+			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/mygraph.h",
+			"MU",
+			"EWIEGA46WW/moc_mygraph.cpp"
+		],
+		[
+			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/mylog.h",
+			"MU",
+			"EWIEGA46WW/moc_mylog.cpp"
+		],
+		[
+			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/mytcpsocket.h",
+			"MU",
+			"EWIEGA46WW/moc_mytcpsocket.cpp"
+		],
+		[
+			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/point.h",
+			"MU",
+			"EWIEGA46WW/moc_point.cpp"
+		],
+		[
+			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/settings.h",
+			"MU",
+			"EWIEGA46WW/moc_settings.cpp"
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/BPR_NAMI_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/BPR_NAMI_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : [ "QT_CORE_LIB", "QT_NETWORK_LIB" ],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build",
+		"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI",
+		"/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include",
+		"/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore",
+		"/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/mkspecs/linux-g++",
+		"/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtNetwork",
+		"/usr/local/include/OGRE",
+		"/usr/local/include/OGRE/Bites",
+		"/usr/local/include/OGRE/Overlay",
+		"/usr/local/include/OGRE/RTShaderSystem",
+		"/usr/include/c++/9",
+		"/usr/include/x86_64-linux-gnu/c++/9",
+		"/usr/include/c++/9/backward",
+		"/usr/lib/gcc/x86_64-linux-gnu/9/include",
+		"/usr/local/include",
+		"/usr/include/x86_64-linux-gnu",
+		"/usr/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : true,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/usr/bin/g++",
+		"-dM",
+		"-E",
+		"-c",
+		"/usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/BPR_NAMI_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 8,
+	"PARSE_CACHE_FILE" : "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/BPR_NAMI_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/bin/moc",
+	"QT_UIC_EXECUTABLE" : "",
+	"QT_VERSION_MAJOR" : 5,
+	"SETTINGS_FILE" : "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/BPR_NAMI_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/barrier.cpp", "MU" ],
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/car.cpp", "MU" ],
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/gamemap.cpp", "MU" ],
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/locationmap.cpp", "MU" ],
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/main.cpp", "MU" ],
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/myexception.cpp", "MU" ],
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/mygraph.cpp", "MU" ],
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/mylog.cpp", "MU" ],
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/mytcpsocket.cpp", "MU" ],
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/point.cpp", "MU" ],
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/settings.cpp", "MU" ]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : [],
+	"UIC_UI_FILES" : [],
+	"VERBOSITY" : 0
+}

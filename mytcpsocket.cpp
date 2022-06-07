@@ -79,9 +79,9 @@ void MyTcpSocket::bytesWritten(qint64 bytes)
 
 void MyTcpSocket::readyRead()
 {
-    try
-    {
-        QProcess::execute("clear");
+    //try
+
+        //QProcess::execute("clear");
         QObject* object=QObject::sender();
         if(!object)
             return;
@@ -103,7 +103,6 @@ void MyTcpSocket::readyRead()
             float m10, m11, m12, m13;
             float m20, m21, m22, m23;
             float speed;
-            Car car;
             Position goal;
             int j;              //количество препятствий
 
@@ -113,32 +112,41 @@ void MyTcpSocket::readyRead()
             in>>goal;
             in>>j;
 
-                GameMap g1(width_coord,height_coord,step,center,
-                           m00, m01, m02, m03,
-                           m10, m11, m12, m13,
-                           m20, m21, m22, m23, speed, Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
+            qDebug()<<width_coord<<height_coord<<step<<center;
+            qDebug()<<m00<<m01<<m02<<m03;
+            qDebug()<<m10<<m11<<m12<<m13;
+            qDebug()<<m20<<m21<<m22<<m23;
+            qDebug()<<speed;
+            qDebug()<<goal.x<<goal.y<<goal.z;
+
+            //GameMap g1(width_coord,height_coord,step,center,
+            //            m00, m01, m02, m03,
+            //            m10, m11, m12, m13,
+            //            m20, m21, m22, m23, speed, Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
                 int i=0;
                 while (in.atEnd())
                 {
-                    BQuadrAngle bar;
-                    in>>bar;
-                    g1.barriers.push_back(&bar);
+                    in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23;
+                    //BQuadrAngle bar(m00, m01, m02, m03,
+                    //                m10, m11, m12, m13,
+                    //                m20, m21, m22, m23);
+                    //g1.barriers.push_back(&bar);
                     i++;
                 }
                 Logger->printLogToFile("Data recieve");
-                g1.doo(DEBUG_OUTPUT);
-                Logger->printLogToFile(g1);
-                QByteArray arr;
-                QDataStream d(&arr, QIODevice::WriteOnly);
-                d.setFloatingPointPrecision(QDataStream::SinglePrecision);
-                d.setByteOrder(QDataStream::LittleEndian);
-                d<<(unsigned char)0x44<<(unsigned char)0x48;
-                d<<(int)g1.short_path.size();
-                for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
-                    d<<(*it).x<<(*it).y;
-                socket->write(arr);
-                socket->flush();
-                Logger->printLogToFile("Path send\n");
+                //g1.doo(DEBUG_OUTPUT);
+                //Logger->printLogToFile(g1);
+                //QByteArray arr;
+                //QDataStream d(&arr, QIODevice::WriteOnly);
+                //d.setFloatingPointPrecision(QDataStream::SinglePrecision);
+                //d.setByteOrder(QDataStream::LittleEndian);
+                //d<<(unsigned char)0x44<<(unsigned char)0x48;
+                //d<<(int)g1.short_path.size();
+                //for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
+                //    d<<(*it).x<<(*it).y;
+                //socket->write(arr);
+                //socket->flush();
+                //Logger->printLogToFile("Path send\n");
         }
         else if(b1==0x44 && b2==0x48)
         {
@@ -146,8 +154,8 @@ void MyTcpSocket::readyRead()
             qDebug()<<"Change Mode "<<isSmoothing;
         }
         socket->readAll();
-    }
-    catch (MyException& Ex)
+
+    /*catch (MyException& Ex)
     {
         socket->readAll();
         QProcess::execute("clear");
@@ -161,7 +169,7 @@ void MyTcpSocket::readyRead()
         d<<Ex.GetErrorCode();
         socket->write(error);
         socket->flush();
-    }
+    }*/
 }
 
 MyTcpSocket::~MyTcpSocket()
