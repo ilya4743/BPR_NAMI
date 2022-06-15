@@ -13,6 +13,7 @@ void MyLog::printLogToFile(const GameMap& map)
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
     isSmoothing=false;
+    isConnected=false;
 }
 
 void delay(const int RECONNECT_TIME)
@@ -61,9 +62,10 @@ void MyTcpSocket::connected()
     Logger->printLogToFile("connected\n");
     QByteArray qb;
     QDataStream d(&qb, QIODevice::WriteOnly);
-    d<<(unsigned char)0x44<<(unsigned char)0x46;
+    d<<(unsigned char)0x79<<(unsigned char)0x92;
     socket->write(qb);
     socket->flush();
+    Logger->printLogToFile("Send 0x79 0x92 to host\n");
 }
 
 void MyTcpSocket::disconnected()
@@ -79,8 +81,8 @@ void MyTcpSocket::bytesWritten(qint64 bytes)
 
 void MyTcpSocket::readyRead()
 {
-    //try
-
+    try
+    {
         //QProcess::execute("clear");
         QObject* object=QObject::sender();
         if(!object)
@@ -93,8 +95,10 @@ void MyTcpSocket::readyRead()
         unsigned char b1,b2;
         in>>b1>>b2;
 
-        if(b1==0x44 && b2==0x47)
+        if(b1==0x44 && b2==0x47 && isConnected)
         {
+            Logger->printLogToFile("Reciev 0x44 0x47 from host\n");
+
             float width_coord;  //ширина поля в координатах
             float height_coord; //высота поля в координатах
             float step;         //шаг сетки
@@ -107,55 +111,80 @@ void MyTcpSocket::readyRead()
             int j;              //количество препятствий
 
             in>>width_coord>>height_coord>>step>>center;
-            in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23>>speed;
-
-            in>>goal;
+            in>>goal.x>>goal.y>>goal.z;
             in>>j;
 
+            qDebug()<<"Map:";
             qDebug()<<width_coord<<height_coord<<step<<center;
+            qDebug()<<"Goal:";
+            qDebug()<<goal.x<<goal.y<<goal.z;
+            qDebug()<<"n = "<<j;
+            in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23>>speed;
+            qDebug()<<"Car:";
             qDebug()<<m00<<m01<<m02<<m03;
             qDebug()<<m10<<m11<<m12<<m13;
             qDebug()<<m20<<m21<<m22<<m23;
             qDebug()<<speed;
-            qDebug()<<goal.x<<goal.y<<goal.z;
 
             //GameMap g1(width_coord,height_coord,step,center,
             //            m00, m01, m02, m03,
             //            m10, m11, m12, m13,
             //            m20, m21, m22, m23, speed, Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
-                int i=0;
-                while (in.atEnd())
+                for(int i=1; i<j; i++)
                 {
                     in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23;
+                    qDebug()<<"cube "<<i;
+                    qDebug()<<m00<<m01<<m02<<m03;
+                    qDebug()<<m10<<m11<<m12<<m13;
+                    qDebug()<<m20<<m21<<m22<<m23;
                     //BQuadrAngle bar(m00, m01, m02, m03,
                     //                m10, m11, m12, m13,
                     //                m20, m21, m22, m23);
                     //g1.barriers.push_back(&bar);
-                    i++;
                 }
                 Logger->printLogToFile("Data recieve");
                 //g1.doo(DEBUG_OUTPUT);
                 //Logger->printLogToFile(g1);
-                //QByteArray arr;
-                //QDataStream d(&arr, QIODevice::WriteOnly);
-                //d.setFloatingPointPrecision(QDataStream::SinglePrecision);
-                //d.setByteOrder(QDataStream::LittleEndian);
-                //d<<(unsigned char)0x44<<(unsigned char)0x48;
+                delay(200);
+                QByteArray arr;
+                QDataStream d(&arr, QIODevice::WriteOnly);
+                d.setFloatingPointPrecision(QDataStream::SinglePrecision);
+                d.setByteOrder(QDataStream::LittleEndian);
+                d<<(unsigned char)0x44<<(unsigned char)0x48;
+                d<<0;
                 //d<<(int)g1.short_path.size();
                 //for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
                 //    d<<(*it).x<<(*it).y;
-                //socket->write(arr);
-                //socket->flush();
-                //Logger->printLogToFile("Path send\n");
+                socket->write(arr);
+                socket->flush();
+                Logger->printLogToFile("Path send\n");
         }
-        else if(b1==0x44 && b2==0x48)
-        {
-                in>>isSmoothing;
-            qDebug()<<"Change Mode "<<isSmoothing;
-        }
-        socket->readAll();
+        //else if(b1==0x44 && b2==0x48)
+        //{
+            //Logger->printLogToFile("Reciev 0x44 0x48 from host\n");
 
-    /*catch (MyException& Ex)
+                //in>>isSmoothing;
+            //qDebug()<<"Change Mode "<<isSmoothing;
+        //}
+        else if(b1==0x79 && b2==0x93)
+        {
+            Logger->printLogToFile("Reciev 0x79 0x93 from host\n");
+            isConnected=true;
+            QByteArray arr;
+            QDataStream d(&arr, QIODevice::WriteOnly);
+            d.setFloatingPointPrecision(QDataStream::SinglePrecision);
+            d.setByteOrder(QDataStream::LittleEndian);
+            Logger->printLogToFile("Send 0x79 0x94 to host\n");
+            d<<(unsigned char)0x79<<(unsigned char)0x94;
+            socket->write(arr);
+            socket->flush();
+        }
+        else
+            Logger->printLogToFile("Unknow command\n");
+
+        socket->readAll();
+    }
+    catch (MyException& Ex)
     {
         socket->readAll();
         QProcess::execute("clear");
@@ -169,7 +198,7 @@ void MyTcpSocket::readyRead()
         d<<Ex.GetErrorCode();
         socket->write(error);
         socket->flush();
-    }*/
+    }
 }
 
 MyTcpSocket::~MyTcpSocket()

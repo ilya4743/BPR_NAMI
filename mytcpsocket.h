@@ -35,6 +35,7 @@ private:
     QString IP;
     int PORT;
     bool isSmoothing;
+    bool isConnected;
 };
 
 #endif // MYTCPSOCKET_H
