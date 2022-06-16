@@ -106,44 +106,52 @@ void MyTcpSocket::readyRead()
             float m00, m01, m02, m03;
             float m10, m11, m12, m13;
             float m20, m21, m22, m23;
+            float m30, m31, m32, m33;
             float speed;
             Position goal;
-            int j;              //количество препятствий
+            quint64 j, id;              //количество препятствий
 
             in>>width_coord>>height_coord>>step>>center;
             in>>goal.x>>goal.y>>goal.z;
+            in>>speed;
+            qDebug()<<speed;
             in>>j;
 
             qDebug()<<"Map:";
             qDebug()<<width_coord<<height_coord<<step<<center;
+            qDebug()<<"n = "<<j;
             qDebug()<<"Goal:";
             qDebug()<<goal.x<<goal.y<<goal.z;
-            qDebug()<<"n = "<<j;
-            in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23>>speed;
-            qDebug()<<"Car:";
-            qDebug()<<m00<<m01<<m02<<m03;
-            qDebug()<<m10<<m11<<m12<<m13;
-            qDebug()<<m20<<m21<<m22<<m23;
-            qDebug()<<speed;
+            qDebug()<<sizeof(j);
+            in>>id;
+            in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23>>m30>>m31>>m32>>m33;
+            //qDebug()<<"Car:";
+            //qDebug()<<m00<<m01<<m02<<m03;
+            //qDebug()<<m10<<m11<<m12<<m13;
+            //qDebug()<<m20<<m21<<m22<<m23;
+            //qDebug()<<m30<<m31<<m32<<m33;
+            //qDebug()<<speed;
 
-            //GameMap g1(width_coord,height_coord,step,center,
-            //            m00, m01, m02, m03,
-            //            m10, m11, m12, m13,
-            //            m20, m21, m22, m23, speed, Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
+            GameMap g1(width_coord,height_coord,step,center,
+                        m00, m01, m02, m03,
+                        m10, m11, m12, m13,
+                        m20, m21, m22, m23, speed, Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
                 for(int i=1; i<j; i++)
                 {
-                    in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23;
+                    in>>id;
+                    in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23>>m30>>m31>>m32>>m33;
                     qDebug()<<"cube "<<i;
-                    qDebug()<<m00<<m01<<m02<<m03;
-                    qDebug()<<m10<<m11<<m12<<m13;
-                    qDebug()<<m20<<m21<<m22<<m23;
-                    //BQuadrAngle bar(m00, m01, m02, m03,
-                    //                m10, m11, m12, m13,
-                    //                m20, m21, m22, m23);
-                    //g1.barriers.push_back(&bar);
+                    //qDebug()<<m00<<m01<<m02<<m03;
+                    //qDebug()<<m10<<m11<<m12<<m13;
+                    //qDebug()<<m20<<m21<<m22<<m23;
+                    //qDebug()<<m30<<m31<<m32<<m33;
+                                        auto *bar=new BQuadrAngle(m00, m01, m02, m03,
+                                    m10, m11, m12, m13,
+                                    m20, m21, m22, m23);
+                    g1.barriers.push_back(bar);
                 }
                 Logger->printLogToFile("Data recieve");
-                //g1.doo(DEBUG_OUTPUT);
+                g1.doo(DEBUG_OUTPUT);
                 //Logger->printLogToFile(g1);
                 delay(200);
                 QByteArray arr;
@@ -151,10 +159,10 @@ void MyTcpSocket::readyRead()
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
                 d.setByteOrder(QDataStream::LittleEndian);
                 d<<(unsigned char)0x44<<(unsigned char)0x48;
-                d<<0;
-                //d<<(int)g1.short_path.size();
-                //for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
-                //    d<<(*it).x<<(*it).y;
+                //d<<0;
+                d<<(int)g1.short_path.size();
+                for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
+                    d<<(*it).x<<(*it).y;
                 socket->write(arr);
                 socket->flush();
                 Logger->printLogToFile("Path send\n");

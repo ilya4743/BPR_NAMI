@@ -177,6 +177,11 @@ void GameMap::doo(const int DEBUG_OUTPUT)
     {
         for(auto it= barriers.begin(); it!=barriers.end();)
         {
+            qDebug()<<"position car "<<car.position.x<<'\t'<<car.position.y<<'\t'<<car.position.z;
+            qDebug()<<"position barrier "<<(*it)->position.x<<'\t'<<(*it)->position.y<<'\t'<<(*it)->position.z;
+            (*it)->position-=car.position;
+
+            qDebug()<<"position "<<(*it)->position.x<<'\t'<<(*it)->position.y<<'\t'<<(*it)->position.z;
             if(!(*it)->hasPoint(goal_point, *this))    //если точка конечного маршрута не попала на препятствие
             {
                 if((*it)->init(*graph,*(dynamic_cast<DMQuadrangle*>(distance)))==-2)

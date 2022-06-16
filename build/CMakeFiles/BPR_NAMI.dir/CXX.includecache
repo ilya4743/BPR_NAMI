@@ -28,6 +28,16 @@ point.h
 OgreMatrix4.h
 -
 
+/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/gamemap.cpp
+gamemap.h
+/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/gamemap.h
+boost/graph/adjacency_list.hpp
+-
+QtDebug
+-
+QTime
+-
+
 /home/NAMI/ila.solomatin/Desktop/BPR_NAMI/gamemap.h
 locationmap.h
 /home/NAMI/ila.solomatin/Desktop/BPR_NAMI/locationmap.h
@@ -153,6 +163,10 @@ qdatetime.h
 /home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore/QTimer
 qtimer.h
 /home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore/qtimer.h
+
+/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore/QtDebug
+qdebug.h
+/home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h
 
 /home/NAMI/ila.solomatin/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h
 QtCore/qglobal.h
