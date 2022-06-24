@@ -28,6 +28,11 @@
 			"EWIEGA46WW/moc_locationmap.cpp"
 		],
 		[
+			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/logger.h",
+			"MU",
+			"EWIEGA46WW/moc_logger.cpp"
+		],
+		[
 			"/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/myexception.h",
 			"MU",
 			"EWIEGA46WW/moc_myexception.cpp"
@@ -116,6 +121,7 @@
 		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/car.cpp", "MU" ],
 		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/gamemap.cpp", "MU" ],
 		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/locationmap.cpp", "MU" ],
+		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/logger.cpp", "MU" ],
 		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/main.cpp", "MU" ],
 		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/myexception.cpp", "MU" ],
 		[ "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/mygraph.cpp", "MU" ],

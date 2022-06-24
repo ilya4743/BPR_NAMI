@@ -271,6 +271,33 @@ locationmap.cpp.s:
 	$(MAKE) -f CMakeFiles/BPR_NAMI.dir/build.make CMakeFiles/BPR_NAMI.dir/locationmap.cpp.s
 .PHONY : locationmap.cpp.s
 
+logger.o: logger.cpp.o
+
+.PHONY : logger.o
+
+# target to build an object file
+logger.cpp.o:
+	$(MAKE) -f CMakeFiles/BPR_NAMI.dir/build.make CMakeFiles/BPR_NAMI.dir/logger.cpp.o
+.PHONY : logger.cpp.o
+
+logger.i: logger.cpp.i
+
+.PHONY : logger.i
+
+# target to preprocess a source file
+logger.cpp.i:
+	$(MAKE) -f CMakeFiles/BPR_NAMI.dir/build.make CMakeFiles/BPR_NAMI.dir/logger.cpp.i
+.PHONY : logger.cpp.i
+
+logger.s: logger.cpp.s
+
+.PHONY : logger.s
+
+# target to generate assembly for a file
+logger.cpp.s:
+	$(MAKE) -f CMakeFiles/BPR_NAMI.dir/build.make CMakeFiles/BPR_NAMI.dir/logger.cpp.s
+.PHONY : logger.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -485,6 +512,9 @@ help:
 	@echo "... locationmap.o"
 	@echo "... locationmap.i"
 	@echo "... locationmap.s"
+	@echo "... logger.o"
+	@echo "... logger.i"
+	@echo "... logger.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

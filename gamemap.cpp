@@ -8,14 +8,12 @@ GameMap::GameMap()
 }
 
 GameMap::GameMap(float width_coord, float height_coord, float step, int center,
-                 float m00, float m01, float m02, float m03,
-                 float m10, float m11, float m12, float m13,
-                 float m20, float m21, float m22, float m23, float speed,
-                 Ogre::Vector3 goal_p,
+                 const Car &car,
+                 const Ogre::Vector3 &goal_p,
                  bool isSmoothing):
     width_coord(width_coord),height_coord(height_coord),step(step),
     num_vertices_width(width_coord/step), num_vertices_height(height_coord/step),
-    goal_point(goal_p),start(center),goal(),car(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23,speed),
+    goal_point(goal_p),start(center),goal(),car(car),
     isSmoothing(isSmoothing)
 {
     distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);

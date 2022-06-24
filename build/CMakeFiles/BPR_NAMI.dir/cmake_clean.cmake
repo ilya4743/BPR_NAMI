@@ -9,6 +9,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/BPR_NAMI.dir/car.cpp.o"
   "CMakeFiles/BPR_NAMI.dir/gamemap.cpp.o"
   "CMakeFiles/BPR_NAMI.dir/locationmap.cpp.o"
+  "CMakeFiles/BPR_NAMI.dir/logger.cpp.o"
   "CMakeFiles/BPR_NAMI.dir/main.cpp.o"
   "CMakeFiles/BPR_NAMI.dir/myexception.cpp.o"
   "CMakeFiles/BPR_NAMI.dir/mygraph.cpp.o"

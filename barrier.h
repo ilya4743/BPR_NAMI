@@ -54,7 +54,7 @@ public:
     Barrier(float m00, float m01, float m02, float m03,
             float m10, float m11, float m12, float m13,
             float m20, float m21, float m22, float m23);
-
+    Barrier(const Ogre::Matrix4 &matrix4);
     /// Конструктор копирования
     Barrier(const Barrier &o);
     /// Деструктор
@@ -91,6 +91,8 @@ public:
     BQuadrAngle(float m00, float m01, float m02, float m03,
                 float m10, float m11, float m12, float m13,
                 float m20, float m21, float m22, float m23);
+
+    BQuadrAngle(const Ogre::Matrix4 &matrix4);
     /// Конструктор копирования
     BQuadrAngle(const BQuadrAngle& o);
     /// Деструктор

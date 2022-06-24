@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/car.cpp" "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/BPR_NAMI.dir/car.cpp.o"
   "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/gamemap.cpp" "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/BPR_NAMI.dir/gamemap.cpp.o"
   "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/locationmap.cpp" "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/BPR_NAMI.dir/locationmap.cpp.o"
+  "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/logger.cpp" "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/BPR_NAMI.dir/logger.cpp.o"
   "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/main.cpp" "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/BPR_NAMI.dir/main.cpp.o"
   "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/myexception.cpp" "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/BPR_NAMI.dir/myexception.cpp.o"
   "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/mygraph.cpp" "/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/BPR_NAMI.dir/mygraph.cpp.o"

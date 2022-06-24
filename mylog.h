@@ -36,4 +36,6 @@ public:
     //friend ofstream& operator<<(ofstream &out, const T &o);
 };
 
+
+
 #endif // MYLOG_H

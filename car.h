@@ -20,7 +20,7 @@ public:
     Car(float m00, float m01, float m02, float m03,
         float m10, float m11, float m12, float m13,
         float m20, float m21, float m22, float m23, float speed);
-
+    Car(const Ogre::Matrix4 &matrix4, float speed);
     /// @brief Конструктор копирования
     /// @param car экземпляр авто
     /// @return экземпляр авто
@@ -33,7 +33,7 @@ public:
     float speed;
 
     Ogre::Affine3 affine3;
-
+    //Ogre::Matrix4 matrix4;
     Ogre::Vector3 position;
     Ogre::Vector3 scale;
     Ogre::Quaternion rotation;

@@ -26,6 +26,7 @@ add_executable(BPR_NAMI
   mytcpsocket.cpp
   point.cpp
   settings.cpp
+  logger.cpp
 )
 
 target_link_libraries(BPR_NAMI Qt5::Core Qt5::Network OgreMain OgreBites)

@@ -7,12 +7,13 @@ Barrier::Barrier(float m00, float m01, float m02, float m03,
                  float m10, float m11, float m12, float m13,
                  float m20, float m21, float m22, float m23):affine3(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23)
 {
-    //affine3.decomposition(position, scale, rotation);
+    affine3.decomposition(position, scale, rotation);
 }
 
 Barrier::Barrier(const Barrier&o):affine3(o.affine3), position(o.position),scale(o.scale), rotation(o.rotation){}
+Barrier::Barrier(const Ogre::Matrix4 &matrix4):affine3(matrix4){affine3.decomposition(position,scale,rotation);}
 
-int Barrier::init(MyGraph& graph, DMQuadrangle& distance){    affine3.decomposition(position, scale, rotation);}
+int Barrier::init(MyGraph& graph, DMQuadrangle& distance){}
 Barrier::~Barrier(){}
 void Barrier::print(IDistanceMatrixAdapter &adapter){}
 bool Barrier::hasPoint(Ogre::Vector3 p, GameMap&g){}
@@ -35,8 +36,12 @@ BQuadrAngle::BQuadrAngle(float m00, float m01, float m02, float m03,
                          float m10, float m11, float m12, float m13,
                          float m20, float m21, float m22, float m23):Barrier(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23)
 {
-    affine3.decomposition(position,scale,rotation);
-    //left_top
+
+}
+
+BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4):Barrier(matrix4)
+{
+
 }
 
 BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o),left_top(o.left_top),right_bottom(o.right_bottom)

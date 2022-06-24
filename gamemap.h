@@ -73,10 +73,8 @@ public:
 
     /// Конструктор с параметрами
     GameMap(float width_coord, float height_coord, float step, int center,
-            float m00, float m01, float m02, float m03,
-            float m10, float m11, float m12, float m13,
-            float m20, float m21, float m22, float m23, float speed,
-            Ogre::Vector3 goal_p,
+            const Car &car,
+            const Ogre::Vector3 &goal_p,
             bool isSmoothing);
 
     /// Инициализация карты
