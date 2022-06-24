@@ -33,10 +33,10 @@ BQuadrAngle::BQuadrAngle():Barrier(),left_top(),right_bottom()
 
 BQuadrAngle::BQuadrAngle(float m00, float m01, float m02, float m03,
                          float m10, float m11, float m12, float m13,
-                         float m20, float m21, float m22, float m23):Barrier(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23),
-    left_top(position.x-scale.x/2.0,position.y+scale.y/2.0, position.z), right_bottom(position.x+scale.x/2.0,position.y-scale.y/2.0, position.z)
+                         float m20, float m21, float m22, float m23):Barrier(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23)
 {
-
+    affine3.decomposition(position,scale,rotation);
+    //left_top
 }
 
 BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o),left_top(o.left_top),right_bottom(o.right_bottom)
@@ -136,6 +136,11 @@ BQuadrAngle::~BQuadrAngle()
 
 bool BQuadrAngle::hasPoint(Ogre::Vector3 p, GameMap&g)
 {
+    left_top.x=position.x-scale.x/2.0;
+    left_top.y=position.y+scale.y/2.0;
+    right_bottom.x=position.x+scale.x/2.0;
+    right_bottom.y=position.y-scale.y/2.0;
+
     //искуственно увеличиваем препятствие, чтобы соблюсти габариты
     left_top.x=left_top.x-g.car.scale.x/2;
     left_top.y=left_top.y+g.car.scale.y/2;
@@ -143,16 +148,20 @@ bool BQuadrAngle::hasPoint(Ogre::Vector3 p, GameMap&g)
     right_bottom.y=right_bottom.y-g.car.scale.y/2;
 
     if (abs(left_top.x) > abs(int(left_top.x / g.step) * g.step))
-        left_top.x -= abs(left_top.x - int(left_top.x / g.step) * g.step);
+        //left_top.x -= abs(left_top.x - int(left_top.x / g.step) * g.step);
+        left_top.x = (int(left_top.x / g.step)-1) * g.step;
 
     if (abs(right_bottom.x) > abs(int(right_bottom.x / g.step) * g.step))
-        right_bottom.x +=abs(right_bottom.x - int(right_bottom.x / g.step) * g.step);
+        //right_bottom.x +=abs(right_bottom.x - int(right_bottom.x / g.step) * g.step);
+        right_bottom.x =(int(right_bottom.x / g.step)+1) * g.step;
 
     if (abs(left_top.y) > abs(int(left_top.y / g.step) * g.step))
-        left_top.y +=abs(left_top.y - int(left_top.y / g.step) * g.step);
+        //left_top.y +=abs(left_top.y - int(left_top.y / g.step) * g.step);
+        left_top.y =(int(left_top.y / g.step)+1) * g.step;
 
     if (abs(right_bottom.y) > abs(int(right_bottom.y / g.step) * g.step))
-        right_bottom.y -= abs(right_bottom.y - int(right_bottom.y / g.step) * g.step);
+        //right_bottom.y -= abs(right_bottom.y - int(right_bottom.y / g.step) * g.step);
+        right_bottom.y = (int(right_bottom.y / g.step)-1) * g.step;
 
     if (left_top.x<=p.x && right_bottom.x>=p.x)
         if(left_top.y>=p.y && right_bottom.y<=p.y)

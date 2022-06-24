@@ -112,9 +112,9 @@ void MyTcpSocket::readyRead()
             quint64 j, id;              //количество препятствий
 
             in>>width_coord>>height_coord>>step>>center;
-            in>>goal.x>>goal.y>>goal.z;
+            in>>goal.x>>goal.z>>goal.y;
             in>>speed;
-            qDebug()<<speed;
+            //qDebug()<<speed;
             in>>j;
 
             qDebug()<<"Map:";
@@ -122,38 +122,56 @@ void MyTcpSocket::readyRead()
             qDebug()<<"n = "<<j;
             qDebug()<<"Goal:";
             qDebug()<<goal.x<<goal.y<<goal.z;
-            qDebug()<<sizeof(j);
-            in>>id;
-            in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23>>m30>>m31>>m32>>m33;
-            //qDebug()<<"Car:";
-            //qDebug()<<m00<<m01<<m02<<m03;
-            //qDebug()<<m10<<m11<<m12<<m13;
-            //qDebug()<<m20<<m21<<m22<<m23;
-            //qDebug()<<m30<<m31<<m32<<m33;
-            //qDebug()<<speed;
+            //in>>id;
+            //in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23>>m30>>m31>>m32>>m33;
+
 
             GameMap g1(width_coord,height_coord,step,center,
                         m00, m01, m02, m03,
                         m10, m11, m12, m13,
                         m20, m21, m22, m23, speed, Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
-                for(int i=1; i<j; i++)
+
+            for(int i=0; i<j; i++)
                 {
                     in>>id;
                     in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23>>m30>>m31>>m32>>m33;
-                    qDebug()<<"cube "<<i;
-                    //qDebug()<<m00<<m01<<m02<<m03;
-                    //qDebug()<<m10<<m11<<m12<<m13;
-                    //qDebug()<<m20<<m21<<m22<<m23;
-                    //qDebug()<<m30<<m31<<m32<<m33;
-                                        auto *bar=new BQuadrAngle(m00, m01, m02, m03,
-                                    m10, m11, m12, m13,
-                                    m20, m21, m22, m23);
-                    g1.barriers.push_back(bar);
+                    if(id==0)
+                    {
+                        g1.car=Car(m00, m01, m02, m03,m10, m11, m12, m13,m20, m21, m22, m23,speed);
+                        swap(g1.car.position.y,g1.car.position.z);
+                        swap(g1.car.rotation.y, g1.car.rotation.z);
+                        swap(g1.car.scale.y,g1.car.scale.z);
+                        qDebug()<<"Car:";
+                        qDebug()<<"position\t "<<g1.car.position.x<<'\t'<<g1.car.position.y<<'\t'<<g1.car.position.z;
+                        qDebug()<<"rotation\t "<<g1.car.rotation.x<<'\t'<<g1.car.rotation.y<<'\t'<<g1.car.rotation.z;
+                        qDebug()<<"scale\t "<<g1.car.scale.x<<'\t'<<g1.car.scale.y<<'\t'<<g1.car.scale.z;
+                        qDebug()<<"speed "<<speed<<'\n';
+                    }
+                    else
+                    {
+                        auto *bar=new BQuadrAngle(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23);
+                        swap(bar->position.y,bar->position.z);
+                        swap(bar->rotation.y, bar->rotation.z);
+                        swap(bar->scale.y,bar->scale.z);
+                        qDebug()<<"cube";
+                        qDebug()<<"position\t"<<(bar)->position.x<<'\t'<<(bar)->position.y<<'\t'<<(bar)->position.z;
+                        qDebug()<<"rotation\t"<<(bar)->rotation.x<<'\t'<<(bar)->rotation.y<<'\t'<<(bar)->rotation.z;
+                        qDebug()<<"scale\t"<<(bar)->scale.x<<'\t'<<(bar)->scale.y<<'\t'<<(bar)->scale.z<<'\n';
+                        g1.barriers.push_back(bar);
+                    }
                 }
+            for(auto it=g1.barriers.begin();it!=g1.barriers.end();++it)
+            {
+                (*it)->position-=g1.car.position;
+                qDebug()<<"cube";
+                qDebug()<<"position\t"<<(*it)->position.x<<'\t'<<(*it)->position.y<<'\t'<<(*it)->position.z;
+                qDebug()<<"rotation\t"<<(*it)->rotation.x<<'\t'<<(*it)->rotation.y<<'\t'<<(*it)->rotation.z;
+                qDebug()<<"scale\t"<<(*it)->scale.x<<'\t'<<(*it)->scale.y<<'\t'<<(*it)->scale.z<<'\n';
+            }
                 Logger->printLogToFile("Data recieve");
                 g1.doo(DEBUG_OUTPUT);
                 //Logger->printLogToFile(g1);
-                delay(200);
+                //delay(200);
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
@@ -162,8 +180,11 @@ void MyTcpSocket::readyRead()
                 //d<<0;
                 d<<(int)g1.short_path.size();
                 for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
+                {
                     d<<(*it).x<<(*it).y;
-                socket->write(arr);
+                    cout<<(*it).x<<'\t'<<(*it).y<<';';
+                }
+                    socket->write(arr);
                 socket->flush();
                 Logger->printLogToFile("Path send\n");
         }
