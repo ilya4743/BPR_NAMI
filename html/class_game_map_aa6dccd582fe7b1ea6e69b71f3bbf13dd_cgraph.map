@@ -1,6 +1,0 @@
-<map id="GameMap::GameMap" name="GameMap::GameMap">
-<area shape="rect" id="node1" title="Конструктор с параметрами" alt="" coords="5,56,169,83"/>
-<area shape="rect" id="node2" href="$class_game_map.html#a2b1837a8151efc6d79085860916cef44" title=" " alt="" coords="231,5,355,32"/>
-<area shape="rect" id="node3" href="$class_game_map.html#a95a7a6d7b41609bc3f2f3b53e7aaa3bc" title=" " alt="" coords="231,56,355,83"/>
-<area shape="rect" id="node4" href="$class_distance_matrix.html#a7cd9e3c3faa88b095d133248ecf21837" title="Инициализация матрицы расстояний" alt="" coords="217,107,368,133"/>
-</map>
