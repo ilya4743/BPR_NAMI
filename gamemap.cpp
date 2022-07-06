@@ -155,6 +155,11 @@ void GameMap::doo(const int DEBUG_OUTPUT)
 {
     init();
 
+    //for(unsigned int i=0;i<distance->matrix.size();i++)
+    //{
+    //    distance->matrix[i]=car.rotation*distance->matrix[i];
+    //}
+
     //если точка конечного маршрута вышла за пределы сетки графа по x
     if (!(distance->matrix[0].x<=goal_point.x && distance->matrix[num_vertices_width-1].x>=goal_point.x))
         if(goal_point.x>0)
@@ -169,12 +174,17 @@ void GameMap::doo(const int DEBUG_OUTPUT)
         else
             goal_point.y=distance->matrix[distance->matrix.size()-1].y;
 
+    //for(auto it= barriers.begin(); it!=barriers.end();++it)
+    //{
+    //    (*it)->position=car.rotation*(*it)->position;
+    //}
     list<Barrier*>::iterator itGP;
     bool partial_path=false;
     if(DEBUG_OUTPUT==1) //если дебаг включен
     {
         for(auto it= barriers.begin(); it!=barriers.end();)
         {
+
             //qDebug()<<"position car "<<car.position.x<<'\t'<<car.position.y<<'\t'<<car.position.z;
             //qDebug()<<"position barrier "<<(*it)->position.x<<'\t'<<(*it)->position.y<<'\t'<<(*it)->position.z;
             //(*it)->position-=car.position;
@@ -211,9 +221,9 @@ void GameMap::doo(const int DEBUG_OUTPUT)
 
         GameMapPrinter::print_game_map(*this);
 
-
+        PrinterBQuadrAngle printerBQuadrAngle;
         for(auto it= barriers.begin(); it!=barriers.end();++it)
-            (*it)->print(*adapter);
+            printerBQuadrAngle.drawCube(*dynamic_cast<BQuadrAngle*>(*it),*adapter);
         GameMapPrinter::print_way(*this, short1);
     }
     else    //если дебаг выключен
@@ -240,6 +250,15 @@ void GameMap::doo(const int DEBUG_OUTPUT)
                 --itShort1;
             }
         }
+
+        //Ogre::Vector3 b(5,5,5);
+        //Ogre::Matrix3 m;
+        //car.rotation.ToRotationMatrix(m);
+        Ogre::Vector3 v(car.position); //=car.rotation*car.position;
+        Ogre::Quaternion q;
+
+        //b=b*car.rotation;
+
         short_path=create_msg(*distance,short1);
     }
 }

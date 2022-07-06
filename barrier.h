@@ -22,11 +22,13 @@ public:
     /// @param g поле
     virtual int  init(MyGraph& graph, DMQuadrangle& distance)=0;
 
+    /*
     /// Печать препятствия в консоль
     virtual void  print(IDistanceMatrixAdapter &adapter)=0;
 
     /// Печать препятствия в файл
     virtual void  printToFile(ofstream &out)=0;
+    */
 
     /// @brief Принадлежит ли точка пространства препятствию
     /// @param p точка, которую проверям
@@ -70,10 +72,10 @@ public:
     Ogre::Quaternion rotation;
 
     int init(MyGraph& graph, DMQuadrangle& distance)override;
-    void print(IDistanceMatrixAdapter &adapter)override;
+    //void print(IDistanceMatrixAdapter &adapter)override;
     bool hasPoint(Ogre::Vector3 p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
-    void printToFile(ofstream &out)override;
+    //void printToFile(ofstream &out)override;
     bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)override;
 
     friend ofstream& operator<<(ofstream &out, const Barrier &barrier);
@@ -99,10 +101,10 @@ public:
     ~BQuadrAngle();
 
     int init(MyGraph& graph, DMQuadrangle& distance)override;
-    void print(IDistanceMatrixAdapter &adapter)override;
+    //void print(IDistanceMatrixAdapter &adapter)override;
     bool hasPoint(Ogre::Vector3 p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
-    void printToFile(ofstream &out)override;
+    //void printToFile(ofstream &out)override;
     bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)override;
 
     friend ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier);
@@ -115,6 +117,70 @@ public:
     Ogre::Vector3 left_top;
     /// Правая нижняя препятствия
     Ogre::Vector3 right_bottom;
+    Ogre::Vector3 p1;
+};
+
+class PrinterBQuadrAngle
+{
+private:
+    void line(int x1, int y1, int x2,  int y2)
+    {
+        cout<<"\033[s";
+        const int deltaX = abs(x2 - x1);
+        const int deltaY = abs(y2 - y1);
+        const int signX = x1 < x2 ? 1 : -1;
+        const int signY = y1 < y2 ? 1 : -1;
+        int error = deltaX - deltaY;
+        cout<<"\033["<<y2<<';'<<x2<<"H\033[0;37;47m \033[0;0m";
+        while(x1 != x2 || y1 != y2)
+       {
+            cout<<"\033["<<y1<<';'<<x1<<"H\033[0;37;47m \033[0;0m";
+            int error2 = error * 2;
+            if(error2 > -deltaY)
+            {
+                error -= deltaY;
+                x1 += signX;
+            }
+            if(error2 < deltaX)
+            {
+                error += deltaX;
+                y1 += signY;
+            }
+        }
+        cout<<"\033[u";
+    }
+
+public:
+    void drawCube(const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter)
+    {
+        float gg=abs(barrier.right_bottom.y-barrier.left_top.y);
+        //правая верхняя точка препятствия
+        Ogre::Vector3 p1(barrier.right_bottom.x,barrier.right_bottom.y+gg, barrier.left_top.z);
+        //левая нижняя точка
+
+        Ogre::Vector3 p2(barrier.left_top.x,barrier.left_top.y-gg, barrier.left_top.z);
+
+        int y0=adapter.GetI(barrier.left_top.y);
+        int x0=adapter.GetJ(barrier.left_top.x);
+
+        int y1=adapter.GetI(p1.y);
+        int x1=adapter.GetJ(p1.x);
+
+        int y2=adapter.GetI(barrier.right_bottom.y);
+        int x2=adapter.GetJ(barrier.right_bottom.x);
+
+        int y3=adapter.GetI(p2.y);
+        int x3=adapter.GetJ(p2.x);
+
+        //верхняя горизонталь
+        line(x0, y0, x1, y1);
+        //правая вертикаль
+        line(x1, y1, x2, y2);
+        //левая вертикаль
+        line(x0, y0, x3, y3);
+        //нижняя горизонталь
+        line(x3, y3, x2, y2);
+    }
 };
 
 #endif // BARRIER_H

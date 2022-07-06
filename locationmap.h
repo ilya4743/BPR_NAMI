@@ -3,6 +3,7 @@
 #include<iostream>
 #include"point.h"
 #include<vector>
+#include"OgreMatrix4.h"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ class DistanceMatrix:public IDistanceMatrix
 {
 public:
     /// Вектор точек будущей матрицы
-    vector<Point> matrix;
+    vector<Ogre::Vector3> matrix;
     void init()override;
      ~DistanceMatrix()override;
 };

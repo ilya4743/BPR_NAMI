@@ -151,13 +151,13 @@ private:
     Vertex m_goal;
 };
 
-list<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance )
+list<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Ogre::Vector3>& distance )
 {
     vector<vertex_descriptor> p(num_vertices(*this->adj_list));
     vector<float> d(num_vertices(*this->adj_list));
     try {
         // call astar named parameter interface
-        astar_search_tree(*this->adj_list, start, euclidean_heuristic<my_graph, float, vector<Point>>(distance, goal),
+        astar_search_tree(*this->adj_list, start, euclidean_heuristic<my_graph, float, vector<Ogre::Vector3>>(distance, goal),
             predecessor_map(make_iterator_property_map(p.begin(), get(vertex_index, *this->adj_list))).
             distance_map(make_iterator_property_map(d.begin(), get(vertex_index, *this->adj_list))).
             visitor(astar_goal_visitor<vertex_descriptor>(goal)));

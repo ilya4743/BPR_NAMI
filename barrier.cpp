@@ -1,4 +1,5 @@
 #include "barrier.h"
+#include <QDebug>
 
 IBarrier::~IBarrier(){}
 
@@ -15,11 +16,11 @@ Barrier::Barrier(const Ogre::Matrix4 &matrix4):affine3(matrix4){affine3.decompos
 
 int Barrier::init(MyGraph& graph, DMQuadrangle& distance){}
 Barrier::~Barrier(){}
-void Barrier::print(IDistanceMatrixAdapter &adapter){}
+//void Barrier::print(IDistanceMatrixAdapter &adapter){}
 bool Barrier::hasPoint(Ogre::Vector3 p, GameMap&g){}
 bool Barrier::hasVertex(int v, GameMap&g){}
 bool Barrier::isIntersection(Ogre::Vector3 a, Ogre::Vector3 b){}
-void Barrier::printToFile(ofstream &out){}
+//void Barrier::printToFile(ofstream &out){}
 
 ofstream& operator<<(ofstream &out, const Barrier &barrier)
 {
@@ -39,7 +40,7 @@ BQuadrAngle::BQuadrAngle(float m00, float m01, float m02, float m03,
 
 }
 
-BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4):Barrier(matrix4)
+BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4):Barrier(matrix4),p1(1,0,0)
 {
 
 }
@@ -49,14 +50,14 @@ BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o),left_top(o.left_top),r
 
 }
 
-void BQuadrAngle::print(IDistanceMatrixAdapter &adapter)
+/*void BQuadrAngle::print(IDistanceMatrixAdapter &adapter)
 {
     cout<<"\033[s";
     for (int i = adapter.GetI(left_top.y); i <= adapter.GetI(right_bottom.y); i++)
         for (int j = adapter.GetJ(left_top.x); j <= adapter.GetJ(right_bottom.x); j++)
             cout<<"\033["<<i+1<<';'<<j+1<<"H\033[0;37;47m \033[0;0m";
     cout<<"\033[u";
-}
+}*/
 
 int BQuadrAngle::init(MyGraph& graph, DMQuadrangle& distance)
 {
@@ -130,6 +131,8 @@ int BQuadrAngle::init(MyGraph& graph, DMQuadrangle& distance)
                 remove_edge(u1, v1, *graph.adj_list);
             }
         }
+        qDebug()<<"left_top\t"<<left_top.x<<'\t'<<left_top.y<<'\t'<<left_top.z;
+        qDebug()<<"right_bottom\t"<<right_bottom.x<<'\t'<<right_bottom.y<<'\t'<<right_bottom.z;
         return 0;
     }
 }
@@ -152,6 +155,10 @@ bool BQuadrAngle::hasPoint(Ogre::Vector3 p, GameMap&g)
     right_bottom.x=right_bottom.x+g.car.scale.x/2;
     right_bottom.y=right_bottom.y-g.car.scale.y/2;
 
+    left_top=g.car.rotation.Inverse()*left_top;
+    right_bottom=g.car.rotation.Inverse()*right_bottom;
+    position=g.car.rotation.Inverse()*position;
+
     if (abs(left_top.x) > abs(int(left_top.x / g.step) * g.step))
         //left_top.x -= abs(left_top.x - int(left_top.x / g.step) * g.step);
         left_top.x = (int(left_top.x / g.step)-1) * g.step;
@@ -167,6 +174,8 @@ bool BQuadrAngle::hasPoint(Ogre::Vector3 p, GameMap&g)
     if (abs(right_bottom.y) > abs(int(right_bottom.y / g.step) * g.step))
         //right_bottom.y -= abs(right_bottom.y - int(right_bottom.y / g.step) * g.step);
         right_bottom.y = (int(right_bottom.y / g.step)-1) * g.step;
+
+
 
     if (left_top.x<=p.x && right_bottom.x>=p.x)
         if(left_top.y>=p.y && right_bottom.y<=p.y)
@@ -187,12 +196,12 @@ bool BQuadrAngle::hasVertex(int v, GameMap&g)
     return false;
 }
 
-void BQuadrAngle::printToFile(ofstream &out)
+/*void BQuadrAngle::printToFile(ofstream &out)
 {
     out<<position;
     out<<scale;
     out<<left_top<<right_bottom;
-}
+}*/
 
 ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier)
 {

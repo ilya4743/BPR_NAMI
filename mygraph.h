@@ -38,7 +38,7 @@ public:
     /// @param distance матрица расстояний
     /// @return вектор вершин графа, через которые пролегает путь
     /// @throw -1 путь не найден
-    std::list<vertex_descriptor> virtual search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance)=0;
+    std::list<vertex_descriptor> virtual search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Ogre::Vector3>& distance)=0;
 
     /// @brief Инициализация связей графа
     /// @param width количество вершин графа по ширине
@@ -74,7 +74,7 @@ public:
     ~MyGraph();
 
     void init(int width, int height)override;
-    std::list<vertex_descriptor> search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Point>& distance)override;
+    std::list<vertex_descriptor> search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Ogre::Vector3>& distance)override;
 };
 
 class MyGraphPrinter

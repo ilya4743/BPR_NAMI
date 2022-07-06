@@ -126,8 +126,13 @@ void MyTcpSocket::readyRead()
             {
                 in>>id;
                 in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23>>m30>>m31>>m32>>m33;
+
                 mapGameObj.insert(id, Ogre::Matrix4(m00,m01,m02,m03,m10,m11,m12,m13,m20,m21,m22,m23,m30,m31,m32,m33));
             }
+            qDebug()<<" ddd"<<m00<<','<<m01<<','<<m02<<','<<m03<<',';
+            qDebug()<<m10<<','<<m11<<','<<m12<<','<<m13<<',';
+            qDebug()<<m20<<','<<m21<<','<<m22<<','<<m23<<',';
+            qDebug()<<m30<<','<<m31<<','<<m32<<','<<m33;
 
             auto itCar=(mapGameObj.find(0));
             mapGameObj.erase(itCar);
@@ -138,10 +143,9 @@ void MyTcpSocket::readyRead()
 
             qDebug()<<"id"<<itCar.key()<<"\tcar"<<": ";
             qDebug()<<"position\t"<<g1.car.position.x<<'\t'<<g1.car.position.y<<'\t'<<g1.car.position.z;
-            qDebug()<<"rotation\t"<<g1.car.rotation.x<<'\t'<<g1.car.rotation.y<<'\t'<<g1.car.rotation.z;
+            qDebug()<<"rotation\t"<<g1.car.rotation.w<<'\t'<<g1.car.rotation.x<<'\t'<<g1.car.rotation.y<<'\t'<<g1.car.rotation.z;
             qDebug()<<"scale\t"<<g1.car.scale.x<<'\t'<<g1.car.scale.y<<'\t'<<g1.car.scale.z;
             qDebug()<<"speed\t"<<speed;
-
             for(auto itGameObj=mapGameObj.begin();itGameObj!=mapGameObj.end();++itGameObj)
             {
                 auto *bar=new BQuadrAngle(itGameObj.value());
@@ -153,6 +157,8 @@ void MyTcpSocket::readyRead()
                 qDebug()<<"position\t"<<(bar)->position.x<<'\t'<<(bar)->position.y<<'\t'<<(bar)->position.z;
                 qDebug()<<"rotation\t"<<(bar)->rotation.x<<'\t'<<(bar)->rotation.y<<'\t'<<(bar)->rotation.z;
                 qDebug()<<"scale\t"<<(bar)->scale.x<<'\t'<<(bar)->scale.y<<'\t'<<(bar)->scale.z;
+
+
                 g1.barriers.push_back(bar);
             }
 
@@ -204,7 +210,7 @@ void MyTcpSocket::readyRead()
     catch (MyException& Ex)
     {
         socket->readAll();
-        QProcess::execute("clear");
+        //QProcess::execute("clear");
         qDebug()<<Ex.what();
         qDebug()<<"Error "<<Ex.GetErrorCode();
         QByteArray error;
