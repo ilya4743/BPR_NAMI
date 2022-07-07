@@ -152,13 +152,39 @@ void MyTcpSocket::readyRead()
                 swap(bar->position.y,bar->position.z);
                 swap(bar->rotation.y, bar->rotation.z);
                 swap(bar->scale.y,bar->scale.z);
+
+                swap((*bar).p1.y,(*bar).p1.z);
+                swap((*bar).p2.y,(*bar).p2.z);
+                swap((*bar).p3.y,(*bar).p3.z);
+                swap((*bar).p4.y,(*bar).p4.z);
+                swap((*bar).p5.y,(*bar).p5.z);
+                swap((*bar).p6.y,(*bar).p6.z);
+                swap((*bar).p7.y,(*bar).p7.z);
+                swap((*bar).p8.y,(*bar).p8.z);
+
                 (*bar).position-=g1.car.position;
+                (*bar).p1-=g1.car.position;
+                (*bar).p2-=g1.car.position;
+                (*bar).p3-=g1.car.position;
+                (*bar).p4-=g1.car.position;
+                (*bar).p5-=g1.car.position;
+                (*bar).p6-=g1.car.position;
+                (*bar).p7-=g1.car.position;
+                (*bar).p8-=g1.car.position;
+
+                (*bar).p1=g1.car.rotation*(*bar).p1;
+                (*bar).p2=g1.car.rotation*(*bar).p2;
+                (*bar).p3=g1.car.rotation*(*bar).p3;
+                (*bar).p4=g1.car.rotation*(*bar).p4;
+                (*bar).p5=g1.car.rotation*(*bar).p5;
+                (*bar).p6=g1.car.rotation*(*bar).p6;
+                (*bar).p7=g1.car.rotation*(*bar).p7;
+                (*bar).p8=g1.car.rotation*(*bar).p8;
+
                 qDebug()<<"id"<<itGameObj.key()<<"\tcube:";
                 qDebug()<<"position\t"<<(bar)->position.x<<'\t'<<(bar)->position.y<<'\t'<<(bar)->position.z;
                 qDebug()<<"rotation\t"<<(bar)->rotation.x<<'\t'<<(bar)->rotation.y<<'\t'<<(bar)->rotation.z;
                 qDebug()<<"scale\t"<<(bar)->scale.x<<'\t'<<(bar)->scale.y<<'\t'<<(bar)->scale.z;
-
-
                 g1.barriers.push_back(bar);
             }
 

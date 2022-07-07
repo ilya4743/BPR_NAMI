@@ -40,9 +40,16 @@ BQuadrAngle::BQuadrAngle(float m00, float m01, float m02, float m03,
 
 }
 
-BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4):Barrier(matrix4),p1(1,0,0)
+BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4):Barrier(matrix4),p1(1,0,0),p2(1,0,1),p3(1,1,0),p4(1,1,1),p5(0,1,0),p6(0,1,1),p7(0,0,0),p8(0,0,1)
 {
-
+    p1=matrix4*p1;
+    p2=matrix4*p2;
+    p3=matrix4*p3;
+    p4=matrix4*p4;
+    p5=matrix4*p5;
+    p6=matrix4*p6;
+    p7=matrix4*p7;
+    p8=matrix4*p8;
 }
 
 BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o),left_top(o.left_top),right_bottom(o.right_bottom)
@@ -61,13 +68,13 @@ BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o),left_top(o.left_top),r
 
 int BQuadrAngle::init(MyGraph& graph, DMQuadrangle& distance)
 {
-    IDistanceMatrixAdapter* g=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(&distance));
     //если препятсвие никак не влезет на карту, то вернуть 0 иначе попытаться впихнуть хоть как-нибудь
     if(distance.matrix[0].x > right_bottom.x || distance.matrix[distance.matrix.size()-1].x < left_top.x ||
        distance.matrix[0].y < right_bottom.y || distance.matrix[distance.matrix.size()-1].y > left_top.y)
         return -2;
     else
-    {
+    {    IDistanceMatrixAdapter* g=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(&distance));
+
         if (distance.matrix[0].x > left_top.x)
             left_top.x=distance.matrix[0].x;
 
@@ -79,7 +86,7 @@ int BQuadrAngle::init(MyGraph& graph, DMQuadrangle& distance)
 
         if (distance.matrix[distance.matrix.size()-1].y > right_bottom.y)
             right_bottom.y=distance.matrix[distance.matrix.size()-1].y;
-
+/*
         //соседние по горизонтали
         for (int i = g->GetI(left_top.y); i <= g->GetI(right_bottom.y); i++)
         {
@@ -133,6 +140,7 @@ int BQuadrAngle::init(MyGraph& graph, DMQuadrangle& distance)
         }
         qDebug()<<"left_top\t"<<left_top.x<<'\t'<<left_top.y<<'\t'<<left_top.z;
         qDebug()<<"right_bottom\t"<<right_bottom.x<<'\t'<<right_bottom.y<<'\t'<<right_bottom.z;
+        delete g;*/
         return 0;
     }
 }
@@ -155,9 +163,9 @@ bool BQuadrAngle::hasPoint(Ogre::Vector3 p, GameMap&g)
     right_bottom.x=right_bottom.x+g.car.scale.x/2;
     right_bottom.y=right_bottom.y-g.car.scale.y/2;
 
-    left_top=g.car.rotation.Inverse()*left_top;
-    right_bottom=g.car.rotation.Inverse()*right_bottom;
-    position=g.car.rotation.Inverse()*position;
+    left_top=g.car.rotation*left_top;
+    right_bottom=g.car.rotation*right_bottom;
+    position=g.car.rotation*position;
 
     if (abs(left_top.x) > abs(int(left_top.x / g.step) * g.step))
         //left_top.x -= abs(left_top.x - int(left_top.x / g.step) * g.step);
@@ -174,8 +182,6 @@ bool BQuadrAngle::hasPoint(Ogre::Vector3 p, GameMap&g)
     if (abs(right_bottom.y) > abs(int(right_bottom.y / g.step) * g.step))
         //right_bottom.y -= abs(right_bottom.y - int(right_bottom.y / g.step) * g.step);
         right_bottom.y = (int(right_bottom.y / g.step)-1) * g.step;
-
-
 
     if (left_top.x<=p.x && right_bottom.x>=p.x)
         if(left_top.y>=p.y && right_bottom.y<=p.y)

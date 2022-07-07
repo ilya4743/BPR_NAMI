@@ -117,7 +117,7 @@ public:
     Ogre::Vector3 left_top;
     /// Правая нижняя препятствия
     Ogre::Vector3 right_bottom;
-    Ogre::Vector3 p1;
+    Ogre::Vector3 p1,p2,p3,p4,p5,p6,p7,p8;
 };
 
 class PrinterBQuadrAngle
@@ -131,9 +131,14 @@ private:
         const int signX = x1 < x2 ? 1 : -1;
         const int signY = y1 < y2 ? 1 : -1;
         int error = deltaX - deltaY;
+
+
+        if(y2>=0 && x2>=0)
         cout<<"\033["<<y2<<';'<<x2<<"H\033[0;37;47m \033[0;0m";
         while(x1 != x2 || y1 != y2)
        {
+            if(y1>=0 && x1>=0)
+
             cout<<"\033["<<y1<<';'<<x1<<"H\033[0;37;47m \033[0;0m";
             int error2 = error * 2;
             if(error2 > -deltaY)
@@ -159,7 +164,7 @@ public:
         //левая нижняя точка
 
         Ogre::Vector3 p2(barrier.left_top.x,barrier.left_top.y-gg, barrier.left_top.z);
-
+/*
         int y0=adapter.GetI(barrier.left_top.y);
         int x0=adapter.GetJ(barrier.left_top.x);
 
@@ -170,15 +175,36 @@ public:
         int x2=adapter.GetJ(barrier.right_bottom.x);
 
         int y3=adapter.GetI(p2.y);
-        int x3=adapter.GetJ(p2.x);
+        int x3=adapter.GetJ(p2.x);*/
+
+        int y0=adapter.GetI(barrier.p1.y);
+        int x0=adapter.GetJ(barrier.p1.x);
+
+        int y1=adapter.GetI(barrier.p7.y);
+        int x1=adapter.GetJ(barrier.p7.x);
+
+        int y2=adapter.GetI(barrier.p2.y);
+        int x2=adapter.GetJ(barrier.p2.x);
+
+        int y3=adapter.GetI(barrier.p8.y);
+        int x3=adapter.GetJ(barrier.p8.x);
 
         //верхняя горизонталь
         line(x0, y0, x1, y1);
+
+        //line(adapter.GetJ(barrier.p1.x), adapter.GetI(barrier.p1.y), adapter.GetJ(barrier.p2.x),adapter.GetI(barrier.p2.y));
         //правая вертикаль
         line(x1, y1, x2, y2);
+
+        //line(adapter.GetJ(barrier.p2.x),adapter.GetI(barrier.p2.y), adapter.GetJ(barrier.p3.x),adapter.GetI(barrier.p3.y));
         //левая вертикаль
         line(x0, y0, x3, y3);
+
+        //line(adapter.GetJ(barrier.p1.x),adapter.GetI(barrier.p1.y), adapter.GetJ(barrier.p3.x),adapter.GetI(barrier.p3.y));
+
         //нижняя горизонталь
+        //line(adapter.GetJ(barrier.p3.x),adapter.GetI(barrier.p3.y), adapter.GetJ(barrier.p4.x),adapter.GetI(barrier.p4.y));
+
         line(x3, y3, x2, y2);
     }
 };
