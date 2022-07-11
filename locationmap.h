@@ -94,11 +94,20 @@ public:
 
     int GetI(float j)
     {
+        if(j>98)
+            j=98;
+        if(j<-98)
+            j=-98;
         return (distance->center - int(j / distance->step) * distance->width) / distance->width;
     }
 
     int GetJ(float i)
     {
+        i=-i;
+        if(i>200)
+            return 200;
+        if(i<-200)
+            return 0;
         return (distance->center + int(i/distance->step)) % distance->width;
     }
 };

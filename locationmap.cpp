@@ -27,39 +27,39 @@ DMQuadrangle::DMQuadrangle(const DMQuadrangle &o):width(o.width),height(o.height
 void DMQuadrangle::init()
 {
     matrix.resize(width*height);
-    float x= step, y=0;
-    for (int i = center / width; i >= 0; i--)
-    {
-        for (int j = center % width; j >= 0; j--)
-            matrix[i * width + j] = { x-=step,-y,0 };
-        x = step;
-        y-=step;
-    }
-    x = -step;
-    y = 0;
-    for (int i = center / width; i < height; i++)
-    {
-        for (int j = center % width; j < width; j++)
-            matrix[i * width + j] = { x+=step,-y,0 };
-        x = -step;
-        y+=step;
-    }y = 0;
-    for (int i = center/ width; i >= 0; i--)
-    {
-        for (int j = center % width; j < width; j++)
-            matrix[i * width + j] = { x+=step,y,0 };
-        x = -step;
-        y+=step;
-    }
-    x = step;
-    y = 0;
-    for (int i = center/ width; i <height; i++)
-    {
-        for (int j = center%width; j >=0; j--)
-            matrix[i * width + j] = { x-=step,y,0 };
-        x = step;
-        y-=step;
-    }
+       float x= step, z=0;
+       for (int i = center / width; i >= 0; i--)
+       {
+           for (int j = center % width; j >= 0; j--)
+               matrix[i * width + j] = { x-=step,0,-z };
+           x = step;
+           z-=step;
+       }
+       x = -step;
+       z = 0;
+       for (int i = center / width; i < height; i++)
+       {
+           for (int j = center % width; j < width; j++)
+               matrix[i * width + j] = { x+=step,0,-z};
+           x = -step;
+           z+=step;
+       }z = 0;
+       for (int i = center/ width; i >= 0; i--)
+       {
+           for (int j = center % width; j < width; j++)
+               matrix[i * width + j] = { x+=step,0,z };
+           x = -step;
+           z+=step;
+       }
+       x = step;
+       z = 0;
+       for (int i = center/ width; i <height; i++)
+       {
+           for (int j = center%width; j >=0; j--)
+               matrix[i * width + j] = { x-=step,0,z};
+           x = step;
+           z-=step;
+       }
 }
 
 DMQuadrangle::~DMQuadrangle()

@@ -16,9 +16,7 @@ SOURCES += \
         main.cpp \
         myexception.cpp \
         mygraph.cpp \
-        mylog.cpp \
         mytcpsocket.cpp \
-        point.cpp \
         settings.cpp
 
 INCLUDEPATH += /usr/include/boost
@@ -42,9 +40,7 @@ HEADERS += \
     locationmap.h \
     myexception.h \
     mygraph.h \
-    mylog.h \
     mytcpsocket.h \
-    point.h \
     settings.h
 
 unix:!macx: LIBS += -L$$PWD/../../Downloads/ogre-13.3.1/build/lib/ -lOgreBites

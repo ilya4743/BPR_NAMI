@@ -59,9 +59,7 @@ SOURCES       = ../barrier.cpp \
 		../main.cpp \
 		../myexception.cpp \
 		../mygraph.cpp \
-		../mylog.cpp \
 		../mytcpsocket.cpp \
-		../point.cpp \
 		../settings.cpp moc_mytcpsocket.cpp \
 		moc_settings.cpp
 OBJECTS       = barrier.o \
@@ -71,9 +69,7 @@ OBJECTS       = barrier.o \
 		main.o \
 		myexception.o \
 		mygraph.o \
-		mylog.o \
 		mytcpsocket.o \
-		point.o \
 		settings.o \
 		moc_mytcpsocket.o \
 		moc_settings.o
@@ -293,9 +289,7 @@ DIST          = ../../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../locationmap.h \
 		../myexception.h \
 		../mygraph.h \
-		../mylog.h \
 		../mytcpsocket.h \
-		../point.h \
 		../settings.h ../barrier.cpp \
 		../car.cpp \
 		../gamemap.cpp \
@@ -303,9 +297,7 @@ DIST          = ../../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../main.cpp \
 		../myexception.cpp \
 		../mygraph.cpp \
-		../mylog.cpp \
 		../mytcpsocket.cpp \
-		../point.cpp \
 		../settings.cpp
 QMAKE_TARGET  = Graph
 DESTDIR       = 
@@ -756,8 +748,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../barrier.h ../car.h ../gamemap.h ../locationmap.h ../myexception.h ../mygraph.h ../mylog.h ../mytcpsocket.h ../point.h ../settings.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../barrier.cpp ../car.cpp ../gamemap.cpp ../locationmap.cpp ../main.cpp ../myexception.cpp ../mygraph.cpp ../mylog.cpp ../mytcpsocket.cpp ../point.cpp ../settings.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../barrier.h ../car.h ../gamemap.h ../locationmap.h ../myexception.h ../mygraph.h ../mytcpsocket.h ../settings.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../barrier.cpp ../car.cpp ../gamemap.cpp ../locationmap.cpp ../main.cpp ../myexception.cpp ../mygraph.cpp ../mytcpsocket.cpp ../settings.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -872,9 +864,6 @@ moc_mytcpsocket.cpp: ../mytcpsocket.h \
 		../point.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QDataStream \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
-		../mygraph.h \
-		../myexception.h \
-		../barrier.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreMatrix4.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePrerequisites.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePlatform.h \
@@ -890,6 +879,9 @@ moc_mytcpsocket.cpp: ../mytcpsocket.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderPrefix.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderSuffix.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreQuaternion.h \
+		../mygraph.h \
+		../myexception.h \
+		../barrier.h \
 		../mylog.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QString \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QTime \
@@ -1046,15 +1038,6 @@ barrier.o: ../barrier.cpp ../barrier.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
 		../mygraph.h \
 		../locationmap.h \
-		../myexception.h \
-		../gamemap.h \
-		../mylog.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QString \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QTime \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
-		../car.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreMatrix4.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePrerequisites.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePlatform.h \
@@ -1069,7 +1052,26 @@ barrier.o: ../barrier.cpp ../barrier.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreMath.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderPrefix.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderSuffix.h \
-		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreQuaternion.h
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreQuaternion.h \
+		../myexception.h \
+		../gamemap.h \
+		../mylog.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/QString \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/QTime \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		../car.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/QDebug \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o barrier.o ../barrier.cpp
 
 car.o: ../car.cpp ../car.h \
@@ -1204,9 +1206,6 @@ gamemap.o: ../gamemap.cpp ../gamemap.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
-		../mygraph.h \
-		../myexception.h \
-		../barrier.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreMatrix4.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePrerequisites.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePlatform.h \
@@ -1222,6 +1221,9 @@ gamemap.o: ../gamemap.cpp ../gamemap.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderPrefix.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderSuffix.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreQuaternion.h \
+		../mygraph.h \
+		../myexception.h \
+		../barrier.h \
 		../mylog.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QString \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QTime \
@@ -1297,7 +1299,22 @@ locationmap.o: ../locationmap.cpp ../locationmap.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreMatrix4.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePrerequisites.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePlatform.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreConfig.h \
+		../../../Downloads/ogre-13.3.1/build/include/OgreBuildSettings.h \
+		../../../Downloads/ogre-13.3.1/build/include/OgreExports.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreStdHeaders.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreMemoryAllocatorConfig.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreAlignedAllocator.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreMatrix3.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreVector.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreMath.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderPrefix.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderSuffix.h \
+		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreQuaternion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o locationmap.o ../locationmap.cpp
 
 main.o: ../main.cpp ../../../Qt/5.15.2/gcc_64/include/QtCore/QCoreApplication \
@@ -1386,9 +1403,6 @@ main.o: ../main.cpp ../../../Qt/5.15.2/gcc_64/include/QtCore/QCoreApplication \
 		../point.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QDataStream \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
-		../mygraph.h \
-		../myexception.h \
-		../barrier.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreMatrix4.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePrerequisites.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePlatform.h \
@@ -1404,6 +1418,9 @@ main.o: ../main.cpp ../../../Qt/5.15.2/gcc_64/include/QtCore/QCoreApplication \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderPrefix.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderSuffix.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreQuaternion.h \
+		../mygraph.h \
+		../myexception.h \
+		../barrier.h \
 		../mylog.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QString \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QTime \
@@ -1487,88 +1504,6 @@ mygraph.o: ../mygraph.cpp ../mygraph.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
-		../myexception.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QDebug \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qset.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mygraph.o ../mygraph.cpp
-
-mylog.o: ../mylog.cpp ../mylog.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QString \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QTime \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../gamemap.h \
-		../locationmap.h \
-		../point.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QDataStream \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
-		../mygraph.h \
-		../myexception.h \
-		../barrier.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreMatrix4.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePrerequisites.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePlatform.h \
@@ -1584,8 +1519,20 @@ mylog.o: ../mylog.cpp ../mylog.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderPrefix.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderSuffix.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreQuaternion.h \
-		../car.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mylog.o ../mylog.cpp
+		../myexception.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/QDebug \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mygraph.o ../mygraph.cpp
 
 mytcpsocket.o: ../mytcpsocket.cpp ../mytcpsocket.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QObject \
@@ -1667,9 +1614,6 @@ mytcpsocket.o: ../mytcpsocket.cpp ../mytcpsocket.h \
 		../point.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QDataStream \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
-		../mygraph.h \
-		../myexception.h \
-		../barrier.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreMatrix4.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePrerequisites.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgrePlatform.h \
@@ -1685,6 +1629,9 @@ mytcpsocket.o: ../mytcpsocket.cpp ../mytcpsocket.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderPrefix.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreHeaderSuffix.h \
 		../../../Downloads/ogre-13.3.1/OgreMain/include/OgreQuaternion.h \
+		../mygraph.h \
+		../myexception.h \
+		../barrier.h \
 		../mylog.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QString \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QTime \
@@ -1697,64 +1644,6 @@ mytcpsocket.o: ../mytcpsocket.cpp ../mytcpsocket.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qcoreapplication.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qeventloop.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mytcpsocket.o ../mytcpsocket.cpp
-
-point.o: ../point.cpp ../point.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/QDataStream \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o point.o ../point.cpp
 
 settings.o: ../settings.cpp ../settings.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/QVariant \

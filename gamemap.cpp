@@ -148,7 +148,6 @@ void GameMapPrinter::print_game_map(const GameMap& map)
 void GameMap::init()
 {
     distance->init();
-    //distance->matrix[9900]=car.matrix4.inverse()*distance->matrix[9900];
     graph->init(num_vertices_width,num_vertices_height);
 }
 

@@ -28,7 +28,6 @@ void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_O
     reconnect_time=RECONNECT_TIME;
     this->IP=IP;
     this->PORT=PORT;
-    Logger=new MyLog(PRINT_LOG, "log");
     QByteArray qb;
     QDataStream d(&qb, QIODevice::WriteOnly);
     this->DEBUG_OUTPUT=DEBUG_OUTPUT;
@@ -153,7 +152,7 @@ void MyTcpSocket::readyRead()
                 qDebug()<<"p8\t"<<(bar)->p8.x<<'\t'<<(bar)->p1.y<<'\t'<<(bar)->p8.z;
                 qDebug()<<"globpos\t"<<(bar)->position.x<<'\t'<<(bar)->position.y<<'\t'<<(bar)->position.z;
 
-                (*bar).mat4=g1.car.matrix4.inverse()*((*bar).mat4);
+                (*bar).matrix4=g1.car.matrix4.inverse()*((*bar).matrix4);
                 (*bar).p1=g1.car.matrix4.inverse()*(*bar).p1;
                 (*bar).p2=g1.car.matrix4.inverse()*(*bar).p2;
                 (*bar).p3=g1.car.matrix4.inverse()*(*bar).p3;
@@ -162,7 +161,7 @@ void MyTcpSocket::readyRead()
                 (*bar).p6=g1.car.matrix4.inverse()*(*bar).p6;
                 (*bar).p7=g1.car.matrix4.inverse()*(*bar).p7;
                 (*bar).p8=g1.car.matrix4.inverse()*(*bar).p8;
-                Ogre::Affine3 af((*bar).mat4);
+                Ogre::Affine3 af((*bar).matrix4);
                 af.decomposition((*bar).position,(*bar).scale, (*bar).rotation);
 
                 qDebug()<<"localpos\t"<<(bar)->position.x<<'\t'<<(bar)->position.y<<'\t'<<(bar)->position.z;
@@ -194,12 +193,6 @@ void MyTcpSocket::readyRead()
                 socket->flush();
                 qDebug()<<"path send to host\n";
         }
-        //else if(b1==0x44 && b2==0x48)
-        //{
-
-                //in>>isSmoothing;
-            //qDebug()<<"Change Mode "<<isSmoothing;
-        //}
         else if(b1==0x79 && b2==0x93)
         {
             qDebug()<<"Reciev 0x79 0x93 from host";
@@ -244,5 +237,4 @@ void MyTcpSocket::readyRead()
 MyTcpSocket::~MyTcpSocket()
 {
     delete socket;
-    delete Logger;
 }

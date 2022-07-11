@@ -3,23 +3,32 @@
 
 IBarrier::~IBarrier(){}
 
-Barrier::Barrier():affine3(),position(), scale(), rotation(){}
+Barrier::Barrier():matrix4(),position(), scale(), rotation(){}
 Barrier::Barrier(float m00, float m01, float m02, float m03,
                  float m10, float m11, float m12, float m13,
-                 float m20, float m21, float m22, float m23):affine3(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23)
+                 float m20, float m21, float m22, float m23,
+                 float m30, float m31, float m32, float m33):
+                matrix4(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33)
+{
+    Ogre::Affine3 af(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23);
+    af.decomposition(position,scale,rotation);
+}
+
+Barrier::Barrier(const Ogre::Matrix4 &matrix4):matrix4(matrix4)
+{
+    Ogre::Affine3 af(matrix4);
+    af.decomposition(position,scale,rotation);
+}
+
+Barrier::Barrier(const Barrier&o):matrix4(o.matrix4), position(o.position),scale(o.scale), rotation(o.rotation)
 {
 }
 
-Barrier::Barrier(const Barrier&o):affine3(o.affine3), position(o.position),scale(o.scale), rotation(o.rotation){}
-Barrier::Barrier(const Ogre::Matrix4 &matrix4):mat4(matrix4),affine3(matrix4){affine3.decomposition(position,scale,rotation);}
-
 int Barrier::init(MyGraph& graph, DMQuadrangle& distance){}
 Barrier::~Barrier(){}
-//void Barrier::print(IDistanceMatrixAdapter &adapter){}
 bool Barrier::hasPoint(Ogre::Vector3 p, GameMap&g){}
 bool Barrier::hasVertex(int v, GameMap&g){}
 bool Barrier::isIntersection(Ogre::Vector3 a, Ogre::Vector3 b){}
-//void Barrier::printToFile(ofstream &out){}
 
 ofstream& operator<<(ofstream &out, const Barrier &barrier)
 {
@@ -27,46 +36,36 @@ ofstream& operator<<(ofstream &out, const Barrier &barrier)
     return out;
 }
 
-BQuadrAngle::BQuadrAngle():Barrier(),left_top(),right_bottom()
+BQuadrAngle::BQuadrAngle():Barrier()
 {
-
 }
 
 BQuadrAngle::BQuadrAngle(float m00, float m01, float m02, float m03,
                          float m10, float m11, float m12, float m13,
-                         float m20, float m21, float m22, float m23):Barrier(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23)
+                         float m20, float m21, float m22, float m23,
+                         float m30, float m31, float m32, float m33):
+                        Barrier(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33)
+{
+}
+
+BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4):Barrier(matrix4),p1(1,-1,-1),p2(1,-1,1),p3(1,1,-1),p4(1,1,1),p5(-0.5,0.5,-0.5),p6(-0.5,0.5,0.5),p7(-1,-1,-1),p8(-1,-1,1)
+//Barrier(matrix4),p1(0.5,-0.5,-0.5),p2(0.5,-0.5,0.5),p3(0.5,0.5,-0.5),p4(0.5,0.5,0.5),p5(-0.5,0.5,-0.5),p6(-0.5,0.5,0.5),p7(-0.5,-0.5,-0.5),p8(-0.5,-0.5,0.5)
+//Barrier(matrix4),p1(1,0,0),p2(1,0,1),p3(1,1,0),p4(1,1,1),p5(0,1,0),p6(0,1,1),p7(0,0,0),p8(0,0,1)
+{
+    p1=matrix4*p1;
+    p2=matrix4*p2;
+    p3=matrix4*p3;
+    p4=matrix4*p4;
+    p5=matrix4*p5;
+    p6=matrix4*p6;
+    p7=matrix4*p7;
+    p8=matrix4*p8;
+}
+
+BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o)
 {
 
 }
-
-BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4)://Barrier(matrix4),p1(1,-1,-1),p2(1,-1,1),p3(1,1,-1),p4(1,1,1),p5(-0.5,0.5,-0.5),p6(-0.5,0.5,0.5),p7(-1,-1,-1),p8(-1,-1,1)
-
-    Barrier(matrix4),p1(0.5,-0.5,-0.5),p2(0.5,-0.5,0.5),p3(0.5,0.5,-0.5),p4(0.5,0.5,0.5),p5(-0.5,0.5,-0.5),p6(-0.5,0.5,0.5),p7(-0.5,-0.5,-0.5),p8(-0.5,-0.5,0.5)
-  //Barrier(matrix4),p1(1,0,0),p2(1,0,1),p3(1,1,0),p4(1,1,1),p5(0,1,0),p6(0,1,1),p7(0,0,0),p8(0,0,1)
-{
-    this->p1=matrix4*this->p1;
-    this->p2=matrix4*this->p2;
-    this->p3=matrix4*this->p3;
-    this->p4=matrix4*this->p4;
-    this->p5=matrix4*this->p5;
-    this->p6=matrix4*this->p6;
-    this->p7=matrix4*this->p7;
-    this->p8=matrix4*this->p8;
-}
-
-BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o),left_top(o.left_top),right_bottom(o.right_bottom)
-{
-
-}
-
-/*void BQuadrAngle::print(IDistanceMatrixAdapter &adapter)
-{
-    cout<<"\033[s";
-    for (int i = adapter.GetI(left_top.y); i <= adapter.GetI(right_bottom.y); i++)
-        for (int j = adapter.GetJ(left_top.x); j <= adapter.GetJ(right_bottom.x); j++)
-            cout<<"\033["<<i+1<<';'<<j+1<<"H\033[0;37;47m \033[0;0m";
-    cout<<"\033[u";
-}*/
 
 int BQuadrAngle::init(MyGraph& graph, DMQuadrangle& distance)
 {
@@ -196,7 +195,7 @@ bool BQuadrAngle::hasPoint(Ogre::Vector3 p, GameMap&g)
 
 bool BQuadrAngle::hasVertex(int v, GameMap&g)
 {
-    int i1=g.adapter->GetI(left_top.y);
+    /*int i1=g.adapter->GetI(left_top.y);
     int i2=g.adapter->GetI(right_bottom.y);
     int j1=g.adapter->GetJ(left_top.x);
     int j2=g.adapter->GetJ(right_bottom.x);
@@ -204,21 +203,11 @@ bool BQuadrAngle::hasVertex(int v, GameMap&g)
     if(i1<=v/d->width && i2>=v/d->width)
         if(j1<=v%d->width && j2>=v%d->width)
             return true;
-    return false;
+    return false;*/
 }
-
-/*void BQuadrAngle::printToFile(ofstream &out)
-{
-    out<<position;
-    out<<scale;
-    out<<left_top<<right_bottom;
-}*/
 
 ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier)
 {
-    out<<barrier.position;
-    out<<barrier.scale;
-    out<<barrier.left_top<<barrier.right_bottom;
     return out;
 }
 
@@ -322,10 +311,10 @@ public:
 bool BQuadrAngle::isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)
 {
     vector<Ogre::Vector3>poly;
-    poly.push_back(Ogre::Vector3(left_top.x,left_top.y,0));
+    /*poly.push_back(Ogre::Vector3(left_top.x,left_top.y,0));
     poly.push_back(Ogre::Vector3(right_bottom.x,left_top.y,0));
     poly.push_back(Ogre::Vector3(right_bottom.x,right_bottom.y,0));
-    poly.push_back(Ogre::Vector3(left_top.x,right_bottom.y,0));
+    poly.push_back(Ogre::Vector3(left_top.x,right_bottom.y,0));*/
 
     list<Ogre::Vector3> poly1;
     poly1.push_back(poly[0]);
@@ -336,12 +325,12 @@ bool BQuadrAngle::isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)
     auto kkk=Smoother::Polyclip(poly1,b,a);
     int seg=0;
 
-    bool b1=Smoother::SegmentIntersection(left_top.x,left_top.y,        right_bottom.x,left_top.y,      a.x,a.y,b.x,b.y);
+    /*bool b1=Smoother::SegmentIntersection(left_top.x,left_top.y,        right_bottom.x,left_top.y,      a.x,a.y,b.x,b.y);
     bool b2=Smoother::SegmentIntersection(right_bottom.x,left_top.y,    right_bottom.x,right_bottom.y,  a.x,a.y,b.x,b.y);
     bool b3=Smoother::SegmentIntersection(left_top.x,right_bottom.y,    right_bottom.x,right_bottom.y,  a.x,a.y,b.x,b.y);
     bool b4=Smoother::SegmentIntersection(left_top.x,left_top.y,        left_top.x,right_bottom.y,      a.x,a.y,b.x,b.y);
-
-   return b1||b2||b3||b4;
+    */
+   //return b1||b2||b3||b4;
 
     if(kkk.size()>0)
     return true;
@@ -351,21 +340,11 @@ bool BQuadrAngle::isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)
 
 ostream& operator<<(ostream &out, const BQuadrAngle &barrier)
 {
-    out<<barrier.position<<endl;
-    out<<barrier.scale<<endl;
-    out<<barrier.scale.x<<endl<<barrier.scale.y<<endl;
-    out<<barrier.left_top<<endl<<barrier.right_bottom<<endl;
     return out;
 }
 
 istream& operator>>(istream &in, BQuadrAngle &barrier)
 {
-    //in>>barrier.position;
-    //in>>barrier.scale;
-    in>>barrier.left_top.x>>barrier.left_top.y>>barrier.left_top.z;
-    in>>barrier.right_bottom.x>>barrier.right_bottom.y>>barrier.right_bottom.z;
-    //barrier.left_top=Ogre::Vector3(barrier.position.x-barrier.scale.x/2.0,barrier.position.y+barrier.scale.y/2.0);
-    //barrier.right_bottom=Ogre::Vector3(barrier.position.x+barrier.scale.x/2.0,barrier.position.y-barrier.scale.y/2.0);
     return in;
 }
 
@@ -373,8 +352,6 @@ QDataStream& operator <<(QDataStream &out, const Barrier &b)
 {
     out.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
     out.setByteOrder(QDataStream::LittleEndian);
-    //out << b.position;
-    //out << b.scale;
     return out;
 }
 
@@ -382,8 +359,6 @@ QDataStream& operator >>(QDataStream &in, Barrier &b)
 {
     in.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
     in.setByteOrder(QDataStream::LittleEndian);
-    //in >> b.position;
-    //in >> b.scale;
     return in;
 }
 
@@ -391,10 +366,6 @@ QDataStream& operator <<(QDataStream &out, const BQuadrAngle &b)
 {
     out.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
     out.setByteOrder(QDataStream::LittleEndian);
-    //out << b.position;
-    //out << b.scale;
-    out << b.left_top.x<< b.left_top.y<< b.left_top.z;
-    out << b.right_bottom.x<< b.right_bottom.y<< b.right_bottom.z;
     return out;
 }
 
@@ -402,9 +373,56 @@ QDataStream& operator >>(QDataStream &in, BQuadrAngle &b)
 {
     in.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
     in.setByteOrder(QDataStream::LittleEndian);
-    //in >> b.position;
-    //in >> b.scale;
-    in>>b.left_top.x>>b.left_top.y>>b.left_top.z;
-    in>>b.right_bottom.x>>b.right_bottom.y>>b.right_bottom.z;
     return in;
+}
+
+void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2)
+{
+    cout<<"\033[s";
+    const int deltaX = abs(x2 - x1);
+    const int deltaY = abs(y2 - y1);
+    const int signX = x1 < x2 ? 1 : -1;
+    const int signY = y1 < y2 ? 1 : -1;
+    int error = deltaX - deltaY;
+
+    if(y2>=0 && x2>=0)
+    cout<<"\033["<<y2<<';'<<x2<<"H\033[0;37;47m \033[0;0m";
+    while(x1 != x2 || y1 != y2)
+   {
+        if(y1>=0 && x1>=0)
+
+        cout<<"\033["<<y1<<';'<<x1<<"H\033[0;37;47m \033[0;0m";
+        int error2 = error * 2;
+        if(error2 > -deltaY)
+        {
+            error -= deltaY;
+            x1 += signX;
+        }
+        if(error2 < deltaX)
+        {
+            error += deltaX;
+            y1 += signY;
+        }
+    }
+    cout<<"\033[u";
+}
+
+void PrinterBQuadrAngle::drawCube(const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter)
+{
+    int y0=adapter.GetI(barrier.p1.z);
+    int x0=adapter.GetJ(barrier.p1.x);
+
+    int y1=adapter.GetI(barrier.p7.z);
+    int x1=adapter.GetJ(barrier.p7.x);
+
+    int y2=adapter.GetI(barrier.p2.z);
+    int x2=adapter.GetJ(barrier.p2.x);
+
+    int y3=adapter.GetI(barrier.p8.z);
+    int x3=adapter.GetJ(barrier.p8.x);
+
+    drawLine(x0, y0, x1, y1);
+    drawLine(x1, y1, x2, y2);
+    drawLine(x2, y2, x3, y3);
+    drawLine(x3, y3, x0, y0);
 }
