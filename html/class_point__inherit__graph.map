@@ -1,5 +1,0 @@
-<map id="Point" name="Point">
-<area shape="rect" id="node1" title="Класс точки" alt="" coords="37,5,117,127"/>
-<area shape="rect" id="node2" href="$class_barrier.html" title="Базовый класс препятствия" alt="" coords="9,175,144,384"/>
-<area shape="rect" id="node3" href="$class_b_quadr_angle.html" title="Класс прямоугольного препятствия" alt="" coords="5,432,148,685"/>
-</map>

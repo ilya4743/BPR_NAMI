@@ -1,107 +1,57 @@
 #include "gamemap.h"
 #include <boost/graph/adjacency_list.hpp>
 #include <QtDebug>
+#include<QTime>
 
 GameMap::GameMap()
 {
-    step = 0.1;
-    //ширина покрытия сетки графа
-    width_coord=16.1;
-    //высота покрытия сетки графа
-    height_coord=4.5;
-    //количество вершин графа по ширине
-    num_vertices_width = width_coord/step;
-    //количество вершин графа по высоте
-    num_vertices_height = height_coord/step;
-    //начало отсчета системы координат (наша машина)
-    center = (num_vertices_width / 2) + (num_vertices_height/2);
-    //точка конечного маршрута
-    goal_point.x=-0.4;
-    goal_point.y=2;
-
-    //вершина графа откуда стартует авто
-    start = center;
-    //вершина графа куда едем
-    goal = GetI(goal_point.y)*num_vertices_width + GetJ(goal_point.x);
-    this->width_auto=0;
-    this->height_auto=0;
-    distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);
-    graph=new MyGraph(num_vertices_width*num_vertices_height);
 }
 
-GameMap::GameMap(float width_coord, float height_coord, float step, int center, float width_auto, float height_auto, Point goal_p, bool isSmoothing)
+GameMap::GameMap(float width_coord, float height_coord, float step, int center,
+                 const Car &car,
+                 const Ogre::Vector3 &goal_p,
+                 bool isSmoothing):
+    width_coord(width_coord),height_coord(height_coord),step(step),
+    num_vertices_width(width_coord/step), num_vertices_height(height_coord/step),
+    goal_point(goal_p),start(center),goal(),car(car),
+    isSmoothing(isSmoothing)
 {
-    this->step = step;
-    //ширина покрытия сетки графа
-    this->width_coord=width_coord;
-    //высота покрытия сетки графа
-    this->height_coord=height_coord;
-    //количество вершин графа по ширине
-    num_vertices_width = width_coord/step;
-    //количество вершин графа по высоте
-    num_vertices_height = height_coord/step;
-    //начало отсчета системы координат (наша машина)
-    this->center = center;
-    this->goal_point=goal_p;
-    start = this->center;
-
-    this->width_auto=width_auto;
-    this->height_auto=height_auto;
     distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);
-    distance->init();
-
-    //если точка конечного маршрута вышла за пределы сетки графа по x
-    if (!(distance->matrix[0].x<=goal_point.x && distance->matrix[num_vertices_width-1].x>=goal_point.x))
-        if(goal_point.x>0)
-            goal_point.x=distance->matrix[num_vertices_width-1].x;
-        else
-            goal_point.x=distance->matrix[0].x;
-
-    //если точка конечного маршрута вышла за пределы сетки графа по y
-    if (!(distance->matrix[0].y>=goal_point.y && distance->matrix[distance->matrix.size()-1].y<=goal_point.y))
-        if(goal_point.y>0)
-            goal_point.y=distance->matrix[0].y;
-        else
-            goal_point.y=distance->matrix[distance->matrix.size()-1].y;
-
+    adapter=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(distance));
     //вершина графа куда едем
-    goal = GetI(goal_point.y)*num_vertices_width + GetJ(goal_point.x);
-
+    goal = adapter->GetI(goal_p.z)*num_vertices_width + adapter->GetJ(goal_p.x);
     graph=new MyGraph(num_vertices_width*num_vertices_height);
-
-    this->isSmoothing=isSmoothing;
 }
 
-void GameMap::print_way(const DistanceMatrix* distance, const list<vertex_descriptor>& shortest_path)
+void GameMapPrinter::print_way(const GameMap& map,const list<vertex_descriptor>& shortest_path)
 {
     cout<<"\033[s";
     for (auto it=shortest_path.begin(); it != shortest_path.end(); ++it)
     {
-        int k=GetJ(distance->matrix[(*it)].x)+1;
-        int d=GetI(distance->matrix[(*it)].y)+1;
+        int k=map.adapter->GetJ(map.distance->matrix[(*it)].x)+1;
+        int d=map.adapter->GetI(map.distance->matrix[(*it)].z)+1;
         cout<<"\033["<<d<<';'<<k<<"H\033[0;31;40m*\033[0;0m";
     }
     cout<<"\033[u\n";
 }
 
-
-list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_descriptor>& shortest_path)
+list<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_descriptor>& shortest_path)
 {
     if(isSmoothing)
     {
 
-    list<Point> msg;
+    list<Ogre::Vector3> msg;
 
     for(auto it = shortest_path.begin();it!=shortest_path.end();++it)
-        msg.push_back(distance.matrix[*it]);
+        msg.push_back(Ogre::Vector3(distance.matrix[*it].x,distance.matrix[*it].y,0));
     msg.push_front(*(--msg.end()));
     msg.pop_back();
     if(barriers.size()==0)
     {
         msg.clear();
-        msg.push_back(Point(0, 0));
+        msg.push_back(Ogre::Vector3(0, 0,0));
         auto u=shortest_path.end();--u;--u;
-        msg.push_back(distance.matrix[(*u)]);
+        msg.push_back(Ogre::Vector3(distance.matrix[(*u)].x, distance.matrix[(*u)].y,0));
         list<vertex_descriptor> s;
         s.push_back(*(++u));
         s.push_back(*(--u));
@@ -123,14 +73,14 @@ list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_desc
         y2=(*it).y;
         int count=0;
 
-        Point tmp=*it;
+        Ogre::Vector3 tmp=*it;
         unsigned long tmpshort=*shortIT;
 
         while(it!=itend)
         {
             for(auto it1=barriers.begin();it1!=barriers.end();++it1)
             {
-                if(!(*it1)->isIntersection(Point(x1,y1),Point(x2,y2)))
+                if(!(*it1)->isIntersection(Ogre::Vector3(x1, y1, 0),Ogre::Vector3(x2,y2,0)))
                 {
                     ++count;
                     if(count==barriers.size())
@@ -168,63 +118,76 @@ list<Point> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_desc
     }
     else
     {
-    list<Point> msg1;
+    list<Ogre::Vector3> msg1;
     auto it1 = shortest_path.begin();
     auto it2 = shortest_path.begin();
-    msg1.push_back(distance.matrix[*it1]);
+    msg1.push_back(Ogre::Vector3(distance.matrix[*it1].x,distance.matrix[*it1].y,0));
     for (++it1;it1 != --shortest_path.end(); ++it1)
     {
-        Point p;
-        p.x=distance.matrix[*it1].x- distance.matrix[*it2].x;
-        p.y=distance.matrix[*it1].y-distance.matrix[*it2++].y;
+        Ogre::Vector3 p;
+        p.x=distance.matrix[*it1].x - distance.matrix[*it2].x;
+        p.y=distance.matrix[*it1].y - distance.matrix[*it2++].y;
         msg1.push_back(p);
     }
-    msg1.push_back(distance.matrix[*(--shortest_path.end())]);
+    msg1.push_back(Ogre::Vector3(distance.matrix[*(--shortest_path.end())].x,distance.matrix[*(--shortest_path.end())].y,0));
     return msg1;
     }
 }
 
-void GameMap::print_game_map()
+void GameMapPrinter::print_game_map(const GameMap& map)
 {
-    for (int i = 0; i < num_vertices_height; i++)
+    for (int i = 0; i < map.num_vertices_height; i++)
     {
-        for (int j = 0; j < num_vertices_width; j++)
+        for (int j = 0; j < map.num_vertices_width; j++)
             cout << '*';
         cout << endl;
     }
     cout << endl;
 }
 
-int GameMap::GetJ(float i)
+void GameMap::init()
 {
-    return (center + int(i/step)) % num_vertices_width;
-}
-
-int GameMap::GetI(float j)
-{
-        return (center - int(j / step) * num_vertices_width) / num_vertices_width;
-}
-
-void GameMap::init(IDistanceMatrix&distance,IGraph&graph)
-{
-    distance.init();
-    graph.init(num_vertices_width,num_vertices_height);
+    distance->init();
+    graph->init(num_vertices_width,num_vertices_height);
 }
 
 void GameMap::doo(const int DEBUG_OUTPUT)
 {
-    //distance->init();
-    graph->init(num_vertices_width, num_vertices_height);
+    init();
+
+    //если точка конечного маршрута вышла за пределы сетки графа по x
+    if (!(distance->matrix[0].x<=goal_point.x && distance->matrix[num_vertices_width-1].x>=goal_point.x))
+        if(goal_point.x>0)
+            goal_point.x=distance->matrix[num_vertices_width-1].x;
+        else
+            goal_point.x=distance->matrix[0].x;
+
+    //если точка конечного маршрута вышла за пределы сетки графа по y
+    if (!(distance->matrix[0].z>=goal_point.z && distance->matrix[distance->matrix.size()-1].z<=goal_point.z))
+        if(goal_point.z>0)
+            goal_point.z=distance->matrix[0].z;
+        else
+            goal_point.z=distance->matrix[distance->matrix.size()-1].z;
+
+    //for(auto it= barriers.begin(); it!=barriers.end();++it)
+    //{
+    //    (*it)->position=car.rotation*(*it)->position;
+    //}
     list<Barrier*>::iterator itGP;
     bool partial_path=false;
     if(DEBUG_OUTPUT==1) //если дебаг включен
     {
-        for(auto it= barriers.begin(); it!=barriers.end();)
+        /*for(auto it= barriers.begin(); it!=barriers.end();)
         {
+
+
+
             if(!(*it)->hasPoint(goal_point, *this))    //если точка конечного маршрута не попала на препятствие
             {
-                if((*it)->init(*graph,step,*this)==-2)
-                    it=barriers.erase(it);
+                if((*it)->init(*graph,*(dynamic_cast<DMQuadrangle*>(distance)))==-3)
+                {
+                    //it=barriers.erase(it);
+                }
                 else
                     ++it;
             }
@@ -234,17 +197,15 @@ void GameMap::doo(const int DEBUG_OUTPUT)
                 ++it;
                 partial_path=true;
             }
-        }
+        }*/
         list<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
 
         if(partial_path)                    //если маршрут неполный (точка конечного маршрута попала на препятствие)
         {
             auto it= short1.begin();
             auto itEnd=short1.end();
-            //while(it!=itEnd)
             while((*itGP)->hasVertex(*it,*this))
             {
-
                 short1.erase(it);
                 ++it;
             }
@@ -252,24 +213,24 @@ void GameMap::doo(const int DEBUG_OUTPUT)
         list<vertex_descriptor> smoothing_path=short1;
         short_path=create_msg(*distance,short1);
 
-        print_game_map();
+        GameMapPrinter::print_game_map(*this);
 
-
+        PrinterBQuadrAngle printerBQuadrAngle;
         for(auto it= barriers.begin(); it!=barriers.end();++it)
-            (*it)->print(*this);
-        print_way(distance,short1);
+            printerBQuadrAngle.drawCube(*dynamic_cast<BQuadrAngle*>(*it),*adapter);
+        GameMapPrinter::print_way(*this, short1);
     }
     else    //если дебаг выключен
     {
         for(auto it= barriers.begin(); it!=barriers.end();++it)
             if(!(*it)->hasPoint(goal_point, *this))    //если точка конечного маршрута не попала на препятствие
             {
-                (*it)->init(*graph,step,*this);
+                (*it)->init(*graph,*(dynamic_cast<DMQuadrangle*>(distance)));
             }
             else                                //если точка конечного маршрута попала на препятствие
             {
                 itGP=it;
-                ++it;
+                //++it;
                 partial_path=true;
             }
         list<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
@@ -283,6 +244,14 @@ void GameMap::doo(const int DEBUG_OUTPUT)
                 --itShort1;
             }
         }
+
+        //Ogre::Vector3 b(5,5,5);
+        //Ogre::Matrix3 m;
+        //car.rotation.ToRotationMatrix(m);
+
+
+        //b=b*car.rotation;
+
         short_path=create_msg(*distance,short1);
     }
 }
@@ -296,18 +265,51 @@ GameMap::~GameMap()
     this->barriers.clear();
 }
 
-#include<QTime>
-
-void GameMap::printToFile(ofstream& out)
+void GameMapPrinter::printToFile(const GameMap& map, ofstream& out)
 {
-    //QString str=QTime::currentTime().toString("HH:mm:ss");
-    //out<<str.toStdString();
-    out<<width_coord<<endl<<height_coord<<endl<<step<<endl<<start<<endl;
-    out<<width_auto<<endl<<height_auto<<endl;
-    out<<goal_point<<barriers.size();
-    for(auto it= barriers.begin(); it!=barriers.end();++it)
+    out<<map.width_coord<<endl<<map.height_coord<<endl<<map.step<<endl<<map.start<<endl;
+    out<<map.car<<endl;
+    out<<map.goal_point<<map.barriers.size();
+    for(auto it= map.barriers.begin(); it!=map.barriers.end();++it)
         out<<*(*it);
     out<<endl<<"Data Path\n";
-    for(auto it=short_path.begin();it!=short_path.end();++it)
+    for(auto it=map.short_path.begin();it!=map.short_path.end();++it)
         out<<*it;
+}
+
+ostream& operator <<(ostream &out, const GameMap &map)
+{
+    out<<map.width_coord<<endl<<map.height_coord<<endl<<map.step<<endl;
+    out<<map.goal_point<<endl<<map.start<<endl<<map.goal<<endl;
+    out<<map.car<<map.barriers.size()<<endl;
+    for(auto it=map.barriers.begin(); it!=map.barriers.end(); ++it)
+        out<<*it;
+    return out;
+}
+
+istream& operator >>(istream &in, GameMap &map)
+{
+    int barrier_size;
+    in>>map.width_coord>>map.height_coord>>map.step;
+    in>>map.goal_point.x>>map.goal_point.y>>map.goal_point.z;
+    in>>map.start>>map.goal;
+    in>>map.car>>barrier_size;
+    for(int i=0; i<barrier_size; i++)
+    {
+        BQuadrAngle barrier;
+        in>>barrier;
+        map.barriers.push_back(&barrier);
+     }
+    return in;
+}
+
+QDataStream& operator <<(QDataStream &out, const GameMap &map)
+{
+
+    return out;
+}
+
+QDataStream& operator >>(QDataStream &in, GameMap &map)
+{
+    return in;
 }

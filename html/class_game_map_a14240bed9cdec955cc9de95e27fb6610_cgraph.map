@@ -1,5 +1,0 @@
-<map id="GameMap::print_way" name="GameMap::print_way">
-<area shape="rect" id="node1" title="Печать пути" alt="" coords="5,31,167,57"/>
-<area shape="rect" id="node2" href="$class_game_map.html#a2b1837a8151efc6d79085860916cef44" title=" " alt="" coords="215,5,339,32"/>
-<area shape="rect" id="node3" href="$class_game_map.html#a95a7a6d7b41609bc3f2f3b53e7aaa3bc" title=" " alt="" coords="215,56,339,83"/>
-</map>

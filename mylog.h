@@ -30,10 +30,12 @@ public:
     //template<>
     void printLogToFile( const char* o);
     //template<>
-    void printLogToFile( GameMap* o);
+    void printLogToFile(const GameMap& o);
 
     //template<class T>
     //friend ofstream& operator<<(ofstream &out, const T &o);
 };
+
+
 
 #endif // MYLOG_H

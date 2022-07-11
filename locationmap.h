@@ -3,6 +3,7 @@
 #include<iostream>
 #include"point.h"
 #include<vector>
+#include"OgreMatrix4.h"
 
 using namespace std;
 
@@ -13,9 +14,6 @@ public:
     /// Инициализация матрицы расстояний
     void virtual init()=0;
 
-    /// Печать матрицы расстояний в консоль
-    void virtual print()=0;
-
     /// Виртуальный деструктор
     virtual ~IDistanceMatrix()=0;
 };
@@ -25,9 +23,8 @@ class DistanceMatrix:public IDistanceMatrix
 {
 public:
     /// Вектор точек будущей матрицы
-    vector<Point> matrix;
+    vector<Ogre::Vector3> matrix;
     void init()override;
-    void print()override;
      ~DistanceMatrix()override;
 };
 
@@ -44,7 +41,7 @@ public:
 */
 class DMQuadrangle: public DistanceMatrix
 {
-private:
+public:
     /// Ширина матрицы
     int width;
 
@@ -67,9 +64,52 @@ public:
     DMQuadrangle(const DMQuadrangle&o);
 
     void init() override;
-    void print()override;
     ~DMQuadrangle()override;
+};
 
+class DistanceMatrixPrinter
+{
+public:
+    template<class DistanceMatrix>
+    void print(const DistanceMatrix& distance);
+};
+
+class IDistanceMatrixAdapter
+{
+public:
+    int virtual GetI(float j)=0;
+    int virtual GetJ(float i)=0;
+};
+
+class DistanceMatrixAdapter:public IDistanceMatrixAdapter
+{
+public:
+
+    DMQuadrangle* distance;
+
+    DistanceMatrixAdapter(DMQuadrangle *distance)
+    {
+        this->distance=distance;
+    }
+
+    int GetI(float j)
+    {
+        if(j>98)
+            j=98;
+        if(j<-98)
+            j=-98;
+        return (distance->center - int(j / distance->step) * distance->width) / distance->width;
+    }
+
+    int GetJ(float i)
+    {
+        i=-i;
+        if(i>200)
+            return 200;
+        if(i<-200)
+            return 0;
+        return (distance->center + int(i/distance->step)) % distance->width;
+    }
 };
 
 #endif // LOCATIONMAP_H

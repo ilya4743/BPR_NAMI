@@ -1,4 +1,4 @@
-QT += gui
+#QT -= gui
 QT += network
 QT+=core
 CONFIG += c++11 console
@@ -16,12 +16,17 @@ SOURCES += \
         main.cpp \
         myexception.cpp \
         mygraph.cpp \
-        mylog.cpp \
         mytcpsocket.cpp \
-        point.cpp \
         settings.cpp
 
 INCLUDEPATH += /usr/include/boost
+
+INCLUDEPATH += /home/NAMI/ila.solomatin/Downloads/ogre-13.3.1/OgreMain/include/
+
+unix:!macx: LIBS += -L$$PWD/../Downloads/ogre-13.3.1/build/lib/ -lOgreMain
+
+INCLUDEPATH += $$PWD/../Downloads/ogre-13.3.1/build/include
+DEPENDPATH += $$PWD/../Downloads/ogre-13.3.1/build/include
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -35,7 +40,12 @@ HEADERS += \
     locationmap.h \
     myexception.h \
     mygraph.h \
-    mylog.h \
     mytcpsocket.h \
-    point.h \
     settings.h
+
+unix:!macx: LIBS += -L$$PWD/../../Downloads/ogre-13.3.1/build/lib/ -lOgreBites
+
+INCLUDEPATH += $$PWD/../../Downloads/ogre-13.3.1/build/include
+DEPENDPATH += $$PWD/../../Downloads/ogre-13.3.1/build/include
+
+DISTFILES +=

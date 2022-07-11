@@ -1,152 +1,148 @@
 #include "barrier.h"
+#include <QDebug>
 
 IBarrier::~IBarrier(){}
 
-Barrier::Barrier():Point(){}
-Barrier::Barrier(float x, float y):Point(x,y){}
-Barrier::Barrier(const Barrier&o):Point(o){}
-int Barrier::init(MyGraph& graph, float step, GameMap&g){}
-void Barrier::print(GameMap&g){}
-Barrier::~Barrier(){}
+Barrier::Barrier():matrix4(),position(), scale(), rotation(){}
+Barrier::Barrier(float m00, float m01, float m02, float m03,
+                 float m10, float m11, float m12, float m13,
+                 float m20, float m21, float m22, float m23,
+                 float m30, float m31, float m32, float m33):
+                matrix4(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33)
+{
+    Ogre::Affine3 af(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23);
+    af.decomposition(position,scale,rotation);
+}
 
-bool Barrier::hasPoint(Point p, GameMap&g){}
+Barrier::Barrier(const Ogre::Matrix4 &matrix4):matrix4(matrix4)
+{
+    Ogre::Affine3 af(matrix4);
+    af.decomposition(position,scale,rotation);
+}
+
+Barrier::Barrier(const Barrier&o):matrix4(o.matrix4), position(o.position),scale(o.scale), rotation(o.rotation)
+{
+}
+
+int Barrier::init(MyGraph& graph, DMQuadrangle& distance){}
+Barrier::~Barrier(){}
+bool Barrier::hasPoint(Ogre::Vector3 p, GameMap&g){}
 bool Barrier::hasVertex(int v, GameMap&g){}
-bool Barrier::isIntersection(Point a, Point b){}
-void Barrier::printToFile(ofstream &out){}
+bool Barrier::isIntersection(Ogre::Vector3 a, Ogre::Vector3 b){}
 
 ofstream& operator<<(ofstream &out, const Barrier &barrier)
 {
-    out<<barrier.x<<endl<<barrier.y<<endl;
+    out<<barrier.position<<endl;
     return out;
 }
 
-BQuadrAngle::BQuadrAngle():Barrier(),width(0),height(0)
+BQuadrAngle::BQuadrAngle():Barrier()
+{
+}
+
+BQuadrAngle::BQuadrAngle(float m00, float m01, float m02, float m03,
+                         float m10, float m11, float m12, float m13,
+                         float m20, float m21, float m22, float m23,
+                         float m30, float m31, float m32, float m33):
+                        Barrier(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33)
+{
+}
+
+BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4):Barrier(matrix4),p1(1,-1,-1),p2(1,-1,1),p3(1,1,-1),p4(1,1,1),p5(-0.5,0.5,-0.5),p6(-0.5,0.5,0.5),p7(-1,-1,-1),p8(-1,-1,1)
+//Barrier(matrix4),p1(0.5,-0.5,-0.5),p2(0.5,-0.5,0.5),p3(0.5,0.5,-0.5),p4(0.5,0.5,0.5),p5(-0.5,0.5,-0.5),p6(-0.5,0.5,0.5),p7(-0.5,-0.5,-0.5),p8(-0.5,-0.5,0.5)
+//Barrier(matrix4),p1(1,0,0),p2(1,0,1),p3(1,1,0),p4(1,1,1),p5(0,1,0),p6(0,1,1),p7(0,0,0),p8(0,0,1)
+{
+    p1=matrix4*p1;
+    p2=matrix4*p2;
+    p3=matrix4*p3;
+    p4=matrix4*p4;
+    p5=matrix4*p5;
+    p6=matrix4*p6;
+    p7=matrix4*p7;
+    p8=matrix4*p8;
+}
+
+BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o)
 {
 
 }
 
-BQuadrAngle::BQuadrAngle(float x, float y, float w, float h):Barrier(x,y),width(w),height(h),
-    left_top(x-w/2.0,y+h/2.0), right_bottom(x+w/2.0,y-h/2.0)
-{
-
-}
-
-BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o.x,o.y),width(o.width),height(o.height),
-    left_top(o.left_top),right_bottom(o.right_bottom)
-{
-
-}
-
-void BQuadrAngle::print(GameMap&g)
-{
-    cout<<"\033[s";
-    for (int i = g.GetI(this->left_top.y); i <= g.GetI(this->right_bottom.y); i++)
-        for (int j = g.GetJ(this->left_top.x); j <= g.GetJ(this->right_bottom.x); j++)
-            cout<<"\033["<<i+1<<';'<<j+1<<"H\033[0;37;47m \033[0;0m";
-    cout<<"\033[u";
-}
-
-int BQuadrAngle::init(MyGraph& graph, float step, GameMap&g)
+int BQuadrAngle::init(MyGraph& graph, DMQuadrangle& distance)
 {
     /*
-    //искуственно увеличиваем препятствие, чтобы соблюсти габариты
-    this->left_top.x=this->left_top.x-g.width_auto/2;
-    this->left_top.y=this->left_top.y+g.height_auto/2;
-    this->right_bottom.x=this->right_bottom.x+g.width_auto/2;
-    this->right_bottom.y=this->right_bottom.y-g.height_auto/2;
-
-    if (abs(this->left_top.x) > abs(int(this->left_top.x / step) * step))
-        this->left_top.x -= abs(this->left_top.x - int(this->left_top.x / step) * step);
-
-    if (abs(this->right_bottom.x) > abs(int(this->right_bottom.x / step) * step))
-        this->right_bottom.x +=abs(this->right_bottom.x - int(this->right_bottom.x / step) * step);
-
-    if (abs(this->left_top.y) > abs(int(this->left_top.y / step) * step))
-        this->left_top.y +=abs(this->left_top.y - int(this->left_top.y / step) * step);
-
-    if (abs(this->right_bottom.y) > abs(int(this->right_bottom.y / step) * step))
-        this->right_bottom.y -= abs(this->right_bottom.y - int(this->right_bottom.y / step) * step);
-    */
-    //если препятствие не влезет на карту, то ошибка
-    /*if(g.distance->matrix[0].x > this->left_top.x || g.distance->matrix[g.distance->matrix.size()-1].x < this->right_bottom.x ||
-       g.distance->matrix[0].y < this->left_top.y || g.distance->matrix[g.distance->matrix.size()-1].y > this->right_bottom.y)
-        return -2;*/
-
     //если препятсвие никак не влезет на карту, то вернуть 0 иначе попытаться впихнуть хоть как-нибудь
-    if(g.distance->matrix[0].x > this->right_bottom.x || g.distance->matrix[g.distance->matrix.size()-1].x < this->left_top.x ||
-       g.distance->matrix[0].y < this->right_bottom.y || g.distance->matrix[g.distance->matrix.size()-1].y > this->left_top.y)
-    {
-        //cout<<(g.distance->matrix[0].x > this->right_bottom.x && g.distance->matrix[g.distance->matrix.size()-1].x < this->left_top.x)<<endl;
-        //cout<<(g.distance->matrix[0].y < this->right_bottom.y && g.distance->matrix[g.distance->matrix.size()-1].y > this->left_top.y)<<endl;
-            //return -2;
-        //delete this;
+    if(distance.matrix[0].x > right_bottom.x || distance.matrix[distance.matrix.size()-1].x < left_top.x ||
+       distance.matrix[0].y < right_bottom.y || distance.matrix[distance.matrix.size()-1].y > left_top.y)
         return -2;
-    }
-    else
-    {
-        if (g.distance->matrix[0].x > this->left_top.x)
-            this->left_top.x=g.distance->matrix[0].x;
+    else*/
+    {    /*IDistanceMatrixAdapter* g=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(&distance));
 
-        if (g.distance->matrix[0].y < this->left_top.y)
-            this->left_top.y=g.distance->matrix[0].y;
+        if (distance.matrix[0].x > left_top.x)
+            left_top.x=distance.matrix[0].x;
 
-        if (g.distance->matrix[g.distance->matrix.size()-1].x < this->right_bottom.x)
-            this->right_bottom.x=g.distance->matrix[g.distance->matrix.size()-1].x;
+        if (distance.matrix[0].y < left_top.y)
+            left_top.y=distance.matrix[0].y;
 
-        if (g.distance->matrix[g.distance->matrix.size()-1].y > this->right_bottom.y)
-            this->right_bottom.y=g.distance->matrix[g.distance->matrix.size()-1].y;
+        if (distance.matrix[distance.matrix.size()-1].x < right_bottom.x)
+            right_bottom.x=distance.matrix[distance.matrix.size()-1].x;
 
+        if (distance.matrix[distance.matrix.size()-1].y > right_bottom.y)
+            right_bottom.y=distance.matrix[distance.matrix.size()-1].y;*/
+/*
         //соседние по горизонтали
-        for (int i = g.GetI(this->left_top.y); i <= g.GetI(this->right_bottom.y); i++)
+        for (int i = g->GetI(left_top.y); i <= g->GetI(right_bottom.y); i++)
         {
-            for (int j = g.GetJ(this->left_top.x); j <= g.GetJ(this->right_bottom.x) + 1; j++)
+            for (int j = g->GetJ(left_top.x); j <= g->GetJ(right_bottom.x) + 1; j++)
             {
-                if (j == 0 || j == g.num_vertices_width)continue;
+                if (j == 0 || j == distance.width)continue;
 
-                int u = i * g.num_vertices_width + j - 1;
-                int v = i * g.num_vertices_width + j;
+                int u = i * distance.width + j - 1;
+                int v = i * distance.width + j;
                 remove_edge(u, v, *graph.adj_list);
             }
         }
 
         //соседние по вертикале
-        for (int i = g.GetI(this->left_top.y); i <= g.GetI(this->right_bottom.y) + 1; i++)
+        for (int i = g->GetI(left_top.y); i <= g->GetI(right_bottom.y) + 1; i++)
         {
-            if (i == 0 || i == g.num_vertices_height)continue;
+            if (i == 0 || i == distance.height)continue;
 
-            for (int j = g.GetJ(this->left_top.x); j <= g.GetJ(this->right_bottom.x); j++)
+            for (int j = g->GetJ(left_top.x); j <= g->GetJ(right_bottom.x); j++)
             {
-                int u2 = (i - 1) * g.num_vertices_width + j;
-                int v2 = (i)*g.num_vertices_width + j;
+                int u2 = (i - 1) * distance.width + j;
+                int v2 = (i)*distance.width + j;
                 remove_edge(u2, v2, *graph.adj_list);
             }
         }
 
         //главная диагональ
-        for (int i = g.GetI(this->left_top.y); i <= g.GetI(this->right_bottom.y) + 1; i++)
+        for (int i = g->GetI(left_top.y); i <= g->GetI(right_bottom.y) + 1; i++)
         {
-            if (i == 0 || i == g.num_vertices_height)continue;
-            for (int j = g.GetJ(this->left_top.x); j <= g.GetJ(this->right_bottom.x) + 1; j++)
+            if (i == 0 || i == distance.height)continue;
+            for (int j = g->GetJ(left_top.x); j <= g->GetJ(right_bottom.x) + 1; j++)
             {
-                if (j == 0 || j == g.num_vertices_width)continue;
-                int u1 = (i - 1) * g.num_vertices_width + j - 1;
-                int v1 = (i)*g.num_vertices_width + j;
+                if (j == 0 || j == distance.width)continue;
+                int u1 = (i - 1) * distance.width + j - 1;
+                int v1 = (i)*distance.width + j;
                 remove_edge(u1, v1, *graph.adj_list);
             }
         }
 
         //побочная диагональ
-        for (int i = g.GetI(this->right_bottom.y) + 1; i >= g.GetI(this->left_top.y); i--)
+        for (int i = g->GetI(right_bottom.y) + 1; i >= g->GetI(left_top.y); i--)
         {
-            if (i == g.num_vertices_height || i==0)continue;
-            for (int j = g.GetJ(this->right_bottom.x) + 1; j >= g.GetJ(this->left_top.x); j--)
+            if (i == distance.height || i==0)continue;
+            for (int j = g->GetJ(right_bottom.x) + 1; j >= g->GetJ(left_top.x); j--)
             {
-                if (j == g.num_vertices_width || j == 0)continue;
-                int u1 = (i)*g.num_vertices_width + j - 1;
-                int v1 = (i - 1) * g.num_vertices_width + j;
+                if (j == distance.width || j == 0)continue;
+                int u1 = (i)*distance.width + j - 1;
+                int v1 = (i - 1) * distance.width + j;
                 remove_edge(u1, v1, *graph.adj_list);
             }
         }
+        qDebug()<<"left_top\t"<<left_top.x<<'\t'<<left_top.y<<'\t'<<left_top.z;
+        qDebug()<<"right_bottom\t"<<right_bottom.x<<'\t'<<right_bottom.y<<'\t'<<right_bottom.z;
+        delete g;*/
         return 0;
     }
 }
@@ -156,60 +152,66 @@ BQuadrAngle::~BQuadrAngle()
     //cout<<"Препятствие удалено!";
 }
 
-bool BQuadrAngle::hasPoint(Point p, GameMap&g)
+bool BQuadrAngle::hasPoint(Ogre::Vector3 p, GameMap&g)
 {
+    /*
+    left_top.x=position.x-scale.x/2.0;
+    left_top.y=position.y+scale.y/2.0;
+    right_bottom.x=position.x+scale.x/2.0;
+    right_bottom.y=position.y-scale.y/2.0;
+
     //искуственно увеличиваем препятствие, чтобы соблюсти габариты
-    this->left_top.x=this->left_top.x-g.width_auto/2;
-    this->left_top.y=this->left_top.y+g.height_auto/2;
-    this->right_bottom.x=this->right_bottom.x+g.width_auto/2;
-    this->right_bottom.y=this->right_bottom.y-g.height_auto/2;
+    left_top.x=left_top.x-g.car.scale.x/2;
+    left_top.y=left_top.y+g.car.scale.y/2;
+    right_bottom.x=right_bottom.x+g.car.scale.x/2;
+    right_bottom.y=right_bottom.y-g.car.scale.y/2;
 
-    if (abs(this->left_top.x) > abs(int(this->left_top.x / g.step) * g.step))
-        this->left_top.x -= abs(this->left_top.x - int(this->left_top.x / g.step) * g.step);
+    left_top=g.car.rotation*left_top;
+    right_bottom=g.car.rotation*right_bottom;
+    position=g.car.rotation*position;
 
-    if (abs(this->right_bottom.x) > abs(int(this->right_bottom.x / g.step) * g.step))
-        this->right_bottom.x +=abs(this->right_bottom.x - int(this->right_bottom.x / g.step) * g.step);
+    if (abs(left_top.x) > abs(int(left_top.x / g.step) * g.step))
+        //left_top.x -= abs(left_top.x - int(left_top.x / g.step) * g.step);
+        left_top.x = (int(left_top.x / g.step)-1) * g.step;
 
-    if (abs(this->left_top.y) > abs(int(this->left_top.y / g.step) * g.step))
-        this->left_top.y +=abs(this->left_top.y - int(this->left_top.y / g.step) * g.step);
+    if (abs(right_bottom.x) > abs(int(right_bottom.x / g.step) * g.step))
+        //right_bottom.x +=abs(right_bottom.x - int(right_bottom.x / g.step) * g.step);
+        right_bottom.x =(int(right_bottom.x / g.step)+1) * g.step;
 
-    if (abs(this->right_bottom.y) > abs(int(this->right_bottom.y / g.step) * g.step))
-        this->right_bottom.y -= abs(this->right_bottom.y - int(this->right_bottom.y / g.step) * g.step);
+    if (abs(left_top.y) > abs(int(left_top.y / g.step) * g.step))
+        //left_top.y +=abs(left_top.y - int(left_top.y / g.step) * g.step);
+        left_top.y =(int(left_top.y / g.step)+1) * g.step;
 
-    if (this->left_top.x<=p.x && this->right_bottom.x>=p.x)
-        if(this->left_top.y>=p.y && this->right_bottom.y<=p.y)
+    if (abs(right_bottom.y) > abs(int(right_bottom.y / g.step) * g.step))
+        //right_bottom.y -= abs(right_bottom.y - int(right_bottom.y / g.step) * g.step);
+        right_bottom.y = (int(right_bottom.y / g.step)-1) * g.step;
+
+    if (left_top.x<=p.x && right_bottom.x>=p.x)
+        if(left_top.y>=p.y && right_bottom.y<=p.y)
             return true;
     return false;
+    */
 }
 
 bool BQuadrAngle::hasVertex(int v, GameMap&g)
 {
-    int i1=g.GetI(this->left_top.y);
-    int i2=g.GetI(this->right_bottom.y);
-    int j1=g.GetJ(this->left_top.x);
-    int j2=g.GetJ(this->right_bottom.x);
-    if(i1<=v/g.num_vertices_width && i2>=v/g.num_vertices_width)
-        if(j1<=v%g.num_vertices_width && j2>=v%g.num_vertices_width)
+    /*int i1=g.adapter->GetI(left_top.y);
+    int i2=g.adapter->GetI(right_bottom.y);
+    int j1=g.adapter->GetJ(left_top.x);
+    int j2=g.adapter->GetJ(right_bottom.x);
+    auto d=dynamic_cast<DMQuadrangle*>(g.distance);
+    if(i1<=v/d->width && i2>=v/d->width)
+        if(j1<=v%d->width && j2>=v%d->width)
             return true;
-    return false;
-}
-
-void BQuadrAngle::printToFile(ofstream &out)
-{
-    out<<x<<endl<<y<<endl;
-    out<<left_top<<right_bottom;
-    out<<width<<endl<<height<<endl;
+    return false;*/
 }
 
 ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier)
 {
-    out<<barrier.x<<endl<<barrier.y<<endl;
-    out<<barrier.left_top<<barrier.right_bottom;
-    out<<barrier.width<<endl<<barrier.height<<endl;
     return out;
 }
 
-inline int area (Point a, Point b, Point c) {
+inline int area (Ogre::Vector3 a, Ogre::Vector3 b, Ogre::Vector3 c) {
     return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 }
 
@@ -219,30 +221,25 @@ inline bool intersect_1 (int a, int b, int c, int d) {
     return max(a,c) <= min(b,d);
 }
 
-//bool is_point_in_path(float x, float y, vector<Point>poly)
-//     {
-
-//}
-
 /// Класс сглаживания пути
 class Smoother
 {
 private:
-    static bool inside(Point p, vector<float> plane)
+    static bool inside(Ogre::Vector3 p, vector<float> plane)
     {
         float d = p.x * plane[0] + p.y * plane[1];
         return d > plane[2];
     }
 
-    static Point clip(Point segStart, Point segEnd, vector<float> plane)
+    static Ogre::Vector3 clip(Ogre::Vector3 segStart, Ogre::Vector3 segEnd, vector<float> plane)
     {
         float d1 = segStart.x * plane[0] + segStart.y * plane[1] - plane[2];
         float d2 = segEnd.x * plane[0] + segEnd.y * plane[1] - plane[2];
         float t = (0 - d1) / (d2 - d1);
-        return Point(segStart.x + t * (segEnd.x - segStart.x), segStart.y + t * (segEnd.y - segStart.y));
+        return Ogre::Vector3(segStart.x + t * (segEnd.x - segStart.x), segStart.y + t * (segEnd.y - segStart.y),0);
     }
 public:
-    static list<Point> Polyclip(list<Point> pin, Point segStart, Point segEnd)
+    static list<Ogre::Vector3> Polyclip(list<Ogre::Vector3> pin, Ogre::Vector3 segStart, Ogre::Vector3 segEnd)
     {
         //if (pin == NULL || pin.Count < 3)
         //    throw new ArgumentException("A polygon was not supplied.");
@@ -251,11 +248,11 @@ public:
         plane.push_back(segEnd.x - segStart.x);
         plane.push_back(0);
         plane[2] = segStart.x * plane[0] + segStart.y * plane[1];
-        list<Point> pout;
-        Point s = *--pin.end();
+        list<Ogre::Vector3> pout;
+        Ogre::Vector3 s = *--pin.end();
         for (auto ci = pin.begin(); ci != pin.end(); ci++)
         {
-            Point p = *(ci);
+            Ogre::Vector3 p = *(ci);
             if (inside(p, plane))
             {
                 if (inside(s, plane))
@@ -264,7 +261,7 @@ public:
                 }
                 else
                 {
-                    Point t = clip(s, p, plane);
+                    Ogre::Vector3 t = clip(s, p, plane);
                     pout.push_back(t);
                     pout.push_back(p);
                 }
@@ -273,7 +270,7 @@ public:
             {
                 if (inside(s, plane))
                 {
-                    Point t = clip(s, p, plane);
+                    Ogre::Vector3 t = clip(s, p, plane);
                     pout.push_back(t);
                 }
             }
@@ -311,15 +308,15 @@ public:
     }
 };
 
-bool BQuadrAngle::isIntersection(Point a, Point b)
+bool BQuadrAngle::isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)
 {
-    vector<Point>poly;
-    poly.push_back(Point(left_top.x,left_top.y));
-    poly.push_back(Point(right_bottom.x,left_top.y));
-    poly.push_back(Point(right_bottom.x,right_bottom.y));
-    poly.push_back(Point(left_top.x,right_bottom.y));
+    vector<Ogre::Vector3>poly;
+    /*poly.push_back(Ogre::Vector3(left_top.x,left_top.y,0));
+    poly.push_back(Ogre::Vector3(right_bottom.x,left_top.y,0));
+    poly.push_back(Ogre::Vector3(right_bottom.x,right_bottom.y,0));
+    poly.push_back(Ogre::Vector3(left_top.x,right_bottom.y,0));*/
 
-    list<Point> poly1;
+    list<Ogre::Vector3> poly1;
     poly1.push_back(poly[0]);
     poly1.push_back(poly[1]);
     poly1.push_back(poly[2]);
@@ -328,15 +325,104 @@ bool BQuadrAngle::isIntersection(Point a, Point b)
     auto kkk=Smoother::Polyclip(poly1,b,a);
     int seg=0;
 
-    bool b1=Smoother::SegmentIntersection(left_top.x,left_top.y,        right_bottom.x,left_top.y,      a.x,a.y,b.x,b.y);
+    /*bool b1=Smoother::SegmentIntersection(left_top.x,left_top.y,        right_bottom.x,left_top.y,      a.x,a.y,b.x,b.y);
     bool b2=Smoother::SegmentIntersection(right_bottom.x,left_top.y,    right_bottom.x,right_bottom.y,  a.x,a.y,b.x,b.y);
     bool b3=Smoother::SegmentIntersection(left_top.x,right_bottom.y,    right_bottom.x,right_bottom.y,  a.x,a.y,b.x,b.y);
     bool b4=Smoother::SegmentIntersection(left_top.x,left_top.y,        left_top.x,right_bottom.y,      a.x,a.y,b.x,b.y);
-
-   return b1||b2||b3||b4;
+    */
+   //return b1||b2||b3||b4;
 
     if(kkk.size()>0)
     return true;
     else
         return false;
+}
+
+ostream& operator<<(ostream &out, const BQuadrAngle &barrier)
+{
+    return out;
+}
+
+istream& operator>>(istream &in, BQuadrAngle &barrier)
+{
+    return in;
+}
+
+QDataStream& operator <<(QDataStream &out, const Barrier &b)
+{
+    out.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
+    out.setByteOrder(QDataStream::LittleEndian);
+    return out;
+}
+
+QDataStream& operator >>(QDataStream &in, Barrier &b)
+{
+    in.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
+    in.setByteOrder(QDataStream::LittleEndian);
+    return in;
+}
+
+QDataStream& operator <<(QDataStream &out, const BQuadrAngle &b)
+{
+    out.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
+    out.setByteOrder(QDataStream::LittleEndian);
+    return out;
+}
+
+QDataStream& operator >>(QDataStream &in, BQuadrAngle &b)
+{
+    in.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
+    in.setByteOrder(QDataStream::LittleEndian);
+    return in;
+}
+
+void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2)
+{
+    cout<<"\033[s";
+    const int deltaX = abs(x2 - x1);
+    const int deltaY = abs(y2 - y1);
+    const int signX = x1 < x2 ? 1 : -1;
+    const int signY = y1 < y2 ? 1 : -1;
+    int error = deltaX - deltaY;
+
+    if(y2>=0 && x2>=0)
+    cout<<"\033["<<y2<<';'<<x2<<"H\033[0;37;47m \033[0;0m";
+    while(x1 != x2 || y1 != y2)
+   {
+        if(y1>=0 && x1>=0)
+
+        cout<<"\033["<<y1<<';'<<x1<<"H\033[0;37;47m \033[0;0m";
+        int error2 = error * 2;
+        if(error2 > -deltaY)
+        {
+            error -= deltaY;
+            x1 += signX;
+        }
+        if(error2 < deltaX)
+        {
+            error += deltaX;
+            y1 += signY;
+        }
+    }
+    cout<<"\033[u";
+}
+
+void PrinterBQuadrAngle::drawCube(const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter)
+{
+    int y0=adapter.GetI(barrier.p1.z);
+    int x0=adapter.GetJ(barrier.p1.x);
+
+    int y1=adapter.GetI(barrier.p7.z);
+    int x1=adapter.GetJ(barrier.p7.x);
+
+    int y2=adapter.GetI(barrier.p2.z);
+    int x2=adapter.GetJ(barrier.p2.x);
+
+    int y3=adapter.GetI(barrier.p8.z);
+    int x3=adapter.GetJ(barrier.p8.x);
+
+    drawLine(x0, y0, x1, y1);
+    drawLine(x1, y1, x2, y2);
+    drawLine(x2, y2, x3, y3);
+    drawLine(x3, y3, x0, y0);
 }

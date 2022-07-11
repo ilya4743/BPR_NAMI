@@ -1,4 +1,0 @@
-<map id="MyGraph" name="MyGraph">
-<area shape="rect" id="node1" title="Класс для построения неориентированного прямоугольного графа" alt="" coords="5,160,165,355"/>
-<area shape="rect" id="node2" href="$class_i_graph.html" title="Интерфейс графа" alt="" coords="35,5,136,112"/>
-</map>
