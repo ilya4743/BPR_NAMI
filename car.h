@@ -33,7 +33,7 @@ public:
     float speed;
 
     Ogre::Affine3 affine3;
-    //Ogre::Matrix4 matrix4;
+    Ogre::Matrix4 matrix4;
     Ogre::Vector3 position;
     Ogre::Vector3 scale;
     Ogre::Quaternion rotation;

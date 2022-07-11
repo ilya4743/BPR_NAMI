@@ -8,11 +8,10 @@ Barrier::Barrier(float m00, float m01, float m02, float m03,
                  float m10, float m11, float m12, float m13,
                  float m20, float m21, float m22, float m23):affine3(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23)
 {
-    affine3.decomposition(position, scale, rotation);
 }
 
 Barrier::Barrier(const Barrier&o):affine3(o.affine3), position(o.position),scale(o.scale), rotation(o.rotation){}
-Barrier::Barrier(const Ogre::Matrix4 &matrix4):affine3(matrix4){affine3.decomposition(position,scale,rotation);}
+Barrier::Barrier(const Ogre::Matrix4 &matrix4):mat4(matrix4),affine3(matrix4){affine3.decomposition(position,scale,rotation);}
 
 int Barrier::init(MyGraph& graph, DMQuadrangle& distance){}
 Barrier::~Barrier(){}
@@ -40,16 +39,19 @@ BQuadrAngle::BQuadrAngle(float m00, float m01, float m02, float m03,
 
 }
 
-BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4):Barrier(matrix4),p1(1,0,0),p2(1,0,1),p3(1,1,0),p4(1,1,1),p5(0,1,0),p6(0,1,1),p7(0,0,0),p8(0,0,1)
+BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4)://Barrier(matrix4),p1(1,-1,-1),p2(1,-1,1),p3(1,1,-1),p4(1,1,1),p5(-0.5,0.5,-0.5),p6(-0.5,0.5,0.5),p7(-1,-1,-1),p8(-1,-1,1)
+
+    Barrier(matrix4),p1(0.5,-0.5,-0.5),p2(0.5,-0.5,0.5),p3(0.5,0.5,-0.5),p4(0.5,0.5,0.5),p5(-0.5,0.5,-0.5),p6(-0.5,0.5,0.5),p7(-0.5,-0.5,-0.5),p8(-0.5,-0.5,0.5)
+  //Barrier(matrix4),p1(1,0,0),p2(1,0,1),p3(1,1,0),p4(1,1,1),p5(0,1,0),p6(0,1,1),p7(0,0,0),p8(0,0,1)
 {
-    p1=matrix4*p1;
-    p2=matrix4*p2;
-    p3=matrix4*p3;
-    p4=matrix4*p4;
-    p5=matrix4*p5;
-    p6=matrix4*p6;
-    p7=matrix4*p7;
-    p8=matrix4*p8;
+    this->p1=matrix4*this->p1;
+    this->p2=matrix4*this->p2;
+    this->p3=matrix4*this->p3;
+    this->p4=matrix4*this->p4;
+    this->p5=matrix4*this->p5;
+    this->p6=matrix4*this->p6;
+    this->p7=matrix4*this->p7;
+    this->p8=matrix4*this->p8;
 }
 
 BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o),left_top(o.left_top),right_bottom(o.right_bottom)
@@ -68,12 +70,13 @@ BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o),left_top(o.left_top),r
 
 int BQuadrAngle::init(MyGraph& graph, DMQuadrangle& distance)
 {
+    /*
     //если препятсвие никак не влезет на карту, то вернуть 0 иначе попытаться впихнуть хоть как-нибудь
     if(distance.matrix[0].x > right_bottom.x || distance.matrix[distance.matrix.size()-1].x < left_top.x ||
        distance.matrix[0].y < right_bottom.y || distance.matrix[distance.matrix.size()-1].y > left_top.y)
         return -2;
-    else
-    {    IDistanceMatrixAdapter* g=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(&distance));
+    else*/
+    {    /*IDistanceMatrixAdapter* g=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(&distance));
 
         if (distance.matrix[0].x > left_top.x)
             left_top.x=distance.matrix[0].x;
@@ -85,7 +88,7 @@ int BQuadrAngle::init(MyGraph& graph, DMQuadrangle& distance)
             right_bottom.x=distance.matrix[distance.matrix.size()-1].x;
 
         if (distance.matrix[distance.matrix.size()-1].y > right_bottom.y)
-            right_bottom.y=distance.matrix[distance.matrix.size()-1].y;
+            right_bottom.y=distance.matrix[distance.matrix.size()-1].y;*/
 /*
         //соседние по горизонтали
         for (int i = g->GetI(left_top.y); i <= g->GetI(right_bottom.y); i++)
@@ -152,6 +155,7 @@ BQuadrAngle::~BQuadrAngle()
 
 bool BQuadrAngle::hasPoint(Ogre::Vector3 p, GameMap&g)
 {
+    /*
     left_top.x=position.x-scale.x/2.0;
     left_top.y=position.y+scale.y/2.0;
     right_bottom.x=position.x+scale.x/2.0;
@@ -187,6 +191,7 @@ bool BQuadrAngle::hasPoint(Ogre::Vector3 p, GameMap&g)
         if(left_top.y>=p.y && right_bottom.y<=p.y)
             return true;
     return false;
+    */
 }
 
 bool BQuadrAngle::hasVertex(int v, GameMap&g)

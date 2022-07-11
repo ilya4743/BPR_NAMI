@@ -70,6 +70,7 @@ public:
     Ogre::Vector3 position;
     Ogre::Vector3 scale;
     Ogre::Quaternion rotation;
+    Ogre::Matrix4 mat4;
 
     int init(MyGraph& graph, DMQuadrangle& distance)override;
     //void print(IDistanceMatrixAdapter &adapter)override;
@@ -158,35 +159,16 @@ private:
 public:
     void drawCube(const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter)
     {
-        float gg=abs(barrier.right_bottom.y-barrier.left_top.y);
-        //правая верхняя точка препятствия
-        Ogre::Vector3 p1(barrier.right_bottom.x,barrier.right_bottom.y+gg, barrier.left_top.z);
-        //левая нижняя точка
-
-        Ogre::Vector3 p2(barrier.left_top.x,barrier.left_top.y-gg, barrier.left_top.z);
-/*
-        int y0=adapter.GetI(barrier.left_top.y);
-        int x0=adapter.GetJ(barrier.left_top.x);
-
-        int y1=adapter.GetI(p1.y);
-        int x1=adapter.GetJ(p1.x);
-
-        int y2=adapter.GetI(barrier.right_bottom.y);
-        int x2=adapter.GetJ(barrier.right_bottom.x);
-
-        int y3=adapter.GetI(p2.y);
-        int x3=adapter.GetJ(p2.x);*/
-
-        int y0=adapter.GetI(barrier.p1.y);
+        int y0=adapter.GetI(barrier.p1.z);
         int x0=adapter.GetJ(barrier.p1.x);
 
-        int y1=adapter.GetI(barrier.p7.y);
+        int y1=adapter.GetI(barrier.p7.z);
         int x1=adapter.GetJ(barrier.p7.x);
 
-        int y2=adapter.GetI(barrier.p2.y);
+        int y2=adapter.GetI(barrier.p2.z);
         int x2=adapter.GetJ(barrier.p2.x);
 
-        int y3=adapter.GetI(barrier.p8.y);
+        int y3=adapter.GetI(barrier.p8.z);
         int x3=adapter.GetJ(barrier.p8.x);
 
         //верхняя горизонталь
@@ -194,18 +176,18 @@ public:
 
         //line(adapter.GetJ(barrier.p1.x), adapter.GetI(barrier.p1.y), adapter.GetJ(barrier.p2.x),adapter.GetI(barrier.p2.y));
         //правая вертикаль
-        line(x1, y1, x2, y2);
+        //line(x1, y1, x2, y2);
 
         //line(adapter.GetJ(barrier.p2.x),adapter.GetI(barrier.p2.y), adapter.GetJ(barrier.p3.x),adapter.GetI(barrier.p3.y));
         //левая вертикаль
-        line(x0, y0, x3, y3);
+        //line(x2, y2, x3, y3);
 
         //line(adapter.GetJ(barrier.p1.x),adapter.GetI(barrier.p1.y), adapter.GetJ(barrier.p3.x),adapter.GetI(barrier.p3.y));
 
         //нижняя горизонталь
         //line(adapter.GetJ(barrier.p3.x),adapter.GetI(barrier.p3.y), adapter.GetJ(barrier.p4.x),adapter.GetI(barrier.p4.y));
 
-        line(x3, y3, x2, y2);
+        //line(x3, y3, x0, y0);
     }
 };
 

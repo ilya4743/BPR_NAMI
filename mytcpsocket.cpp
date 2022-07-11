@@ -112,7 +112,7 @@ void MyTcpSocket::readyRead()
             in>>width_coord>>height_coord>>step>>center;
             if(center<0 || center>((width_coord/step)*(height_coord/step)))
                 throw  MyException("DataPackageError", DataPackageError);
-            in>>goal.x>>goal.z>>goal.y;
+            in>>goal.x>>goal.y>>goal.z;
             in>>speed;
             in>>j;
 
@@ -129,64 +129,53 @@ void MyTcpSocket::readyRead()
 
                 mapGameObj.insert(id, Ogre::Matrix4(m00,m01,m02,m03,m10,m11,m12,m13,m20,m21,m22,m23,m30,m31,m32,m33));
             }
-            qDebug()<<" ddd"<<m00<<','<<m01<<','<<m02<<','<<m03<<',';
-            qDebug()<<m10<<','<<m11<<','<<m12<<','<<m13<<',';
-            qDebug()<<m20<<','<<m21<<','<<m22<<','<<m23<<',';
-            qDebug()<<m30<<','<<m31<<','<<m32<<','<<m33;
+
+
 
             auto itCar=(mapGameObj.find(0));
             mapGameObj.erase(itCar);
             GameMap g1(width_coord,height_coord,step,center,Car(*itCar,speed), Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
-            swap(g1.car.position.y,g1.car.position.z);
-            swap(g1.car.rotation.y, g1.car.rotation.z);
-            swap(g1.car.scale.y,g1.car.scale.z);
 
             qDebug()<<"id"<<itCar.key()<<"\tcar"<<": ";
             qDebug()<<"position\t"<<g1.car.position.x<<'\t'<<g1.car.position.y<<'\t'<<g1.car.position.z;
             qDebug()<<"rotation\t"<<g1.car.rotation.w<<'\t'<<g1.car.rotation.x<<'\t'<<g1.car.rotation.y<<'\t'<<g1.car.rotation.z;
             qDebug()<<"scale\t"<<g1.car.scale.x<<'\t'<<g1.car.scale.y<<'\t'<<g1.car.scale.z;
             qDebug()<<"speed\t"<<speed;
+
             for(auto itGameObj=mapGameObj.begin();itGameObj!=mapGameObj.end();++itGameObj)
             {
                 auto *bar=new BQuadrAngle(itGameObj.value());
-                swap(bar->position.y,bar->position.z);
-                swap(bar->rotation.y, bar->rotation.z);
-                swap(bar->scale.y,bar->scale.z);
-
-                swap((*bar).p1.y,(*bar).p1.z);
-                swap((*bar).p2.y,(*bar).p2.z);
-                swap((*bar).p3.y,(*bar).p3.z);
-                swap((*bar).p4.y,(*bar).p4.z);
-                swap((*bar).p5.y,(*bar).p5.z);
-                swap((*bar).p6.y,(*bar).p6.z);
-                swap((*bar).p7.y,(*bar).p7.z);
-                swap((*bar).p8.y,(*bar).p8.z);
-
-                (*bar).position-=g1.car.position;
-                (*bar).p1-=g1.car.position;
-                (*bar).p2-=g1.car.position;
-                (*bar).p3-=g1.car.position;
-                (*bar).p4-=g1.car.position;
-                (*bar).p5-=g1.car.position;
-                (*bar).p6-=g1.car.position;
-                (*bar).p7-=g1.car.position;
-                (*bar).p8-=g1.car.position;
-
-                (*bar).p1=g1.car.rotation*(*bar).p1;
-                (*bar).p2=g1.car.rotation*(*bar).p2;
-                (*bar).p3=g1.car.rotation*(*bar).p3;
-                (*bar).p4=g1.car.rotation*(*bar).p4;
-                (*bar).p5=g1.car.rotation*(*bar).p5;
-                (*bar).p6=g1.car.rotation*(*bar).p6;
-                (*bar).p7=g1.car.rotation*(*bar).p7;
-                (*bar).p8=g1.car.rotation*(*bar).p8;
 
                 qDebug()<<"id"<<itGameObj.key()<<"\tcube:";
-                qDebug()<<"position\t"<<(bar)->position.x<<'\t'<<(bar)->position.y<<'\t'<<(bar)->position.z;
-                qDebug()<<"rotation\t"<<(bar)->rotation.x<<'\t'<<(bar)->rotation.y<<'\t'<<(bar)->rotation.z;
+                qDebug()<<"p1\t"<<(bar)->p1.x<<'\t'<<(bar)->p1.y<<'\t'<<(bar)->p1.z;
+                qDebug()<<"p2\t"<<(bar)->p2.x<<'\t'<<(bar)->p2.y<<'\t'<<(bar)->p2.z;
+                qDebug()<<"p7\t"<<(bar)->p7.x<<'\t'<<(bar)->p7.y<<'\t'<<(bar)->p7.z;
+                qDebug()<<"p8\t"<<(bar)->p8.x<<'\t'<<(bar)->p1.y<<'\t'<<(bar)->p8.z;
+                qDebug()<<"globpos\t"<<(bar)->position.x<<'\t'<<(bar)->position.y<<'\t'<<(bar)->position.z;
+
+                (*bar).mat4=g1.car.matrix4.inverse()*((*bar).mat4);
+                (*bar).p1=g1.car.matrix4.inverse()*(*bar).p1;
+                (*bar).p2=g1.car.matrix4.inverse()*(*bar).p2;
+                (*bar).p3=g1.car.matrix4.inverse()*(*bar).p3;
+                (*bar).p4=g1.car.matrix4.inverse()*(*bar).p4;
+                (*bar).p5=g1.car.matrix4.inverse()*(*bar).p5;
+                (*bar).p6=g1.car.matrix4.inverse()*(*bar).p6;
+                (*bar).p7=g1.car.matrix4.inverse()*(*bar).p7;
+                (*bar).p8=g1.car.matrix4.inverse()*(*bar).p8;
+                Ogre::Affine3 af((*bar).mat4);
+                af.decomposition((*bar).position,(*bar).scale, (*bar).rotation);
+
+                qDebug()<<"localpos\t"<<(bar)->position.x<<'\t'<<(bar)->position.y<<'\t'<<(bar)->position.z;
+                qDebug()<<"rotation\t"<<(bar)->rotation.w<<'\t'<<(bar)->rotation.x<<'\t'<<(bar)->rotation.y<<'\t'<<(bar)->rotation.z;
                 qDebug()<<"scale\t"<<(bar)->scale.x<<'\t'<<(bar)->scale.y<<'\t'<<(bar)->scale.z;
+                qDebug()<<"p1\t"<<(bar)->p1.x<<'\t'<<(bar)->p1.y<<'\t'<<(bar)->p1.z;
+                qDebug()<<"p2\t"<<(bar)->p2.x<<'\t'<<(bar)->p2.y<<'\t'<<(bar)->p2.z;
+                qDebug()<<"p7\t"<<(bar)->p7.x<<'\t'<<(bar)->p7.y<<'\t'<<(bar)->p7.z;
+                qDebug()<<"p8\t"<<(bar)->p8.x<<'\t'<<(bar)->p1.y<<'\t'<<(bar)->p8.z;
+
                 g1.barriers.push_back(bar);
             }
+
 
                 g1.doo(DEBUG_OUTPUT);
 
@@ -199,7 +188,7 @@ void MyTcpSocket::readyRead()
                 for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
                 {
                     d<<(*it).x<<(*it).y;
-                    qDebug("%f\t%f;", (*it).x, (*it).y);
+                    //qDebug("%f\t%f;", (*it).x, (*it).y);
                 }
                 socket->write(arr);
                 socket->flush();

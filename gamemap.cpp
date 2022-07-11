@@ -19,7 +19,7 @@ GameMap::GameMap(float width_coord, float height_coord, float step, int center,
     distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);
     adapter=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(distance));
     //вершина графа куда едем
-    goal = adapter->GetI(goal_p.y)*num_vertices_width + adapter->GetJ(goal_p.x);
+    goal = adapter->GetI(goal_p.z)*num_vertices_width + adapter->GetJ(goal_p.x);
     graph=new MyGraph(num_vertices_width*num_vertices_height);
 }
 
@@ -29,7 +29,7 @@ void GameMapPrinter::print_way(const GameMap& map,const list<vertex_descriptor>&
     for (auto it=shortest_path.begin(); it != shortest_path.end(); ++it)
     {
         int k=map.adapter->GetJ(map.distance->matrix[(*it)].x)+1;
-        int d=map.adapter->GetI(map.distance->matrix[(*it)].y)+1;
+        int d=map.adapter->GetI(map.distance->matrix[(*it)].z)+1;
         cout<<"\033["<<d<<';'<<k<<"H\033[0;31;40m*\033[0;0m";
     }
     cout<<"\033[u\n";
@@ -148,17 +148,13 @@ void GameMapPrinter::print_game_map(const GameMap& map)
 void GameMap::init()
 {
     distance->init();
+    //distance->matrix[9900]=car.matrix4.inverse()*distance->matrix[9900];
     graph->init(num_vertices_width,num_vertices_height);
 }
 
 void GameMap::doo(const int DEBUG_OUTPUT)
 {
     init();
-
-    //for(unsigned int i=0;i<distance->matrix.size();i++)
-    //{
-    //    distance->matrix[i]=car.rotation*distance->matrix[i];
-    //}
 
     //если точка конечного маршрута вышла за пределы сетки графа по x
     if (!(distance->matrix[0].x<=goal_point.x && distance->matrix[num_vertices_width-1].x>=goal_point.x))
@@ -168,11 +164,11 @@ void GameMap::doo(const int DEBUG_OUTPUT)
             goal_point.x=distance->matrix[0].x;
 
     //если точка конечного маршрута вышла за пределы сетки графа по y
-    if (!(distance->matrix[0].y>=goal_point.y && distance->matrix[distance->matrix.size()-1].y<=goal_point.y))
-        if(goal_point.y>0)
-            goal_point.y=distance->matrix[0].y;
+    if (!(distance->matrix[0].z>=goal_point.z && distance->matrix[distance->matrix.size()-1].z<=goal_point.z))
+        if(goal_point.z>0)
+            goal_point.z=distance->matrix[0].z;
         else
-            goal_point.y=distance->matrix[distance->matrix.size()-1].y;
+            goal_point.z=distance->matrix[distance->matrix.size()-1].z;
 
     //for(auto it= barriers.begin(); it!=barriers.end();++it)
     //{
@@ -182,7 +178,7 @@ void GameMap::doo(const int DEBUG_OUTPUT)
     bool partial_path=false;
     if(DEBUG_OUTPUT==1) //если дебаг включен
     {
-        for(auto it= barriers.begin(); it!=barriers.end();)
+        /*for(auto it= barriers.begin(); it!=barriers.end();)
         {
 
 
@@ -202,7 +198,7 @@ void GameMap::doo(const int DEBUG_OUTPUT)
                 ++it;
                 partial_path=true;
             }
-        }
+        }*/
         list<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
 
         if(partial_path)                    //если маршрут неполный (точка конечного маршрута попала на препятствие)
@@ -253,8 +249,7 @@ void GameMap::doo(const int DEBUG_OUTPUT)
         //Ogre::Vector3 b(5,5,5);
         //Ogre::Matrix3 m;
         //car.rotation.ToRotationMatrix(m);
-        Ogre::Vector3 v(car.position); //=car.rotation*car.position;
-        Ogre::Quaternion q;
+
 
         //b=b*car.rotation;
 

@@ -52,7 +52,7 @@ public:
     CostType operator()(Vertex u)
     {
         CostType dx = m_location[m_goal].x - m_location[u].x;
-        CostType dy = m_location[m_goal].y - m_location[u].y;
+        CostType dy = m_location[m_goal].z - m_location[u].z;
         //qDebug()<<'('<<m_location[m_goal].x<<" - "<<m_location[u].x<<")^2 + ("<<m_location[m_goal].x<<" - "<<m_location[u].x<<")^2";
         auto t=::sqrt(dx * dx + dy * dy);
         //qDebug()<<t;

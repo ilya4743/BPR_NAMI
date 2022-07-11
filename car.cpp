@@ -13,13 +13,13 @@ Car::Car(float m00, float m01, float m02, float m03,
     affine3.decomposition(position,scale,rotation);
 }
 
-Car::Car(const Ogre::Matrix4 &matrix4, float speed):affine3(matrix4),speed(speed)
+Car::Car(const Ogre::Matrix4 &matrix4, float speed):matrix4(matrix4),affine3(matrix4),speed(speed)
 {
     affine3.decomposition(position,scale,rotation);
 
 }
 
-Car::Car(const Car&car):affine3(car.affine3),position(car.position), scale(car.scale),rotation(car.rotation), speed(car.speed)
+Car::Car(const Car&car):matrix4(car.matrix4),affine3(car.affine3),position(car.position), scale(car.scale),rotation(car.rotation), speed(car.speed)
 {
     affine3.decomposition(position,scale,rotation);
 
