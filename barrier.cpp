@@ -24,7 +24,7 @@ Barrier::Barrier(const Barrier&o):matrix4(o.matrix4), position(o.position),scale
 {
 }
 
-int Barrier::init(MyGraph& graph, DMQuadrangle& distance){}
+int Barrier::init(DMQuadrangle& distance){}
 Barrier::~Barrier(){}
 bool Barrier::hasPoint(Ogre::Vector3 p, GameMap&g){}
 bool Barrier::hasVertex(int v, GameMap&g){}
@@ -66,83 +66,87 @@ BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o)
 {
 
 }
-
-int BQuadrAngle::init(MyGraph& graph, DMQuadrangle& distance)
+void liang_barsky_clipper(float xmin, float ymin, float xmax, float ymax,
+                          float& xn1, float& yn1, float& xn2, float& yn2)
 {
-    /*
-    //если препятсвие никак не влезет на карту, то вернуть 0 иначе попытаться впихнуть хоть как-нибудь
-    if(distance.matrix[0].x > right_bottom.x || distance.matrix[distance.matrix.size()-1].x < left_top.x ||
-       distance.matrix[0].y < right_bottom.y || distance.matrix[distance.matrix.size()-1].y > left_top.y)
-        return -2;
-    else*/
-    {    /*IDistanceMatrixAdapter* g=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(&distance));
+    float x1=xn1, y1=yn1, x2=xn2, y2=yn2;
+    // Объявление переменных
+    float p1 = -(x2 - x1);
+    float p2 = -p1;
+    float p3 = -(y2 - y1);
+    float p4 = -p3;
 
-        if (distance.matrix[0].x > left_top.x)
-            left_top.x=distance.matrix[0].x;
+    float q1 = x1 - xmin;
+    float q2 = xmax - x1;
+    float q3 = y1 - ymin;
+    float q4 = ymax - y1;
 
-        if (distance.matrix[0].y < left_top.y)
-            left_top.y=distance.matrix[0].y;
+    vector<float> posarr, negarr;
+    posarr.resize(3);
+    negarr.resize(3);
+        int posind = 1, negind = 1;
+        posarr[0] = 1;
+        negarr[0] = 0;
 
-        if (distance.matrix[distance.matrix.size()-1].x < right_bottom.x)
-            right_bottom.x=distance.matrix[distance.matrix.size()-1].x;
-
-        if (distance.matrix[distance.matrix.size()-1].y > right_bottom.y)
-            right_bottom.y=distance.matrix[distance.matrix.size()-1].y;*/
-/*
-        //соседние по горизонтали
-        for (int i = g->GetI(left_top.y); i <= g->GetI(right_bottom.y); i++)
-        {
-            for (int j = g->GetJ(left_top.x); j <= g->GetJ(right_bottom.x) + 1; j++)
-            {
-                if (j == 0 || j == distance.width)continue;
-
-                int u = i * distance.width + j - 1;
-                int v = i * distance.width + j;
-                remove_edge(u, v, *graph.adj_list);
-            }
+    if ((p1 == 0 && q1 < 0) || (p3 == 0 && q3 < 0)) {
+        //cout<<"Line is parallel to clipping window!";
+        return;
+    }
+    if (p1 != 0) {
+        float r1 = q1 / p1;
+        float r2 = q2 / p2;
+        if (p1 < 0) {
+            negarr[negind++] = r1; // При отрицательном p1, добавляем r1 к отрицательному массиву
+            posarr[posind++] = r2; // и добавляем r2 к положительному массиву
+        } else {
+            negarr[negind++] = r2;
+            posarr[posind++] = r1;
         }
-
-        //соседние по вертикале
-        for (int i = g->GetI(left_top.y); i <= g->GetI(right_bottom.y) + 1; i++)
-        {
-            if (i == 0 || i == distance.height)continue;
-
-            for (int j = g->GetJ(left_top.x); j <= g->GetJ(right_bottom.x); j++)
-            {
-                int u2 = (i - 1) * distance.width + j;
-                int v2 = (i)*distance.width + j;
-                remove_edge(u2, v2, *graph.adj_list);
-            }
+    }
+    if (p3 != 0) {
+        float r3 = q3 / p3;
+        float r4 = q4 / p4;
+        if (p3 < 0) {
+            negarr[negind++] = r3;
+            posarr[posind++] = r4;
+        } else {
+            negarr[negind++] = r4;
+            posarr[posind++] = r3;
         }
+    }
 
-        //главная диагональ
-        for (int i = g->GetI(left_top.y); i <= g->GetI(right_bottom.y) + 1; i++)
-        {
-            if (i == 0 || i == distance.height)continue;
-            for (int j = g->GetJ(left_top.x); j <= g->GetJ(right_bottom.x) + 1; j++)
-            {
-                if (j == 0 || j == distance.width)continue;
-                int u1 = (i - 1) * distance.width + j - 1;
-                int v1 = (i)*distance.width + j;
-                remove_edge(u1, v1, *graph.adj_list);
-            }
-        }
+    //float xn1, yn1, xn2, yn2;
 
-        //побочная диагональ
-        for (int i = g->GetI(right_bottom.y) + 1; i >= g->GetI(left_top.y); i--)
-        {
-            if (i == distance.height || i==0)continue;
-            for (int j = g->GetJ(right_bottom.x) + 1; j >= g->GetJ(left_top.x); j--)
-            {
-                if (j == distance.width || j == 0)continue;
-                int u1 = (i)*distance.width + j - 1;
-                int v1 = (i - 1) * distance.width + j;
-                remove_edge(u1, v1, *graph.adj_list);
-            }
-        }
-        qDebug()<<"left_top\t"<<left_top.x<<'\t'<<left_top.y<<'\t'<<left_top.z;
-        qDebug()<<"right_bottom\t"<<right_bottom.x<<'\t'<<right_bottom.y<<'\t'<<right_bottom.z;
-        delete g;*/
+    float rn1 = *max_element(negarr.begin(),negarr.end()); // Максимум отрицательного массива
+    float rn2 = *min_element(posarr.begin(),posarr.end()); // Минимум положительного массива
+    if (rn1 > rn2) { // Отклоняем
+        //cout<<"Line is outside the clipping window!";
+        return;
+    }
+
+    xn1 = x1 + p2 * rn1;
+    yn1 = y1 + p4 * rn1; // Вычисляем новые точки
+
+    xn2 = x1 + p2 * rn2;
+    yn2 = y1 + p4 * rn2;
+
+    //cout<<xn1<<'\t'<<yn1<<'\n'<<xn2<<'\t'<<yn2<<'\n';
+}
+int BQuadrAngle::init(DMQuadrangle& distance)
+{
+    //if(!(distance.isPtInDM(p1)||distance.isPtInDM(p2)||distance.isPtInDM(p7)||distance.isPtInDM(p8)))
+    //    return -2;
+    //else
+    {
+        distance.toNearPt(p1);
+        distance.toNearPt(p2);
+        distance.toNearPt(p7);
+        distance.toNearPt(p8);
+        liang_barsky_clipper(distance.matrix[0].x,distance.matrix[distance.matrix.size()-1].z,distance.matrix[distance.matrix.size()-1].x,distance.matrix[0].z,p1.x,p1.z,p2.x,p2.z);
+        liang_barsky_clipper(distance.matrix[0].x,distance.matrix[distance.matrix.size()-1].z,distance.matrix[distance.matrix.size()-1].x,distance.matrix[0].z,p2.x,p2.z,p7.x,p7.z);
+        liang_barsky_clipper(distance.matrix[0].x,distance.matrix[distance.matrix.size()-1].z,distance.matrix[distance.matrix.size()-1].x,distance.matrix[0].z,p7.x,p7.z,p8.x,p8.z);
+        liang_barsky_clipper(distance.matrix[0].x,distance.matrix[distance.matrix.size()-1].z,distance.matrix[distance.matrix.size()-1].x,distance.matrix[0].z,p1.x,p1.z,p8.x,p8.z);
+
         return 0;
     }
 }
@@ -376,7 +380,7 @@ QDataStream& operator >>(QDataStream &in, BQuadrAngle &b)
     return in;
 }
 
-void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2)
+void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& distance, MyGraph& g)
 {
     cout<<"\033[s";
     const int deltaX = abs(x2 - x1);
@@ -386,12 +390,18 @@ void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2)
     int error = deltaX - deltaY;
 
     if(y2>=0 && x2>=0)
+    {
     cout<<"\033["<<y2<<';'<<x2<<"H\033[0;37;47m \033[0;0m";
+    int u=distance.width*y2+x2;
+    clear_vertex(u,*g.adj_list);
+    }
     while(x1 != x2 || y1 != y2)
    {
         if(y1>=0 && x1>=0)
 
         cout<<"\033["<<y1<<';'<<x1<<"H\033[0;37;47m \033[0;0m";
+        int u=distance.width*y1+x1;
+        clear_vertex(u,*g.adj_list);
         int error2 = error * 2;
         if(error2 > -deltaY)
         {
@@ -407,7 +417,7 @@ void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2)
     cout<<"\033[u";
 }
 
-void PrinterBQuadrAngle::drawCube(const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter)
+void PrinterBQuadrAngle::drawCube(const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter,DMQuadrangle& distance, MyGraph& g)
 {
     int y0=adapter.GetI(barrier.p1.z);
     int x0=adapter.GetJ(barrier.p1.x);
@@ -421,8 +431,8 @@ void PrinterBQuadrAngle::drawCube(const BQuadrAngle& barrier, IDistanceMatrixAda
     int y3=adapter.GetI(barrier.p8.z);
     int x3=adapter.GetJ(barrier.p8.x);
 
-    drawLine(x0, y0, x1, y1);
-    drawLine(x1, y1, x2, y2);
-    drawLine(x2, y2, x3, y3);
-    drawLine(x3, y3, x0, y0);
+    drawLine(x0, y0, x1, y1,distance,g);
+    drawLine(x1, y1, x2, y2,distance,g);
+    drawLine(x2, y2, x3, y3,distance,g);
+    drawLine(x3, y3, x0, y0,distance,g);
 }

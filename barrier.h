@@ -20,7 +20,7 @@ public:
     /// @param grah граф, на который необходимо наложить препятствие
     /// @param step шаг сетки графа
     /// @param g поле
-    virtual int  init(MyGraph& graph, DMQuadrangle& distance)=0;
+    virtual int  init(DMQuadrangle& distance)=0;
 
     /// @brief Принадлежит ли точка пространства препятствию
     /// @param p точка, которую проверям
@@ -71,7 +71,7 @@ public:
     /// Поворот
     Ogre::Quaternion rotation;
 
-    int init(MyGraph& graph, DMQuadrangle& distance)override;
+    int init(DMQuadrangle& distance)override;
     bool hasPoint(Ogre::Vector3 p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
     bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)override;
@@ -105,7 +105,7 @@ public:
     /// Деструктор
     ~BQuadrAngle();
 
-    int init(MyGraph& graph, DMQuadrangle& distance)override;
+    int init(DMQuadrangle& distance)override;
     bool hasPoint(Ogre::Vector3 p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
     bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)override;
@@ -123,10 +123,10 @@ public:
 class PrinterBQuadrAngle
 {
 private:
-    void drawLine(int x1, int y1, int x2,  int y2);
+    void drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& distance,MyGraph& g);
 
 public:
-    void drawCube(const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter);
+    void drawCube(const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter, DMQuadrangle& distance, MyGraph& g);
 };
 
 #endif // BARRIER_H

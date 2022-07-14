@@ -129,8 +129,6 @@ void MyTcpSocket::readyRead()
                 mapGameObj.insert(id, Ogre::Matrix4(m00,m01,m02,m03,m10,m11,m12,m13,m20,m21,m22,m23,m30,m31,m32,m33));
             }
 
-
-
             auto itCar=(mapGameObj.find(0));
             mapGameObj.erase(itCar);
             GameMap g1(width_coord,height_coord,step,center,Car(*itCar,speed), Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
@@ -186,8 +184,8 @@ void MyTcpSocket::readyRead()
                 d<<(int)g1.short_path.size();
                 for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
                 {
-                    d<<(*it).x<<(*it).y;
-                    //qDebug("%f\t%f;", (*it).x, (*it).y);
+                    d<<(*it).x<<(*it).z;
+                    qDebug("%f\t%f;", (*it).x, (*it).z);
                 }
                 socket->write(arr);
                 socket->flush();
