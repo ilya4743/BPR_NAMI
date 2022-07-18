@@ -391,7 +391,7 @@ void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& 
 
     if(y2>=0 && x2>=0)
     {
-    cout<<"\033["<<y2<<';'<<x2<<"H\033[0;37;47m \033[0;0m";
+    cout<<"\033["<<y2+1<<';'<<x2+1<<"H\033[0;37;47m \033[0;0m";
     int u=distance.width*y2+x2;
     clear_vertex(u,*g.adj_list);
     }
@@ -399,7 +399,7 @@ void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& 
    {
         if(y1>=0 && x1>=0)
 
-        cout<<"\033["<<y1<<';'<<x1<<"H\033[0;37;47m \033[0;0m";
+        cout<<"\033["<<y1+1<<';'<<x1+1<<"H\033[0;37;47m \033[0;0m";
         int u=distance.width*y1+x1;
         clear_vertex(u,*g.adj_list);
         int error2 = error * 2;
