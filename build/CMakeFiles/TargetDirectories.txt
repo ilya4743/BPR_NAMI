@@ -1,4 +1,0 @@
-/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/rebuild_cache.dir
-/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/edit_cache.dir
-/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/BPR_NAMI.dir
-/home/NAMI/ila.solomatin/Desktop/BPR_NAMI/build/CMakeFiles/BPR_NAMI_autogen.dir

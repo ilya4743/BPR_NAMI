@@ -1,7 +1,6 @@
 #ifndef LOCATIONMAP_H
 #define LOCATIONMAP_H
 #include<iostream>
-#include"point.h"
 #include<vector>
 #include"OgreMatrix4.h"
 

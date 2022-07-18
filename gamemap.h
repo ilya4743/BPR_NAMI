@@ -3,8 +3,6 @@
 #include "locationmap.h"
 #include "mygraph.h"
 #include "barrier.h"
-#include "point.h"
-#include "mylog.h"
 #include "car.h"
 #include <OgreVector.h>
 

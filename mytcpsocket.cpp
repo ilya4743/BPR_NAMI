@@ -5,11 +5,6 @@
 #include<QTime>
 #include <QCoreApplication>
 
-void MyLog::printLogToFile(const GameMap& map)
-{
-    GameMapPrinter::printToFile(map,*ofs);
-}
-
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
     isSmoothing=false;
@@ -104,7 +99,7 @@ void MyTcpSocket::readyRead()
             float m20, m21, m22, m23;
             float m30, m31, m32, m33;
             float speed;
-            Position goal;
+            Ogre::Vector3 goal;
             quint64 j, id;              //количество препятствий
             QMap<quint64, Ogre::Matrix4> mapGameObj;
             //(width_coord/step)/2+(height_coord/step-1)*(width_coord/step)

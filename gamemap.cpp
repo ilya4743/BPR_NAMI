@@ -204,10 +204,10 @@ void GameMap::doo(const int DEBUG_OUTPUT)
         short_path=create_msg(*distance,short1);
 
         GameMapPrinter::print_way(*this, short1);
-        for(auto it=short_path.begin();it!=short_path.end();++it)
-        {
-            (*it)=car.matrix4*(*it);
-        }
+        //for(auto it=short_path.begin();it!=short_path.end();++it)
+        //{
+        //    (*it)=car.matrix4*(*it);
+        //}
     }
     else    //если дебаг выключен
     {

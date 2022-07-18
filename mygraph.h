@@ -4,7 +4,6 @@
 #include <boost/graph/graphviz.hpp>
 #include <boost/graph/astar_search.hpp>
 #include"locationmap.h"
-#include "point.h"
 #include"myexception.h"
 
 using namespace boost;

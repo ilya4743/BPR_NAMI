@@ -1,6 +1,5 @@
 #ifndef BARRIER_H
 #define BARRIER_H
-#include"point.h"
 #include"mygraph.h"
 #include "gamemap.h"
 #include <fstream>

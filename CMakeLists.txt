@@ -22,9 +22,7 @@ add_executable(BPR_NAMI
   locationmap.cpp
   myexception.cpp
   mygraph.cpp
-  mylog.cpp
   mytcpsocket.cpp
-  point.cpp
   settings.cpp
   logger.cpp
 )
