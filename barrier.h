@@ -5,6 +5,14 @@
 #include <fstream>
 #include <QDataStream>
 #include <OgreMatrix4.h>
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/geometries.hpp>
+
+namespace bg = boost::geometry;
+
+typedef bg::model::point<float, 2, bg::cs::cartesian> point;
+typedef bg::model::polygon<point> polygon;
+typedef bg::model::box<point> box;
 
 class GameMap;
 /// @brief Интерфейс препятствия

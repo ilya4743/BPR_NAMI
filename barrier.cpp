@@ -137,7 +137,7 @@ int BQuadrAngle::init(DMQuadrangle& distance)
     //if(!(distance.isPtInDM(p1)||distance.isPtInDM(p2)||distance.isPtInDM(p7)||distance.isPtInDM(p8)))
     //    return -2;
     //else
-    {
+    /*{
         distance.toNearPt(p1);
         distance.toNearPt(p2);
         distance.toNearPt(p7);
@@ -147,8 +147,26 @@ int BQuadrAngle::init(DMQuadrangle& distance)
         liang_barsky_clipper(distance.matrix[0].x,distance.matrix[distance.matrix.size()-1].z,distance.matrix[distance.matrix.size()-1].x,distance.matrix[0].z,p7.x,p7.z,p8.x,p8.z);
         liang_barsky_clipper(distance.matrix[0].x,distance.matrix[distance.matrix.size()-1].z,distance.matrix[distance.matrix.size()-1].x,distance.matrix[0].z,p1.x,p1.z,p8.x,p8.z);
 
-        return 0;
-    }
+
+    }*/
+    /*
+    polygon poly1{{{p2.x,p2.z},{p1.x,p1.z},{p7.x,p7.z},{p8.x,p8.z},{p2.x,p2.z}}};
+    box box1{{distance.matrix[0].x, distance.matrix[distance.matrix.size()-1].z},
+             {distance.matrix[distance.matrix.size()-1].x, distance.matrix[0].z}};
+
+    deque < polygon >  output ;
+    boost::geometry::intersection(box1, poly1, output);
+
+    p1.x=bg::get<0>(output[0].outer()[0]);
+    p1.y=bg::get<1>(output[0].outer()[0]);
+    p2.x=bg::get<0>(output[0].outer()[1]);
+    p2.y=bg::get<1>(output[0].outer()[1]);
+    p7.x=bg::get<0>(output[0].outer()[2]);
+    p7.y=bg::get<1>(output[0].outer()[2]);
+    p8.x=bg::get<0>(output[0].outer()[3]);
+    p8.y=bg::get<1>(output[0].outer()[3]);
+    */
+    return 0;
 }
 
 BQuadrAngle::~BQuadrAngle()

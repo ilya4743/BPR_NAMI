@@ -174,7 +174,12 @@ void MyTcpSocket::readyRead()
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
-                d.setByteOrder(QDataStream::LittleEndian);
+                d.setByteOrder(QDataStream::LittleEndian);              
+                    for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
+                {
+
+                }
+
                 d<<(unsigned char)0x44<<(unsigned char)0x48;
                 d<<(int)g1.short_path.size()*2;
                 for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
