@@ -146,7 +146,7 @@ void GameMap::init()
 void GameMap::doo(const int DEBUG_OUTPUT)
 {
     init();
-
+    //goal_point=car.rotation*goal_point;
     //если точка конечного маршрута вышла за пределы сетки графа по x
     if (!(distance->matrix[0].x<=goal_point.x && distance->matrix[num_vertices_width-1].x>=goal_point.x))
         if(goal_point.x>0)
@@ -204,10 +204,12 @@ void GameMap::doo(const int DEBUG_OUTPUT)
         short_path=create_msg(*distance,short1);
 
         GameMapPrinter::print_way(*this, short1);
-        //for(auto it=short_path.begin();it!=short_path.end();++it)
-        //{
-        //    (*it)=car.matrix4*(*it);
-        //}
+        for(auto it=short_path.begin();it!=short_path.end();++it)
+        {
+            //(*it)=car.matrix4.inverse()*(*it);
+
+            (*it)=car.rotation*(*it);
+        }
     }
     else    //если дебаг выключен
     {
@@ -233,14 +235,6 @@ void GameMap::doo(const int DEBUG_OUTPUT)
                 --itShort1;
             }
         }
-
-        //Ogre::Vector3 b(5,5,5);
-        //Ogre::Matrix3 m;
-        //car.rotation.ToRotationMatrix(m);
-
-
-        //b=b*car.rotation;
-
         short_path=create_msg(*distance,short1);
     }
 }

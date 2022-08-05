@@ -176,10 +176,10 @@ void MyTcpSocket::readyRead()
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
                 d.setByteOrder(QDataStream::LittleEndian);
                 d<<(unsigned char)0x44<<(unsigned char)0x48;
-                d<<(int)g1.short_path.size();
+                d<<(int)g1.short_path.size()*2;
                 for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
                 {
-                    d<<(*it).x<<(*it).z;
+                    d<<-(*it).x<<(*it).z;
                     qDebug("%f\t%f;", (*it).x, (*it).z);
                 }
                 socket->write(arr);
