@@ -27,7 +27,7 @@ public:
     /// @param grah граф, на который необходимо наложить препятствие
     /// @param step шаг сетки графа
     /// @param g поле
-    virtual int  init(DMQuadrangle& distance)=0;
+    virtual int  init(DMQuadrangle& distance,vector<Ogre::Vector3>& out)=0;
 
     /// @brief Принадлежит ли точка пространства препятствию
     /// @param p точка, которую проверям
@@ -78,7 +78,7 @@ public:
     /// Поворот
     Ogre::Quaternion rotation;
 
-    int init(DMQuadrangle& distance)override;
+    int init(DMQuadrangle& distance,vector<Ogre::Vector3>& out)override;
     bool hasPoint(Ogre::Vector3 p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
     bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)override;
@@ -112,7 +112,7 @@ public:
     /// Деструктор
     ~BQuadrAngle();
 
-    int init(DMQuadrangle& distance)override;
+    int init(DMQuadrangle& distance, vector<Ogre::Vector3>& out)override;
     bool hasPoint(Ogre::Vector3 p, GameMap&g)override;
     bool hasVertex(int v, GameMap&g)override;
     bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)override;
@@ -124,7 +124,7 @@ public:
     friend QDataStream& operator >>(QDataStream &in, BQuadrAngle &b);
 
     /// Вершины куба
-    Ogre::Vector3 p1,p2,p3,p4,p5,p6,p7,p8;
+    Ogre::Vector3 p1,p2,p3,p4;
 };
 
 class PrinterBQuadrAngle
@@ -133,7 +133,7 @@ private:
     void drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& distance,MyGraph& g);
 
 public:
-    void drawCube(const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter, DMQuadrangle& distance, MyGraph& g);
+    void drawCube(const vector<Ogre::Vector3>& out,const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter, DMQuadrangle& distance, MyGraph& g);
 };
 
 #endif // BARRIER_H

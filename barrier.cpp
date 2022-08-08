@@ -24,7 +24,7 @@ Barrier::Barrier(const Barrier&o):matrix4(o.matrix4), position(o.position),scale
 {
 }
 
-int Barrier::init(DMQuadrangle& distance){}
+int Barrier::init(DMQuadrangle& distance,vector<Ogre::Vector3>& out){}
 Barrier::~Barrier(){}
 bool Barrier::hasPoint(Ogre::Vector3 p, GameMap&g){}
 bool Barrier::hasVertex(int v, GameMap&g){}
@@ -48,18 +48,10 @@ BQuadrAngle::BQuadrAngle(float m00, float m01, float m02, float m03,
 {
 }
 
-BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4):Barrier(matrix4),p1(1,-1,-1),p2(1,-1,1),p3(1,1,-1),p4(1,1,1),p5(-0.5,0.5,-0.5),p6(-0.5,0.5,0.5),p7(-1,-1,-1),p8(-1,-1,1)
+BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4):Barrier(matrix4),p1(matrix4*Ogre::Vector3(1,-1,1)),p2(matrix4*Ogre::Vector3(1,-1,-1)),p3(matrix4*Ogre::Vector3(-1,-1,-1)),p4(matrix4*Ogre::Vector3(-1,-1,1))
 //Barrier(matrix4),p1(0.5,-0.5,-0.5),p2(0.5,-0.5,0.5),p3(0.5,0.5,-0.5),p4(0.5,0.5,0.5),p5(-0.5,0.5,-0.5),p6(-0.5,0.5,0.5),p7(-0.5,-0.5,-0.5),p8(-0.5,-0.5,0.5)
 //Barrier(matrix4),p1(1,0,0),p2(1,0,1),p3(1,1,0),p4(1,1,1),p5(0,1,0),p6(0,1,1),p7(0,0,0),p8(0,0,1)
 {
-    p1=matrix4*p1;
-    p2=matrix4*p2;
-    p3=matrix4*p3;
-    p4=matrix4*p4;
-    p5=matrix4*p5;
-    p6=matrix4*p6;
-    p7=matrix4*p7;
-    p8=matrix4*p8;
 }
 
 BQuadrAngle::BQuadrAngle(const BQuadrAngle& o):Barrier(o)
@@ -132,41 +124,23 @@ void liang_barsky_clipper(float xmin, float ymin, float xmax, float ymax,
 
     //cout<<xn1<<'\t'<<yn1<<'\n'<<xn2<<'\t'<<yn2<<'\n';
 }
-int BQuadrAngle::init(DMQuadrangle& distance)
+int BQuadrAngle::init(DMQuadrangle& distance, vector<Ogre::Vector3>& out)
 {
-    //if(!(distance.isPtInDM(p1)||distance.isPtInDM(p2)||distance.isPtInDM(p7)||distance.isPtInDM(p8)))
-    //    return -2;
-    //else
-    /*{
-        distance.toNearPt(p1);
-        distance.toNearPt(p2);
-        distance.toNearPt(p7);
-        distance.toNearPt(p8);
-        liang_barsky_clipper(distance.matrix[0].x,distance.matrix[distance.matrix.size()-1].z,distance.matrix[distance.matrix.size()-1].x,distance.matrix[0].z,p1.x,p1.z,p2.x,p2.z);
-        liang_barsky_clipper(distance.matrix[0].x,distance.matrix[distance.matrix.size()-1].z,distance.matrix[distance.matrix.size()-1].x,distance.matrix[0].z,p2.x,p2.z,p7.x,p7.z);
-        liang_barsky_clipper(distance.matrix[0].x,distance.matrix[distance.matrix.size()-1].z,distance.matrix[distance.matrix.size()-1].x,distance.matrix[0].z,p7.x,p7.z,p8.x,p8.z);
-        liang_barsky_clipper(distance.matrix[0].x,distance.matrix[distance.matrix.size()-1].z,distance.matrix[distance.matrix.size()-1].x,distance.matrix[0].z,p1.x,p1.z,p8.x,p8.z);
-
-
-    }*/
-    /*
-    polygon poly1{{{p2.x,p2.z},{p1.x,p1.z},{p7.x,p7.z},{p8.x,p8.z},{p2.x,p2.z}}};
+    polygon poly1{{{p1.x,p1.z},{p2.x,p2.z},{p3.x,p3.z},{p4.x,p4.z},{p1.x,p1.z}}};
     box box1{{distance.matrix[0].x, distance.matrix[distance.matrix.size()-1].z},
              {distance.matrix[distance.matrix.size()-1].x, distance.matrix[0].z}};
 
-    deque < polygon >  output ;
+    vector < polygon >  output ;
     boost::geometry::intersection(box1, poly1, output);
-
-    p1.x=bg::get<0>(output[0].outer()[0]);
-    p1.y=bg::get<1>(output[0].outer()[0]);
-    p2.x=bg::get<0>(output[0].outer()[1]);
-    p2.y=bg::get<1>(output[0].outer()[1]);
-    p7.x=bg::get<0>(output[0].outer()[2]);
-    p7.y=bg::get<1>(output[0].outer()[2]);
-    p8.x=bg::get<0>(output[0].outer()[3]);
-    p8.y=bg::get<1>(output[0].outer()[3]);
-    */
-    return 0;
+    if(output.size()>0)
+    {
+        out.reserve(output[0].outer().size());
+        for(int i=0; i<output[0].outer().size();i++)
+            out.push_back(Ogre::Vector3(bg::get<0>(output[0].outer()[i]),0,bg::get<1>(output[0].outer()[i])));
+        return 0;
+    }
+    else
+        return -1;
 }
 
 BQuadrAngle::~BQuadrAngle()
@@ -398,6 +372,14 @@ QDataStream& operator >>(QDataStream &in, BQuadrAngle &b)
     return in;
 }
 
+bool correct(int u1, int u2)
+{
+    if(abs(u1/200-u2/200)==1)
+        if(u2>-1&&u2<20000)
+            return 1;
+    return 0;
+}
+
 void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& distance, MyGraph& g)
 {
     cout<<"\033[s";
@@ -412,6 +394,16 @@ void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& 
     cout<<"\033["<<y2+1<<';'<<x2+1<<"H\033[0;37;47m \033[0;0m";
     int u=distance.width*y2+x2;
     clear_vertex(u,*g.adj_list);
+
+    if(correct(u-1,u-distance.width))
+        remove_edge(u-1,u-distance.width,*g.adj_list);
+    if(correct(u-1,u+distance.width))
+        remove_edge(u-1,u+distance.width,*g.adj_list);
+    if(correct(u+1,u+distance.width))
+        remove_edge(u+1,u+distance.width,*g.adj_list);
+    if(correct(u+1,u-distance.width))
+        remove_edge(u+1,u-distance.width,*g.adj_list);
+
     }
     while(x1 != x2 || y1 != y2)
    {
@@ -420,6 +412,15 @@ void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& 
         cout<<"\033["<<y1+1<<';'<<x1+1<<"H\033[0;37;47m \033[0;0m";
         int u=distance.width*y1+x1;
         clear_vertex(u,*g.adj_list);
+
+        if(correct(u-1,u-distance.width))
+            remove_edge(u-1,u-distance.width,*g.adj_list);
+        if(correct(u-1,u+distance.width))
+            remove_edge(u-1,u+distance.width,*g.adj_list);
+        if(correct(u+1,u+distance.width))
+            remove_edge(u+1,u+distance.width,*g.adj_list);
+        if(correct(u+1,u-distance.width))
+            remove_edge(u+1,u-distance.width,*g.adj_list);
         int error2 = error * 2;
         if(error2 > -deltaY)
         {
@@ -435,22 +436,16 @@ void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& 
     cout<<"\033[u";
 }
 
-void PrinterBQuadrAngle::drawCube(const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter,DMQuadrangle& distance, MyGraph& g)
+void PrinterBQuadrAngle::drawCube(const vector<Ogre::Vector3>& clipping,const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter,DMQuadrangle& distance, MyGraph& g)
 {
-    int y0=adapter.GetI(barrier.p1.z);
-    int x0=adapter.GetJ(barrier.p1.x);
+    for(int i=1; i<clipping.size(); i++)
+    {
+        int y0=adapter.GetI(clipping[i-1].z);
+        int x0=adapter.GetJ(clipping[i-1].x);
 
-    int y1=adapter.GetI(barrier.p7.z);
-    int x1=adapter.GetJ(barrier.p7.x);
+        int y1=adapter.GetI(clipping[i].z);
+        int x1=adapter.GetJ(clipping[i].x);
 
-    int y2=adapter.GetI(barrier.p2.z);
-    int x2=adapter.GetJ(barrier.p2.x);
-
-    int y3=adapter.GetI(barrier.p8.z);
-    int x3=adapter.GetJ(barrier.p8.x);
-
-    drawLine(x0, y0, x1, y1,distance,g);
-    drawLine(x1, y1, x2, y2,distance,g);
-    drawLine(x2, y2, x3, y3,distance,g);
-    drawLine(x3, y3, x0, y0,distance,g);
+        drawLine(x0, y0, x1, y1,distance,g);
+    }
 }

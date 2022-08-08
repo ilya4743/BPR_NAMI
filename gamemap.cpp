@@ -37,93 +37,11 @@ void GameMapPrinter::print_way(const GameMap& map,const list<vertex_descriptor>&
 
 list<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_descriptor>& shortest_path)
 {
-    /*if(isSmoothing)
-    {
-
-    list<Ogre::Vector3> msg;
-
-    for(auto it = shortest_path.begin();it!=shortest_path.end();++it)
-        msg.push_back(Ogre::Vector3(distance.matrix[*it].x, 0 , distance.matrix[*it].z));
-    msg.push_front(*(--msg.end()));
-    msg.pop_back();
-    if(barriers.size()==0)
-    {
-        msg.clear();
-        msg.push_back(Ogre::Vector3(0, 0,0));
-        auto u=shortest_path.end();--u;--u;
-        msg.push_back(Ogre::Vector3(distance.matrix[(*u)].x, 0, distance.matrix[(*u)].z));
-        list<vertex_descriptor> s;
-        s.push_back(*(++u));
-        s.push_back(*(--u));
-        shortest_path.clear();
-        shortest_path=s;
-    }
-    else
-    if(msg.size()>2)
-    {
-        auto it = msg.begin();
-        auto itend= msg.end();--itend;
-        auto shortIT=shortest_path.begin();
-        float x1, y1, x2, y2;
-        x1=(*it).x;
-        y1=(*it).y;
-        ++shortIT;
-        ++it;
-        x2=(*it).x;
-        y2=(*it).y;
-        int count=0;
-
-        Ogre::Vector3 tmp=*it;
-        unsigned long tmpshort=*shortIT;
-
-        while(it!=itend)
-        {
-            for(auto it1=barriers.begin();it1!=barriers.end();++it1)
-            {
-                if(!(*it1)->isIntersection(Ogre::Vector3(x1, y1, 0),Ogre::Vector3(x2,y2,0)))
-                {
-                    ++count;
-                    if(count==barriers.size())
-                    {
-                        tmp=*it;
-                        tmpshort=*shortIT;
-                        it=msg.erase(it);
-                        shortIT=shortest_path.erase(shortIT);
-                        x2=(*it).x;
-                        y2=(*it).y;
-                    }
-                }
-                else
-                {
-                    if(tmp.x!=(*it).x && tmp.y!=(*it).y)
-                    {
-                        *it=tmp;
-                        *shortIT=tmpshort;
-                    }
-                    x1=(*it).x;
-                    y1=(*it).y;
-                    ++it;
-                    ++shortIT;
-                    x2=(*it).x;
-                    y2=(*it).y;
-                    break;
-                }
-            }
-            count=0;
-
-        }
-
-    }
-        return msg;
-    }
-    else*/
-    {
     list<Ogre::Vector3> msg1;
     for (auto it=shortest_path.begin();it != shortest_path.end(); ++it)
         msg1.push_back(Ogre::Vector3(distance.matrix[*it].x,0,distance.matrix[*it].z));
     msg1.pop_back();
     return msg1;
-    }
 }
 
 void GameMapPrinter::print_game_map(const GameMap& map)
@@ -143,6 +61,7 @@ void GameMap::init()
     graph->init(num_vertices_width,num_vertices_height);
 }
 
+
 void GameMap::doo(const int DEBUG_OUTPUT)
 {
     init();
@@ -161,81 +80,28 @@ void GameMap::doo(const int DEBUG_OUTPUT)
         else
             goal_point.z=distance->matrix[distance->matrix.size()-1].z;
 
-    list<Barrier*>::iterator itGP;
-    bool partial_path=false;
     if(DEBUG_OUTPUT==1) //если дебаг включен
     {
-        for(auto it= barriers.begin(); it!=barriers.end();)
-        {
-
-            //if(!(*it)->hasPoint(goal_point, *this))    //если точка конечного маршрута не попала на препятствие
-            //{
-                if((*it)->init(*(dynamic_cast<DMQuadrangle*>(distance)))==-2)
-                    it=barriers.erase(it);
-                else
-                    ++it;
-            //}
-            //else                                //если точка конечного маршрута попала на препятствие
-            //{
-            //    itGP=it;
-            //    ++it;
-            //    partial_path=true;
-            //}
-        }
-/*
-        if(partial_path)                    //если маршрут неполный (точка конечного маршрута попала на препятствие)
-        {
-            auto it= short1.begin();
-            auto itEnd=short1.end();
-            while((*itGP)->hasVertex(*it,*this))
-            {
-                short1.erase(it);
-                ++it;
-            }
-        }
-        list<vertex_descriptor> smoothing_path=short1;*/
-
         GameMapPrinter::print_game_map(*this);
-
         PrinterBQuadrAngle printerBQuadrAngle;
+
         for(auto it= barriers.begin(); it!=barriers.end();++it)
-            printerBQuadrAngle.drawCube(*dynamic_cast<BQuadrAngle*>(*it),*adapter, *dynamic_cast<DMQuadrangle*>(distance),*graph);
+        {
+            vector<Ogre::Vector3> clipping;
+            (*it)->init(*(dynamic_cast<DMQuadrangle*>(distance)),clipping);
+            printerBQuadrAngle.drawCube(clipping,*dynamic_cast<BQuadrAngle*>(*it),*adapter, *dynamic_cast<DMQuadrangle*>(distance),*graph);
+        }
+
         list<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
         short_path=create_msg(*distance,short1);
 
         GameMapPrinter::print_way(*this, short1);
         for(auto it=short_path.begin();it!=short_path.end();++it)
-        {
-            //(*it)=car.matrix4.inverse()*(*it);
-
             (*it)=car.rotation*(*it);
-        }
     }
     else    //если дебаг выключен
     {
-        for(auto it= barriers.begin(); it!=barriers.end();++it)
-            if(!(*it)->hasPoint(goal_point, *this))    //если точка конечного маршрута не попала на препятствие
-            {
-                (*it)->init(*(dynamic_cast<DMQuadrangle*>(distance)));
-            }
-            else                                //если точка конечного маршрута попала на препятствие
-            {
-                itGP=it;
-                //++it;
-                partial_path=true;
-            }
-        list<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
-        if(partial_path)                    //если маршрут неполный (точка конечного маршрута попала на препятствие)
-        {
-            auto itShort1=short1.end();
-            --itShort1;--itShort1;
-            while((*itGP)->hasVertex(*itShort1, *this))
-            {
-                short1.erase(itShort1);
-                --itShort1;
-            }
-        }
-        short_path=create_msg(*distance,short1);
+
     }
 }
 
