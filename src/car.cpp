@@ -27,27 +27,3 @@ Car::Car(const Car&car):matrix4(car.matrix4),position(car.position), scale(car.s
     Ogre::Affine3 af(car.matrix4);
     af.decomposition(position,scale,rotation);
 }
-
-ostream& operator <<(ostream &out, const Car &car)
-{
-    return out;
-}
-
-istream& operator >>(istream &in, Car &car)
-{
-    return in;
-}
-
-QDataStream& operator <<(QDataStream &out, const Car &car)
-{
-    out.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
-    out.setByteOrder(QDataStream::LittleEndian);
-    return out;
-}
-
-QDataStream& operator >>(QDataStream &in, Car &car)
-{
-    in.setFloatingPointPrecision(QDataStream::FloatingPointPrecision());
-    in.setByteOrder(QDataStream::LittleEndian);
-    return in;
-}

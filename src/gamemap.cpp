@@ -18,21 +18,8 @@ GameMap::GameMap(float width_coord, float height_coord, float step, int center,
 {
     distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);
     adapter=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(distance));
-    //вершина графа куда едем
     goal = adapter->GetI(goal_p.z)*num_vertices_width + adapter->GetJ(goal_p.x);
     graph=new MyGraph(num_vertices_width*num_vertices_height);
-}
-
-void GameMapPrinter::print_way(const GameMap& map,const list<vertex_descriptor>& shortest_path)
-{
-    cout<<"\033[s";
-    for (auto it=shortest_path.begin(); it != shortest_path.end(); ++it)
-    {
-        int k=map.adapter->GetJ(map.distance->matrix[(*it)].x)+1;
-        int d=map.adapter->GetI(map.distance->matrix[(*it)].z)+1;
-        cout<<"\033["<<d<<';'<<k<<"H\033[0;31;40m*\033[0;0m";
-    }
-    cout<<"\033[u\n";
 }
 
 list<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_descriptor>& shortest_path)
@@ -44,28 +31,15 @@ list<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, list<ver
     return msg1;
 }
 
-void GameMapPrinter::print_game_map(const GameMap& map)
-{
-    for (int i = 0; i < map.num_vertices_height; i++)
-    {
-        for (int j = 0; j < map.num_vertices_width; j++)
-            cout << '*';
-        cout << endl;
-    }
-    cout << endl;
-}
-
 void GameMap::init()
 {
     distance->init();
     graph->init(num_vertices_width,num_vertices_height);
 }
 
-
 void GameMap::doo(const int DEBUG_OUTPUT)
 {
     init();
-    //goal_point=car.rotation*goal_point;
     //если точка конечного маршрута вышла за пределы сетки графа по x
     if (!(distance->matrix[0].x<=goal_point.x && distance->matrix[num_vertices_width-1].x>=goal_point.x))
         if(goal_point.x>0)
@@ -114,51 +88,25 @@ GameMap::~GameMap()
     this->barriers.clear();
 }
 
-void GameMapPrinter::printToFile(const GameMap& map, ofstream& out)
+void GameMapPrinter::print_game_map(const GameMap& map)
 {
-    out<<map.width_coord<<endl<<map.height_coord<<endl<<map.step<<endl<<map.start<<endl;
-    out<<map.car<<endl;
-    out<<map.goal_point<<map.barriers.size();
-    for(auto it= map.barriers.begin(); it!=map.barriers.end();++it)
-        out<<*(*it);
-    out<<endl<<"Data Path\n";
-    for(auto it=map.short_path.begin();it!=map.short_path.end();++it)
-        out<<*it;
-}
-
-ostream& operator <<(ostream &out, const GameMap &map)
-{
-    out<<map.width_coord<<endl<<map.height_coord<<endl<<map.step<<endl;
-    out<<map.goal_point<<endl<<map.start<<endl<<map.goal<<endl;
-    out<<map.car<<map.barriers.size()<<endl;
-    for(auto it=map.barriers.begin(); it!=map.barriers.end(); ++it)
-        out<<*it;
-    return out;
-}
-
-istream& operator >>(istream &in, GameMap &map)
-{
-    int barrier_size;
-    in>>map.width_coord>>map.height_coord>>map.step;
-    in>>map.goal_point.x>>map.goal_point.y>>map.goal_point.z;
-    in>>map.start>>map.goal;
-    in>>map.car>>barrier_size;
-    for(int i=0; i<barrier_size; i++)
+    for (int i = 0; i < map.num_vertices_height; i++)
     {
-        BQuadrAngle barrier;
-        in>>barrier;
-        map.barriers.push_back(&barrier);
-     }
-    return in;
+        for (int j = 0; j < map.num_vertices_width; j++)
+            cout << '*';
+        cout << endl;
+    }
+    cout << endl;
 }
 
-QDataStream& operator <<(QDataStream &out, const GameMap &map)
+void GameMapPrinter::print_way(const GameMap& map,const list<vertex_descriptor>& shortest_path)
 {
-
-    return out;
-}
-
-QDataStream& operator >>(QDataStream &in, GameMap &map)
-{
-    return in;
+    cout<<"\033[s";
+    for (auto it=shortest_path.begin(); it != shortest_path.end(); ++it)
+    {
+        int k=map.adapter->GetJ(map.distance->matrix[(*it)].x)+1;
+        int d=map.adapter->GetI(map.distance->matrix[(*it)].z)+1;
+        cout<<"\033["<<d<<';'<<k<<"H\033[0;31;40m*\033[0;0m";
+    }
+    cout<<"\033[u\n";
 }

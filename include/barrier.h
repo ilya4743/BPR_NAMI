@@ -19,7 +19,6 @@ class GameMap;
 class IBarrier
 {
 public:
-
     /// Виртуальный деструктор
     virtual ~IBarrier()=0;
 
@@ -28,21 +27,6 @@ public:
     /// @param step шаг сетки графа
     /// @param g поле
     virtual int  init(DMQuadrangle& distance,vector<Ogre::Vector3>& out)=0;
-
-    /// @brief Принадлежит ли точка пространства препятствию
-    /// @param p точка, которую проверям
-    /// @param g поле
-    virtual bool hasPoint(Ogre::Vector3 p, GameMap&g)=0;
-
-    /// @brief Принадлежит ли вершина графа препятствию
-    /// @param v вершина графа, которую проверям
-    /// @param g поле
-    virtual bool hasVertex(int v, GameMap&g)=0;
-
-    /// @brief Проверка на пересечение отрезка и препятствия
-    /// @param a координаты начала отрезка
-    /// @param b координаты конеца отрезка
-    virtual bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)=0;
 };
 
 /// @brief Базовый класс препятствия
@@ -67,7 +51,7 @@ public:
     Barrier(const Barrier &o);
 
     /// Деструктор
-    ~Barrier();
+    ~Barrier()override;
 
     /// Матрица трансформации
     Ogre::Matrix4 matrix4;
@@ -79,13 +63,6 @@ public:
     Ogre::Quaternion rotation;
 
     int init(DMQuadrangle& distance,vector<Ogre::Vector3>& out)override;
-    bool hasPoint(Ogre::Vector3 p, GameMap&g)override;
-    bool hasVertex(int v, GameMap&g)override;
-    bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)override;
-
-    friend ofstream& operator<<(ofstream &out, const Barrier &barrier);
-    friend QDataStream& operator <<(QDataStream &out, const Barrier &b);
-    friend QDataStream& operator >>(QDataStream &in, Barrier &b);
 };
 
 /// @brief Класс прямоугольного препятствия
@@ -110,18 +87,9 @@ public:
     BQuadrAngle(const BQuadrAngle& o);
 
     /// Деструктор
-    ~BQuadrAngle();
+    ~BQuadrAngle()override;
 
     int init(DMQuadrangle& distance, vector<Ogre::Vector3>& out)override;
-    bool hasPoint(Ogre::Vector3 p, GameMap&g)override;
-    bool hasVertex(int v, GameMap&g)override;
-    bool isIntersection(Ogre::Vector3 a, Ogre::Vector3 b)override;
-
-    friend ofstream& operator<<(ofstream &out, const BQuadrAngle &barrier);
-    friend ostream& operator<<(ostream &out, const BQuadrAngle &barrier);
-    friend istream& operator>>(istream &in, BQuadrAngle &barrier);
-    friend QDataStream& operator <<(QDataStream &out, const BQuadrAngle &b);
-    friend QDataStream& operator >>(QDataStream &in, BQuadrAngle &b);
 
     /// Вершины куба
     Ogre::Vector3 p1,p2,p3,p4;

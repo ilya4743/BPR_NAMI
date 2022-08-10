@@ -83,11 +83,6 @@ public:
 
     /// Деструктор
     ~GameMap();
-
-    friend ostream& operator <<(ostream &out, const GameMap &map);
-    friend istream& operator >>(istream &in, GameMap &map);
-    friend QDataStream& operator <<(QDataStream &out, const GameMap &map);
-    friend QDataStream& operator >>(QDataStream &in, GameMap &map);
 };
 
 class GameMapPrinter
@@ -101,9 +96,6 @@ public:
 
     /// Печать пути
     static void print_way(const GameMap& distance, const list<vertex_descriptor>& shortest_path);
-
-    /// Печать в файл
-    static void printToFile(const GameMap& map, ofstream& out);
 };
 
 #endif // GAMEMAP_H
