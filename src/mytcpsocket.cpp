@@ -9,6 +9,7 @@ MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
     isSmoothing=false;
     isConnected=false;
+    socket = new QTcpSocket(this);
 }
 
 void delay(const int RECONNECT_TIME)
@@ -26,7 +27,6 @@ void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_O
     QByteArray qb;
     QDataStream d(&qb, QIODevice::WriteOnly);
     this->DEBUG_OUTPUT=DEBUG_OUTPUT;
-    socket = new QTcpSocket(this);
     connect(socket, SIGNAL(connected()),this, SLOT(connected()));
     connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()));
     connect(socket, SIGNAL(bytesWritten(qint64)),this, SLOT(bytesWritten(qint64)));
@@ -141,8 +141,8 @@ void MyTcpSocket::readyRead()
                 qDebug()<<"id"<<itGameObj.key()<<"\tcube:";
                 qDebug()<<"p1\t"<<(bar)->p1.x<<'\t'<<(bar)->p1.y<<'\t'<<(bar)->p1.z;
                 qDebug()<<"p2\t"<<(bar)->p2.x<<'\t'<<(bar)->p2.y<<'\t'<<(bar)->p2.z;
-                qDebug()<<"p7\t"<<(bar)->p7.x<<'\t'<<(bar)->p7.y<<'\t'<<(bar)->p7.z;
-                qDebug()<<"p8\t"<<(bar)->p8.x<<'\t'<<(bar)->p1.y<<'\t'<<(bar)->p8.z;
+                qDebug()<<"p3\t"<<(bar)->p3.x<<'\t'<<(bar)->p3.y<<'\t'<<(bar)->p3.z;
+                qDebug()<<"p4\t"<<(bar)->p4.x<<'\t'<<(bar)->p4.y<<'\t'<<(bar)->p4.z;
                 qDebug()<<"globpos\t"<<(bar)->position.x<<'\t'<<(bar)->position.y<<'\t'<<(bar)->position.z;
 
                 (*bar).matrix4=g1.car.matrix4.inverse()*((*bar).matrix4);
@@ -150,10 +150,6 @@ void MyTcpSocket::readyRead()
                 (*bar).p2=g1.car.matrix4.inverse()*(*bar).p2;
                 (*bar).p3=g1.car.matrix4.inverse()*(*bar).p3;
                 (*bar).p4=g1.car.matrix4.inverse()*(*bar).p4;
-                (*bar).p5=g1.car.matrix4.inverse()*(*bar).p5;
-                (*bar).p6=g1.car.matrix4.inverse()*(*bar).p6;
-                (*bar).p7=g1.car.matrix4.inverse()*(*bar).p7;
-                (*bar).p8=g1.car.matrix4.inverse()*(*bar).p8;
                 Ogre::Affine3 af((*bar).matrix4);
                 af.decomposition((*bar).position,(*bar).scale, (*bar).rotation);
 
@@ -162,8 +158,8 @@ void MyTcpSocket::readyRead()
                 qDebug()<<"scale\t"<<(bar)->scale.x<<'\t'<<(bar)->scale.y<<'\t'<<(bar)->scale.z;
                 qDebug()<<"p1\t"<<(bar)->p1.x<<'\t'<<(bar)->p1.y<<'\t'<<(bar)->p1.z;
                 qDebug()<<"p2\t"<<(bar)->p2.x<<'\t'<<(bar)->p2.y<<'\t'<<(bar)->p2.z;
-                qDebug()<<"p7\t"<<(bar)->p7.x<<'\t'<<(bar)->p7.y<<'\t'<<(bar)->p7.z;
-                qDebug()<<"p8\t"<<(bar)->p8.x<<'\t'<<(bar)->p1.y<<'\t'<<(bar)->p8.z;
+                qDebug()<<"p7\t"<<(bar)->p3.x<<'\t'<<(bar)->p3.y<<'\t'<<(bar)->p3.z;
+                qDebug()<<"p8\t"<<(bar)->p4.x<<'\t'<<(bar)->p4.y<<'\t'<<(bar)->p4.z;
 
                 g1.barriers.push_back(bar);
             }
@@ -174,7 +170,8 @@ void MyTcpSocket::readyRead()
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
-                d.setByteOrder(QDataStream::LittleEndian);
+                d.setByteOrder(QDataStream::LittleEndian);              
+
                 d<<(unsigned char)0x44<<(unsigned char)0x48;
                 d<<(int)g1.short_path.size()*2;
                 for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)

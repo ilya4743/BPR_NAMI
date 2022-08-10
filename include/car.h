@@ -39,11 +39,6 @@ public:
     Ogre::Quaternion rotation;
     /// Скорость авто
     float speed;
-
-    friend ostream& operator <<(ostream &out, const Car &b);
-    friend istream& operator >>(istream &in, Car &b);
-    friend QDataStream& operator <<(QDataStream &out, const Car &car);
-    friend QDataStream& operator >>(QDataStream &in, Car &car);
 };
 
 #endif // CAR_H

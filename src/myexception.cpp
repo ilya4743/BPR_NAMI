@@ -9,19 +9,23 @@ MyException::MyException(int ErrorCode):exception()
 {
     this->ErrorCode=ErrorCode;
 }
+
 MyException::MyException(const char *msg,int ErrorCode):exception()
 {
     this->msg=msg;
     this->ErrorCode=ErrorCode;
 }
+
 MyException::~MyException()
 {
 
 }
+
 int MyException::GetErrorCode()
 {
     return ErrorCode;
 }
+
 void MyException::SetErrorCode(int ErrorCode)
 {
     this->ErrorCode=ErrorCode;

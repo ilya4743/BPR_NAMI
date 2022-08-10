@@ -51,7 +51,7 @@ public:
     MyGraph* graph;
 
     /// Матрица расстояний навигационного графа
-    DistanceMatrix* distance;
+    DMQuadrangle* distance;
 
     /// Список препятствий
     list<Barrier*> barriers;
@@ -60,8 +60,6 @@ public:
     list<Ogre::Vector3> short_path;
 
     bool isSmoothing;
-
-    IDistanceMatrixAdapter* adapter;
 
     /// Формирование сообщения под отправку
     list<Ogre::Vector3> create_msg(const DistanceMatrix& locations, list<vertex_descriptor>& shortest_path);
@@ -83,27 +81,19 @@ public:
 
     /// Деструктор
     ~GameMap();
-
-    friend ostream& operator <<(ostream &out, const GameMap &map);
-    friend istream& operator >>(istream &in, GameMap &map);
-    friend QDataStream& operator <<(QDataStream &out, const GameMap &map);
-    friend QDataStream& operator >>(QDataStream &in, GameMap &map);
 };
 
 class GameMapPrinter
 {
 public:
     /// Печать игрового поля в консоль
-    static void print_game_map(const GameMap &map);
+    static void print_game_map(const DMQuadrangle &map);
 
     /// Печать вершин игрового поля в консоль
     static void print_vertex_map(const GameMap &map);
 
     /// Печать пути
-    static void print_way(const GameMap& distance, const list<vertex_descriptor>& shortest_path);
-
-    /// Печать в файл
-    static void printToFile(const GameMap& map, ofstream& out);
+    static void print_way(const DMQuadrangle& dm, const list<vertex_descriptor>& shortest_path);
 };
 
 #endif // GAMEMAP_H

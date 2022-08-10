@@ -40,7 +40,7 @@ void MyGraph::init(int width, int height)
         for (int j = width - 2; j >= 0; j--)
             add_edge(i * width + j, i * width - (width - 1) + j, *this->adj_list);
 }
-#include<QDebug>
+
 // euclidean distance heuristic
 template <class Graph, class CostType, class LocMap>
 class euclidean_heuristic : public astar_heuristic<Graph, CostType>
@@ -52,80 +52,11 @@ public:
     {
         CostType dx = m_location[m_goal].x - m_location[u].x;
         CostType dy = m_location[m_goal].z - m_location[u].z;
-        //qDebug()<<'('<<m_location[m_goal].x<<" - "<<m_location[u].x<<")^2 + ("<<m_location[m_goal].x<<" - "<<m_location[u].x<<")^2";
-        auto t=::sqrt(dx * dx + dy * dy);
-        //qDebug()<<t;
         return ::sqrt(dx * dx + dy * dy);
     }
 private:
     LocMap m_location;
     Vertex m_goal;
-};
-
-// euclidean distance heuristic
-/*template <class Graph, class CostType, class LocMap>
-class minkowski_heuristic : public astar_heuristic<Graph, CostType>
-{
-public:
-    typedef typename graph_traits<Graph>::vertex_descriptor Vertex;
-    minkowski_heuristic(LocMap l, Vertex goal) : m_location(l), m_goal(goal) {}
-    CostType operator()(Vertex u)
-    {
-        CostType dx = m_location[m_goal].x - m_location[u].x;
-        CostType dy = m_location[m_goal].y - m_location[u].y;
-        return ::pow(pow(dx,) + pow(dy,));
-    }
-private:
-    LocMap m_location;
-    Vertex m_goal;
-};*/
-
-//diagonal_distance_heuristic
-template <class Graph, class CostType, class LocMap>
-class diagonal_heuristic : public astar_heuristic<Graph, CostType>
-{
-public:
-    typedef typename graph_traits<Graph>::vertex_descriptor Vertex;
-    diagonal_heuristic(LocMap l, Vertex goal) : m_location(l), m_goal(goal) {}
-    CostType operator()(Vertex u)
-    {
-        CostType dx = abs(m_location[m_goal].x - m_location[u].x);
-        CostType dy = abs(m_location[m_goal].y - m_location[u].y);
-        //float D=1;
-        //float D2=1;
-        return max(dx, dy);
-    }
-private:
-    LocMap m_location;
-    Vertex m_goal;
-};
-
-//diagonal_distance_heuristic
-template <class Graph, class CostType, class LocMap>
-class cross_heuristic : public astar_heuristic<Graph, CostType>
-{
-public:
-    typedef typename graph_traits<Graph>::vertex_descriptor Vertex;
-    cross_heuristic(LocMap l, Vertex goal, Vertex s) : m_location(l), m_goal(goal), m_start(s) {}
-    CostType operator()(Vertex u)
-    {
-        CostType dx = abs(m_location[m_goal].x - m_location[u].x);
-        CostType dy = abs(m_location[m_goal].y - m_location[u].y);
-        //CostType dx1 = current.x - goal.x
-        //CostType dy1 = current.y - goal.y
-        CostType dx2 = m_location[m_start].x - m_location[m_goal].x;
-        CostType dy2 = m_location[m_start].y - m_location[m_goal].y;
-        //cross = abs(dx*dy2 - dx2*dy)
-        //heuristic += cross*0.001
-
-        float D=1;
-        float D2=1;
-        return abs(dx*dy2 - dx2*dy)*0.001;
-    }
-private:
-    LocMap m_location;
-    Vertex m_goal;
-    Vertex m_start;
 };
 
 struct found_goal {}; // exception for termination
