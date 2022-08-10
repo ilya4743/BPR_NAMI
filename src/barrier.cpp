@@ -138,15 +138,15 @@ void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& 
     cout<<"\033[u";
 }
 
-void PrinterBQuadrAngle::drawCube(const vector<Ogre::Vector3>& clipping,const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter,DMQuadrangle& distance, MyGraph& g)
+void PrinterBQuadrAngle::drawCube(const vector<Ogre::Vector3>& clipping, DMQuadrangle& distance, MyGraph& g)
 {
     for(int i=1; i<clipping.size(); i++)
     {
-        int y0=adapter.GetI(clipping[i-1].z);
-        int x0=adapter.GetJ(clipping[i-1].x);
+        int y0=distance.GetI(clipping[i-1].z);
+        int x0=distance.GetJ(clipping[i-1].x);
 
-        int y1=adapter.GetI(clipping[i].z);
-        int x1=adapter.GetJ(clipping[i].x);
+        int y1=distance.GetI(clipping[i].z);
+        int x1=distance.GetJ(clipping[i].x);
 
         drawLine(x0, y0, x1, y1,distance,g);
     }

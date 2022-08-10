@@ -98,10 +98,10 @@ public:
 class PrinterBQuadrAngle
 {
 private:
-    void drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& distance,MyGraph& g);
+    void drawLine(int x1, int y1, int x2, int y2, DMQuadrangle& distance, MyGraph& g);
 
 public:
-    void drawCube(const vector<Ogre::Vector3>& out,const BQuadrAngle& barrier, IDistanceMatrixAdapter & adapter, DMQuadrangle& distance, MyGraph& g);
+    void drawCube(const vector<Ogre::Vector3>& out, DMQuadrangle& distance, MyGraph& g);
 };
 
 #endif // BARRIER_H

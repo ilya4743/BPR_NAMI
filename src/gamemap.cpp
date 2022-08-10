@@ -17,8 +17,7 @@ GameMap::GameMap(float width_coord, float height_coord, float step, int center,
     isSmoothing(isSmoothing)
 {
     distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);
-    adapter=new DistanceMatrixAdapter(dynamic_cast<DMQuadrangle*>(distance));
-    goal = adapter->GetI(goal_p.z)*num_vertices_width + adapter->GetJ(goal_p.x);
+    goal = distance->GetI(goal_p.z)*num_vertices_width + distance->GetJ(goal_p.x);
     graph=new MyGraph(num_vertices_width*num_vertices_height);
 }
 
@@ -56,20 +55,20 @@ void GameMap::doo(const int DEBUG_OUTPUT)
 
     if(DEBUG_OUTPUT==1) //если дебаг включен
     {
-        GameMapPrinter::print_game_map(*this);
+        GameMapPrinter::print_game_map(*distance);
         PrinterBQuadrAngle printerBQuadrAngle;
 
         for(auto it= barriers.begin(); it!=barriers.end();++it)
         {
             vector<Ogre::Vector3> clipping;
-            (*it)->init(*(dynamic_cast<DMQuadrangle*>(distance)),clipping);
-            printerBQuadrAngle.drawCube(clipping,*dynamic_cast<BQuadrAngle*>(*it),*adapter, *dynamic_cast<DMQuadrangle*>(distance),*graph);
+            (*it)->init(*distance,clipping);
+            printerBQuadrAngle.drawCube(clipping,*distance,*graph);
         }
 
         list<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
         short_path=create_msg(*distance,short1);
 
-        GameMapPrinter::print_way(*this, short1);
+        GameMapPrinter::print_way(*distance, short1);
         for(auto it=short_path.begin();it!=short_path.end();++it)
             (*it)=car.rotation*(*it);
     }
@@ -88,24 +87,24 @@ GameMap::~GameMap()
     this->barriers.clear();
 }
 
-void GameMapPrinter::print_game_map(const GameMap& map)
+void GameMapPrinter::print_game_map(const DMQuadrangle& dm)
 {
-    for (int i = 0; i < map.num_vertices_height; i++)
+    for (int i = 0; i < dm.height; i++)
     {
-        for (int j = 0; j < map.num_vertices_width; j++)
+        for (int j = 0; j < dm.width; j++)
             cout << '*';
         cout << endl;
     }
     cout << endl;
 }
 
-void GameMapPrinter::print_way(const GameMap& map,const list<vertex_descriptor>& shortest_path)
+void GameMapPrinter::print_way(const DMQuadrangle& dm,const list<vertex_descriptor>& shortest_path)
 {
     cout<<"\033[s";
     for (auto it=shortest_path.begin(); it != shortest_path.end(); ++it)
     {
-        int k=map.adapter->GetJ(map.distance->matrix[(*it)].x)+1;
-        int d=map.adapter->GetI(map.distance->matrix[(*it)].z)+1;
+        int k=dm.GetJ(dm.matrix[(*it)].x)+1;
+        int d=dm.GetI(dm.matrix[(*it)].z)+1;
         cout<<"\033["<<d<<';'<<k<<"H\033[0;31;40m*\033[0;0m";
     }
     cout<<"\033[u\n";

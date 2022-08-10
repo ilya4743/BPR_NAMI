@@ -9,6 +9,7 @@ MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
     isSmoothing=false;
     isConnected=false;
+    socket = new QTcpSocket(this);
 }
 
 void delay(const int RECONNECT_TIME)
@@ -26,7 +27,6 @@ void MyTcpSocket::doConnect(const QString& IP, const int PORT, const int DEBUG_O
     QByteArray qb;
     QDataStream d(&qb, QIODevice::WriteOnly);
     this->DEBUG_OUTPUT=DEBUG_OUTPUT;
-    socket = new QTcpSocket(this);
     connect(socket, SIGNAL(connected()),this, SLOT(connected()));
     connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()));
     connect(socket, SIGNAL(bytesWritten(qint64)),this, SLOT(bytesWritten(qint64)));
