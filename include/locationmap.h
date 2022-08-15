@@ -3,8 +3,11 @@
 #include<iostream>
 #include<vector>
 #include"OgreMatrix4.h"
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
 
 using namespace std;
+namespace bg = boost::geometry;
 
 /// @brief Интерфейс матрицы расстояний
 class IDistanceMatrix
@@ -73,6 +76,14 @@ public:
     {
         return (center + int(i/step)) % width;
     }
+
+    ///Получить левую нижнюю точку (min_corner)
+    bg::model::d2::point_xy<float> getLDP() const
+    {return bg::model::d2::point_xy<float>(matrix[0].x,matrix[matrix.size()-1].z);}
+
+    ///Получить правую нижнюю точку (max_corner)
+    bg::model::d2::point_xy<float> getRUP() const
+    {return bg::model::d2::point_xy<float>(matrix[matrix.size()-1].x,matrix[0].z);}
 
     ~DMQuadrangle()override;
 };

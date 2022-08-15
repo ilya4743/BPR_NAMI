@@ -30,28 +30,34 @@ list<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, list<ver
     return msg1;
 }
 
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+typedef bg::model::d2::point_xy<float> point2d;
+namespace bg = boost::geometry;
+
 void GameMap::init()
 {
     distance->init();
     graph->init(num_vertices_width,num_vertices_height);
+    goal_point.z=300;
+
+    point2d goal(goal_point.x, goal_point.z);
+    bg::model::box<point2d> box(distance->getLDP(),distance->getRUP());
+
+    if (!bg::covered_by(goal, box))
+    {
+        polygon p{{{0,0},{goal.x(),goal.y()}}};
+        vector < point2d >  output ;
+        boost::geometry::intersection(p, box, output);
+        goal_point.x=output[0].x();
+        goal_point.z=output[0].y();
+    }
+    goal_point.z=99;
 }
 
 void GameMap::doo(const int DEBUG_OUTPUT)
 {
-    init();
-    //если точка конечного маршрута вышла за пределы сетки графа по x
-    if (!(distance->matrix[0].x<=goal_point.x && distance->matrix[num_vertices_width-1].x>=goal_point.x))
-        if(goal_point.x>0)
-            goal_point.x=distance->matrix[num_vertices_width-1].x;
-        else
-            goal_point.x=distance->matrix[0].x;
-
-    //если точка конечного маршрута вышла за пределы сетки графа по y
-    if (!(distance->matrix[0].z>=goal_point.z && distance->matrix[distance->matrix.size()-1].z<=goal_point.z))
-        if(goal_point.z>0)
-            goal_point.z=distance->matrix[0].z;
-        else
-            goal_point.z=distance->matrix[distance->matrix.size()-1].z;
+    init();     
 
     if(DEBUG_OUTPUT==1) //если дебаг включен
     {
