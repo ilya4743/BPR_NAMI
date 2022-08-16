@@ -5,7 +5,11 @@
 #include "barrier.h"
 #include "car.h"
 #include <OgreVector.h>
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
 
+typedef bg::model::d2::point_xy<float> point2d;
+namespace bg = boost::geometry;
 using namespace std;
 
 class Barrier;
@@ -57,12 +61,12 @@ public:
     list<Barrier*> barriers;
 
     /// Кратчайший путь
-    list<Ogre::Vector3> short_path;
+    vector<Ogre::Vector3> short_path;
 
     bool isSmoothing;
 
     /// Формирование сообщения под отправку
-    list<Ogre::Vector3> create_msg(const DistanceMatrix& locations, list<vertex_descriptor>& shortest_path);
+    vector<Ogre::Vector3> create_msg(const DistanceMatrix& locations, vector<vertex_descriptor>& shortest_path);
 
     /// Конструктор по умолчанию
     GameMap();
@@ -93,7 +97,7 @@ public:
     static void print_vertex_map(const GameMap &map);
 
     /// Печать пути
-    static void print_way(const DMQuadrangle& dm, const list<vertex_descriptor>& shortest_path);
+    static void print_way(const DMQuadrangle& dm, const vector<vertex_descriptor>& shortest_path);
 };
 
 #endif // GAMEMAP_H

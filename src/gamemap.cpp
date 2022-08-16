@@ -17,42 +17,55 @@ GameMap::GameMap(float width_coord, float height_coord, float step, int center,
     isSmoothing(isSmoothing)
 {
     distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);
-    goal = distance->GetI(goal_p.z)*num_vertices_width + distance->GetJ(goal_p.x);
     graph=new MyGraph(num_vertices_width*num_vertices_height);
 }
+#include <boost/math/interpolators/cardinal_cubic_b_spline.hpp>
 
-list<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, list<vertex_descriptor>& shortest_path)
+vector<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, vector<vertex_descriptor>& shortest_path)
 {
-    list<Ogre::Vector3> msg1;
-    for (auto it=shortest_path.begin();it != shortest_path.end(); ++it)
-        msg1.push_back(Ogre::Vector3(distance.matrix[*it].x,0,distance.matrix[*it].z));
-    msg1.pop_back();
-    return msg1;
-}
+    boost::geometry::model::linestring<point2d> m;
+    boost::geometry::model::multi_point<point2d> m1;
+    vector<Ogre::Vector3>msg;
+    m.reserve(shortest_path.size()-1);
+    msg.reserve(shortest_path.size()-1);
+    for (auto it=shortest_path.begin();it != shortest_path.end()-1; ++it)
+        m.push_back(point2d(distance.matrix[*it].x,distance.matrix[*it].z));
+    boost::geometry::line_interpolate(m,10,m1);
 
-#include <boost/geometry.hpp>
-#include <boost/geometry/geometries/point_xy.hpp>
-typedef bg::model::d2::point_xy<float> point2d;
-namespace bg = boost::geometry;
+    vector<float> y,x;
+    y.reserve(shortest_path.size()-1);
+    x.reserve(shortest_path.size()-1);
+    for(int i=0;i<m1.size();++i)
+    {
+        x.push_back(m1[i].x());
+        y.push_back(m1[i].y());
+    }
+
+    boost::math::interpolators::cardinal_cubic_b_spline<float> spline(x.data(), x.size(), 0 /* start time */, 10);
+
+
+    //for (auto it=m1.begin();it != m1.end(); ++it)
+    //    msg.push_back(Ogre::Vector3(it->x(),0,it->y()));
+    for (auto it=m.begin();it != m.end(); ++it)
+        msg.push_back(Ogre::Vector3(it->x(),0,it->y()));
+    return msg;
+}
 
 void GameMap::init()
 {
     distance->init();
     graph->init(num_vertices_width,num_vertices_height);
-    goal_point.z=300;
-
-    point2d goal(goal_point.x, goal_point.z);
-    bg::model::box<point2d> box(distance->getLDP(),distance->getRUP());
-
-    if (!bg::covered_by(goal, box))
+    point2d _goal(goal_point.x, goal_point.z);
+    polygon box{{{distance->getLDP()},{distance->getLUP()},{distance->getRUP()},{distance->getRDP()},{distance->getLDP()}}};
+    if (!bg::covered_by(_goal, box))
     {
-        polygon p{{{0,0},{goal.x(),goal.y()}}};
-        vector < point2d >  output ;
-        boost::geometry::intersection(p, box, output);
+        bg::model::linestring<point2d> seg{{0,0},{_goal.x(),_goal.y()}};
+        vector<point2d>  output ;
+        boost::geometry::intersection(seg, box, output);
         goal_point.x=output[0].x();
         goal_point.z=output[0].y();
     }
-    goal_point.z=99;
+    goal = distance->GetI(goal_point.z)*num_vertices_width + distance->GetJ(goal_point.x);
 }
 
 void GameMap::doo(const int DEBUG_OUTPUT)
@@ -71,12 +84,12 @@ void GameMap::doo(const int DEBUG_OUTPUT)
             printerBQuadrAngle.drawCube(clipping,*distance,*graph);
         }
 
-        list<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
+        vector<vertex_descriptor> short1=graph->search(start,goal,distance->matrix);
         short_path=create_msg(*distance,short1);
 
         GameMapPrinter::print_way(*distance, short1);
-        for(auto it=short_path.begin();it!=short_path.end();++it)
-            (*it)=car.rotation*(*it);
+        for(auto it=short_path.begin();it!=short_path.end();++it)        
+            *it=car.rotation*(*it);
     }
     else    //если дебаг выключен
     {
@@ -104,7 +117,7 @@ void GameMapPrinter::print_game_map(const DMQuadrangle& dm)
     cout << endl;
 }
 
-void GameMapPrinter::print_way(const DMQuadrangle& dm,const list<vertex_descriptor>& shortest_path)
+void GameMapPrinter::print_way(const DMQuadrangle& dm,const vector<vertex_descriptor>& shortest_path)
 {
     cout<<"\033[s";
     for (auto it=shortest_path.begin(); it != shortest_path.end(); ++it)

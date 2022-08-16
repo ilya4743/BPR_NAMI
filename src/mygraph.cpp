@@ -81,7 +81,7 @@ private:
     Vertex m_goal;
 };
 
-list<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Ogre::Vector3>& distance )
+std::vector<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const vertex_descriptor goal,const vector<Ogre::Vector3>& distance )
 {
     vector<vertex_descriptor> p(num_vertices(*this->adj_list));
     vector<float> d(num_vertices(*this->adj_list));
@@ -101,7 +101,9 @@ list<vertex_descriptor> MyGraph::search(const vertex_descriptor start,const vert
         }
         shortest_path.pop_front();
         shortest_path.push_back(start);
-        return shortest_path;
+        vector<vertex_descriptor> path{ std::make_move_iterator(std::begin(shortest_path)),
+                    std::make_move_iterator(std::end(shortest_path)) };
+        return path;
     }
     throw MyException("Path not found!\0",PathNotFound);
     cout << "Didn't find a path from " << start << "to" << goal << "!" << endl;

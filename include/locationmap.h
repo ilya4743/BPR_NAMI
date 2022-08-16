@@ -85,6 +85,14 @@ public:
     bg::model::d2::point_xy<float> getRUP() const
     {return bg::model::d2::point_xy<float>(matrix[matrix.size()-1].x,matrix[0].z);}
 
+    ///Получить правую нижнюю точку
+    bg::model::d2::point_xy<float> getRDP() const
+    {return bg::model::d2::point_xy<float>(matrix[matrix.size()-1].x,matrix[matrix.size()-1].z);}
+
+    ///Получить левую верхнюю точку
+    bg::model::d2::point_xy<float> getLUP() const
+    {return bg::model::d2::point_xy<float>(matrix[0].x,matrix[0].z);}
+
     ~DMQuadrangle()override;
 };
 

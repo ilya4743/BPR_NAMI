@@ -137,14 +137,6 @@ void MyTcpSocket::readyRead()
             for(auto itGameObj=mapGameObj.begin();itGameObj!=mapGameObj.end();++itGameObj)
             {
                 auto *bar=new BQuadrAngle(itGameObj.value());
-
-                qDebug()<<"id"<<itGameObj.key()<<"\tcube:";
-                qDebug()<<"p1\t"<<(bar)->p1.x<<'\t'<<(bar)->p1.y<<'\t'<<(bar)->p1.z;
-                qDebug()<<"p2\t"<<(bar)->p2.x<<'\t'<<(bar)->p2.y<<'\t'<<(bar)->p2.z;
-                qDebug()<<"p3\t"<<(bar)->p3.x<<'\t'<<(bar)->p3.y<<'\t'<<(bar)->p3.z;
-                qDebug()<<"p4\t"<<(bar)->p4.x<<'\t'<<(bar)->p4.y<<'\t'<<(bar)->p4.z;
-                qDebug()<<"globpos\t"<<(bar)->position.x<<'\t'<<(bar)->position.y<<'\t'<<(bar)->position.z;
-
                 (*bar).matrix4=g1.car.matrix4.inverse()*((*bar).matrix4);
                 (*bar).p1=g1.car.matrix4.inverse()*(*bar).p1;
                 (*bar).p2=g1.car.matrix4.inverse()*(*bar).p2;
@@ -152,18 +144,8 @@ void MyTcpSocket::readyRead()
                 (*bar).p4=g1.car.matrix4.inverse()*(*bar).p4;
                 Ogre::Affine3 af((*bar).matrix4);
                 af.decomposition((*bar).position,(*bar).scale, (*bar).rotation);
-
-                qDebug()<<"localpos\t"<<(bar)->position.x<<'\t'<<(bar)->position.y<<'\t'<<(bar)->position.z;
-                qDebug()<<"rotation\t"<<(bar)->rotation.w<<'\t'<<(bar)->rotation.x<<'\t'<<(bar)->rotation.y<<'\t'<<(bar)->rotation.z;
-                qDebug()<<"scale\t"<<(bar)->scale.x<<'\t'<<(bar)->scale.y<<'\t'<<(bar)->scale.z;
-                qDebug()<<"p1\t"<<(bar)->p1.x<<'\t'<<(bar)->p1.y<<'\t'<<(bar)->p1.z;
-                qDebug()<<"p2\t"<<(bar)->p2.x<<'\t'<<(bar)->p2.y<<'\t'<<(bar)->p2.z;
-                qDebug()<<"p7\t"<<(bar)->p3.x<<'\t'<<(bar)->p3.y<<'\t'<<(bar)->p3.z;
-                qDebug()<<"p8\t"<<(bar)->p4.x<<'\t'<<(bar)->p4.y<<'\t'<<(bar)->p4.z;
-
                 g1.barriers.push_back(bar);
             }
-
 
                 g1.doo(DEBUG_OUTPUT);
 
@@ -171,7 +153,7 @@ void MyTcpSocket::readyRead()
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
                 d.setByteOrder(QDataStream::LittleEndian);              
-
+qDebug()<<"path:";
                 d<<(unsigned char)0x44<<(unsigned char)0x48;
                 d<<(int)g1.short_path.size()*2;
                 for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
