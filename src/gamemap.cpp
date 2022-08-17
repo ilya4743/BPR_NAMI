@@ -42,12 +42,13 @@ vector<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, vector
     }
 
     boost::math::interpolators::cardinal_cubic_b_spline<float> spline(x.data(), x.size(), 0 /* start time */, 10);
-
+    for(float i=0; i<y[y.size()-1];i+=1)
+        msg.push_back(Ogre::Vector3(spline(i),0,i));
 
     //for (auto it=m1.begin();it != m1.end(); ++it)
     //    msg.push_back(Ogre::Vector3(it->x(),0,it->y()));
-    for (auto it=m.begin();it != m.end(); ++it)
-        msg.push_back(Ogre::Vector3(it->x(),0,it->y()));
+    //for (auto it=m.begin();it != m.end(); ++it)
+    //    msg.push_back(Ogre::Vector3(it->x(),0,it->y()));
     return msg;
 }
 
