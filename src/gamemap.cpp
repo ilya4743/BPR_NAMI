@@ -19,6 +19,7 @@ GameMap::GameMap(float width_coord, float height_coord, float step, int center,
     distance=new DMQuadrangle(num_vertices_width,num_vertices_height,center,step);
     graph=new MyGraph(num_vertices_width*num_vertices_height);
 }
+
 #include <boost/math/interpolators/cardinal_cubic_b_spline.hpp>
 
 vector<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, vector<vertex_descriptor>& shortest_path)
@@ -30,7 +31,7 @@ vector<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, vector
     msg.reserve(shortest_path.size()-1);
     for (auto it=shortest_path.begin();it != shortest_path.end()-1; ++it)
         m.push_back(point2d(distance.matrix[*it].x,distance.matrix[*it].z));
-    boost::geometry::line_interpolate(m,10,m1);
+    boost::geometry::line_interpolate(m,step,m1);
 
     vector<float> y,x;
     y.reserve(shortest_path.size()-1);
@@ -41,14 +42,14 @@ vector<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, vector
         y.push_back(m1[i].y());
     }
 
-    boost::math::interpolators::cardinal_cubic_b_spline<float> spline(x.data(), x.size(), 0 /* start time */, 10);
-    for(float i=0; i<y[y.size()-1];i+=1)
-        msg.push_back(Ogre::Vector3(spline(i),0,i));
+    //boost::math::interpolators::cardinal_cubic_b_spline<float> spline(x.data(), x.size(), 0 /* start time */, 10);
+    //for(float i=0; i<y[y.size()-1];i+=1)
+    //    msg.push_back(Ogre::Vector3(spline(i),0,i));
 
     //for (auto it=m1.begin();it != m1.end(); ++it)
     //    msg.push_back(Ogre::Vector3(it->x(),0,it->y()));
-    //for (auto it=m.begin();it != m.end(); ++it)
-    //    msg.push_back(Ogre::Vector3(it->x(),0,it->y()));
+    for (auto it=m.begin();it != m.end(); ++it)
+        msg.push_back(Ogre::Vector3(it->x(),0,it->y()));
     return msg;
 }
 

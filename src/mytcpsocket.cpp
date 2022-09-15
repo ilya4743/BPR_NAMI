@@ -2,7 +2,7 @@
 #include<QDataStream>
 #include"myexception.h"
 #include <QTimer>
-#include<QTime>
+#include <QTime>
 #include <QCoreApplication>
 
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
@@ -148,12 +148,11 @@ void MyTcpSocket::readyRead()
             }
 
                 g1.doo(DEBUG_OUTPUT);
-
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
                 d.setByteOrder(QDataStream::LittleEndian);              
-qDebug()<<"path:";
+                qDebug()<<"path:";
                 d<<(unsigned char)0x44<<(unsigned char)0x48;
                 d<<(int)g1.short_path.size()*2;
                 for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)

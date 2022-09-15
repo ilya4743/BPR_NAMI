@@ -24,21 +24,24 @@ MyGraph::MyGraph(MyGraph&o)
 
 void MyGraph::init(int width, int height)
 {
+    Weight_Map weight_map = get(edge_weight, *this->adj_list);
+
     for (int i = 1; i < height; i++)
         for (int j = 0; j < width; j++)
-            add_edge(((i - 1) * width) + j, i * width + j, *this->adj_list);
-
+            weight_map[add_edge(((i - 1) * width) + j, i * width + j, *this->adj_list).first]=1;
+        
     for (int i = 0; i < height; i++)
         for (int j = 1; j < width; j++)
-            add_edge(i * width + j - 1, i * width + j, *this->adj_list);
+            weight_map[add_edge(i * width + j - 1, i * width + j, *this->adj_list).first]=1;
+        
 
     for (int i = 0; i < height - 1; i++)
         for (int j = 0; j < width - 1; j++)
-            add_edge(i * width + j, i * width + (width + 1) + j, *this->adj_list);
+            weight_map[add_edge(i * width + j, i * width + (width + 1) + j, *this->adj_list).first]=1.1;
 
     for (int i = height - 1; i > 0; i--)
         for (int j = width - 2; j >= 0; j--)
-            add_edge(i * width + j, i * width - (width - 1) + j, *this->adj_list);
+            weight_map[add_edge(i * width + j, i * width - (width - 1) + j, *this->adj_list).first]=1.1;
 }
 
 // euclidean distance heuristic
@@ -47,12 +50,36 @@ class euclidean_heuristic : public astar_heuristic<Graph, CostType>
 {
 public:
     typedef typename graph_traits<Graph>::vertex_descriptor Vertex;
-    euclidean_heuristic(LocMap l, Vertex goal) : m_location(l), m_goal(goal) {}
+    euclidean_heuristic(LocMap l, Vertex goal) : m_location(l), m_goal(goal) {
+    }
     CostType operator()(Vertex u)
     {
         CostType dx = m_location[m_goal].x - m_location[u].x;
         CostType dy = m_location[m_goal].z - m_location[u].z;
-        return ::sqrt(dx * dx + dy * dy);
+        float a=sqrt(dx * dx + dy * dy);
+        return sqrt(dx * dx + dy * dy);
+    }
+private:
+    LocMap m_location;
+    Vertex m_goal;
+};
+
+//diagonal_distance_heuristic
+template <class Graph, class CostType, class LocMap>
+class diagonal_heuristic : public astar_heuristic<Graph, CostType>
+{
+public:
+    typedef typename graph_traits<Graph>::vertex_descriptor Vertex;
+    diagonal_heuristic(LocMap l, Vertex goal) : m_location(l), m_goal(goal) {}
+    CostType operator()(Vertex u)
+    {
+        CostType dx = abs(m_location[m_goal].x - m_location[u].x);
+        CostType dz = abs(m_location[m_goal].z - m_location[u].z);
+        float D=1;
+        float D2=1;
+        float m=min(dx,dz);
+        float g=D*(dx+dz)+(D2-2*D)*m;
+        return g;
     }
 private:
     LocMap m_location;
