@@ -30,17 +30,17 @@ vector<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, vector
     m.reserve(shortest_path.size()-1);
     msg.reserve(shortest_path.size()-1);
     for (auto it=shortest_path.begin();it != shortest_path.end()-1; ++it)
-        m.push_back(point2d(distance.matrix[*it].x,distance.matrix[*it].z));
-    boost::geometry::line_interpolate(m,step,m1);
+        msg.push_back(Ogre::Vector3(distance.matrix[*it].x,0,distance.matrix[*it].z));
+    //boost::geometry::line_interpolate(m,step,m1);
 
-    vector<float> y,x;
-    y.reserve(shortest_path.size()-1);
-    x.reserve(shortest_path.size()-1);
-    for(int i=0;i<m1.size();++i)
-    {
-        x.push_back(m1[i].x());
-        y.push_back(m1[i].y());
-    }
+    // vector<float> y,x;
+    // y.reserve(shortest_path.size()-1);
+    // x.reserve(shortest_path.size()-1);
+    // for(int i=0;i<m.size();++i)
+    // {
+    //     x.push_back(m1[i].x());
+    //     y.push_back(m1[i].y());
+    // }
 
     //boost::math::interpolators::cardinal_cubic_b_spline<float> spline(x.data(), x.size(), 0 /* start time */, 10);
     //for(float i=0; i<y[y.size()-1];i+=1)
@@ -48,8 +48,8 @@ vector<Ogre::Vector3> GameMap::create_msg(const DistanceMatrix& distance, vector
 
     //for (auto it=m1.begin();it != m1.end(); ++it)
     //    msg.push_back(Ogre::Vector3(it->x(),0,it->y()));
-    for (auto it=m.begin();it != m.end(); ++it)
-        msg.push_back(Ogre::Vector3(it->x(),0,it->y()));
+    // for (auto it=m.begin();it != m.end(); ++it)
+    //     msg.push_back(Ogre::Vector3(it->x(),0,it->y()));
     return msg;
 }
 

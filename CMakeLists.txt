@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Core Network REQUIRED)
@@ -16,7 +16,9 @@ find_package(OGRE REQUIRED CONFIG)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include/
+    ${PROJECT_SOURCE_DIR}/hybrid/include/
 )
+
 
 add_executable(${PROJECT_NAME}
     src/settings.cpp
@@ -30,6 +32,17 @@ add_executable(${PROJECT_NAME}
     src/mygraph.cpp
     src/logger.cpp
 
+      hybrid/src/algorithm.cpp
+  hybrid/src/bucketedqueue.cpp
+  hybrid/src/collisiondetection.cpp
+  hybrid/src/dubins.cpp
+  hybrid/src/dynamicvoronoi.cpp
+  hybrid/src/hybridastar.cpp
+  hybrid/src/node2d.cpp
+  hybrid/src/node3d.cpp
+  hybrid/src/path.cpp
+  hybrid/src/smoother.cpp
+
     include/settings.h
     include/mytcpsocket.h
     include/barrier.h
@@ -40,6 +53,9 @@ add_executable(${PROJECT_NAME}
     include/mygraph.h
     include/logger.h
 )
+find_package(ompl REQUIRED)
+include_directories(include ${OMPL_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} ${OMPL_LIBRARIES})
 
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Network OgreMain OgreBites)
 

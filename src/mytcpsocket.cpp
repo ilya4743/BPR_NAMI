@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QTime>
 #include <QCoreApplication>
+#include "hybridastar.h"
 
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
@@ -147,18 +148,21 @@ void MyTcpSocket::readyRead()
                 g1.barriers.push_back(bar);
             }
 
-                g1.doo(DEBUG_OUTPUT);
+                //g1.doo(DEBUG_OUTPUT);
+                HybridAstarAlgo hybrid;
+                auto out =hybrid.searchHybridAStar(2,2,1.57,2,30,1.87,100,100);
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
                 d.setByteOrder(QDataStream::LittleEndian);              
                 qDebug()<<"path:";
                 d<<(unsigned char)0x44<<(unsigned char)0x48;
-                d<<(int)g1.short_path.size()*2;
-                for(auto it=g1.short_path.begin(); it!=g1.short_path.end();++it)
+                d<<(int)out.size()*2;
+                for(auto it=out.begin(); it!=out.end();++it)
                 {
+                    *it=g1.car.rotation*(*it);
                     d<<-(*it).x<<(*it).z;
-                    qDebug("%f\t%f;", (*it).x, (*it).z);
+                    //qDebug("%f\t%f;", (*it).x, (*it).z);
                 }
                 socket->write(arr);
                 socket->flush();
