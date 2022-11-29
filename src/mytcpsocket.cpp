@@ -127,7 +127,17 @@ void MyTcpSocket::readyRead()
 
             auto itCar=(mapGameObj.find(0));
             mapGameObj.erase(itCar);
-            GameMap g1(width_coord,height_coord,step,center,Car(*itCar,speed), Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
+
+            Ogre::Matrix4 mat4=(*itCar);
+            auto qua=(*itCar).extractQuaternion();
+            Ogre::Vector3 pos1(-width_coord/2,mat4.getTrans().y,-height_coord/2);
+            pos1=mat4*pos1;
+            Ogre::Matrix4 mat41(mat4);
+            mat41.setTrans(pos1);
+            mat4=mat41.inverse()*mat4;
+            
+            GameMap g1(width_coord,height_coord,step,center,Car(mat4,speed), Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
+
 
             qDebug()<<"id"<<itCar.key()<<"\tcar"<<": ";
             qDebug()<<"position\t"<<g1.car.position.x<<'\t'<<g1.car.position.y<<'\t'<<g1.car.position.z;
@@ -138,11 +148,11 @@ void MyTcpSocket::readyRead()
             for(auto itGameObj=mapGameObj.begin();itGameObj!=mapGameObj.end();++itGameObj)
             {
                 auto *bar=new BQuadrAngle(itGameObj.value());
-                (*bar).matrix4=g1.car.matrix4.inverse()*((*bar).matrix4);
-                (*bar).p1=g1.car.matrix4.inverse()*(*bar).p1;
-                (*bar).p2=g1.car.matrix4.inverse()*(*bar).p2;
-                (*bar).p3=g1.car.matrix4.inverse()*(*bar).p3;
-                (*bar).p4=g1.car.matrix4.inverse()*(*bar).p4;
+                (*bar).matrix4=mat41.inverse()*((*bar).matrix4);
+                (*bar).p1=mat41.inverse()*(*bar).p1;
+                (*bar).p2=mat41.inverse()*(*bar).p2;
+                (*bar).p3=mat41.inverse()*(*bar).p3;
+                (*bar).p4=mat41.inverse()*(*bar).p4;
                 Ogre::Affine3 af((*bar).matrix4);
                 af.decomposition((*bar).position,(*bar).scale, (*bar).rotation);
                 g1.barriers.push_back(bar);
@@ -150,7 +160,7 @@ void MyTcpSocket::readyRead()
 
                 //g1.doo(DEBUG_OUTPUT);
                 HybridAstarAlgo hybrid;
-                auto out =hybrid.searchHybridAStar(2,2,1.57,2,30,1.87,100,100);
+                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(g1.car.position.x,g1.car.position.z,1.57,g1.car.position.x,g1.car.position.z+99,1.57,width_coord,height_coord);
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
@@ -160,8 +170,10 @@ void MyTcpSocket::readyRead()
                 d<<(int)out.size()*2;
                 for(auto it=out.begin(); it!=out.end();++it)
                 {
-                    *it=g1.car.rotation*(*it);
-                    d<<-(*it).x<<(*it).z;
+                    (*it).x=(*it).x-200;
+                    (*it).z=(*it).z-100;
+                    *it=qua.Inverse()*(*it);
+                    d<<(*it).x<<(*it).z;
                     //qDebug("%f\t%f;", (*it).x, (*it).z);
                 }
                 socket->write(arr);
@@ -207,6 +219,7 @@ void MyTcpSocket::readyRead()
         socket->write(error);
         socket->flush();
     }
+
 }
 
 MyTcpSocket::~MyTcpSocket()
