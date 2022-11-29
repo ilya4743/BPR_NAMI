@@ -1,0 +1,3 @@
+[submodule "hybrid-a-star"]
+	path = hybrid-a-star
+	url = https://github.com/ilya4743/hybrid-a-star.git
