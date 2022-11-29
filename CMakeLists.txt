@@ -16,7 +16,7 @@ find_package(OGRE REQUIRED CONFIG)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include/
-    ${PROJECT_SOURCE_DIR}/hybrid/include/
+    ${PROJECT_SOURCE_DIR}/hybrid-a-star/include/
 )
 
 
@@ -32,16 +32,16 @@ add_executable(${PROJECT_NAME}
     src/mygraph.cpp
     src/logger.cpp
 
-      hybrid/src/algorithm.cpp
-  hybrid/src/bucketedqueue.cpp
-  hybrid/src/collisiondetection.cpp
-  hybrid/src/dubins.cpp
-  hybrid/src/dynamicvoronoi.cpp
-  hybrid/src/hybridastar.cpp
-  hybrid/src/node2d.cpp
-  hybrid/src/node3d.cpp
-  hybrid/src/path.cpp
-  hybrid/src/smoother.cpp
+      hybrid-a-star/src/algorithm.cpp
+  hybrid-a-star/src/bucketedqueue.cpp
+  hybrid-a-star/src/collisiondetection.cpp
+  hybrid-a-star/src/dubins.cpp
+  hybrid-a-star/src/dynamicvoronoi.cpp
+  hybrid-a-star/src/hybridastar.cpp
+  hybrid-a-star/src/node2d.cpp
+  hybrid-a-star/src/node3d.cpp
+  hybrid-a-star/src/path.cpp
+  hybrid-a-star/src/smoother.cpp
 
     include/settings.h
     include/mytcpsocket.h
