@@ -5,6 +5,7 @@
 #include <QTime>
 #include <QCoreApplication>
 #include "hybridastar.h"
+#include "occurancygrid.h"
 
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
@@ -136,6 +137,8 @@ void MyTcpSocket::readyRead()
             mat41.setTrans(pos1);
             mat4=mat41.inverse()*mat4;
             
+
+
             GameMap g1(width_coord,height_coord,step,center,Car(mat4,speed), Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
 
 
@@ -144,6 +147,7 @@ void MyTcpSocket::readyRead()
             qDebug()<<"rotation\t"<<g1.car.rotation.w<<'\t'<<g1.car.rotation.x<<'\t'<<g1.car.rotation.y<<'\t'<<g1.car.rotation.z;
             qDebug()<<"scale\t"<<g1.car.scale.x<<'\t'<<g1.car.scale.y<<'\t'<<g1.car.scale.z;
             qDebug()<<"speed\t"<<speed;
+                OccurancyGrid grid(width_coord,height_coord,step);
 
             for(auto itGameObj=mapGameObj.begin();itGameObj!=mapGameObj.end();++itGameObj)
             {
@@ -155,7 +159,22 @@ void MyTcpSocket::readyRead()
                 (*bar).p4=mat41.inverse()*(*bar).p4;
                 Ogre::Affine3 af((*bar).matrix4);
                 af.decomposition((*bar).position,(*bar).scale, (*bar).rotation);
-                g1.barriers.push_back(bar);
+                g1.barriers.push_back(bar);                
+                Placer placer;
+                placer.placeObstacleOnGrid(&grid,bar);
+            }
+
+            {
+                for(int i=grid.height; i>=0; i--)
+                {
+                    for (int j=0; j<grid.width; j++)
+                    {
+                        if(grid.data[i*grid.width+j]==255)
+                        cout<<1;
+                        else cout<<0;
+                    }
+                    cout<<endl;
+                }
             }
 
                 //g1.doo(DEBUG_OUTPUT);

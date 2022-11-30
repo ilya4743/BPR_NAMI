@@ -32,16 +32,16 @@ add_executable(${PROJECT_NAME}
     src/mygraph.cpp
     src/logger.cpp
 
-      hybrid-a-star/src/algorithm.cpp
-  hybrid-a-star/src/bucketedqueue.cpp
-  hybrid-a-star/src/collisiondetection.cpp
-  hybrid-a-star/src/dubins.cpp
-  hybrid-a-star/src/dynamicvoronoi.cpp
-  hybrid-a-star/src/hybridastar.cpp
-  hybrid-a-star/src/node2d.cpp
-  hybrid-a-star/src/node3d.cpp
-  hybrid-a-star/src/path.cpp
-  hybrid-a-star/src/smoother.cpp
+    hybrid-a-star/src/algorithm.cpp
+    hybrid-a-star/src/bucketedqueue.cpp
+    hybrid-a-star/src/collisiondetection.cpp
+    hybrid-a-star/src/dubins.cpp
+    hybrid-a-star/src/dynamicvoronoi.cpp
+    hybrid-a-star/src/hybridastar.cpp
+    hybrid-a-star/src/node2d.cpp
+    hybrid-a-star/src/node3d.cpp
+    hybrid-a-star/src/path.cpp
+    hybrid-a-star/src/smoother.cpp
 
     include/settings.h
     include/mytcpsocket.h
@@ -52,6 +52,7 @@ add_executable(${PROJECT_NAME}
     include/myexception.h
     include/mygraph.h
     include/logger.h
+    include/occurancygrid.h
 )
 find_package(ompl REQUIRED)
 include_directories(include ${OMPL_INCLUDE_DIRS})
