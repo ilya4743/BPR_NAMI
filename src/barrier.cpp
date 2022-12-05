@@ -25,7 +25,10 @@ Barrier::Barrier(const Barrier&o):matrix4(o.matrix4), position(o.position),scale
 }
 
 int Barrier::init(DMQuadrangle& distance,vector<Ogre::Vector3>& out){}
-Barrier::~Barrier(){}
+Barrier::~Barrier()
+{
+    //cout<<"Препятствие удалено!";
+}
 
 BQuadrAngle::BQuadrAngle():Barrier()
 {
@@ -74,16 +77,9 @@ BQuadrAngle::~BQuadrAngle()
     //cout<<"Препятствие удалено!";
 }
 
-bool correct(int u1, int u2)
-{
-    if(abs(u1/200-u2/200)==1)
-        if(u2>-1&&u2<20000)
-            return 1;
-    return 0;
-}
-
 void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& distance, MyGraph& g)
 {
+    /*
     cout<<"\033[s";
     const int deltaX = abs(x2 - x1);
     const int deltaY = abs(y2 - y1);
@@ -136,6 +132,7 @@ void PrinterBQuadrAngle::drawLine(int x1, int y1, int x2,  int y2,DMQuadrangle& 
         }
     }
     cout<<"\033[u";
+    */
 }
 
 void PrinterBQuadrAngle::drawCube(const vector<Ogre::Vector3>& clipping, DMQuadrangle& distance, MyGraph& g)

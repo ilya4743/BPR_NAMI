@@ -13,6 +13,7 @@ namespace bg = boost::geometry;
 using namespace std;
 
 class Barrier;
+class BQuadrAngle;
 
 /** @brief Класс игрового поля
  *  @details
@@ -51,22 +52,14 @@ public:
     /// Автомобиль
     Car car;
 
-    /// Навигационный граф
-    MyGraph* graph;
-
-    /// Матрица расстояний навигационного графа
-    DMQuadrangle* distance;
-
     /// Список препятствий
-    list<Barrier*> barriers;
+    vector<BQuadrAngle> barriers;
 
     /// Кратчайший путь
     vector<Ogre::Vector3> short_path;
 
-    bool isSmoothing;
-
     /// Формирование сообщения под отправку
-    vector<Ogre::Vector3> create_msg(const DistanceMatrix& locations, vector<vertex_descriptor>& shortest_path);
+    vector<Ogre::Vector3> create_msg(vector<vertex_descriptor>& shortest_path);
 
     /// Конструктор по умолчанию
     GameMap();
@@ -74,8 +67,7 @@ public:
     /// Конструктор с параметрами
     GameMap(float width_coord, float height_coord, float step, int center,
             const Car &car,
-            const Ogre::Vector3 &goal_p,
-            bool isSmoothing);
+            const Ogre::Vector3 &goal_p);
 
     /// Инициализация карты
     void init();

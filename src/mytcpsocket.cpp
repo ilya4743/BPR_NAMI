@@ -137,37 +137,26 @@ void MyTcpSocket::readyRead()
             mat41.setTrans(pos1);
             mat4=mat41.inverse()*mat4;
             
-
-
-            GameMap g1(width_coord,height_coord,step,center,Car(mat4,speed), Ogre::Vector3(goal.x,goal.y,goal.z), isSmoothing);
-
+            GameMap g1(width_coord,height_coord,step,center,Car(mat4,speed), Ogre::Vector3(goal.x,goal.y,goal.z));
 
             qDebug()<<"id"<<itCar.key()<<"\tcar"<<": ";
             qDebug()<<"position\t"<<g1.car.position.x<<'\t'<<g1.car.position.y<<'\t'<<g1.car.position.z;
             qDebug()<<"rotation\t"<<g1.car.rotation.w<<'\t'<<g1.car.rotation.x<<'\t'<<g1.car.rotation.y<<'\t'<<g1.car.rotation.z;
             qDebug()<<"scale\t"<<g1.car.scale.x<<'\t'<<g1.car.scale.y<<'\t'<<g1.car.scale.z;
             qDebug()<<"speed\t"<<speed;
-                OccurancyGrid grid(width_coord,height_coord,step);
 
+            OccurancyGrid grid(width_coord,height_coord,step);
             for(auto itGameObj=mapGameObj.begin();itGameObj!=mapGameObj.end();++itGameObj)
-            {
-                auto *bar=new BQuadrAngle(itGameObj.value());
-                (*bar).matrix4=mat41.inverse()*((*bar).matrix4);
-                (*bar).p1=mat41.inverse()*(*bar).p1;
-                (*bar).p2=mat41.inverse()*(*bar).p2;
-                (*bar).p3=mat41.inverse()*(*bar).p3;
-                (*bar).p4=mat41.inverse()*(*bar).p4;
-                Ogre::Affine3 af((*bar).matrix4);
-                af.decomposition((*bar).position,(*bar).scale, (*bar).rotation);
+            {                
+                BQuadrAngle bar(mat41.inverse()*itGameObj.value());
                 g1.barriers.push_back(bar);                
                 Placer placer;
-                placer.placeObstacleOnGrid(&grid,bar);
+                placer.placeObstacleOnGrid(grid,bar);
             }
 
-            {
-                for(int i=grid.height; i>=0; i--)
+                for(int i=grid.height-1; i>=0; i--)
                 {
-                    for (int j=0; j<grid.width; j++)
+                    for (int j=grid.width-1; j>=0; j--)
                     {
                         if(grid.data[i*grid.width+j]==255)
                         cout<<1;
@@ -175,11 +164,11 @@ void MyTcpSocket::readyRead()
                     }
                     cout<<endl;
                 }
-            }
+
 
                 //g1.doo(DEBUG_OUTPUT);
-                HybridAstarAlgo hybrid;
-                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(g1.car.position.x,g1.car.position.z,1.57,g1.car.position.x,g1.car.position.z+99,1.57,width_coord,height_coord);
+                //HybridAstarAlgo hybrid;
+                vector<Ogre::Vector3> out;// =hybrid.searchHybridAStar(g1.car.position.x,g1.car.position.z,1.57,g1.car.position.x,g1.car.position.z+99,1.57,width_coord,height_coord);
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);

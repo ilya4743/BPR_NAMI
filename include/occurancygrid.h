@@ -16,8 +16,10 @@ class OccurancyGrid
 
         OccurancyGrid():width(0), height(0), resolution(0), data(){};
 
-        OccurancyGrid(size_t width,size_t height, float resolution):
-        width(width/resolution),height(height/resolution),resolution(resolution),data(this->width*this->height){};
+        OccurancyGrid(size_t width,size_t height, float resolution):width(width), height(height), resolution(resolution),data(width*height){};
+
+        OccurancyGrid(float width_coord,float height_coord, float resolution):
+        width(width_coord/resolution),height(height_coord/resolution),resolution(resolution),data(this->width*this->height){};
 
         OccurancyGrid(size_t width,size_t height, float resolution,  std::vector<unsigned char> data):
         width(width),height(height),resolution(resolution),data(data){};
@@ -32,7 +34,7 @@ class OccurancyGrid
 class Placer
 {
     private:
-    void bresenham(int x1, int y1, int x2, int y2, OccurancyGrid* grid)
+    inline void bresenham(int x1, int y1, int x2, int y2, OccurancyGrid& grid)
     {
         const int deltaX = abs(x2 - x1);
         const int deltaY = abs(y2 - y1);
@@ -52,25 +54,26 @@ class Placer
                 error += deltaX;
                 y1 += signY;
             }
-            grid->data[grid->width*y1+x1]=255;
+            int gg=(grid.width)*(y1)+(x1);
+            grid.data[gg]=255;
         }
     }
     public:
-    void placeObstacleOnGrid(OccurancyGrid* occurancyGrid, BQuadrAngle* obstacle)
+    void placeObstacleOnGrid(OccurancyGrid& occurancyGrid, const BQuadrAngle & obstacle)
     {
         if(
-        occurancyGrid->isInside(obstacle->p1)||
-        occurancyGrid->isInside(obstacle->p2)||
-        occurancyGrid->isInside(obstacle->p3)||
-        occurancyGrid->isInside(obstacle->p4)
+        occurancyGrid.isInside(obstacle.p1)||
+        occurancyGrid.isInside(obstacle.p2)||
+        occurancyGrid.isInside(obstacle.p3)||
+        occurancyGrid.isInside(obstacle.p4)
         )
         {
-        float width=occurancyGrid->width*occurancyGrid->resolution;
-        float height=occurancyGrid->height*occurancyGrid->resolution;
+        float width=(occurancyGrid.width-1)*occurancyGrid.resolution;
+        float height=(occurancyGrid.height-1)*occurancyGrid.resolution;
 
-        polygon poly{{{obstacle->p1.x, obstacle->p1.z},{obstacle->p2.x, obstacle->p2.z},
-                       {obstacle->p3.x, obstacle->p3.z},{obstacle->p4.x, obstacle->p4.z},
-                       {obstacle->p1.x, obstacle->p1.z}}};
+        polygon poly{{{obstacle.p1.x, obstacle.p1.z},{obstacle.p2.x, obstacle.p2.z},
+                       {obstacle.p3.x, obstacle.p3.z},{obstacle.p4.x, obstacle.p4.z},
+                       {obstacle.p1.x, obstacle.p1.z}}};
         box box{{0, 0}, {width, height}};
 
         vector < polygon >  output ;
@@ -84,28 +87,28 @@ class Placer
                 out.push_back(Ogre::Vector3(bg::get<0>(output[0].outer()[i]),0,bg::get<1>(output[0].outer()[i])));
             for(int i=1; i<out.size();i++)
             {
-                int x1=occurancyGrid->getI(out[i-1]);
-                int y1=occurancyGrid->getJ(out[i-1]);
+                int x1=occurancyGrid.getI(out[i-1]);
+                int y1=occurancyGrid.getJ(out[i-1]);
                 
-                int x2=occurancyGrid->getI(out[i]);
-                int y2=occurancyGrid->getJ(out[i]);
+                int x2=occurancyGrid.getI(out[i]);
+                int y2=occurancyGrid.getJ(out[i]);
                 bresenham(x1, y1, x2, y2,occurancyGrid);    
             }
         }
         else
         {
             out.reserve(4);
-            out.push_back(obstacle->p1);
-            out.push_back(obstacle->p2);
-            out.push_back(obstacle->p3);
-            out.push_back(obstacle->p4);
+            out.push_back(obstacle.p1);
+            out.push_back(obstacle.p2);
+            out.push_back(obstacle.p3);
+            out.push_back(obstacle.p4);
             for(int i=1; i<out.size();i++)
             {
-                int x1=occurancyGrid->getI(out[i-1]);
-                int y1=occurancyGrid->getJ(out[i-1]);
+                int x1=occurancyGrid.getI(out[i-1]);
+                int y1=occurancyGrid.getJ(out[i-1]);
                 
-                int x2=occurancyGrid->getI(out[i]);
-                int y2=occurancyGrid->getJ(out[i]);
+                int x2=occurancyGrid.getI(out[i]);
+                int y2=occurancyGrid.getJ(out[i]);
                 bresenham(x1, y1, x2, y2,occurancyGrid);    
             }
         }
