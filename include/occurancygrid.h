@@ -12,7 +12,7 @@ class OccurancyGrid
         size_t width;
         size_t height;
         float resolution;
-        std::vector<unsigned char> data;
+        std::vector<int8_t> data;
 
         OccurancyGrid():width(0), height(0), resolution(0), data(){};
 
@@ -21,7 +21,7 @@ class OccurancyGrid
         OccurancyGrid(float width_coord,float height_coord, float resolution):
         width(width_coord/resolution),height(height_coord/resolution),resolution(resolution),data(this->width*this->height){};
 
-        OccurancyGrid(size_t width,size_t height, float resolution,  std::vector<unsigned char> data):
+        OccurancyGrid(size_t width,size_t height, float resolution,  std::vector<int8_t> data):
         width(width),height(height),resolution(resolution),data(data){};
 
         OccurancyGrid(const OccurancyGrid& o):width(o.width), height(o.height), resolution(o.resolution), data(o.data){};
@@ -54,7 +54,7 @@ class Placer
                 error += deltaX;
                 y1 += signY;
             }
-            grid.data[grid.width*y1+x1]=255;
+            grid.data[grid.width*y1+x1]=100;
         }
     }
     public:

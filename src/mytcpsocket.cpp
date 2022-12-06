@@ -158,17 +158,15 @@ void MyTcpSocket::readyRead()
                 {
                     for (int j=grid.width-1; j>=0; j--)
                     {
-                        if(grid.data[i*grid.width+j]==255)
+                        if(grid.data[i*grid.width+j]==100)
                         cout<<1;
                         else cout<<0;
                     }
                     cout<<endl;
                 }
 
-
-                //g1.doo(DEBUG_OUTPUT);
                 HybridAstarAlgo hybrid;
-                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(g1.car.position.x,g1.car.position.z,1.57,g1.car.position.x,g1.car.position.z+99,1.57,width_coord,height_coord);
+                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(g1.car.position.x,g1.car.position.z,1.57,g1.car.position.x,g1.car.position.z+99,1.57,width_coord,height_coord, grid);
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
@@ -180,8 +178,8 @@ void MyTcpSocket::readyRead()
                 {
                     (*it).x=(*it).x-200;
                     (*it).z=(*it).z-100;
-                    *it=qua.Inverse()*(*it);
-                    d<<(*it).x<<(*it).z;
+                    *it=qua*(*it);
+                    d<<-(*it).x<<(*it).z;
                     //qDebug("%f\t%f;", (*it).x, (*it).z);
                 }
                 socket->write(arr);
