@@ -5,7 +5,7 @@
 #include <QTime>
 #include <QCoreApplication>
 #include "hybridastar.h"
-#include "occurancygrid.h"
+#include "occupancygrid.h"
 
 MyTcpSocket::MyTcpSocket(QObject *parent) : QObject(parent)
 {
@@ -136,8 +136,8 @@ void MyTcpSocket::readyRead()
             Ogre::Matrix4 mat41(mat4);
             mat41.setTrans(pos1);
             mat4=mat41.inverse()*mat4;
-            
-            GameMap g1(width_coord,height_coord,step,Car(mat4,speed), Ogre::Vector3(goal.x,goal.y,goal.z));
+            Car car(mat4,speed);
+            GameMap g1(width_coord,height_coord,step,{mat4,speed}, Ogre::Vector3(goal.x,goal.y,goal.z));
 
             qDebug()<<"id"<<itCar.key()<<"\tcar"<<": ";
             qDebug()<<"position\t"<<g1.car.position.x<<'\t'<<g1.car.position.y<<'\t'<<g1.car.position.z;
@@ -145,7 +145,7 @@ void MyTcpSocket::readyRead()
             qDebug()<<"scale\t"<<g1.car.scale.x<<'\t'<<g1.car.scale.y<<'\t'<<g1.car.scale.z;
             qDebug()<<"speed\t"<<speed;
 
-            OccurancyGrid grid(width_coord,height_coord,step);
+            OccupancyGrid grid(width_coord,height_coord,step);
             for(auto itGameObj=mapGameObj.begin();itGameObj!=mapGameObj.end();++itGameObj)
             {                
                 BQuadrAngle bar(mat41.inverse()*itGameObj.value());
@@ -164,9 +164,9 @@ void MyTcpSocket::readyRead()
                     }
                     cout<<endl;
                 }
-
+                g1.goal_point+=car.position;
                 HybridAstarAlgo hybrid;
-                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(g1.car.position.x,g1.car.position.z,1.57,g1.car.position.x,g1.car.position.z+99,1.57,width_coord,height_coord, grid);
+                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(car.position.x,car.position.z,1.57,g1.goal_point.x,g1.goal_point.z,1.57, grid);
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
@@ -176,8 +176,8 @@ void MyTcpSocket::readyRead()
                 d<<(int)out.size()*2;
                 for(auto it=out.begin(); it!=out.end();++it)
                 {
-                    (*it).x=(*it).x-200;
-                    (*it).z=(*it).z-100;
+                    (*it).x=(*it).x-car.position.x;
+                    (*it).z=(*it).z-car.position.z;
                     *it=qua*(*it);
                     d<<-(*it).x<<(*it).z;
                     //qDebug("%f\t%f;", (*it).x, (*it).z);

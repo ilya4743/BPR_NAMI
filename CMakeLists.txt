@@ -48,12 +48,12 @@ add_executable(${PROJECT_NAME}
     include/gamemap.h
     include/myexception.h
     include/logger.h
-    include/occurancygrid.h
+    hybrid-a-star/include/occupancygrid.h
 )
-find_package(ompl REQUIRED)
-include_directories(include ${OMPL_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${OMPL_LIBRARIES})
 
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Network OgreMain OgreBites)
 
 configure_file(data/config.cfg ${CMAKE_BINARY_DIR}/config.cfg @ONLY)
+find_package(ompl REQUIRED)
+include_directories(include ${OMPL_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} ${OMPL_LIBRARIES})
