@@ -54,20 +54,12 @@ class Placer
                 error += deltaX;
                 y1 += signY;
             }
-            int gg=(grid.width)*(y1)+(x1);
-            grid.data[gg]=255;
+            grid.data[grid.width*y1+x1]=255;
         }
     }
     public:
     void placeObstacleOnGrid(OccurancyGrid& occurancyGrid, const BQuadrAngle & obstacle)
     {
-        if(
-        occurancyGrid.isInside(obstacle.p1)||
-        occurancyGrid.isInside(obstacle.p2)||
-        occurancyGrid.isInside(obstacle.p3)||
-        occurancyGrid.isInside(obstacle.p4)
-        )
-        {
         float width=(occurancyGrid.width-1)*occurancyGrid.resolution;
         float height=(occurancyGrid.height-1)*occurancyGrid.resolution;
 
@@ -76,44 +68,44 @@ class Placer
                        {obstacle.p1.x, obstacle.p1.z}}};
         box box{{0, 0}, {width, height}};
 
-        vector < polygon >  output ;
-        boost::geometry::intersection(box, poly, output);
-        vector<Ogre::Vector3> out;
-        
-        if(output.size()>0)
+        if(boost::geometry::intersects(box,poly))
         {
-            out.reserve(output[0].outer().size());
-            for(int i=0; i<output[0].outer().size();i++)
-                out.push_back(Ogre::Vector3(bg::get<0>(output[0].outer()[i]),0,bg::get<1>(output[0].outer()[i])));
-            for(int i=1; i<out.size();i++)
+            vector < polygon >  output ;
+            boost::geometry::intersection(box, poly, output);
+            vector<Ogre::Vector3> out;
+            
+            if(output.size()>0)
             {
-                int x1=occurancyGrid.getI(out[i-1]);
-                int y1=occurancyGrid.getJ(out[i-1]);
-                
-                int x2=occurancyGrid.getI(out[i]);
-                int y2=occurancyGrid.getJ(out[i]);
-                bresenham(x1, y1, x2, y2,occurancyGrid);    
+                out.reserve(output[0].outer().size());
+                for(int i=0; i<output[0].outer().size();i++)
+                    out.push_back(Ogre::Vector3(bg::get<0>(output[0].outer()[i]),0,bg::get<1>(output[0].outer()[i])));
+                for(int i=1; i<out.size();i++)
+                {
+                    int x1=occurancyGrid.getI(out[i-1]);
+                    int y1=occurancyGrid.getJ(out[i-1]);
+                    
+                    int x2=occurancyGrid.getI(out[i]);
+                    int y2=occurancyGrid.getJ(out[i]);
+                    bresenham(x1, y1, x2, y2,occurancyGrid);    
+                }
             }
-        }
-        else
-        {
-            out.reserve(4);
-            out.push_back(obstacle.p1);
-            out.push_back(obstacle.p2);
-            out.push_back(obstacle.p3);
-            out.push_back(obstacle.p4);
-            for(int i=1; i<out.size();i++)
+            else
             {
-                int x1=occurancyGrid.getI(out[i-1]);
-                int y1=occurancyGrid.getJ(out[i-1]);
-                
-                int x2=occurancyGrid.getI(out[i]);
-                int y2=occurancyGrid.getJ(out[i]);
-                bresenham(x1, y1, x2, y2,occurancyGrid);    
+                out.reserve(4);
+                out.push_back(obstacle.p1);
+                out.push_back(obstacle.p2);
+                out.push_back(obstacle.p3);
+                out.push_back(obstacle.p4);
+                for(int i=1; i<out.size();i++)
+                {
+                    int x1=occurancyGrid.getI(out[i-1]);
+                    int y1=occurancyGrid.getJ(out[i-1]);
+                    
+                    int x2=occurancyGrid.getI(out[i]);
+                    int y2=occurancyGrid.getJ(out[i]);
+                    bresenham(x1, y1, x2, y2,occurancyGrid);    
+                }
             }
-        }
-
-
         }
     };
 };

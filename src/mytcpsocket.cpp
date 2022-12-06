@@ -167,8 +167,8 @@ void MyTcpSocket::readyRead()
 
 
                 //g1.doo(DEBUG_OUTPUT);
-                //HybridAstarAlgo hybrid;
-                vector<Ogre::Vector3> out;// =hybrid.searchHybridAStar(g1.car.position.x,g1.car.position.z,1.57,g1.car.position.x,g1.car.position.z+99,1.57,width_coord,height_coord);
+                HybridAstarAlgo hybrid;
+                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(g1.car.position.x,g1.car.position.z,1.57,g1.car.position.x,g1.car.position.z+99,1.57,width_coord,height_coord);
                 QByteArray arr;
                 QDataStream d(&arr, QIODevice::WriteOnly);
                 d.setFloatingPointPrecision(QDataStream::SinglePrecision);
