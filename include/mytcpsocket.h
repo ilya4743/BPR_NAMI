@@ -5,7 +5,7 @@
 #include <QTcpSocket>
 #include <QAbstractSocket>
 #include <QDebug>
-#include<QProcess>
+#include <QProcess>
 #include "gamemap.h"
 #include "car.h"
 

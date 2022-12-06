@@ -1,10 +1,6 @@
 #ifndef CAR_H
 #define CAR_H
-#include<iostream>
-#include<QDataStream>
 #include <OgreMatrix4.h>
-
-using namespace std;
 
 /// @brief Класс автомобиля
 class Car

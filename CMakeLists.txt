@@ -27,9 +27,7 @@ add_executable(${PROJECT_NAME}
     src/barrier.cpp
     src/car.cpp
     src/gamemap.cpp
-    src/locationmap.cpp
     src/myexception.cpp
-    src/mygraph.cpp
     src/logger.cpp
 
     hybrid-a-star/src/algorithm.cpp
@@ -48,9 +46,7 @@ add_executable(${PROJECT_NAME}
     include/barrier.h
     include/car.h
     include/gamemap.h
-    include/locationmap.h
     include/myexception.h
-    include/mygraph.h
     include/logger.h
     include/occurancygrid.h
 )

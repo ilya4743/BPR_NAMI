@@ -1,8 +1,21 @@
 #ifndef OCCURANCYGRID_H
 #define OCCURANCYGRID_H
 #include "stddef.h"
-#include <vector>
 #include "barrier.h"
+#include <vector>
+
+#include <boost/geometry/geometries/box.hpp> 
+#include <boost/geometry/geometries/point.hpp>
+#include <boost/geometry/geometries/polygon.hpp>
+#include <boost/geometry/algorithms/intersects.hpp>
+#include <boost/geometry/algorithms/intersection.hpp> 
+
+using namespace std;
+namespace bg = boost::geometry;
+
+typedef bg::model::point<float, 2, bg::cs::cartesian> point;
+typedef bg::model::box<point> box;
+typedef bg::model::polygon<point> polygon;
 
 class OccurancyGrid
 {
@@ -70,7 +83,7 @@ class Placer
 
         if(boost::geometry::intersects(box,poly))
         {
-            vector < polygon >  output ;
+            vector <polygon>  output ;
             boost::geometry::intersection(box, poly, output);
             vector<Ogre::Vector3> out;
             

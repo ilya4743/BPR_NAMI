@@ -1,18 +1,6 @@
 #ifndef BARRIER_H
 #define BARRIER_H
-#include"mygraph.h"
-#include "gamemap.h"
-#include <fstream>
-#include <QDataStream>
 #include <OgreMatrix4.h>
-#include <boost/geometry.hpp>
-#include <boost/geometry/geometries/geometries.hpp>
-
-namespace bg = boost::geometry;
-
-typedef bg::model::point<float, 2, bg::cs::cartesian> point;
-typedef bg::model::polygon<point> polygon;
-typedef bg::model::box<point> box;
 
 class GameMap;
 /// @brief Интерфейс препятствия
@@ -21,12 +9,6 @@ class IBarrier
 public:
     /// Виртуальный деструктор
     virtual ~IBarrier()=0;
-
-    /// @brief Инициализация препятсвия на графе
-    /// @param grah граф, на который необходимо наложить препятствие
-    /// @param step шаг сетки графа
-    /// @param g поле
-    virtual int  init(DMQuadrangle& distance,vector<Ogre::Vector3>& out)=0;
 };
 
 /// @brief Базовый класс препятствия
@@ -61,8 +43,6 @@ public:
     Ogre::Vector3 scale;
     /// Поворот
     Ogre::Quaternion rotation;
-
-    int init(DMQuadrangle& distance,vector<Ogre::Vector3>& out)override;
 };
 
 /// @brief Класс прямоугольного препятствия
@@ -89,19 +69,8 @@ public:
     /// Деструктор
     ~BQuadrAngle()override;
 
-    int init(DMQuadrangle& distance, vector<Ogre::Vector3>& out)override;
-
     /// Вершины куба
     Ogre::Vector3 p1,p2,p3,p4;
-};
-
-class PrinterBQuadrAngle
-{
-private:
-    void drawLine(int x1, int y1, int x2, int y2, DMQuadrangle& distance, MyGraph& g);
-
-public:
-    void drawCube(const vector<Ogre::Vector3>& out, DMQuadrangle& distance, MyGraph& g);
 };
 
 #endif // BARRIER_H

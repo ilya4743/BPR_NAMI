@@ -137,7 +137,7 @@ void MyTcpSocket::readyRead()
             mat41.setTrans(pos1);
             mat4=mat41.inverse()*mat4;
             
-            GameMap g1(width_coord,height_coord,step,center,Car(mat4,speed), Ogre::Vector3(goal.x,goal.y,goal.z));
+            GameMap g1(width_coord,height_coord,step,Car(mat4,speed), Ogre::Vector3(goal.x,goal.y,goal.z));
 
             qDebug()<<"id"<<itCar.key()<<"\tcar"<<": ";
             qDebug()<<"position\t"<<g1.car.position.x<<'\t'<<g1.car.position.y<<'\t'<<g1.car.position.z;
