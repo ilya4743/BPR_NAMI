@@ -153,7 +153,7 @@ void MyTcpSocket::readyRead()
                 Placer placer;
                 placer.placeObstacleOnGrid(grid,bar);
             }
-
+            if(DEBUG_OUTPUT)
                 for(int i=grid.height-1; i>=0; i--)
                 {
                     for (int j=grid.width-1; j>=0; j--)
