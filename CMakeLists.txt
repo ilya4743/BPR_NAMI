@@ -38,7 +38,6 @@ add_executable(${PROJECT_NAME}
     hybrid-a-star/src/hybridastar.cpp
     hybrid-a-star/src/node2d.cpp
     hybrid-a-star/src/node3d.cpp
-    hybrid-a-star/src/path.cpp
     hybrid-a-star/src/smoother.cpp
 
     include/settings.h
