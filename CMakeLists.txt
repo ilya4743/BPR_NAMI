@@ -47,6 +47,7 @@ add_executable(${PROJECT_NAME}
     include/gamemap.h
     include/myexception.h
     include/logger.h
+    include/DataUnpacker.h
     hybrid-a-star/include/occupancygrid.h
 )
 
