@@ -8,6 +8,7 @@
 #include <QProcess>
 #include "gamemap.h"
 #include "car.h"
+#include "DataUnpacker.h"
 
 class MyTcpSocket : public QObject
 {
@@ -34,6 +35,8 @@ private:
     int PORT;
     bool isSmoothing;
     bool isConnected;
+    DataUnpacker unpacker;
+
 };
 
 #endif // MYTCPSOCKET_H

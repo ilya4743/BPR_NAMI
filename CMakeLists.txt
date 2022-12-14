@@ -29,6 +29,7 @@ add_executable(${PROJECT_NAME}
     src/gamemap.cpp
     src/myexception.cpp
     src/logger.cpp
+    src/DataUnpacker.cpp
 
     hybrid-a-star/src/algorithm.cpp
     hybrid-a-star/src/bucketedqueue.cpp
