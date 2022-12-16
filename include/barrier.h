@@ -1,6 +1,6 @@
 #ifndef BARRIER_H
 #define BARRIER_H
-#include <OgreMatrix4.h>
+#include <OGRE/OgreMatrix4.h>
 
 class GameMap;
 /// @brief Интерфейс препятствия

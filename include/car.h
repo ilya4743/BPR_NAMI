@@ -1,6 +1,6 @@
 #ifndef CAR_H
 #define CAR_H
-#include <OgreMatrix4.h>
+#include <OGRE/OgreMatrix4.h>
 
 /// @brief Класс автомобиля
 class Car
