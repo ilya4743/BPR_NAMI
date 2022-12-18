@@ -10,28 +10,26 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(ompl REQUIRED)
-
 include_directories(
-  ${OMPL_INCLUDE_DIRS}
+  ${PROJECT_SOURCE_DIR}/include
+  include ${OMPL_INCLUDE_DIRS}
 )
 
+find_package(ompl REQUIRED)
+
 add_library(${PROJECT_NAME}    
-    src/algorithm.cpp
-    src/bucketedqueue.cpp
-    src/collisiondetection.cpp
-    src/dubins.cpp
-    src/dynamicvoronoi.cpp
-    src/hybridastar.cpp
-    src/node2d.cpp
-    src/node3d.cpp
-    src/smoother.cpp
+  src/algorithm.cpp
+  src/bucketedqueue.cpp
+  src/collisiondetection.cpp
+  src/dubins.cpp
+  src/dynamicvoronoi.cpp
+  src/hybridastar.cpp
+  src/node2d.cpp
+  src/node3d.cpp
+  src/smoother.cpp
+  src/occupancygrid.cpp
 )
 
 add_library(sub::pathfinding ALIAS ${PROJECT_NAME})
-
-target_include_directories(${PROJECT_NAME} PRIVATE
-  ${PROJECT_SOURCE_DIR}/include
-)
 
 target_link_libraries(${PROJECT_NAME} ${OMPL_LIBRARIES})

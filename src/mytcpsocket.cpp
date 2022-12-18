@@ -72,6 +72,17 @@ void MyTcpSocket::bytesWritten(qint64 bytes)
     qDebug()<<bytes<<"\tbytes write\n";
 }
 
+void MyTcpSocket::send_msg(std::string && msg)
+{
+    QByteArray arr;
+    QDataStream stream(&arr, QIODevice::WriteOnly);
+    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+    stream.setByteOrder(QDataStream::LittleEndian);
+    stream<<msg.c_str();
+    socket->write(arr);
+    socket->flush();
+}
+
 void MyTcpSocket::readyRead()
 {
     try
@@ -86,14 +97,10 @@ void MyTcpSocket::readyRead()
             qDebug()<<"Reciev 0x79 0x93 from host";
             qDebug()<<"connection confirmed";
             isConnected=true;
-            QByteArray arr;
-            QDataStream d(&arr, QIODevice::WriteOnly);
-            d.setFloatingPointPrecision(QDataStream::SinglePrecision);
-            d.setByteOrder(QDataStream::LittleEndian);
+            std::stringstream stream;
+            stream<<(unsigned char)0x79<<(unsigned char)0x94;
+            send_msg(std::move(stream.str()));
             qDebug()<<"send 0x79 0x94 to host";
-            d<<(unsigned char)0x79<<(unsigned char)0x94;
-            socket->write(arr);
-            socket->flush();
         }
         else if(isConnected)
         {
@@ -117,7 +124,6 @@ void MyTcpSocket::readyRead()
                 for(auto itGameObj=unpacker.map_mat4_.begin();itGameObj!=unpacker.map_mat4_.end();++itGameObj)
                 {                
                     BQuadrAngle bar(mat41.inverse()*(*itGameObj).second);
-                    //g1.barriers.push_back(bar);                
                     Placer placer;
                     placer.placeObstacleOnGrid(grid,bar);
                 }
@@ -137,176 +143,32 @@ void MyTcpSocket::readyRead()
                 float x=unpacker.x+car.position.x;
                 float y=unpacker.theta+car.position.z; //z
                 HybridAstarAlgo hybrid;
-                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(car.position.x,car.position.z,1.57,x,y,1.57, grid);
-                QByteArray arr;
-                QDataStream d(&arr, QIODevice::WriteOnly);
-                d.setFloatingPointPrecision(QDataStream::SinglePrecision);
-                d.setByteOrder(QDataStream::LittleEndian);              
+                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(car.position.x,car.position.z,1.57,x,y,1.57, grid);           
                 qDebug()<<"path:";
-                d<<(unsigned char)0x44<<(unsigned char)0x48;
-                d<<(int)out.size()*2;
+                std::stringstream stream;
+                stream<<(unsigned char)0x44<<(unsigned char)0x48<<(int)out.size()*2;
                 for(auto it=out.begin(); it!=out.end();++it)
                 {
                     (*it).x=(*it).x-car.position.x;
                     (*it).z=(*it).z-car.position.z;
                     *it=qua*(*it);
-                    d<<-(*it).x<<(*it).z;
+                    stream<<-(*it).x<<(*it).z;
                     //qDebug("%f\t%f;", (*it).x, (*it).z);
                 }
-                socket->write(arr);
-                socket->flush();
+                send_msg(std::move(stream.str()));       
                 qDebug()<<"path send to host\n";   
             }
         }
-    //     
-    //     QObject* object=QObject::sender();
-    //     if(!object)
-    //         return;
-    //     qDebug()<<socket->size()<<"\tbytes reciev";
-    //     QDataStream in(socket);
-    //     in.setFloatingPointPrecision(QDataStream::SinglePrecision);
-    //     in.setByteOrder(QDataStream::LittleEndian);
-    //     unsigned char b1,b2;
-    //     in>>b1>>b2;
-
-    //     if(b1==0x44 && b2==0x47 && isConnected)
-    //     {
-    //         qDebug()<<"reciev 0x44 0x47 from host";
-    //         qDebug()<<"request for pathfinding";
-    //         float width_coord;  //ширина поля в координатах
-    //         float height_coord; //высота поля в координатах
-    //         float step;         //шаг сетки
-    //         int center;         //начальное положение авто (номер вершины графа)
-    //         float m00, m01, m02, m03;
-    //         float m10, m11, m12, m13;
-    //         float m20, m21, m22, m23;
-    //         float m30, m31, m32, m33;
-    //         float speed;
-    //         Ogre::Vector3 goal;
-    //         quint64 j, id;              //количество препятствий
-    //         QMap<quint64, Ogre::Matrix4> mapGameObj;
-    //         //(width_coord/step)/2+(height_coord/step-1)*(width_coord/step)
-    //         in>>width_coord>>height_coord>>step>>center;
-    //         if(center<0 || center>((width_coord/step)*(height_coord/step)))
-    //             throw  MyException("DataPackageError", DataPackageError);
-    //         in>>goal.x>>goal.y>>goal.z;
-    //         in>>speed;
-    //         in>>j;
-
-    //         qDebug()<<"Map:";
-    //         qDebug()<<width_coord<<height_coord<<step<<center;
-    //         qDebug()<<"n = "<<j;
-    //         qDebug()<<"Goal:";
-    //         qDebug()<<goal.x<<goal.y<<goal.z;
-
-    //         for(int i=0; i<j; i++)
-    //         {
-    //             in>>id;
-    //             in>>m00>>m01>>m02>>m03>>m10>>m11>>m12>>m13>>m20>>m21>>m22>>m23>>m30>>m31>>m32>>m33;
-
-    //             mapGameObj.insert(id, Ogre::Matrix4(m00,m01,m02,m03,m10,m11,m12,m13,m20,m21,m22,m23,m30,m31,m32,m33));
-    //         }
-
-    //         auto itCar=(mapGameObj.find(0));
-    //         mapGameObj.erase(itCar);
-
-    //         Ogre::Matrix4 mat4=(*itCar);
-    //         auto qua=(*itCar).extractQuaternion();
-    //         Ogre::Vector3 pos1(-width_coord/2,mat4.getTrans().y,-height_coord/2);
-    //         pos1=mat4*pos1;
-    //         Ogre::Matrix4 mat41(mat4);
-    //         mat41.setTrans(pos1);
-    //         mat4=mat41.inverse()*mat4;
-    //         Car car(mat4,speed);
-    //         GameMap g1(width_coord,height_coord,step,{mat4,speed}, Ogre::Vector3(goal.x,goal.y,goal.z));
-
-    //         qDebug()<<"id"<<itCar.key()<<"\tcar"<<": ";
-    //         qDebug()<<"position\t"<<g1.car.position.x<<'\t'<<g1.car.position.y<<'\t'<<g1.car.position.z;
-    //         qDebug()<<"rotation\t"<<g1.car.rotation.w<<'\t'<<g1.car.rotation.x<<'\t'<<g1.car.rotation.y<<'\t'<<g1.car.rotation.z;
-    //         qDebug()<<"scale\t"<<g1.car.scale.x<<'\t'<<g1.car.scale.y<<'\t'<<g1.car.scale.z;
-    //         qDebug()<<"speed\t"<<speed;
-
-    //         OccupancyGrid grid(width_coord,height_coord,step);
-    //         for(auto itGameObj=mapGameObj.begin();itGameObj!=mapGameObj.end();++itGameObj)
-    //         {                
-    //             BQuadrAngle bar(mat41.inverse()*itGameObj.value());
-    //             g1.barriers.push_back(bar);                
-    //             Placer placer;
-    //             placer.placeObstacleOnGrid(grid,bar);
-    //         }
-    //         if(DEBUG_OUTPUT)
-    //             for(int i=grid.height-1; i>=0; i--)
-    //             {
-    //                 for (int j=grid.width-1; j>=0; j--)
-    //                 {
-    //                     if(grid.data[i*grid.width+j]==100)
-    //                     cout<<1;
-    //                     else cout<<0;
-    //                 }
-    //                 cout<<endl;
-    //             }
-    //             g1.goal_point+=car.position;
-    //             HybridAstarAlgo hybrid;
-    //             vector<Ogre::Vector3> out =hybrid.searchHybridAStar(car.position.x,car.position.z,1.57,g1.goal_point.x,g1.goal_point.z,1.57, grid);
-    //             QByteArray arr;
-    //             QDataStream d(&arr, QIODevice::WriteOnly);
-    //             d.setFloatingPointPrecision(QDataStream::SinglePrecision);
-    //             d.setByteOrder(QDataStream::LittleEndian);              
-    //             qDebug()<<"path:";
-    //             d<<(unsigned char)0x44<<(unsigned char)0x48;
-    //             d<<(int)out.size()*2;
-    //             for(auto it=out.begin(); it!=out.end();++it)
-    //             {
-    //                 (*it).x=(*it).x-car.position.x;
-    //                 (*it).z=(*it).z-car.position.z;
-    //                 *it=qua*(*it);
-    //                 d<<-(*it).x<<(*it).z;
-    //                 //qDebug("%f\t%f;", (*it).x, (*it).z);
-    //             }
-    //             socket->write(arr);
-    //             socket->flush();
-    //             qDebug()<<"path send to host\n";
-    //     }
-    //     else if(b1==0x79 && b2==0x93)
-    //     {
-    //         qDebug()<<"Reciev 0x79 0x93 from host";
-    //         qDebug()<<"connection confirmed";
-    //         isConnected=true;
-    //         QByteArray arr;
-    //         QDataStream d(&arr, QIODevice::WriteOnly);
-    //         d.setFloatingPointPrecision(QDataStream::SinglePrecision);
-    //         d.setByteOrder(QDataStream::LittleEndian);
-    //         qDebug()<<"send 0x79 0x94 to host";
-    //         d<<(unsigned char)0x79<<(unsigned char)0x94;
-    //         socket->write(arr);
-    //         socket->flush();
-    //     }
-    //     else
-    //     {
-    //         qDebug()<<"Unknow command\n";
-    //     }
-
-
-    //     socket->readAll();
     }
     catch (MyException& Ex)
     {
-    //     socket->readAll();
-    //     //QProcess::execute("clear");
-    //     qDebug()<<Ex.what();
-    //     qDebug()<<"Error "<<Ex.GetErrorCode();
-    //     QByteArray error;
-    //     QDataStream d(&error, QIODevice::WriteOnly);
-    //     d.setFloatingPointPrecision(QDataStream::SinglePrecision);
-    //     d.setByteOrder(QDataStream::LittleEndian);
-    //     qDebug()<<"send 0x44 0x48 to host";
-    //     qDebug()<<"error "<<Ex.what();
-    //     d<<(unsigned char)0x44<<(unsigned char)0x48;
-    //     d<<Ex.GetErrorCode();
-    //     socket->write(error);
-    //     socket->flush();
+        qDebug()<<Ex.what();
+        qDebug()<<"Error "<<Ex.GetErrorCode();
+        std::stringstream stream;
+        stream<<(unsigned char)0x44<<(unsigned char)0x48<<Ex.GetErrorCode();
+        send_msg(std::move(stream.str()));       
+        qDebug()<<"send 0x44 0x48 to host";
     }
-
 }
 
 MyTcpSocket::~MyTcpSocket()

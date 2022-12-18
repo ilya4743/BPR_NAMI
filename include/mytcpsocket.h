@@ -13,11 +13,7 @@
 class MyTcpSocket : public QObject
 {
     Q_OBJECT
-public:
-    explicit MyTcpSocket(QObject *parent = 0);
 
-    void doConnect(const QString& IP, const int PORT, const int DEBUG_OUTPUT,const bool PRINT_LOG,const int RECONNECT_TIME);
-    ~MyTcpSocket();
 signals:
 
 public slots:
@@ -27,6 +23,13 @@ public slots:
     void readyRead();
     void Error(QAbstractSocket::SocketError socketError);
     void reconnect();
+
+public:
+    explicit MyTcpSocket(QObject *parent = 0);
+    void doConnect(const QString& IP, const int PORT, const int DEBUG_OUTPUT,const bool PRINT_LOG,const int RECONNECT_TIME);
+    void send_msg(std::string && msg);
+
+    ~MyTcpSocket();
 private:
     QTcpSocket *socket;
     int DEBUG_OUTPUT;

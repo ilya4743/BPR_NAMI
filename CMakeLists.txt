@@ -11,14 +11,14 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5 COMPONENTS Network REQUIRED)
-find_package(OGRE REQUIRED CONFIG)
-
 include_directories(
     ${PROJECT_SOURCE_DIR}/include/
     ${PROJECT_SOURCE_DIR}/pathfinding/include/
-    ${OMPL_INCLUDE_DIRS}
+    include ${OMPL_INCLUDE_DIRS}
 )
+
+find_package(Qt5 COMPONENTS Network REQUIRED)
+find_package(OGRE REQUIRED CONFIG)
 
 add_subdirectory(pathfinding)
 

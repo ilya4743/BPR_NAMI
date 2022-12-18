@@ -1,6 +1,6 @@
 #ifndef MYEXCEPTION_H
 #define MYEXCEPTION_H
-#include <iostream>
+#include <string>
 
 /// Путь не найден исключений
 #define PathNotFound 0
@@ -19,15 +19,13 @@ private:
     int ErrorCode;
 
     /// Сообщение об ошибке
-    const char* msg;
+    std::string msg;
 public:
-    MyException(const char *msg);
-    MyException(int ErrorCode);
-    MyException(const char *msg,int ErrorCode);
-    ~MyException();
-    int GetErrorCode();
-    void SetErrorCode(int ErrorCode);
-    const char* what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW override;
+    MyException():std::exception(){}
+    MyException(std::string& msg, int code):std::exception(),msg(msg),ErrorCode(code){}
+    MyException(const char* cmsg, int code):std::exception(),msg(cmsg),ErrorCode(code){}
+    int GetErrorCode(){return ErrorCode;}
+    const char* what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW override{return this->msg.c_str();}
 };
 
 #endif // MYEXCEPTION_H
