@@ -74,7 +74,7 @@ void MyTcpSocket::bytesWritten(qint64 bytes)
 
 void MyTcpSocket::send_msg(std::string && msg)
 {
-    socket->write(msg.c_str());
+    socket->write(msg.c_str(),msg.size());
     socket->flush();
 }
 
@@ -141,13 +141,13 @@ void MyTcpSocket::readyRead()
                 vector<Ogre::Vector3> out =hybrid.searchHybridAStar(car.position.x,car.position.z,1.57,x,y,1.57, grid);           
                 qDebug()<<"path:";
                 std::stringstream stream;
-                stream<<(unsigned char)0x44<<(unsigned char)0x48<<(int)out.size()*2;
+                stream<<(unsigned char)0x44<<(unsigned char)0x48<<convertToBytes<int>(out.size()*2);
                 for(auto it=out.begin(); it!=out.end();++it)
                 {
                     (*it).x=(*it).x-car.position.x;
                     (*it).z=(*it).z-car.position.z;
                     *it=qua*(*it);
-                    stream<<-(*it).x<<(*it).z;
+                    stream<<convertToBytes<float>(-(*it).x)<<convertToBytes<float>((*it).z);
                     //qDebug("%f\t%f;", (*it).x, (*it).z);
                 }
                 send_msg(std::move(stream.str()));       
