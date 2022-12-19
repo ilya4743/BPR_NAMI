@@ -30,6 +30,6 @@ add_library(${PROJECT_NAME}
   src/occupancygrid.cpp
 )
 
-add_library(sub::pathfinding ALIAS ${PROJECT_NAME})
-
 target_link_libraries(${PROJECT_NAME} ${OMPL_LIBRARIES})
+
+add_library(sub::pathfinding ALIAS ${PROJECT_NAME})

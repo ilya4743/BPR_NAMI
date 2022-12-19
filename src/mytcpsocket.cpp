@@ -74,12 +74,7 @@ void MyTcpSocket::bytesWritten(qint64 bytes)
 
 void MyTcpSocket::send_msg(std::string && msg)
 {
-    QByteArray arr;
-    QDataStream stream(&arr, QIODevice::WriteOnly);
-    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
-    stream.setByteOrder(QDataStream::LittleEndian);
-    stream<<msg.c_str();
-    socket->write(arr);
+    socket->write(msg.c_str());
     socket->flush();
 }
 
