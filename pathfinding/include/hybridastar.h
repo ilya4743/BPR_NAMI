@@ -14,7 +14,6 @@ class HybridAstarAlgo
 {
     private:
         DynamicVoronoi* voronoiDiagram;
-        OccupancyGrid grid;
         CollisionDetection cd;
         vector<int8_t> ggrid;
         float* dubinsLookup;

@@ -11,13 +11,13 @@ namespace Lookup {
 //###################################################
 //                                      DUBINS LOOKUP
 //###################################################
-inline void dubinsLookup(float* lookup) {
+inline void dubinsLookup(float* lookup, float resolution) {
   bool DEBUG = false;
   std::cout << "I am building the Dubin's lookup table...";
 
   DubinsPath path;
 
-  int width = Constants::dubinsWidth / Constants::cellSize;
+  int width = Constants::dubinsWidth / resolution;
 
   //  // increase the width by one to make it square
   //  if (width % 2 != 0) {
