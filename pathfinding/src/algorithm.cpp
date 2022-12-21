@@ -160,6 +160,7 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
             // std::cout << "max diff " << max << std::endl;
             return nSucc;
           }
+          delete nSucc;
         }
 
         // ______________________________
@@ -390,6 +391,8 @@ void updateH(Node3D& start, const Node3D& goal, Node2D* nodes2D, float* dubinsLo
     dbEnd->setXY(goal.getX(), goal.getY());
     dbEnd->setYaw(goal.getT());
     dubinsCost = dubinsPath.distance(dbStart, dbEnd);
+    dubinsPath.freeState(dbStart);
+    dubinsPath.freeState(dbEnd);
   }
 
   // if reversing is active use a
@@ -490,5 +493,8 @@ Node3D* dubinsShot(Node3D& start, const Node3D& goal, CollisionDetection& config
   }
 
   //  std::cout << "Dubins shot connected, returning the path" << "\n";
-  return &dubinsNodes[i - 1];
+  Node3D* dubinsNode=new Node3D(dubinsNodes[i - 1]);
+  delete [] dubinsNodes;
+  //  std::cout << "Dubins shot connected, returning the path" << "\n";
+  return dubinsNode;
 }
