@@ -10,6 +10,15 @@ struct Obstacle
     float mat4[16];
 };
 
+template<typename T> 
+std::string convertToBytes(T data)
+{
+    std::string out;
+    out.resize(sizeof(T));
+    std::memcpy(&out[0], &data, sizeof(T));
+    return out;
+}
+
 class DataUnpacker
 {
     private:
