@@ -32,7 +32,7 @@ void Placer::placeObstacleOnGrid(OccupancyGrid& OccupancyGrid, const BQuadrAngle
     polygon poly{{{obstacle.p1.x, obstacle.p1.z},{obstacle.p2.x, obstacle.p2.z},
                    {obstacle.p3.x, obstacle.p3.z},{obstacle.p4.x, obstacle.p4.z},
                    {obstacle.p1.x, obstacle.p1.z}}};
-    box box{{0, 0}, {width, height}};
+    box box{{0, 0}, {width, height-OccupancyGrid.resolution}};
 
     if(boost::geometry::intersects(box,poly))
     {
