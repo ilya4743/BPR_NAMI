@@ -87,6 +87,7 @@ void MyTcpSocket::readyRead()
            return;
         string data=socket->readAll().toStdString();
         int s=data.size();
+        cout<<s;
         if((unsigned char)data[0]==0x79 && (unsigned char)data[1]==0x93)
         {
             qDebug()<<"Reciev 0x79 0x93 from host";
@@ -106,8 +107,8 @@ void MyTcpSocket::readyRead()
 
                 OccupancyGrid grid(unpacker.width,unpacker.height,unpacker.resolution);
                 auto itCar=unpacker.map_mat4_.find(0);
-                unpacker.map_mat4_.erase(itCar);
-
+                unpacker.map_mat4_.erase(0);
+                                
                 Ogre::Matrix4 mat4=(*itCar).second;
                 auto qua=(*itCar).second.extractQuaternion();
                 Ogre::Vector3 pos1(-unpacker.width/2,mat4.getTrans().y,-unpacker.height/2);
@@ -122,17 +123,17 @@ void MyTcpSocket::readyRead()
                     Placer placer;
                     placer.placeObstacleOnGrid(grid,bar);
                 }
-                if(DEBUG_OUTPUT)
-                    for(int i=grid.height-1; i>=0; i--)
-                    {
-                        for (int j=grid.width-1; j>=0; j--)
-                        {
-                            if(grid.data[i*grid.width+j]==100)
-                            cout<<1;
-                            else cout<<0;
-                        }
-                        cout<<endl;
-                    }            
+                // if(DEBUG_OUTPUT)
+                //     for(int i=grid.height-1; i>=0; i--)
+                //     {
+                //         for (int j=grid.width-1; j>=0; j--)
+                //         {
+                //             if(grid.data[i*grid.width+j]==100)
+                //             cout<<1;
+                //             else cout<<0;
+                //         }
+                //         cout<<endl;
+                //     }            
                 Car car(mat4,unpacker.speed);
 
                 float x=unpacker.x+car.position.x;
@@ -154,6 +155,7 @@ void MyTcpSocket::readyRead()
                 qDebug()<<"path send to host\n";   
             }
         }
+        cout<<"wait\n";
     }
     catch (MyException& Ex)
     {

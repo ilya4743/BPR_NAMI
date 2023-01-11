@@ -50,7 +50,7 @@ static const bool dubins = false;
 */
 static const bool dubinsLookup = false && dubins;
 /// A flag to toggle the 2D heuristic (true = on; false = off)
-static const bool twoD = false;
+static const bool twoD = true;
 
 // _________________
 // GENERAL CONSTANTS
