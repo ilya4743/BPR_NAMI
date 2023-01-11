@@ -81,19 +81,20 @@ void DataUnpacker::unpack(std::string&& data)
 {
     if(isMapPropertiesSet)
         obstacle_str.append(data.begin(),data.end());
+    else
+        obstacle_str.append(data.begin()+42,data.end());
     
     if((unsigned char)data[0]==0x44 && (unsigned char)data[1]==0x47)
     {
-        obstacle_str.clear();
-        obstacle_str.append(data.begin()+42,data.end());
         unpackMapProperties(data);
         isMapPropertiesSet=true; 
     }
 
-    if(obstacle_str.size()-1==n*sizeof(Obstacle))
+    if(obstacle_str.size()-1>=n*sizeof(Obstacle))
     {
         isComplete=true;
         unpackObstacle(obstacle_str,n);
+        obstacle_str.clear();
         isMapPropertiesSet=false;
     }
     else
