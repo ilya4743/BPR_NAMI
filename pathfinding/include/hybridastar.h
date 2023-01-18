@@ -21,13 +21,13 @@ class HybridAstarAlgo
     public:
     HybridAstarAlgo()
     {
-        //dubinsLookup= new float [Constants::headings * Constants::headings * Constants::dubinsWidth * Constants::dubinsWidth];   
+        dubinsLookup= new float [Constants::headings * Constants::headings * Constants::dubinsWidth * Constants::dubinsWidth];   
         //voronoiDiagram=new DynamicVoronoi;   
     }
     ~HybridAstarAlgo()
     {        
         //delete voronoiDiagram;
-        //delete [] dubinsLookup;
+        delete [] dubinsLookup;
     }
     std::vector<Ogre::Vector3> searchHybridAStar(float x1, float y1, float t1, float x2, float y2, float t2, const OccupancyGrid& occurancy);
 };

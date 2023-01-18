@@ -6,7 +6,7 @@ using namespace HybridAStar;
 
 float aStar(Node2D& start, Node2D& goal, Node2D* nodes2D, int width, int height, CollisionDetection& configurationSpace);
 void updateH(Node3D& start, const Node3D& goal, Node2D* nodes2D, float* dubinsLookup, int width, int height, CollisionDetection& configurationSpace);
-Node3D* dubinsShot(Node3D& start, const Node3D& goal, CollisionDetection& configurationSpace);
+std::pair<Node3D*,Node3D*> dubinsShot(Node3D& start, const Node3D& goal, CollisionDetection& configurationSpace);
 
 //###################################################
 //                                    NODE COMPARISON
@@ -153,14 +153,14 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
         // _______________________
         // SEARCH WITH DUBINS SHOT
         if (Constants::dubinsShot && nPred->isInRange(goal) && nPred->getPrim() < 3) {
-          nSucc = dubinsShot(*nPred, goal, configurationSpace);
-
+          auto shoot=dubinsShot(*nPred, goal, configurationSpace);
+          nSucc=shoot.second;
           if (nSucc != nullptr && *nSucc == goal) {
             //DEBUG
             // std::cout << "max diff " << max << std::endl;
             return nSucc;
           }
-          delete nSucc;
+          delete []shoot.first;
         }
 
         // ______________________________
@@ -443,7 +443,7 @@ void updateH(Node3D& start, const Node3D& goal, Node2D* nodes2D, float* dubinsLo
 //###################################################
 //                                        DUBINS SHOT
 //###################################################
-Node3D* dubinsShot(Node3D& start, const Node3D& goal, CollisionDetection& configurationSpace) {
+std::pair<Node3D*, Node3D*> dubinsShot(Node3D& start, const Node3D& goal, CollisionDetection& configurationSpace) {
   // start
   double q0[] = { start.getX(), start.getY(), start.getT() };
   // goal
@@ -488,13 +488,10 @@ Node3D* dubinsShot(Node3D& start, const Node3D& goal, CollisionDetection& config
       //      std::cout << "Dubins shot collided, discarding the path" << "\n";
       // delete all nodes
       delete [] dubinsNodes;
-      return nullptr;
+      return {nullptr,nullptr};
     }
   }
 
   //  std::cout << "Dubins shot connected, returning the path" << "\n";
-  Node3D* dubinsNode=new Node3D(dubinsNodes[i - 1]);
-  delete [] dubinsNodes;
-  //  std::cout << "Dubins shot connected, returning the path" << "\n";
-  return dubinsNode;
+  return {dubinsNodes, &dubinsNodes[i - 1]};
 }
