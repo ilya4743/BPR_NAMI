@@ -104,7 +104,7 @@ void MyTcpSocket::readyRead()
             {
                 QProcess::execute("clear");
 
-                OccupancyGrid grid(unpacker.width,unpacker.height,unpacker.resolution);
+                grid.resize(unpacker.width,unpacker.height,unpacker.resolution);
                 auto itCar=unpacker.map_mat4_.find(0);
                 unpacker.map_mat4_.erase(itCar);
 
@@ -119,7 +119,6 @@ void MyTcpSocket::readyRead()
                 for(auto itGameObj=unpacker.map_mat4_.begin();itGameObj!=unpacker.map_mat4_.end();++itGameObj)
                 {                
                     BQuadrAngle bar(mat41.inverse()*(*itGameObj).second);
-                    Placer placer;
                     placer.placeObstacleOnGrid(grid,bar);
                 }
                 if(DEBUG_OUTPUT)
@@ -138,7 +137,8 @@ void MyTcpSocket::readyRead()
                 float x=unpacker.x+car.position.x;
                 float y=unpacker.theta+car.position.z; //z
                 HybridAstarAlgo hybrid;
-                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(car.position.x,car.position.z,1.57,x,y,1.57, grid);           
+                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(car.position.x,car.position.z,1.57,x,y,1.57, grid);     
+                placer.clearGrid(grid);      
                 qDebug()<<"path:";
                 std::stringstream stream;
                 stream<<(unsigned char)0x44<<(unsigned char)0x48<<convertToBytes<int>(out.size()*2);

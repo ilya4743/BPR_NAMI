@@ -28,6 +28,7 @@ add_library(${PROJECT_NAME}
   src/node3d.cpp
   src/smoother.cpp
   src/occupancygrid.cpp
+  src/placer.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} ${OMPL_LIBRARIES})

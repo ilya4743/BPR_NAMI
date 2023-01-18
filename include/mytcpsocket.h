@@ -6,9 +6,12 @@
 #include <QAbstractSocket>
 #include <QDebug>
 #include <QProcess>
+
 #include "gamemap.h"
 #include "car.h"
 #include "DataUnpacker.h"
+#include "occupancygrid.h"
+#include "placer.h"
 
 class MyTcpSocket : public QObject
 {
@@ -39,7 +42,8 @@ private:
     bool isSmoothing;
     bool isConnected;
     DataUnpacker unpacker;
-
+    OccupancyGrid grid;
+    Placer placer;
 };
 
 #endif // MYTCPSOCKET_H

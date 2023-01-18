@@ -1,5 +1,6 @@
 #ifndef OCCUPANCYGRID_H
 #define OCCUPANCYGRID_H
+
 #include "stddef.h"
 #include "barrier.h"
 #include <vector>
@@ -42,13 +43,18 @@ class OccupancyGrid
         bool isInside(Ogre::Vector3 p){return p.x<=width*resolution&&p.x>=0&&p.z>=0&&p.z<height*resolution;};
         int getI(Ogre::Vector3 p){return p.x/resolution;};
         int getJ(Ogre::Vector3 p){return p.z/resolution;};
+        void resize(float width, float height, float resolution)
+        {
+            int w=static_cast<int>(width/resolution);
+            int h=static_cast<int>(height/resolution);
+            if (this->width!=w || this->height!=h || this->resolution!=resolution)
+            {
+                this->width=h;
+                this->height=w;
+                this->resolution=resolution;
+                data.resize(this->width*this->height);
+            }
+        }
 };
 
-class Placer
-{
-private:
-    inline void bresenham(int x1, int y1, int x2, int y2, OccupancyGrid& grid);
-public:
-    void placeObstacleOnGrid(OccupancyGrid& OccupancyGrid, const BQuadrAngle & obstacle);
-};
 #endif // OCCUPANCYGRID_H
