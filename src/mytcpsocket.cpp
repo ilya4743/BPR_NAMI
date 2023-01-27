@@ -137,7 +137,7 @@ void MyTcpSocket::readyRead()
                 float x=unpacker.x+car.position.x;
                 float y=unpacker.theta+car.position.z; //z
                 HybridAstarAlgo hybrid;
-                vector<Ogre::Vector3> out =hybrid.searchHybridAStar(car.position.x,car.position.z,1.57,x,y,1.57, grid);     
+                vector<Ogre::Vector3> out = hybrid.searchHybridAStar(car.position.x,car.position.z,1.57,x,y,1.57, grid);     
                 placer.clearGrid(grid);      
                 qDebug()<<"path:";
                 std::stringstream stream;

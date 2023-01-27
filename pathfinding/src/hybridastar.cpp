@@ -26,9 +26,9 @@ std::vector<Ogre::Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1
 
     Node3D* nSolution=Algorithm::hybridAStar(nStart, nGoal, nodes3D, nodes2D, grid.width, grid.height, cd,dubinsLookup);
 
-    // voronoiDiagram->initializeMap(grid.width, grid.height, grid->data);
-    // voronoiDiagram->update();
-    // voronoiDiagram->visualize();
+    //voronoiDiagram->initializeMap(grid.width, grid.height, grid.data);
+    //voronoiDiagram->update();
+    //voronoiDiagram->visualize();
 
       // TRACE THE PATH
     smoother.tracePath(nSolution);
