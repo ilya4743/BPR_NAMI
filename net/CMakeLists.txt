@@ -16,7 +16,7 @@ include_directories(
 
 add_library(${PROJECT_NAME}    
   src/net.cpp
-  src/DataUnpacker.cpp
+  src/data_unpacker.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} ${OMPL_LIBRARIES})
