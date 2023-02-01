@@ -33,7 +33,8 @@ add_executable(${PROJECT_NAME}
     src/gamemap.cpp
     src/myexception.cpp
     src/logger.cpp
-
+    src/object.cpp
+    
     include/settings.h
     include/mytcpsocket.h
 )

@@ -1,9 +1,9 @@
-#ifndef CAR_H
-#define CAR_H
-#include <OGRE/OgreMatrix4.h>
+#pragma once
+
+#include "object.h"
 
 /// @brief Класс автомобиля
-class Car
+class Car:public Object
 {
 public:
     /// Конструктор по умолчанию
@@ -25,16 +25,7 @@ public:
     /// Конструктор копирования
     Car(const Car&car);
 
-    /// Матрица трансформации
-    Ogre::Matrix4 matrix4;
-    /// Позиция
-    Ogre::Vector3 position;
-    /// Масштаб
-    Ogre::Vector3 scale;
-    /// Поворот
-    Ogre::Quaternion rotation;
+    ~Car()override;
     /// Скорость авто
     float speed;
 };
-
-#endif // CAR_H
