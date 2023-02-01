@@ -8,18 +8,20 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include/
     ${PROJECT_SOURCE_DIR}/pathfinding/include/
+    ${PROJECT_SOURCE_DIR}/net/include/
     include ${OMPL_INCLUDE_DIRS}
 )
 
 find_package(Qt5 COMPONENTS Network REQUIRED)
 find_package(OGRE REQUIRED CONFIG)
 
+add_subdirectory(net)
 add_subdirectory(pathfinding)
 
 add_executable(${PROJECT_NAME}
@@ -31,12 +33,11 @@ add_executable(${PROJECT_NAME}
     src/gamemap.cpp
     src/myexception.cpp
     src/logger.cpp
-    src/DataUnpacker.cpp
 
     include/settings.h
     include/mytcpsocket.h
 )
 
-target_link_libraries(${PROJECT_NAME} Qt5::Network OgreMain sub::pathfinding ${OMPL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} Qt5::Network OgreMain sub::pathfinding ${OMPL_LIBRARIES} sub::net)
 
 configure_file(data/config.cfg ${CMAKE_BINARY_DIR}/config.cfg @ONLY)
