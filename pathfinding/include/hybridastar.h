@@ -1,3 +1,5 @@
+#pragma once
+
 #include "node3d.h"
 #include "algorithm.h"
 #include "helper.h"
@@ -5,7 +7,7 @@
 #include <vector>
 #include "dynamicvoronoi.h"
 #include <OGRE/OgreVector3.h>
-#include "occupancygrid.h"
+#include "occupancy_grid.h"
 
 using namespace std;
 using namespace HybridAStar;

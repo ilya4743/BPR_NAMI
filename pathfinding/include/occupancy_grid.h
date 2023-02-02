@@ -1,8 +1,7 @@
-#ifndef OCCUPANCYGRID_H
-#define OCCUPANCYGRID_H
+#pragma once
 
 #include "stddef.h"
-#include "barrier.h"
+#include "obstacle.h"
 #include <vector>
 
 #include <boost/geometry/geometries/box.hpp> 
@@ -56,5 +55,3 @@ class OccupancyGrid
             }
         }
 };
-
-#endif // OCCUPANCYGRID_H

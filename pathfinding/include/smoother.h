@@ -1,5 +1,4 @@
-#ifndef SMOOTHER_H
-#define SMOOTHER_H
+#pragma once
 
 #include <cmath>
 #include <vector>
@@ -88,4 +87,3 @@ class Smoother {
   std::vector<Node3D> path;
 };
 }
-#endif // SMOOTHER_H

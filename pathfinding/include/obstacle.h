@@ -25,7 +25,9 @@ public:
 
     /// Деструктор
     ~BQuadrAngle()override;
+    std::vector<Ogre::Vector3> GetVertexes() const {return this->vertexes;};
 
+private:
     /// Вершины куба
-    Ogre::Vector3 p1,p2,p3,p4;
+    std::vector<Ogre::Vector3> vertexes={Ogre::Vector3(1,-1,1), Ogre::Vector3(1,-1,-1), Ogre::Vector3(-1,-1,-1), Ogre::Vector3(-1,-1,1)};
 };

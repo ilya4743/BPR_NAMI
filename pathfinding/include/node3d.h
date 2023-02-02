@@ -1,5 +1,4 @@
-#ifndef NODE3D_H
-#define NODE3D_H
+#pragma once
 
 #include <cmath>
 
@@ -127,4 +126,3 @@ class Node3D {
   const Node3D* pred;
 };
 }
-#endif // NODE3D_H

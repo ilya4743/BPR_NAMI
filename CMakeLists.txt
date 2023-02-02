@@ -18,27 +18,23 @@ include_directories(
     include ${OMPL_INCLUDE_DIRS}
 )
 
-find_package(Qt5 COMPONENTS Network REQUIRED)
 find_package(OGRE REQUIRED CONFIG)
 
 add_subdirectory(net)
 add_subdirectory(pathfinding)
 
 add_executable(${PROJECT_NAME}
-    src/settings.cpp
+    #src/settings.cpp
     src/main.cpp
-    src/mytcpsocket.cpp
-    src/barrier.cpp
-    src/car.cpp
-    src/gamemap.cpp
+    #src/mytcpsocket.cpp
+    #src/gamemap.cpp
     src/myexception.cpp
-    src/logger.cpp
-    src/object.cpp
+    #src/logger.cpp
     
-    include/settings.h
-    include/mytcpsocket.h
+    #include/settings.h
+    #include/mytcpsocket.h
 )
 
-target_link_libraries(${PROJECT_NAME} Qt5::Network OgreMain sub::pathfinding ${OMPL_LIBRARIES} sub::net)
+target_link_libraries(${PROJECT_NAME} OgreMain sub::pathfinding ${OMPL_LIBRARIES} sub::net)
 
 configure_file(data/config.cfg ${CMAKE_BINARY_DIR}/config.cfg @ONLY)

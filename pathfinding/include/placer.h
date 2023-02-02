@@ -1,8 +1,8 @@
-#ifndef PLACER_H
-#define PLACER_H
+#pragma once
+
 #include <list>
-#include "occupancygrid.h"
-#include "barrier.h"
+#include "occupancy_grid.h"
+#include "obstacle.h"
 
 #include <boost/geometry/geometries/box.hpp> 
 #include <boost/geometry/geometries/point.hpp>
@@ -50,10 +50,12 @@ public:
     {
         float width=(OccupancyGrid.width-1)*OccupancyGrid.resolution;
         float height=(OccupancyGrid.height-1)*OccupancyGrid.resolution;
+        std::vector<Ogre::Vector3> points=obstacle.GetVertexes();
+        
+        polygon poly{{{points[1].x, points[1].z},{points[2].x, points[2].z},
+                    {points[3].x, points[3].z},{points[4].x, points[4].z},
+                    {points[1].x, points[1].z}}};
 
-        polygon poly{{{obstacle.p1.x, obstacle.p1.z},{obstacle.p2.x, obstacle.p2.z},
-                    {obstacle.p3.x, obstacle.p3.z},{obstacle.p4.x, obstacle.p4.z},
-                    {obstacle.p1.x, obstacle.p1.z}}};
         box box{{0, 0}, {width, height-OccupancyGrid.resolution}};
 
         if(boost::geometry::intersects(box,poly))
@@ -80,10 +82,10 @@ public:
             else
             {
                 out.reserve(4);
-                out.push_back(obstacle.p1);
-                out.push_back(obstacle.p2);
-                out.push_back(obstacle.p3);
-                out.push_back(obstacle.p4);
+                out.push_back(points[1]);
+                out.push_back(points[2]);
+                out.push_back(points[3]);
+                out.push_back(points[4]);
                 for(int i=1; i<out.size();i++)
                 {
                     int x1=OccupancyGrid.getI(out[i-1]);
@@ -102,4 +104,3 @@ public:
             OccupancyGrid.data[*it]=0;
     }
 };
-#endif

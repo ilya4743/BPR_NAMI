@@ -3,8 +3,7 @@
    \brief This is a collection of helper functions that are used throughout the project.
 
 */
-#ifndef HELPER
-#define HELPER
+#pragma once
 
 #include <cmath>
 #include <algorithm>
@@ -79,6 +78,3 @@ static inline float clamp(float n, float lower, float upper) {
 
 }
 }
-
-#endif // HELPER
-

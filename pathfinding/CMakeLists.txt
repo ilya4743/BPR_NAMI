@@ -16,6 +16,7 @@ include_directories(
 )
 
 find_package(ompl REQUIRED)
+find_package(Qt5 COMPONENTS Network REQUIRED)
 
 add_library(${PROJECT_NAME}    
   src/algorithm.cpp
@@ -27,8 +28,11 @@ add_library(${PROJECT_NAME}
   src/node2d.cpp
   src/node3d.cpp
   src/smoother.cpp
-  src/occupancygrid.cpp
+  src/occupancy_grid.cpp
   src/placer.cpp
+  src/object.cpp
+  src/barrier.cpp
+  src/car.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} ${OMPL_LIBRARIES})

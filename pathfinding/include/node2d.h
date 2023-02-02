@@ -1,5 +1,4 @@
-#ifndef NODE2D_H
-#define NODE2D_H
+#pragma once
 
 #include <cmath>
 
@@ -120,4 +119,3 @@ class Node2D {
   Node2D* pred;
 };
 }
-#endif // NODE2D_H

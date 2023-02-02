@@ -1,5 +1,5 @@
-#ifndef CONSTANTS
-#define CONSTANTS
+#pragma once
+
 /*!
    \file constants.h
    \brief This is a collection of constants that are used throughout the project.
@@ -167,6 +167,3 @@ static constexpr color pink = {249.f / 255.f, 38.f / 255.f, 114.f / 255.f};
 static constexpr color purple = {174.f / 255.f, 129.f / 255.f, 255.f / 255.f};
 }
 }
-
-#endif // CONSTANTS
-
