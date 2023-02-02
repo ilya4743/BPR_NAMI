@@ -10,47 +10,47 @@ void DataUnpacker::unpackMapProperties(std::string data)
 
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    width = *reinterpret_cast<float*>(byte4);
+    map_properties.width = *reinterpret_cast<float*>(byte4);
 
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    height = *reinterpret_cast<float*>(byte4);
+    map_properties.height = *reinterpret_cast<float*>(byte4);
 
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    resolution = *reinterpret_cast<float*>(byte4);
+    map_properties.resolution = *reinterpret_cast<float*>(byte4);
 
     std::copy(itData, itData+sizeof(uint32_t),byte4);
     itData+=sizeof(uint32_t);
-    center = *reinterpret_cast<uint32_t*>(byte4);
+    map_properties.center = *reinterpret_cast<uint32_t*>(byte4);
 
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    x = *reinterpret_cast<float*>(byte4);
+    map_properties.x = *reinterpret_cast<float*>(byte4);
 
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    y = *reinterpret_cast<float*>(byte4);
+    map_properties.y = *reinterpret_cast<float*>(byte4);
 
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    theta = *reinterpret_cast<float*>(byte4);
+    map_properties.theta = *reinterpret_cast<float*>(byte4);
     
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    speed = *reinterpret_cast<float*>(byte4);
+    map_properties.speed = *reinterpret_cast<float*>(byte4);
 
     const int s2=sizeof(uint64_t);
     unsigned char byte8[s2];
     
     std::copy(itData, itData+sizeof(uint64_t),byte8);
     itData+=sizeof(uint64_t);
-    n = *reinterpret_cast<uint64_t*>(byte8);
-    int d=data.size();
+    map_properties.n = *reinterpret_cast<uint64_t*>(byte8);
+
     isMapPropertiesSet=true;
 }
 
-void DataUnpacker::unpackObstacle(std::string data, int n)
+void DataUnpacker::unpackObject(std::string data, int n)
 {
     unsigned char id_in_bytes[8];
     unsigned char *byte_mat4;
@@ -87,17 +87,27 @@ void DataUnpacker::unpack(std::string&& data)
     }    
 
     if(isMapPropertiesSet)
-        obstacle_str.append(data.begin()+42,data.end());
+        object_str.append(data.begin()+42,data.end());
     else
-        obstacle_str.append(data.begin(),data.end());
+        object_str.append(data.begin(),data.end());
 
-    if(obstacle_str.size()-1>=n*sizeof(Obstacle))
+    if(object_str.size()-1>=map_properties.n*sizeof(Obstacle))
     {
         isComplete=true;
-        unpackObstacle(obstacle_str,n);
-        obstacle_str.clear();
+        unpackObject(object_str,map_properties.n);
+        object_str.clear();
         isMapPropertiesSet=false;
     }
     else
         isComplete=false;
+}
+
+MapProperties DataUnpacker::ExtractMapProperties()
+{
+    return map_properties;
+}
+
+std::map<uint64_t,Ogre::Matrix4> DataUnpacker::ExtractObject()
+{
+    return map_mat4_;
 }

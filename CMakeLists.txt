@@ -3,38 +3,27 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 project(BPR_NAMI)
 
-
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include/
     ${PROJECT_SOURCE_DIR}/pathfinding/include/
-    ${PROJECT_SOURCE_DIR}/net/include/
     include ${OMPL_INCLUDE_DIRS}
 )
 
 find_package(OGRE REQUIRED CONFIG)
 
-add_subdirectory(net)
 add_subdirectory(pathfinding)
 
 add_executable(${PROJECT_NAME}
-    #src/settings.cpp
     src/main.cpp
-    #src/mytcpsocket.cpp
-    #src/gamemap.cpp
     src/myexception.cpp
-    #src/logger.cpp
-    
-    #include/settings.h
-    #include/mytcpsocket.h
+    src/net.cpp
+    src/data_unpacker.cpp
+    src/pathfinder.cpp
 )
 
-target_link_libraries(${PROJECT_NAME} OgreMain sub::pathfinding ${OMPL_LIBRARIES} sub::net)
+target_link_libraries(${PROJECT_NAME} OgreMain sub::pathfinding)
 
 configure_file(data/config.cfg ${CMAKE_BINARY_DIR}/config.cfg @ONLY)

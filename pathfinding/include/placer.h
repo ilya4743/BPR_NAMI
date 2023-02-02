@@ -16,7 +16,6 @@ namespace bg = boost::geometry;
 typedef bg::model::point<float, 2, bg::cs::cartesian> point;
 typedef bg::model::box<point> box;
 typedef bg::model::polygon<point> polygon;
-class OccupancyGrid;
 class Placer
 {
 private:
@@ -98,6 +97,7 @@ public:
             }
         }
     }
+    
     inline void clearGrid(OccupancyGrid& OccupancyGrid)
     {
         for(auto it=occupancyCell.cbegin(); it!=occupancyCell.end(); ++it)

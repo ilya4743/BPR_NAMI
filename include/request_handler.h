@@ -1,6 +1,11 @@
+#pragma once
+
 #include <string>
 #include <iostream>
 #include "data_unpacker.h"
+#include "pathfinder.h"
+
+class PathFinder;
 
 class RequestHandler
 {
@@ -16,7 +21,10 @@ class RequestHandler
       unpacker.unpack(std::move(req));
       if (unpacker.isCompleted())
       {
-
+        auto p=unpacker.ExtractMapProperties();
+        auto o=unpacker.ExtractObject();
+        pathfinder.UpdateData(p.width, p.height, p.resolution, p.center,p.x, p.y, p.theta,p.speed,p.n,std::move(o));
+        pathfinder.Find();
         std::stringstream ss;
         ss<<(unsigned char)0x44<<(unsigned char)0x48<<(unsigned char)0x00<<(unsigned char)0x00<<(unsigned char)0x00<<(unsigned char)0x00;
         std::cout<<"send\n";
@@ -25,5 +33,5 @@ class RequestHandler
     };
   private:
     DataUnpacker unpacker;
-    
+    PathFinder pathfinder;
 };

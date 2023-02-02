@@ -3,10 +3,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 project(pathfinding)
 
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -16,7 +12,6 @@ include_directories(
 )
 
 find_package(ompl REQUIRED)
-find_package(Qt5 COMPONENTS Network REQUIRED)
 
 add_library(${PROJECT_NAME}    
   src/algorithm.cpp
@@ -31,10 +26,10 @@ add_library(${PROJECT_NAME}
   src/occupancy_grid.cpp
   src/placer.cpp
   src/object.cpp
-  src/barrier.cpp
+  src/obstacle.cpp
   src/car.cpp
 )
 
-target_link_libraries(${PROJECT_NAME} ${OMPL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${OMPL_LIBRARIES})
 
 add_library(sub::pathfinding ALIAS ${PROJECT_NAME})
