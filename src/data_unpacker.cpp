@@ -56,7 +56,7 @@ void DataUnpacker::unpackObject(std::string data, int n)
     unsigned char *byte_mat4;
     float mat4[16];
     byte_mat4 = reinterpret_cast<unsigned char *>(mat4);
-
+    std::vector d(data.begin(),data.end());
     for (size_t i = 0; i < n; i++)
     {
         size_t shift = sizeof(size_t);
@@ -80,16 +80,15 @@ bool DataUnpacker::isCompleted()
 
 void DataUnpacker::unpack(std::string&& data)
 {
-    if((unsigned char)data[0]==0x44 && (unsigned char)data[1]==0x47)
+    if((unsigned char)data[0]==0x44 && (unsigned char)data[1]==0x47 && isMapPropertiesSet==false)
     {
         unpackMapProperties(data);
         isMapPropertiesSet=true; 
+        object_str.append(data.begin()+42,data.end());
     }    
 
     if(isMapPropertiesSet)
-        object_str.append(data.begin()+42,data.end());
-    else
-        object_str.append(data.begin(),data.end());
+        object_str.append(data.begin(),data.end());     
 
     if(object_str.size()-1>=map_properties.n*sizeof(Obstacle))
     {
