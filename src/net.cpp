@@ -14,7 +14,7 @@ void SessionBase::Read() {
     using namespace std::literals;
     // Очищаем запрос от прежнего значения (метод Read может быть вызван несколько раз)
     request_ = {};
-
+    std::cout<<"read\n";
     // Считываем request_ из socket_, используя buffer_ для хранения считанных данных
     net::async_read(socket_, net::dynamic_buffer(request_),net::transfer_at_least(1),
                      // По окончании операции будет вызван метод OnRead

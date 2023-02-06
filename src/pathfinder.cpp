@@ -4,9 +4,6 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
     float theta, float speed, size_t n, std::map<uint64_t,Ogre::Matrix4>&& objects)
 {
     grid.resize(width, height, resolution);
-    goal.x=x;
-    goal.y=y;
-    goal.z=theta;
     auto itCar=objects.find(0);
     objects.erase(itCar);
     Ogre::Matrix4 mat4=(*itCar).second;
@@ -19,6 +16,9 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
       
     car=std::make_unique<Car>(mat4, speed);
     (*car).rotation=qua;
+    goal.x=x+(*car).position.x;
+    goal.y=y+(*car).position.z;
+    goal.z=theta;
     obstacles.reserve(n);
     placer.clearGrid(grid);
     for(auto it=objects.begin(); it!=objects.end(); ++it)
@@ -28,21 +28,21 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
         obstacles.push_back(std::move(obstacle));
     }
 
-    for(int i=grid.height-1; i>=0; i--)
-    {
-        for (int j=grid.width-1; j>=0; j--)
-        {
-            if(grid.data[i*grid.width+j]==100)
-                std::cout<<1;
-             else cout<<0;
-        }
-        std::cout<<endl;
-    }      
+    // for(int i=grid.height-1; i>=0; i--)
+    // {
+    //     for (int j=grid.width-1; j>=0; j--)
+    //     {
+    //         if(grid.data[i*grid.width+j]==100)
+    //             std::cout<<1;
+    //          else cout<<0;
+    //     }
+    //     std::cout<<endl;
+    // }      
 }
 
 std::vector<Ogre::Vector3> PathFinder::Find()
 {
-    return hybrid_astar.searchHybridAStar((*car).position.x,(*car).position.z, (*car).rotation,(*car).position.x, (*car).position.z+198, 1.57, grid);
+    return hybrid_astar.searchHybridAStar((*car).position.x,(*car).position.z, (*car).rotation,goal.x, goal.y, 1.57, grid);
 }
 
 void PathFinder::Clear() noexcept
