@@ -51,9 +51,11 @@ public:
         float height=(OccupancyGrid.height-1)*OccupancyGrid.resolution;
         std::vector<Ogre::Vector3> points=obstacle.GetVertexes();
         
-        polygon poly{{{points[1].x, points[1].z},{points[2].x, points[2].z},
-                    {points[3].x, points[3].z},{points[4].x, points[4].z},
-                    {points[1].x, points[1].z}}};
+        polygon poly;
+        poly.outer().reserve(points.size());
+        for(auto it=points.begin(); it!=points.end(); ++it)
+            poly.outer().push_back({(*it).x, (*it).z});
+        poly.outer().push_back(poly.outer()[0]);
 
         box box{{0, 0}, {width, height-OccupancyGrid.resolution}};
 
@@ -80,18 +82,13 @@ public:
             }
             else
             {
-                out.reserve(4);
-                out.push_back(points[1]);
-                out.push_back(points[2]);
-                out.push_back(points[3]);
-                out.push_back(points[4]);
-                for(int i=1; i<out.size();i++)
+                for(int i=1; i<points.size();i++)
                 {
-                    int x1=OccupancyGrid.getI(out[i-1]);
-                    int y1=OccupancyGrid.getJ(out[i-1]);
+                    int x1=OccupancyGrid.getI(points[i-1]);
+                    int y1=OccupancyGrid.getJ(points[i-1]);
                     
-                    int x2=OccupancyGrid.getI(out[i]);
-                    int y2=OccupancyGrid.getJ(out[i]);
+                    int x2=OccupancyGrid.getI(points[i]);
+                    int y2=OccupancyGrid.getJ(points[i]);
                     bresenham(x1, y1, x2, y2,OccupancyGrid);    
                 }
             }

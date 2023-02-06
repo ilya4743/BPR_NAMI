@@ -5,6 +5,7 @@
 #include "occupancy_grid.h"
 #include "placer.h"
 #include <memory>
+#include "hybridastar.h"
 
 class PathFinder
 {
@@ -27,4 +28,5 @@ private:
     vector<std::unique_ptr<Object>> obstacles;
 
     Placer placer;
+    HybridAstarAlgo hybrid_astar;
 };

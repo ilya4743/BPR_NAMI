@@ -24,11 +24,15 @@ class RequestHandler
         auto p=unpacker.ExtractMapProperties();
         auto o=unpacker.ExtractObject();
         pathfinder.UpdateData(p.width, p.height, p.resolution, p.center,p.x, p.y, p.theta,p.speed,p.n,std::move(o));
-        //pathfinder.Find();
-        std::stringstream ss;
-        ss<<(unsigned char)0x44<<(unsigned char)0x48<<(unsigned char)0x00<<(unsigned char)0x00<<(unsigned char)0x00<<(unsigned char)0x00;
+        auto path=pathfinder.Find();
+        std::stringstream stream;
+        stream<<(unsigned char)0x44<<(unsigned char)0x48<<(unsigned char)0x00<<(unsigned char)0x00<<(unsigned char)0x00<<(unsigned char)0x00;
+        for(auto it=path.begin(); it!=path.end(); ++it)
+        {
+          stream<<ConvertToBytes(-(*it).x)<<ConvertToBytes((*it).y);
+        }
         std::cout<<"send\n";
-        send(ss.str());
+        send(stream.str());
         pathfinder.Clear();
       }
     };

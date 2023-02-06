@@ -40,8 +40,8 @@ class OccupancyGrid
         OccupancyGrid(const OccupancyGrid& o):width(o.width), height(o.height), resolution(o.resolution), data(o.data){};
 
         bool isInside(Ogre::Vector3 p){return p.x<=width*resolution&&p.x>=0&&p.z>=0&&p.z<height*resolution;};
-        int getI(Ogre::Vector3 p){return p.x/resolution;};
-        int getJ(Ogre::Vector3 p){return p.z/resolution;};
+        int getI(Ogre::Vector3 p)const{return p.x/resolution;};
+        int getJ(Ogre::Vector3 p)const{return p.z/resolution;};
         void resize(float width, float height, float resolution)
         {
             int w=static_cast<int>(width/resolution);
@@ -53,5 +53,13 @@ class OccupancyGrid
                 this->resolution=resolution;
                 data.resize(this->width*this->height);
             }
+        }
+        float GetWidthCoord() const
+        {
+            return width*resolution;
+        }
+        float GetHeightCoord() const
+        {
+            return height*resolution;
         }
 };

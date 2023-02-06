@@ -43,3 +43,13 @@ class DataUnpacker
     bool isCompleted();
     void unpack(std::string&& data);
 };
+
+
+template<typename T> 
+std::string ConvertToBytes(T data)
+{
+    std::string out;
+    out.resize(sizeof(T));
+    std::memcpy(&out[0], &data, sizeof(T));
+    return out;
+}
