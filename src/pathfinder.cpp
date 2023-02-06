@@ -15,7 +15,7 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
     pos1=mat4*pos1;
     Ogre::Matrix4 mat41(mat4);
     mat41.setTrans(pos1);
-    mat4=mat41.inverse()*mat4;
+    //mat4=mat41.inverse()*mat4;
       
     car=std::make_unique<Car>(mat4, speed);
     obstacles.reserve(n);
@@ -40,7 +40,7 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
 
 std::vector<Ogre::Vector3> PathFinder::Find()
 {
-    return hybrid_astar.searchHybridAStar(0,0, (*car).rotation.getYaw().valueRadians(),0, 398, 1.57, grid);
+    return hybrid_astar.searchHybridAStar(0,0, (*car).rotation,0, 398, 1.57, grid);
 }
 
 void PathFinder::Clear() noexcept

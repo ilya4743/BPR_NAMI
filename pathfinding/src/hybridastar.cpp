@@ -1,6 +1,6 @@
 #include "hybridastar.h"
 
-std::vector<Ogre::Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1, float t1, float x2, float y2, float t2, const OccupancyGrid& grid)
+std::vector<Ogre::Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1, Ogre::Quaternion t1, float x2, float y2, float t2, const OccupancyGrid& grid)
 {
     int width = grid.width;
     int height = grid.height;
@@ -14,7 +14,7 @@ std::vector<Ogre::Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1
     // retrieving goal position
     x1 = x1 / grid.resolution;
     y1 = y1 / grid.resolution;
-    t1 = Helper::normalizeHeadingRad(1.57);
+    //t1 = Helper::normalizeHeadingRad(1.57);
     Node3D nStart(x1, y1, 1.57, 0, 0, nullptr);
 
     x2 = x2 / grid.resolution;
@@ -39,11 +39,10 @@ std::vector<Ogre::Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1
     std::vector<Ogre::Vector3> out;
     auto p=smoother.getPath();
     out.reserve(p.size());
-    Ogre::Quaternion qua(0,0,0,t1);
     for(int i=0; i<smoother.getPath().size(); i++)
     {
       Ogre::Vector3 ve(p[i].getX()*grid.resolution-grid.GetWidthCoord()/2, p[i].getY()*grid.resolution-grid.GetHeightCoord()/2,  p[i].getT());
-      out.push_back(qua*ve);
+      out.push_back(t1*ve);
     }
     return out;
 }
