@@ -15,7 +15,7 @@ public:
     void UpdateData(float width, float height, float resolution, uint32_t center, float x, float y,
     float theta, float speed, size_t n, std::map<uint64_t,Ogre::Matrix4>&& objects);
     std::vector<Ogre::Vector3> Find();
-
+    void Clear() noexcept;
 private:
     /// Точка конечного маршрута
     Ogre::Vector3 goal;

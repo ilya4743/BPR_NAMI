@@ -30,7 +30,7 @@ class DataUnpacker
     bool isMapPropertiesSet;
     std::string object_str;
     void unpackMapProperties(std::string data);
-    void unpackObject(std::string data, int n);
+    void unpackObject(std::string&& data, int n);
     
     MapProperties map_properties;
     std::map<uint64_t,Ogre::Matrix4> map_mat4_;

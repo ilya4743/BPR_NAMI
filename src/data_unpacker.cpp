@@ -50,8 +50,10 @@ void DataUnpacker::unpackMapProperties(std::string data)
     isMapPropertiesSet=true;
 }
 
-void DataUnpacker::unpackObject(std::string data, int n)
+void DataUnpacker::unpackObject(std::string&& data, int n)
 {
+    int o_size=sizeof(Obstacle);
+    int data_size=data.size();
     unsigned char id_in_bytes[8];
     unsigned char *byte_mat4;
     float mat4[16];
@@ -84,16 +86,16 @@ void DataUnpacker::unpack(std::string&& data)
     {
         unpackMapProperties(data);
         isMapPropertiesSet=true; 
-        object_str.append(data.begin()+42,data.end());
+        object_str.append(data.begin()+sizeof(MapProperties)+2,data.end());
     }    
-
+    else
     if(isMapPropertiesSet)
         object_str.append(data.begin(),data.end());     
 
     if(object_str.size()-1>=map_properties.n*sizeof(Obstacle))
     {
         isComplete=true;
-        unpackObject(object_str,map_properties.n);
+        unpackObject(std::move(object_str),map_properties.n);
         object_str.clear();
         isMapPropertiesSet=false;
     }

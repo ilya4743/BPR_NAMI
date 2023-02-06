@@ -32,3 +32,9 @@ std::vector<Ogre::Vector3> PathFinder::Find()
 {
     
 }
+
+void PathFinder::Clear() noexcept
+{
+    obstacles.clear();
+    car.reset();
+}
