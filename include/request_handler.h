@@ -26,10 +26,10 @@ class RequestHandler
         pathfinder.UpdateData(p.width, p.height, p.resolution, p.center,p.x, p.y, p.theta,p.speed,p.n,std::move(o));
         auto path=pathfinder.Find();
         std::stringstream stream;
-        stream<<(unsigned char)0x44<<(unsigned char)0x48<<(unsigned char)0x00<<(unsigned char)0x00<<(unsigned char)0x00<<(unsigned char)0x00;
+        stream<<(unsigned char)0x44<<(unsigned char)0x48<<ConvertToBytes(path.size()*2);
         for(auto it=path.begin(); it!=path.end(); ++it)
         {
-          stream<<ConvertToBytes(-(*it).x)<<ConvertToBytes((*it).y);
+          stream<<ConvertToBytes(-(*it).x)<<ConvertToBytes((*it).z);
         }
         std::cout<<"send\n";
         send(stream.str());

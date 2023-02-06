@@ -41,7 +41,7 @@ std::vector<Ogre::Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1
     out.reserve(p.size());
     for(int i=0; i<smoother.getPath().size(); i++)
     {
-      Ogre::Vector3 ve(p[i].getX()*grid.resolution-grid.GetWidthCoord()/2, p[i].getY()*grid.resolution-grid.GetHeightCoord()/2,  p[i].getT());
+      Ogre::Vector3 ve(p[i].getX()*grid.resolution-grid.GetWidthCoord()/2,  p[i].getT(), p[i].getY()*grid.resolution-grid.GetHeightCoord()/2);
       out.push_back(t1*ve);
     }
     return out;
