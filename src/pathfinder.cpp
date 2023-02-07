@@ -16,8 +16,8 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
       
     car=std::make_unique<Car>(mat4, speed);
     (*car).rotation=qua;
-    goal.x=x+(*car).position.x;
-    goal.y=y+(*car).position.z;
+     goal.x=x+(*car).position.x;
+    goal.y=theta+(*car).position.z-grid.resolution;
     goal.z=theta;
     obstacles.reserve(n);
     placer.clearGrid(grid);

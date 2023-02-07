@@ -23,8 +23,8 @@ void RunWorkers(unsigned n, const Fn& fn) {
 
 int main(int argc, char **argv)
 {
-  const unsigned num_threads = std::thread::hardware_concurrency();
-
+   unsigned num_threads = std::thread::hardware_concurrency();
+//num_threads=0;
    net::io_context ioc(num_threads);
 
     // Подписываемся на сигналы и при их получении завершаем работу

@@ -11,7 +11,6 @@ void DataUnpacker::unpackMapProperties(std::string data)
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
     map_properties.width = *reinterpret_cast<float*>(byte4);
-
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
     map_properties.height = *reinterpret_cast<float*>(byte4);
@@ -58,7 +57,7 @@ void DataUnpacker::unpackObject(std::string&& data, int n)
     unsigned char *byte_mat4;
     float mat4[16];
     byte_mat4 = reinterpret_cast<unsigned char *>(mat4);
-    std::vector d(data.begin(),data.end());
+    map_mat4_.clear();
     for (size_t i = 0; i < n; i++)
     {
         size_t shift = sizeof(size_t);
@@ -66,7 +65,6 @@ void DataUnpacker::unpackObject(std::string&& data, int n)
         std::copy(data.begin() + size_of_mat4, data.begin() + shift + size_of_mat4, id_in_bytes);
         std::copy(data.begin() + shift + size_of_mat4, data.begin() + size_of_mat4 + sizeof(Obstacle), byte_mat4);
         const size_t *id = reinterpret_cast<const size_t *>(id_in_bytes);
-
         map_mat4_.emplace(std::make_pair(*id, Ogre::Matrix4(
                                                     mat4[0], mat4[1], mat4[2], mat4[3],
                                                     mat4[4], mat4[5], mat4[6], mat4[7],

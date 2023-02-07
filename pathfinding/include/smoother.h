@@ -60,6 +60,10 @@ class Smoother {
     return false;
   }
 
+   void ClearPath()
+   {
+      path.clear();
+   }
  private:
   /// maximum possible curvature of the non-holonomic vehicle
   float kappaMax = 1.f / (Constants::r * 1.1);
