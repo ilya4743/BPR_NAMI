@@ -17,7 +17,7 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
     car=std::make_unique<Car>(mat4, speed);
     (*car).rotation=qua;
      goal.x=x+(*car).position.x;
-    goal.y=theta+(*car).position.z-grid.resolution;
+    goal.y=theta+(*car).position.z;
     goal.z=theta;
     obstacles.reserve(n);
     placer.clearGrid(grid);
@@ -27,17 +27,17 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
         placer.placeObstacleOnGrid(grid, *(obstacle.get()));
         obstacles.push_back(std::move(obstacle));
     }
-
-    // for(int i=grid.height-1; i>=0; i--)
-    // {
-    //     for (int j=grid.width-1; j>=0; j--)
-    //     {
-    //         if(grid.data[i*grid.width+j]==100)
-    //             std::cout<<1;
-    //          else cout<<0;
-    //     }
-    //     std::cout<<endl;
-    // }      
+    system("clear");
+    for(int i=grid.height-1; i>=0; i--)
+    {
+        for (int j=grid.width-1; j>=0; j--)
+        {
+            if(grid.data[i*grid.width+j]==100)
+                std::cout<<1;
+             else cout<<0;
+        }
+        std::cout<<endl;
+    }      
 }
 
 std::vector<Ogre::Vector3> PathFinder::Find()
