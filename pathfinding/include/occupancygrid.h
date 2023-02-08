@@ -49,8 +49,8 @@ class OccupancyGrid
             int h=static_cast<int>(height/resolution);
             if (this->width!=w || this->height!=h || this->resolution!=resolution)
             {
-                this->width=h;
-                this->height=w;
+                this->width=w;
+                this->height=h;
                 this->resolution=resolution;
                 data.resize(this->width*this->height);
             }

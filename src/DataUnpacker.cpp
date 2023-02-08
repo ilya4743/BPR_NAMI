@@ -55,7 +55,7 @@ void DataUnpacker::unpackObstacle(std::string data, int n)
     unsigned char *byte_mat4;
     float mat4[16];
     byte_mat4 = reinterpret_cast<unsigned char *>(mat4);
-
+    map_mat4_.clear();
     for (size_t i = 0; i < n; i++)
     {
         size_t shift = sizeof(size_t);
