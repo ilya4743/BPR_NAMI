@@ -99,5 +99,6 @@ public:
     {
         for(auto it=occupancyCell.cbegin(); it!=occupancyCell.end(); ++it)
             OccupancyGrid.data[*it]=0;
+        occupancyCell.clear();
     }
 };
