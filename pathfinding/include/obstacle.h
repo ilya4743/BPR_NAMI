@@ -1,6 +1,7 @@
 #pragma once
 
 #include "object.h"
+#include <vector>
 
 /// @brief Класс прямоугольного препятствия
 class BQuadrAngle: public Object
@@ -18,16 +19,16 @@ public:
 
     /// @brief Конструктор с параметрами
     /// @param matrix4 матрица трансформации
-    BQuadrAngle(const Ogre::Matrix4 &matrix4);
+    BQuadrAngle(const TransformMatrix &matrix4);
 
     /// Конструктор копирования
     BQuadrAngle(const BQuadrAngle& o);
 
     /// Деструктор
     ~BQuadrAngle()override;
-    std::vector<Ogre::Vector3> GetVertexes() const {return this->vertexes;};
+    std::vector<Vector4> GetVertexes() const {return this->vertexes;};
 
 private:
     /// Вершины куба
-    std::vector<Ogre::Vector3> vertexes={Ogre::Vector3(1,-1,1), Ogre::Vector3(1,-1,-1), Ogre::Vector3(-1,-1,-1), Ogre::Vector3(-1,-1,1)};
+    std::vector<Vector4> vertexes={Vector4{1,-1,1,1}, Vector4{1,-1,-1,1}, Vector4{-1,-1,-1,1}, Vector4{-1,-1,1,1}};
 };

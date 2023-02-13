@@ -12,8 +12,6 @@ include_directories(
     include ${OMPL_INCLUDE_DIRS}
 )
 
-find_package(OGRE REQUIRED CONFIG)
-
 add_subdirectory(pathfinding)
 
 add_executable(${PROJECT_NAME}
@@ -24,6 +22,6 @@ add_executable(${PROJECT_NAME}
     src/pathfinder.cpp
 )
 
-target_link_libraries(${PROJECT_NAME} OgreMain sub::pathfinding)
+target_link_libraries(${PROJECT_NAME} sub::pathfinding)
 
 configure_file(data/config.cfg ${CMAKE_BINARY_DIR}/config.cfg @ONLY)

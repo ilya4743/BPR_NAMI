@@ -14,7 +14,7 @@ BQuadrAngle::BQuadrAngle(float m00, float m01, float m02, float m03,
         elem=matrix4*elem;
 }
 
-BQuadrAngle::BQuadrAngle(const Ogre::Matrix4 &matrix4):Object(matrix4)
+BQuadrAngle::BQuadrAngle(const TransformMatrix &matrix4):Object(matrix4)
 {
     for(auto& elem:vertexes)
         elem=matrix4*elem;

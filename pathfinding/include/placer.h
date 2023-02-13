@@ -49,12 +49,12 @@ public:
     {
         float width=(OccupancyGrid.width-1)*OccupancyGrid.resolution;
         float height=(OccupancyGrid.height-1)*OccupancyGrid.resolution;
-        std::vector<Ogre::Vector3> points=obstacle.GetVertexes();
+        std::vector<Vector4> points=obstacle.GetVertexes();
         
         polygon poly;
         poly.outer().reserve(points.size());
         for(auto it=points.begin(); it!=points.end(); ++it)
-            poly.outer().push_back({(*it).x, (*it).z});
+            poly.outer().push_back({X((*it)), Z((*it))});
         poly.outer().push_back(poly.outer()[0]);
 
         box box{{0, 0}, {width, height-OccupancyGrid.resolution}};
@@ -63,13 +63,13 @@ public:
         {
             vector <polygon>  output ;
             boost::geometry::intersection(box, poly, output);
-            vector<Ogre::Vector3> out;
+            vector<Vector4> out;
             
             if(output.size()>0)
             {
                 out.reserve(output[0].outer().size());
                 for(int i=0; i<output[0].outer().size();i++)
-                    out.push_back(Ogre::Vector3(bg::get<0>(output[0].outer()[i]),0,bg::get<1>(output[0].outer()[i])));
+                    out.push_back(Vector4{bg::get<0>(output[0].outer()[i]),0,bg::get<1>(output[0].outer()[i]),1});
                 for(int i=1; i<out.size();i++)
                 {
                     int x1=OccupancyGrid.getI(out[i-1]);

@@ -6,8 +6,8 @@
 #include <smoother.h>
 #include <vector>
 #include "dynamicvoronoi.h"
-#include <OGRE/OgreVector3.h>
 #include "occupancy_grid.h"
+#include "object.h"
 
 using namespace std;
 using namespace HybridAStar;
@@ -31,5 +31,5 @@ class HybridAstarAlgo
         delete voronoiDiagram;
         delete [] dubinsLookup;
     }
-    std::vector<Ogre::Vector3> searchHybridAStar(float x1, float y1, Ogre::Quaternion t1, float x2, float y2, float t2, const OccupancyGrid& occurancy);
+    std::vector<Vector3> searchHybridAStar(float x1, float y1, Quaternion t1, float x2, float y2, float t2, const OccupancyGrid& occurancy);
 };

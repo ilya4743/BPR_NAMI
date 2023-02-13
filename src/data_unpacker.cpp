@@ -65,11 +65,11 @@ void DataUnpacker::unpackObject(std::string&& data, int n)
         std::copy(data.begin() + size_of_mat4, data.begin() + shift + size_of_mat4, id_in_bytes);
         std::copy(data.begin() + shift + size_of_mat4, data.begin() + size_of_mat4 + sizeof(Obstacle), byte_mat4);
         const size_t *id = reinterpret_cast<const size_t *>(id_in_bytes);
-        map_mat4_.emplace(std::make_pair(*id, Ogre::Matrix4(
+        map_mat4_.emplace(std::make_pair(*id, TransformMatrix{
                                                     mat4[0], mat4[1], mat4[2], mat4[3],
                                                     mat4[4], mat4[5], mat4[6], mat4[7],
                                                     mat4[8], mat4[9], mat4[10], mat4[11],
-                                                    mat4[12], mat4[13], mat4[14], mat4[15])));
+                                                    mat4[12], mat4[13], mat4[14], mat4[15]}));
     }
 }
 
@@ -106,7 +106,7 @@ MapProperties DataUnpacker::ExtractMapProperties()
     return map_properties;
 }
 
-std::map<uint64_t,Ogre::Matrix4> DataUnpacker::ExtractObject()
+std::map<uint64_t,TransformMatrix> DataUnpacker::ExtractObject()
 {
     return map_mat4_;
 }

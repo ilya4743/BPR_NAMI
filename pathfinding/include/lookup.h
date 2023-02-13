@@ -49,7 +49,7 @@ inline void dubinsLookup(float* lookup, float resolution) {
           dubins_init(start, goal, Constants::r, &path);
           lookup[X * headings * headings * width + Y * headings * headings + h0 * headings + h1] = dubins_path_length(&path);
 
-          if (DEBUG && lookup[X * headings * headings * width + Y * headings * headings + h0 * headings + h1] < sqrt(X * X + Y * Y) * 1.000001) {
+          if (DEBUG && lookup[X * headings * headings * width + Y * headings * headings + h0 * headings + h1] < std::sqrt(X * X + Y * Y) * 1.000001) {
             std::cout << X << " | " << Y << " | "
                       << Constants::deltaHeadingDeg* h0 << " | "
                       << Constants::deltaHeadingDeg* h1 << " length: "
