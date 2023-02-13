@@ -1,8 +1,8 @@
-#ifndef PLACER_H
-#define PLACER_H
+#pragma once
+
 #include <list>
-#include "occupancygrid.h"
-#include "barrier.h"
+#include "occupancy_grid.h"
+#include "obstacle.h"
 
 #include <boost/geometry/geometries/box.hpp> 
 #include <boost/geometry/geometries/point.hpp>
@@ -16,7 +16,6 @@ namespace bg = boost::geometry;
 typedef bg::model::point<float, 2, bg::cs::cartesian> point;
 typedef bg::model::box<point> box;
 typedef bg::model::polygon<point> polygon;
-class OccupancyGrid;
 class Placer
 {
 private:
@@ -50,10 +49,14 @@ public:
     {
         float width=(OccupancyGrid.width-1)*OccupancyGrid.resolution;
         float height=(OccupancyGrid.height-1)*OccupancyGrid.resolution;
+        std::vector<Ogre::Vector3> points=obstacle.GetVertexes();
+        
+        polygon poly;
+        poly.outer().reserve(points.size());
+        for(auto it=points.begin(); it!=points.end(); ++it)
+            poly.outer().push_back({(*it).x, (*it).z});
+        poly.outer().push_back(poly.outer()[0]);
 
-        polygon poly{{{obstacle.p1.x, obstacle.p1.z},{obstacle.p2.x, obstacle.p2.z},
-                    {obstacle.p3.x, obstacle.p3.z},{obstacle.p4.x, obstacle.p4.z},
-                    {obstacle.p1.x, obstacle.p1.z}}};
         box box{{0, 0}, {width, height-OccupancyGrid.resolution}};
 
         if(boost::geometry::intersects(box,poly))
@@ -79,23 +82,19 @@ public:
             }
             else
             {
-                out.reserve(4);
-                out.push_back(obstacle.p1);
-                out.push_back(obstacle.p2);
-                out.push_back(obstacle.p3);
-                out.push_back(obstacle.p4);
-                for(int i=1; i<out.size();i++)
+                for(int i=1; i<points.size();i++)
                 {
-                    int x1=OccupancyGrid.getI(out[i-1]);
-                    int y1=OccupancyGrid.getJ(out[i-1]);
+                    int x1=OccupancyGrid.getI(points[i-1]);
+                    int y1=OccupancyGrid.getJ(points[i-1]);
                     
-                    int x2=OccupancyGrid.getI(out[i]);
-                    int y2=OccupancyGrid.getJ(out[i]);
+                    int x2=OccupancyGrid.getI(points[i]);
+                    int y2=OccupancyGrid.getJ(points[i]);
                     bresenham(x1, y1, x2, y2,OccupancyGrid);    
                 }
             }
         }
     }
+    
     inline void clearGrid(OccupancyGrid& OccupancyGrid)
     {
         for(auto it=occupancyCell.cbegin(); it!=occupancyCell.end(); ++it)
@@ -103,4 +102,3 @@ public:
         occupancyCell.clear();
     }
 };
-#endif

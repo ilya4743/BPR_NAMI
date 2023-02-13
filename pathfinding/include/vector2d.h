@@ -1,5 +1,4 @@
-#ifndef VECTOR2D
-#define VECTOR2D
+#pragma once
 
 #include <cmath>
 #include <iostream>
@@ -54,4 +53,3 @@ inline Vector2D operator * (double k, const Vector2D& b) {
   return (b * k);
 }
 }
-#endif // VECTOR2D

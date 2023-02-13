@@ -1,3 +1,5 @@
+#pragma once
+
 #include "node3d.h"
 #include "algorithm.h"
 #include "helper.h"
@@ -5,7 +7,7 @@
 #include <vector>
 #include "dynamicvoronoi.h"
 #include <OGRE/OgreVector3.h>
-#include "occupancygrid.h"
+#include "occupancy_grid.h"
 
 using namespace std;
 using namespace HybridAStar;
@@ -29,5 +31,5 @@ class HybridAstarAlgo
         delete voronoiDiagram;
         delete [] dubinsLookup;
     }
-    std::vector<Ogre::Vector3> searchHybridAStar(float x1, float y1, float t1, float x2, float y2, float t2, const OccupancyGrid& occurancy);
+    std::vector<Ogre::Vector3> searchHybridAStar(float x1, float y1, Ogre::Quaternion t1, float x2, float y2, float t2, const OccupancyGrid& occurancy);
 };

@@ -1,5 +1,4 @@
-#ifndef _PRIORITYQUEUE2_H_
-#define _PRIORITYQUEUE2_H_
+#pragma once
 
 #define MAXDIST 1000
 #define RESERVE 64
@@ -43,4 +42,3 @@ class BucketPrioQueue {
   std::vector<std::queue<INTPOINT> > buckets;
 };
 }
-#endif

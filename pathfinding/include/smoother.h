@@ -1,5 +1,4 @@
-#ifndef SMOOTHER_H
-#define SMOOTHER_H
+#pragma once
 
 #include <cmath>
 #include <vector>
@@ -61,6 +60,10 @@ class Smoother {
     return false;
   }
 
+   void ClearPath()
+   {
+      path.clear();
+   }
  private:
   /// maximum possible curvature of the non-holonomic vehicle
   float kappaMax = 1.f / (Constants::r * 1.1);
@@ -88,4 +91,3 @@ class Smoother {
   std::vector<Node3D> path;
 };
 }
-#endif // SMOOTHER_H

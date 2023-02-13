@@ -24,8 +24,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-#ifndef DUBINS_H
-#define DUBINS_H
+#pragma once
 
 // Path types
 #define LSL (0)
@@ -146,4 +145,3 @@ int dubins_LRL( double alpha, double beta, double d, double* outputs );
 int dubins_RLR( double alpha, double beta, double d, double* outputs );
 
 }
-#endif // DUBINS_H

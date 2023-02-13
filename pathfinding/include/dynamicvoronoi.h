@@ -1,6 +1,4 @@
-#ifndef _DYNAMICVORONOI_H_
-#define _DYNAMICVORONOI_H_
-
+#pragma once
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -104,6 +102,3 @@ class DynamicVoronoi {
   //  dataCell** getData(){ return data; }
 };
 }
-
-#endif
-

@@ -1,8 +1,6 @@
-#ifndef COLLISIONDETECTION_H
-#define COLLISIONDETECTION_H
+#pragma once
 
-//#include <nav_msgs/OccupancyGrid.h>
-#include "occupancygrid.h"
+#include "occupancy_grid.h"
 #include "constants.h"
 #include "lookup.h"
 #include "node2d.h"
@@ -95,4 +93,3 @@ class CollisionDetection {
   Constants::config collisionLookup[Constants::headings * Constants::positions];
 };
 }
-#endif // COLLISIONDETECTION_H

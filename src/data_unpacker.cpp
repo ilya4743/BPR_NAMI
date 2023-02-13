@@ -1,4 +1,5 @@
-#include "DataUnpacker.h"
+#include "data_unpacker.h"
+#include "net_headers.h"
 
 void DataUnpacker::unpackMapProperties(std::string data)
 {
@@ -9,48 +10,49 @@ void DataUnpacker::unpackMapProperties(std::string data)
 
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    width = *reinterpret_cast<float*>(byte4);
+    map_properties.width = *reinterpret_cast<float*>(byte4);
+    std::copy(itData, itData+sizeof(float),byte4);
+    itData+=sizeof(float);
+    map_properties.height = *reinterpret_cast<float*>(byte4);
 
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    height = *reinterpret_cast<float*>(byte4);
-
-    std::copy(itData, itData+sizeof(float),byte4);
-    itData+=sizeof(float);
-    resolution = *reinterpret_cast<float*>(byte4);
+    map_properties.resolution = *reinterpret_cast<float*>(byte4);
 
     std::copy(itData, itData+sizeof(uint32_t),byte4);
     itData+=sizeof(uint32_t);
-    center = *reinterpret_cast<uint32_t*>(byte4);
+    map_properties.center = *reinterpret_cast<uint32_t*>(byte4);
 
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    x = *reinterpret_cast<float*>(byte4);
+    map_properties.x = *reinterpret_cast<float*>(byte4);
 
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    y = *reinterpret_cast<float*>(byte4);
+    map_properties.y = *reinterpret_cast<float*>(byte4);
 
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    theta = *reinterpret_cast<float*>(byte4);
+    map_properties.theta = *reinterpret_cast<float*>(byte4);
     
     std::copy(itData, itData+sizeof(float),byte4);
     itData+=sizeof(float);
-    speed = *reinterpret_cast<float*>(byte4);
+    map_properties.speed = *reinterpret_cast<float*>(byte4);
 
     const int s2=sizeof(uint64_t);
     unsigned char byte8[s2];
     
     std::copy(itData, itData+sizeof(uint64_t),byte8);
     itData+=sizeof(uint64_t);
-    n = *reinterpret_cast<uint64_t*>(byte8);
-    int d=data.size();
+    map_properties.n = *reinterpret_cast<uint64_t*>(byte8);
+
     isMapPropertiesSet=true;
 }
 
-void DataUnpacker::unpackObstacle(std::string data, int n)
+void DataUnpacker::unpackObject(std::string&& data, int n)
 {
+    int o_size=sizeof(Obstacle);
+    int data_size=data.size();
     unsigned char id_in_bytes[8];
     unsigned char *byte_mat4;
     float mat4[16];
@@ -63,7 +65,6 @@ void DataUnpacker::unpackObstacle(std::string data, int n)
         std::copy(data.begin() + size_of_mat4, data.begin() + shift + size_of_mat4, id_in_bytes);
         std::copy(data.begin() + shift + size_of_mat4, data.begin() + size_of_mat4 + sizeof(Obstacle), byte_mat4);
         const size_t *id = reinterpret_cast<const size_t *>(id_in_bytes);
-
         map_mat4_.emplace(std::make_pair(*id, Ogre::Matrix4(
                                                     mat4[0], mat4[1], mat4[2], mat4[3],
                                                     mat4[4], mat4[5], mat4[6], mat4[7],
@@ -79,24 +80,33 @@ bool DataUnpacker::isCompleted()
 
 void DataUnpacker::unpack(std::string&& data)
 {
-    if(isMapPropertiesSet)
-        obstacle_str.append(data.begin(),data.end());
-    else
-        obstacle_str.append(data.begin()+42,data.end());
-    
-    if((unsigned char)data[0]==0x44 && (unsigned char)data[1]==0x47)
+    if((unsigned char)data[0]==0x44 && (unsigned char)data[1]==0x47 && isMapPropertiesSet==false)
     {
         unpackMapProperties(data);
         isMapPropertiesSet=true; 
-    }
+        object_str.append(data.begin()+sizeof(MapProperties)+2,data.end());
+    }    
+    else
+    if(isMapPropertiesSet)
+        object_str.append(data.begin(),data.end());     
 
-    if(obstacle_str.size()-1>=n*sizeof(Obstacle))
+    if(object_str.size()-1>=map_properties.n*sizeof(Obstacle))
     {
         isComplete=true;
-        unpackObstacle(obstacle_str,n);
-        obstacle_str.clear();
+        unpackObject(std::move(object_str),map_properties.n);
+        object_str.clear();
         isMapPropertiesSet=false;
     }
     else
         isComplete=false;
+}
+
+MapProperties DataUnpacker::ExtractMapProperties()
+{
+    return map_properties;
+}
+
+std::map<uint64_t,Ogre::Matrix4> DataUnpacker::ExtractObject()
+{
+    return map_mat4_;
 }
