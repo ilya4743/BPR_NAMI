@@ -39,9 +39,9 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
         {
             if(grid.data[i*grid.width+j]==100)
                 std::cout<<1;
-             else cout<<0;
+             else std::cout<<0;
         }
-        std::cout<<endl;
+        std::cout<<std::endl;
     }      
 }
 

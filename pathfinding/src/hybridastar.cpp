@@ -1,5 +1,19 @@
 #include "hybridastar.h"
 
+namespace HybridAStar {
+
+HybridAstarAlgo::HybridAstarAlgo()
+{
+    dubinsLookup= new float [Constants::GetInstance().HEADINGS() * Constants::GetInstance().HEADINGS() * Constants::GetInstance().DUBINS_WIDTH() * Constants::GetInstance().DUBINS_WIDTH()];   
+    voronoiDiagram=new DynamicVoronoi;   
+}
+
+HybridAstarAlgo::~HybridAstarAlgo()
+{        
+    delete voronoiDiagram;
+    delete [] dubinsLookup;
+}
+
 std::vector<Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1, Quaternion t1, float x2, float y2, float t2, const OccupancyGrid& grid)
 {
     int width = grid.width;
@@ -46,4 +60,6 @@ std::vector<Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1, Quat
     }
     smoother.ClearPath();
     return out;
+}
+
 }

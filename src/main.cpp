@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 {
     try
     {
-        BPR_NAMI::Constants::setConfig("config.json");
+        BPR_NAMI::Constants::SetConstatsFromFile("config.json");
 
         unsigned num_threads = std::thread::hardware_concurrency();
         net::io_context ioc(num_threads);

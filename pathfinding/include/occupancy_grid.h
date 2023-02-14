@@ -10,7 +10,6 @@
 #include <boost/geometry/algorithms/intersects.hpp>
 #include <boost/geometry/algorithms/intersection.hpp> 
 
-using namespace std;
 namespace bg = boost::geometry;
 
 typedef bg::model::point<float, 2, bg::cs::cartesian> point;
