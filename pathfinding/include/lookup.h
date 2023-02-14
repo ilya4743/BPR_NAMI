@@ -16,14 +16,14 @@ inline void dubinsLookup(float* lookup, float resolution) {
 
   DubinsPath path;
 
-  int width = Constants::dubinsWidth / resolution;
+  int width = Constants::GetInstance().DUBINS_WIDTH() / resolution;
 
   //  // increase the width by one to make it square
   //  if (width % 2 != 0) {
   //    width++;
   //  }
 
-  const int headings = Constants::headings;
+  const int headings = Constants::GetInstance().HEADINGS();
 
   // start and goal vector
   double start[3];
@@ -39,20 +39,20 @@ inline void dubinsLookup(float* lookup, float resolution) {
 
       // iterate over the start headings
       for (int h0 = 0; h0 < headings; ++h0) {
-        start[2] = Constants::deltaHeadingRad * h0;
+        start[2] = Constants::GetInstance().DELTA_HEADING_RAD() * h0;
 
         // iterate over the goal headings
         for (int h1 = 0; h1 < headings; ++h1) {
-          goal[2] = Constants::deltaHeadingRad * h1;
+          goal[2] = Constants::GetInstance().DELTA_HEADING_RAD() * h1;
 
           // calculate the actual cost
-          dubins_init(start, goal, Constants::r, &path);
+          dubins_init(start, goal, Constants::GetInstance().R(), &path);
           lookup[X * headings * headings * width + Y * headings * headings + h0 * headings + h1] = dubins_path_length(&path);
 
           if (DEBUG && lookup[X * headings * headings * width + Y * headings * headings + h0 * headings + h1] < std::sqrt(X * X + Y * Y) * 1.000001) {
             std::cout << X << " | " << Y << " | "
-                      << Constants::deltaHeadingDeg* h0 << " | "
-                      << Constants::deltaHeadingDeg* h1 << " length: "
+                      << Constants::GetInstance().DELTA_HEADING_DEG()* h0 << " | "
+                      << Constants::GetInstance().DELTA_HEADING_DEG()* h1 << " length: "
                       << lookup[X * headings * headings * width + Y * headings * headings + h0 * headings + h1] << "\n";
 
           }
@@ -77,13 +77,13 @@ inline int sign(double x) {
 
 // _________________________
 // COLLISION LOOKUP CREATION
-inline void collisionLookup(Constants::config* lookup) {
+inline void collisionLookup(config* lookup) {
   bool DEBUG = false;
   std::cout << "I am building the collision lookup table...";
   // cell size
-  const float cSize = Constants::cellSize;
+  const float cSize = Constants::GetInstance().CELL_SIZE();
   // bounding box size length/width
-  const int size = Constants::bbSize;
+  const int size = Constants::GetInstance().BBSIZE();
 
   struct point {
     double x;
@@ -129,8 +129,8 @@ inline void collisionLookup(Constants::config* lookup) {
   // _____________________________
   // VARIABLES FOR LOOKUP CREATION
   int count = 0;
-  const int positionResolution = Constants::positionResolution;
-  const int positions = Constants::positions;
+  const int positionResolution = Constants::GetInstance().POSITION_RESOLUTION();
+  const int positions = Constants::GetInstance().POSITIONS();
   point points[positions];
 
   // generate all discrete positions within one cell
@@ -150,19 +150,19 @@ inline void collisionLookup(Constants::config* lookup) {
     c.x = (double)size / 2 + points[q].x;
     c.y = (double)size / 2 + points[q].y;
 
-    p[0].x = c.x - Constants::length / 2 / cSize;
-    p[0].y = c.y - Constants::width / 2 / cSize;
+    p[0].x = c.x - Constants::GetInstance().LENGTH() / 2 / cSize;
+    p[0].y = c.y - Constants::GetInstance().WIDTH() / 2 / cSize;
 
-    p[1].x = c.x - Constants::length / 2 / cSize;
-    p[1].y = c.y + Constants::width / 2 / cSize;
+    p[1].x = c.x - Constants::GetInstance().LENGTH() / 2 / cSize;
+    p[1].y = c.y + Constants::GetInstance().WIDTH() / 2 / cSize;
 
-    p[2].x = c.x + Constants::length / 2 / cSize;
-    p[2].y = c.y + Constants::width / 2 / cSize;
+    p[2].x = c.x + Constants::GetInstance().LENGTH() / 2 / cSize;
+    p[2].y = c.y + Constants::GetInstance().WIDTH() / 2 / cSize;
 
-    p[3].x = c.x + Constants::length / 2 / cSize;
-    p[3].y = c.y - Constants::width / 2 / cSize;
+    p[3].x = c.x + Constants::GetInstance().LENGTH() / 2 / cSize;
+    p[3].y = c.y - Constants::GetInstance().WIDTH() / 2 / cSize;
 
-    for (int o = 0; o < Constants::headings; ++o) {
+    for (int o = 0; o < Constants::GetInstance().HEADINGS(); ++o) {
       if (DEBUG) { std::cout << "\ndegrees: " << theta * 180.f / M_PI << std::endl; }
 
       // initialize cSpace
@@ -184,7 +184,7 @@ inline void collisionLookup(Constants::config* lookup) {
       }
 
       // create the next angle
-      theta += Constants::deltaHeadingRad;
+      theta += Constants::GetInstance().DELTA_HEADING_RAD();
 
       // cell traversal clockwise
       for (int k = 0; k < 4; ++k) {
@@ -293,15 +293,15 @@ inline void collisionLookup(Constants::config* lookup) {
         for (int j = 0; j < size; ++j) {
           if (cSpace[i * size + j]) {
             // compute the relative position of the car cells
-            lookup[q * Constants::headings + o].pos[count].x = j - (int)c.x;
-            lookup[q * Constants::headings + o].pos[count].y = i - (int)c.y;
+            lookup[q * Constants::GetInstance().HEADINGS() + o].pos[count].x = j - (int)c.x;
+            lookup[q * Constants::GetInstance().HEADINGS() + o].pos[count].y = i - (int)c.y;
             // add one for the length of the current list
             count++;
           }
         }
       }
 
-      lookup[q * Constants::headings + o].length = count;
+      lookup[q * Constants::GetInstance().HEADINGS() + o].length = count;
 
       if (DEBUG) {
         //DEBUG
@@ -318,10 +318,10 @@ inline void collisionLookup(Constants::config* lookup) {
         }
 
         //TESTING
-        std::cout << "\n\nthe center of " << q* Constants::headings + o << " is at " << c.x << " | " << c.y << std::endl;
+        std::cout << "\n\nthe center of " << q* Constants::GetInstance().HEADINGS() + o << " is at " << c.x << " | " << c.y << std::endl;
 
-        for (int i = 0; i < lookup[q * Constants::headings + o].length; ++i) {
-          std::cout << "[" << i << "]\t" << lookup[q * Constants::headings + o].pos[i].x << " | " << lookup[q * Constants::headings + o].pos[i].y << std::endl;
+        for (int i = 0; i < lookup[q * Constants::GetInstance().HEADINGS() + o].length; ++i) {
+          std::cout << "[" << i << "]\t" << lookup[q * Constants::GetInstance().HEADINGS() + o].pos[i].x << " | " << lookup[q * Constants::GetInstance().HEADINGS() + o].pos[i].y << std::endl;
         }
       }
     }

@@ -66,11 +66,11 @@ class Smoother {
    }
  private:
   /// maximum possible curvature of the non-holonomic vehicle
-  float kappaMax = 1.f / (Constants::r * 1.1);
+  float kappaMax = 1.f / (Constants::GetInstance().R() * 1.1);
   /// maximum distance to obstacles that is penalized
-  float obsDMax = Constants::minRoadWidth;
+  float obsDMax = Constants::GetInstance().MIN_ROAD_WIDTH();
   /// maximum distance for obstacles to influence the voronoi field
-  float vorObsDMax = Constants::minRoadWidth;
+  float vorObsDMax = Constants::GetInstance().MIN_ROAD_WIDTH();
   /// falloff rate for the voronoi field
   float alpha = 0.1;
   /// weight for the obstacle term

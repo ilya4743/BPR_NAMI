@@ -4,6 +4,8 @@
 #include <thread>
 #include "net.h"
 #include "request_handler.h"
+#include "const.h"
+
 
 namespace sys = boost::system;
 namespace net = boost::asio;
@@ -21,36 +23,42 @@ void RunWorkers(unsigned n, const Fn& fn) {
     fn();
 }
 
+
 int main(int argc, char **argv)
 {
-   unsigned num_threads = std::thread::hardware_concurrency();
-//num_threads=0;
-   net::io_context ioc(num_threads);
+    try
+    {
+        BPR_NAMI::Constants::setConfig("config.json");
 
-    // Подписываемся на сигналы и при их получении завершаем работу
-    net::signal_set signals(ioc, SIGINT, SIGTERM);
-    signals.async_wait([&ioc](const sys::error_code& ec, [[maybe_unused]] int signal_number) {
-        if (!ec) {
-            ioc.stop();
-        }
-    });
+        unsigned num_threads = std::thread::hardware_concurrency();
+        net::io_context ioc(num_threads);
 
-    // 4. Создаём обработчик запросов
-    RequestHandler handler;
+        // Подписываемся на сигналы и при их получении завершаем работу
+        net::signal_set signals(ioc, SIGINT, SIGTERM);
+        signals.async_wait([&ioc](const sys::error_code& ec, [[maybe_unused]] int signal_number) {
+            if (!ec) {
+                ioc.stop();
+            }
+        });
 
-    const auto address = net::ip::make_address("0.0.0.0");
-    constexpr unsigned short port = 15556;
+        // Создаём обработчик запросов
+        RequestHandler handler;
 
-    ClientBPR(ioc, {address, port}, [&handler](auto&& req, auto&& send) {
-        handler(std::forward<decltype(req)>(req), std::forward<decltype(send)>(send));
-    });
+        const auto address = net::ip::make_address(BPR_NAMI::Constants::GetInstance().IP());
+        const unsigned short port = BPR_NAMI::Constants::GetInstance().PORT();
 
-    // Эта надпись сообщает тестам о том, что сервер запущен и готов обрабатывать запросы
-    std::cout << "Server has started..."sv << std::endl;
+        ClientBPR(ioc, {address, port}, [&handler](auto&& req, auto&& send) {
+            handler(std::forward<decltype(req)>(req), std::forward<decltype(send)>(send));
+        });
 
-    RunWorkers(num_threads, [&ioc] {
-        ioc.run();
-    });
+        RunWorkers(num_threads, [&ioc] {
+            ioc.run();
+        });
+    }
+    catch(...)
+    {
+        std::cout<<"error";
+    }
 
   return 0;
 }

@@ -4,7 +4,7 @@ std::vector<Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1, Quat
 {
     int width = grid.width;
     int height = grid.height;
-    int depth = Constants::headings;
+    int depth = Constants::GetInstance().HEADINGS();
     int length = width * height * depth;
 
     Node3D* nodes3D = new Node3D[length]();

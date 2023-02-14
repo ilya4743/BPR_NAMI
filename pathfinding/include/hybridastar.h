@@ -23,7 +23,7 @@ class HybridAstarAlgo
     public:
     HybridAstarAlgo()
     {
-        dubinsLookup= new float [Constants::headings * Constants::headings * Constants::dubinsWidth * Constants::dubinsWidth];   
+        dubinsLookup= new float [Constants::GetInstance().HEADINGS() * Constants::GetInstance().HEADINGS() * Constants::GetInstance().DUBINS_WIDTH() * Constants::GetInstance().DUBINS_WIDTH()];   
         voronoiDiagram=new DynamicVoronoi;   
     }
     ~HybridAstarAlgo()

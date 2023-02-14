@@ -64,21 +64,9 @@ public:
 protected:
     ClientBase(net::io_context& ioc, const tcp::endpoint& endpoint)
     : ioc_(ioc), endpoint_(endpoint), socket(net::make_strand(ioc)), reconnect_timer(net::make_strand(ioc),net::chrono::seconds(5)), isConnected(false){        
-        // Открываем acceptor, используя протокол (IPv4 или IPv6), указанный в endpoint
         socket.open(endpoint.protocol());
-
-        // После закрытия TCP-соединения сокет некоторое время может считаться занятым,
-        // чтобы компьютеры могли обменяться завершающими пакетами данных.
-        // Однако это может помешать повторно открыть сокет в полузакрытом состоянии.
-        // Флаг reuse_address разрешает открыть сокет, когда он "наполовину закрыт"
         socket.set_option(net::socket_base::reuse_address(true));
         socket.set_option(net::socket_base::enable_connection_aborted(true));
-
-        // Привязываем acceptor к адресу и порту endpoint
-        //socket.bind(endpoint);
-        // Переводим acceptor в состояние, в котором он способен принимать новые соединения
-        // Благодаря этому новые подключения будут помещаться в очередь ожидающих соединений
-        //socket.connect(endpoint);
         }
     ~ClientBase() = default;
 
