@@ -159,9 +159,13 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
           if (nSucc != nullptr && *nSucc == goal) {
             //DEBUG
             // std::cout << "max diff " << max << std::endl;
+            shoot.first->setPred(nPred);
             return nSucc;
           }
-          delete []shoot.first;
+          nSucc=nullptr;
+
+          delete [] shoot.first;
+
         }
 
         // ______________________________
@@ -476,7 +480,7 @@ std::pair<Node3D*, Node3D*> dubinsShot(Node3D& start, const Node3D& goal, Collis
       if (i > 0) {
         dubinsNodes[i].setPred(&dubinsNodes[i - 1]);
       } else {
-        dubinsNodes[i].setPred(&start);
+        dubinsNodes[i].setPred(nullptr);
       }
 
       if (&dubinsNodes[i] == dubinsNodes[i].getPred()) {
@@ -492,7 +496,7 @@ std::pair<Node3D*, Node3D*> dubinsShot(Node3D& start, const Node3D& goal, Collis
       return {nullptr,nullptr};
     }
   }
-
+  auto* ptr=&dubinsNodes[i - 1];
   //  std::cout << "Dubins shot connected, returning the path" << "\n";
-  return {dubinsNodes, &dubinsNodes[i - 1]};
+  return {dubinsNodes, ptr};
 }

@@ -31,7 +31,6 @@ class RequestHandler
         {
           stream<<ConvertToBytes<float>(X(-(*it)))<<ConvertToBytes<float>(Z((*it)));
         }
-        std::cout<<"send\n";
         send(std::move(stream.str()));
         pathfinder.Clear();
       }

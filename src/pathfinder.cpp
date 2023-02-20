@@ -32,17 +32,18 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
         placer.placeObstacleOnGrid(grid, *(obstacle.get()));
         obstacles.push_back(std::move(obstacle));
     }
-    system("clear");
-    for(int i=grid.height-1; i>=0; i--)
-    {
-        for (int j=grid.width-1; j>=0; j--)
-        {
-            if(grid.data[i*grid.width+j]==100)
-                std::cout<<1;
-             else std::cout<<0;
-        }
-        std::cout<<std::endl;
-    }      
+    //std::cout<<qua.a[0]<<'\t'<<qua.a[1]<<'\t'<<qua.a[2]<<'\t'<<qua.a[3]<<'\n';
+    // system("clear");
+    // for(int i=grid.height-1; i>=0; i--)
+    // {
+    //     for (int j=grid.width-1; j>=0; j--)
+    //     {
+    //         if(grid.data[i*grid.width+j]==100)
+    //             std::cout<<1;
+    //          else std::cout<<0;
+    //     }
+    //     std::cout<<std::endl;
+    // }      
 }
 
 std::vector<Vector3> PathFinder::Find()

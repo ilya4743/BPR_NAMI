@@ -30,9 +30,10 @@ int main(int argc, char **argv)
     {
         BPR_NAMI::Constants::SetConstatsFromFile("config.json");
 
-        unsigned num_threads = std::thread::hardware_concurrency();
-        net::io_context ioc(num_threads);
+        unsigned num_threads = std::thread::hardware_concurrency();        
+        //num_threads=0;
 
+        net::io_context ioc(num_threads);
         // Подписываемся на сигналы и при их получении завершаем работу
         net::signal_set signals(ioc, SIGINT, SIGTERM);
         signals.async_wait([&ioc](const sys::error_code& ec, [[maybe_unused]] int signal_number) {
