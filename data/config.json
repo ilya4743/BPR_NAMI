@@ -1,0 +1,30 @@
+{
+  "IP": "0.0.0.0",
+  "PORT": 15556,
+  "DEBUG_PORT": 1,
+  "PRINT_LOG": 1,
+  "RECONNECT_TIME": 5000,
+  "HYBRID_A_STAR": {
+    "coutDEBUG": 0,
+    "manual": 1,
+    "reverse": 1,
+    "dubinsShot": 1,
+    "dubins": 0,
+    "twoD": 0,
+    "iterations": 30000,
+    "bloating": 0,
+    "width": 1.75,
+    "length": 2.65,
+    "r": 6,
+    "headings": 72,
+    "tieBreaker": 0.01,
+    "penaltyTurning": 1.05,
+    "penaltyReversing": 2.0,
+    "penaltyCOD": 2.0,
+    "dubinsShotDistance": 100,
+    "dubinsStepSize": 1,
+    "dubinsWidth": 15,
+    "positionResolution": 10,
+    "minRoadWidth": 2
+  }
+}
