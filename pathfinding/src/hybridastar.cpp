@@ -1,10 +1,24 @@
 #include "hybridastar.h"
 
-std::vector<Ogre::Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1, Ogre::Quaternion t1, float x2, float y2, float t2, const OccupancyGrid& grid)
+namespace HybridAStar {
+
+HybridAstarAlgo::HybridAstarAlgo()
+{
+    dubinsLookup= new float [Constants::GetInstance().HEADINGS() * Constants::GetInstance().HEADINGS() * Constants::GetInstance().DUBINS_WIDTH() * Constants::GetInstance().DUBINS_WIDTH()];   
+    voronoiDiagram=new DynamicVoronoi;   
+}
+
+HybridAstarAlgo::~HybridAstarAlgo()
+{        
+    delete voronoiDiagram;
+    delete [] dubinsLookup;
+}
+
+std::vector<Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1, Quaternion t1, float x2, float y2, float t2, const OccupancyGrid& grid)
 {
     int width = grid.width;
     int height = grid.height;
-    int depth = Constants::headings;
+    int depth = Constants::GetInstance().HEADINGS();
     int length = width * height * depth;
 
     Node3D* nodes3D = new Node3D[length]();
@@ -36,14 +50,16 @@ std::vector<Ogre::Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1
     //delete voronoiDiagram;
     delete [] nodes3D;
     delete [] nodes2D;
-    std::vector<Ogre::Vector3> out;
+    std::vector<Vector3> out;
     auto p=smoother.getPath();
     out.reserve(p.size());
     for(int i=0; i<smoother.getPath().size(); i++)
     {
-      Ogre::Vector3 ve(p[i].getX()*grid.resolution-grid.GetWidthCoord()/2,  p[i].getT(), p[i].getY()*grid.resolution-grid.GetHeightCoord()/2);
+      Vector3 ve{p[i].getX()*grid.resolution-grid.GetWidthCoord()/2,  p[i].getT(), p[i].getY()*grid.resolution-grid.GetHeightCoord()/2};
       out.push_back(t1*ve);
     }
     smoother.ClearPath();
     return out;
+}
+
 }

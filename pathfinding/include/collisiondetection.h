@@ -90,6 +90,6 @@ class CollisionDetection {
   /// The occupancy grid
   OccupancyGrid grid;
   /// The collision lookup table
-  Constants::config collisionLookup[Constants::headings * Constants::positions];
+  std::vector<config> collisionLookup;
 };
 }

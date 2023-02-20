@@ -15,7 +15,7 @@ Car::Car(float m00, float m01, float m02, float m03,
 
 }
 
-Car::Car(const Ogre::Matrix4 &matrix4, float speed):Object(matrix4),speed(speed)
+Car::Car(const TransformMatrix &matrix4, float speed):Object(matrix4),speed(speed)
 {
 
 }

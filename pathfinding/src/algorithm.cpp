@@ -1,4 +1,5 @@
 #include "algorithm.h"
+#include "helper.h"
 
 #include <boost/heap/binomial_heap.hpp>
 
@@ -41,8 +42,8 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
   int iPred, iSucc;
   float newG;
   // Number of possible directions, 3 for forward driving and an additional 3 for reversing
-  int dir = Constants::reverse ? 6 : 3;
-  // Number of iterations the algorithm has run for stopping based on Constants::iterations
+  int dir = Constants::GetInstance().REVERSE() ? 6 : 3;
+  // Number of iterations the algorithm has run for stopping based on Constants::GetInstance().iterations
   int iterations = 0;
 
   // OPEN LIST AS BOOST IMPLEMENTATION
@@ -81,7 +82,7 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
     //                << " | C:" << succ->getC()
     //                << " | x:" << succ->getX()
     //                << " | y:" << succ->getY()
-    //                << " | t:" << helper::toDeg(succ->getT())
+    //                << " | t:" << Helper::toDeg(succ->getT())
     //                << " | i:" << succ->getIdx()
     //                << " | O:" << succ->isOpen()
     //                << " | pred:" << succ->getPred()
@@ -94,7 +95,7 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
     //                    << " | C:" << pre->getC()
     //                    << " | x:" << pre->getX()
     //                    << " | y:" << pre->getY()
-    //                    << " | t:" << helper::toDeg(pre->getT())
+    //                    << " | t:" << Helper::toDeg(pre->getT())
     //                    << " | i:" << pre->getIdx()
     //                    << " | O:" << pre->isOpen()
     //                    << " | pred:" << pre->getPred()
@@ -103,7 +104,7 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
     //                    << " | C:" << succ->getC()
     //                    << " | x:" << succ->getX()
     //                    << " | y:" << succ->getY()
-    //                    << " | t:" << helper::toDeg(succ->getT())
+    //                    << " | t:" << Helper::toDeg(succ->getT())
     //                    << " | i:" << succ->getIdx()
     //                    << " | O:" << succ->isOpen()
     //                    << " | pred:" << succ->getPred()
@@ -142,7 +143,7 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
 
       // _________
       // GOAL TEST
-      if (*nPred == goal || iterations > Constants::iterations) {
+      if (*nPred == goal || iterations > Constants::GetInstance().ITERATIONS()) {
         // DEBUG
         return nPred;
       }
@@ -152,15 +153,19 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
       else {
         // _______________________
         // SEARCH WITH DUBINS SHOT
-        if (Constants::dubinsShot && nPred->isInRange(goal) && nPred->getPrim() < 3) {
+        if (Constants::GetInstance().DUBINS_SHOOT() && nPred->isInRange(goal) && nPred->getPrim() < 3) {
           auto shoot=dubinsShot(*nPred, goal, configurationSpace);
           nSucc=shoot.second;
           if (nSucc != nullptr && *nSucc == goal) {
             //DEBUG
             // std::cout << "max diff " << max << std::endl;
+            shoot.first->setPred(nPred);
             return nSucc;
           }
-          delete []shoot.first;
+          nSucc=nullptr;
+
+          delete [] shoot.first;
+
         }
 
         // ______________________________
@@ -188,12 +193,12 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
                 updateH(*nSucc, goal, nodes2D, dubinsLookup, width, height, configurationSpace);
 
                 // if the successor is in the same cell but the C value is larger
-                if (iPred == iSucc && nSucc->getC() > nPred->getC() + Constants::tieBreaker) {
+                if (iPred == iSucc && nSucc->getC() > nPred->getC() + Constants::GetInstance().TIE_BREAKER()) {
                   delete nSucc;
                   continue;
                 }
                 // if successor is in the same cell and the C value is lower, set predecessor to predecessor of predecessor
-                else if (iPred == iSucc && nSucc->getC() <= nPred->getC() + Constants::tieBreaker) {
+                else if (iPred == iSucc && nSucc->getC() <= nPred->getC() + Constants::GetInstance().TIE_BREAKER()) {
                   nSucc->setPred(nPred->getPred());
                 }
 
@@ -335,13 +340,13 @@ void updateH(Node3D& start, const Node3D& goal, Node2D* nodes2D, float* dubinsLo
 
   // if dubins heuristic is activated calculate the shortest path
   // constrained without obstacles
-  if (Constants::dubins) {
+  if (Constants::GetInstance().DUBINS()) {
 
-    // ONLY FOR dubinsLookup
+    // //ONLY FOR dubinsLookup
     //    int uX = std::abs((int)goal.getX() - (int)start.getX());
     //    int uY = std::abs((int)goal.getY() - (int)start.getY());
     //    // if the lookup table flag is set and the vehicle is in the lookup area
-    //    if (Constants::dubinsLookup && uX < Constants::dubinsWidth - 1 && uY < Constants::dubinsWidth - 1) {
+    //    if (Constants::GetInstance().DUBINS_LOOKUP() && uX < Constants::GetInstance().DUBINS_WIDTH() - 1 && uY < Constants::GetInstance().DUBINS_WIDTH() - 1) {
     //      int X = (int)goal.getX() - (int)start.getX();
     //      int Y = (int)goal.getY() - (int)start.getY();
     //      int h0;
@@ -349,41 +354,41 @@ void updateH(Node3D& start, const Node3D& goal, Node2D* nodes2D, float* dubinsLo
 
     //      // mirror on x axis
     //      if (X >= 0 && Y <= 0) {
-    //        h0 = (int)(helper::normalizeHeadingRad(M_PI_2 - t) / Constants::deltaHeadingRad);
-    //        h1 = (int)(helper::normalizeHeadingRad(M_PI_2 - goal.getT()) / Constants::deltaHeadingRad);
+    //        h0 = (int)(Helper::normalizeHeadingRad(M_PI_2 - t) / Constants::GetInstance().DELTA_HEADING_RAD());
+    //        h1 = (int)(Helper::normalizeHeadingRad(M_PI_2 - goal.getT()) / Constants::GetInstance().DELTA_HEADING_RAD());
     //      }
     //      // mirror on y axis
     //      else if (X <= 0 && Y >= 0) {
-    //        h0 = (int)(helper::normalizeHeadingRad(M_PI_2 - t) / Constants::deltaHeadingRad);
-    //        h1 = (int)(helper::normalizeHeadingRad(M_PI_2 - goal.getT()) / Constants::deltaHeadingRad);
+    //        h0 = (int)(Helper::normalizeHeadingRad(M_PI_2 - t) / Constants::GetInstance().DELTA_HEADING_RAD());
+    //        h1 = (int)(Helper::normalizeHeadingRad(M_PI_2 - goal.getT()) / Constants::GetInstance().DELTA_HEADING_RAD());
 
     //      }
     //      // mirror on xy axis
     //      else if (X <= 0 && Y <= 0) {
-    //        h0 = (int)(helper::normalizeHeadingRad(M_PI - t) / Constants::deltaHeadingRad);
-    //        h1 = (int)(helper::normalizeHeadingRad(M_PI - goal.getT()) / Constants::deltaHeadingRad);
+    //        h0 = (int)(Helper::normalizeHeadingRad(M_PI - t) / Constants::GetInstance().DELTA_HEADING_RAD());
+    //        h1 = (int)(Helper::normalizeHeadingRad(M_PI - goal.getT()) / Constants::GetInstance().DELTA_HEADING_RAD());
 
     //      } else {
-    //        h0 = (int)(t / Constants::deltaHeadingRad);
-    //        h1 = (int)(goal.getT() / Constants::deltaHeadingRad);
+    //        h0 = (int)(t / Constants::GetInstance().DELTA_HEADING_RAD());
+    //        h1 = (int)(goal.getT() / Constants::GetInstance().DELTA_HEADING_RAD());
     //      }
 
-    //      dubinsCost = dubinsLookup[uX * Constants::dubinsWidth * Constants::headings * Constants::headings
-    //                                + uY *  Constants::headings * Constants::headings
-    //                                + h0 * Constants::headings
+    //      dubinsCost = dubinsLookup[uX * Constants::GetInstance().DUBINS_WIDTH() * Constants::GetInstance().HEADINGS() * Constants::GetInstance().HEADINGS()
+    //                                + uY *  Constants::GetInstance().HEADINGS() * Constants::GetInstance().HEADINGS()
+    //                                + h0 * Constants::GetInstance().HEADINGS()
     //                                + h1];
     //    } else {
 
-    /*if (Constants::dubinsShot && std::abs(start.getX() - goal.getX()) >= 10 && std::abs(start.getY() - goal.getY()) >= 10)*/
+    // if (Constants::GetInstance().DUBINS_SHOOT() && std::abs(start.getX() - goal.getX()) >= 10 && std::abs(start.getY() - goal.getY()) >= 10)
     //      // start
     //      double q0[] = { start.getX(), start.getY(), start.getT()};
     //      // goal
     //      double q1[] = { goal.getX(), goal.getY(), goal.getT()};
     //      DubinsPath dubinsPath;
-    //      dubins_init(q0, q1, Constants::r, &dubinsPath);
+    //      dubins_init(q0, q1, Constants::GetInstance().R(), &dubinsPath);
     //      dubinsCost = dubins_path_length(&dubinsPath);
 
-    ompl::base::DubinsStateSpace dubinsPath(Constants::r);
+    ompl::base::DubinsStateSpace dubinsPath(Constants::GetInstance().R());
     State* dbStart = (State*)dubinsPath.allocState();
     State* dbEnd = (State*)dubinsPath.allocState();
     dbStart->setXY(start.getX(), start.getY());
@@ -396,9 +401,9 @@ void updateH(Node3D& start, const Node3D& goal, Node2D* nodes2D, float* dubinsLo
   }
 
   // if reversing is active use a
-  if (Constants::reverse && !Constants::dubins) {
+  if (Constants::GetInstance().REVERSE() && !Constants::GetInstance().DUBINS()) {
     //    ros::Time t0 = ros::Time::now();
-    ompl::base::ReedsSheppStateSpace reedsSheppPath(Constants::r);
+    ompl::base::ReedsSheppStateSpace reedsSheppPath(Constants::GetInstance().R());
     State* rsStart = (State*)reedsSheppPath.allocState();
     State* rsEnd = (State*)reedsSheppPath.allocState();
     rsStart->setXY(start.getX(), start.getY());
@@ -415,7 +420,7 @@ void updateH(Node3D& start, const Node3D& goal, Node2D* nodes2D, float* dubinsLo
 
   // if twoD heuristic is activated determine shortest path
   // unconstrained with obstacles
-  if (Constants::twoD && !nodes2D[(int)start.getY() * width + (int)start.getX()].isDiscovered()) {
+  if (Constants::GetInstance().TWO_D() && !nodes2D[(int)start.getY() * width + (int)start.getX()].isDiscovered()) {
     //    ros::Time t0 = ros::Time::now();
     // create a 2d start node
     Node2D start2d(start.getX(), start.getY(), 0, 0, nullptr);
@@ -428,7 +433,7 @@ void updateH(Node3D& start, const Node3D& goal, Node2D* nodes2D, float* dubinsLo
     //    std::cout << "calculated 2D Heuristic in ms: " << d * 1000 << std::endl;
   }
 
-  if (Constants::twoD) {
+  if (Constants::GetInstance().TWO_D()) {
     // offset for same node in cell
     twoDoffset = sqrt(((start.getX() - (long)start.getX()) - (goal.getX() - (long)goal.getX())) * ((start.getX() - (long)start.getX()) - (goal.getX() - (long)goal.getX())) +
                       ((start.getY() - (long)start.getY()) - (goal.getY() - (long)goal.getY())) * ((start.getY() - (long)start.getY()) - (goal.getY() - (long)goal.getY())));
@@ -451,16 +456,16 @@ std::pair<Node3D*, Node3D*> dubinsShot(Node3D& start, const Node3D& goal, Collis
   // initialize the path
   DubinsPath path;
   // calculate the path
-  dubins_init(q0, q1, Constants::r, &path);
+  dubins_init(q0, q1, Constants::GetInstance().R(), &path);
 
   int i = 0;
   float x = 0.f;
   float length = dubins_path_length(&path);
 
-  Node3D* dubinsNodes = new Node3D [(int)(length / Constants::dubinsStepSize) + 1];
+  Node3D* dubinsNodes = new Node3D [(int)(length / Constants::GetInstance().DUBINS_STEP_SIZE()) + 1];
 
   // avoid duplicate waypoint
-  x += Constants::dubinsStepSize;
+  x += Constants::GetInstance().DUBINS_STEP_SIZE();
   while (x <  length) {
     double q[3];
     dubins_path_sample(&path, x, q);
@@ -475,14 +480,14 @@ std::pair<Node3D*, Node3D*> dubinsShot(Node3D& start, const Node3D& goal, Collis
       if (i > 0) {
         dubinsNodes[i].setPred(&dubinsNodes[i - 1]);
       } else {
-        dubinsNodes[i].setPred(&start);
+        dubinsNodes[i].setPred(nullptr);
       }
 
       if (&dubinsNodes[i] == dubinsNodes[i].getPred()) {
         std::cout << "looping shot";
       }
 
-      x += Constants::dubinsStepSize;
+      x += Constants::GetInstance().DUBINS_STEP_SIZE();
       i++;
     } else {
       //      std::cout << "Dubins shot collided, discarding the path" << "\n";
@@ -491,7 +496,7 @@ std::pair<Node3D*, Node3D*> dubinsShot(Node3D& start, const Node3D& goal, Collis
       return {nullptr,nullptr};
     }
   }
-
+  auto* ptr=&dubinsNodes[i - 1];
   //  std::cout << "Dubins shot connected, returning the path" << "\n";
-  return {dubinsNodes, &dubinsNodes[i - 1]};
+  return {dubinsNodes, ptr};
 }

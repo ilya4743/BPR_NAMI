@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <OGRE/OgreMatrix4.h>
+#include "object.h"
 #include <map>
 
 struct Obstacle
@@ -33,17 +33,17 @@ class DataUnpacker
     void unpackObject(std::string&& data, int n);
     
     MapProperties map_properties;
-    std::map<uint64_t,Ogre::Matrix4> map_mat4_;
+    std::map<uint64_t,TransformMatrix> map_mat4_;
     
     public:
     MapProperties ExtractMapProperties();
-    std::map<uint64_t,Ogre::Matrix4> ExtractObject();
+    std::map<uint64_t,TransformMatrix> ExtractObject();
 
     DataUnpacker():isComplete(false), isMapPropertiesSet(false){};
     bool isCompleted();
     void unpack(std::string&& data);
 };
-
+#include <cstring>
 
 template<typename T> 
 std::string ConvertToBytes(T data)

@@ -5,20 +5,14 @@ void ReportError(sys::error_code ec, std::string_view what) {
 }
 
 void SessionBase::Run() {
-    // Вызываем метод Read, используя executor объекта socket_.
-    // Таким образом вся работа со socket_ будет выполняться, используя его executor
-    net::dispatch(socket_.get_executor(), std::bind(&SessionBase::Read, GetSharedThis()));
+    net::dispatch(socket_.get_executor(), net::bind_executor(strand_, std::bind(&SessionBase::Read, GetSharedThis())));
 }
 
 void SessionBase::Read() {
     using namespace std::literals;
-    // Очищаем запрос от прежнего значения (метод Read может быть вызван несколько раз)
     request_ = {};
-    std::cout<<"read\n";
-    // Считываем request_ из socket_, используя buffer_ для хранения считанных данных
     net::async_read(socket_, net::dynamic_buffer(request_),net::transfer_at_least(1),
-                     // По окончании операции будет вызван метод OnRead
-                     std::bind(&SessionBase::OnRead, GetSharedThis(), std::placeholders::_1, std::placeholders::_2));                         
+                     net::bind_executor(strand_, (std::bind(&SessionBase::OnRead, GetSharedThis(), std::placeholders::_1, std::placeholders::_2))));                         
 }
     
 void SessionBase::OnRead(sys::error_code ec, [[maybe_unused]] std::size_t bytes_read) {
@@ -38,9 +32,9 @@ void SessionBase::Write(std::string&& response) {
     auto safe_response = std::make_shared<std::string>(std::move(response));
     auto self = GetSharedThis();
     net::async_write(socket_, net::buffer(*safe_response),
-                      [safe_response, self](sys::error_code ec, std::size_t bytes_written) {
+                      net::bind_executor(strand_,[safe_response, self](sys::error_code ec, std::size_t bytes_written) {
                           self->OnWrite(ec, bytes_written);
-                      });
+                      }));
 }
 
 void SessionBase::OnWrite(sys::error_code ec, [[maybe_unused]] std::size_t bytes_written) {
@@ -48,12 +42,11 @@ void SessionBase::OnWrite(sys::error_code ec, [[maybe_unused]] std::size_t bytes
 return Close();    }
 
     //if (close) {
-        // Семантика ответа требует закрыть соединение
         //return Close();
     //}
 
     // Считываем следующий запрос
-    Read();
+    //Read();
 }
 
 void ClientBase::Run()
@@ -64,7 +57,7 @@ void ClientBase::Run()
 void ClientBase::DoConnect()
 {           
     reconnect_timer.async_wait(std::bind(&ClientBase::Reconnect, GetSharedThis()));
-    socket.async_connect(endpoint_, std::bind(&ClientBase::OnConnect, GetSharedThis(), std::placeholders::_1, endpoint_));
+    socket.async_connect(endpoint_, net::bind_executor(strand, std::bind(&ClientBase::OnConnect, GetSharedThis(), std::placeholders::_1, endpoint_)));
 }
 
 void ClientBase::OnConnect(const sys::error_code& ec, const tcp::endpoint& endpoint)
@@ -77,7 +70,7 @@ void ClientBase::OnConnect(const sys::error_code& ec, const tcp::endpoint& endpo
     {
         std::cout<<"confirm\n";
         // Асинхронно обрабатываем сессию
-        AsyncRunSession(std::move(socket));
+        AsyncRunSession(std::move(socket),std::move(strand));
     }
 }
 

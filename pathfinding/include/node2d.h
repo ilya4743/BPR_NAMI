@@ -76,7 +76,7 @@ class Node2D {
   /// Updates the cost-to-go for the node x' to the goal node.
   void updateH(const Node2D& goal) { h = movementCost(goal); }
   /// The heuristic as well as the cost measure.
-  float movementCost(const Node2D& pred) const { return sqrt((x - pred.x) * (x - pred.x) + (y - pred.y) * (y - pred.y)); }
+  float movementCost(const Node2D& pred) const { return std::sqrt((x - pred.x) * (x - pred.x) + (y - pred.y) * (y - pred.y)); }
 
   // CUSTOM OPERATORS
   /// Custom operator to compare nodes. Nodes are equal if their x and y position is the same.

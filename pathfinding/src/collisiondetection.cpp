@@ -2,19 +2,19 @@
 
 using namespace HybridAStar;
 
-CollisionDetection::CollisionDetection() {
-  Lookup::collisionLookup(collisionLookup);
+CollisionDetection::CollisionDetection():collisionLookup(Constants::GetInstance().HEADINGS() * Constants::GetInstance().POSITIONS()) {
+  Lookup::collisionLookup(collisionLookup.data());
 }
 
 bool CollisionDetection::configurationTest(float x, float y, float t) const {
   int X = (int)x;
   int Y = (int)y;
-  int iX = (int)((x - (long)x) * Constants::positionResolution);
+  int iX = (int)((x - (long)x) * Constants::GetInstance().POSITION_RESOLUTION());
   iX = iX > 0 ? iX : 0;
-  int iY = (int)((y - (long)y) * Constants::positionResolution);
+  int iY = (int)((y - (long)y) * Constants::GetInstance().POSITION_RESOLUTION());
   iY = iY > 0 ? iY : 0;
-  int iT = (int)(t / Constants::deltaHeadingRad);
-  int idx = iY * Constants::positionResolution * Constants::headings + iX * Constants::headings + iT;
+  int iT = (int)(t / Constants::GetInstance().DELTA_HEADING_RAD());
+  int idx = iY * Constants::GetInstance().POSITION_RESOLUTION() * Constants::GetInstance().HEADINGS() + iX * Constants::GetInstance().HEADINGS() + iT;
   int cX;
   int cY;
 

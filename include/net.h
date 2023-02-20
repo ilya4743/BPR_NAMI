@@ -16,14 +16,16 @@ public:
     void Run();
 
 protected:
-    explicit SessionBase(tcp::socket&& socket): socket_(std::move(socket)) {}
+    explicit SessionBase(tcp::socket&& socket, net::strand<net::io_context::executor_type>&& strand)
+    : socket_(std::move(socket)), strand_(std::move(strand)){};
     ~SessionBase() = default;
     void Write(std::string&& response);
     
 private:
     tcp::socket socket_;
     std::string request_;
-    
+    net::strand<net::io_context::executor_type> strand_;
+
     virtual std::shared_ptr<SessionBase> GetSharedThis() = 0;    
     virtual void HandleRequest(std::string&& request) = 0;
 
@@ -37,8 +39,8 @@ template <typename RequestHandler>
 class Session : public SessionBase, public std::enable_shared_from_this<Session<RequestHandler>> {
 public:
     template <typename Handler>
-    Session(tcp::socket&& socket, Handler&& request_handler)
-        : SessionBase(std::move(socket))
+    Session(tcp::socket&& socket, net::strand<net::io_context::executor_type>&& strand, Handler&& request_handler)
+        : SessionBase(std::move(socket), std::move(strand))
         , request_handler_(std::forward<Handler>(request_handler)) {
     }
 private:
@@ -63,22 +65,10 @@ public:
     
 protected:
     ClientBase(net::io_context& ioc, const tcp::endpoint& endpoint)
-    : ioc_(ioc), endpoint_(endpoint), socket(net::make_strand(ioc)), reconnect_timer(net::make_strand(ioc),net::chrono::seconds(5)), isConnected(false){        
-        // Открываем acceptor, используя протокол (IPv4 или IPv6), указанный в endpoint
+    : ioc_(ioc), endpoint_(endpoint), socket(net::make_strand(ioc)), reconnect_timer(net::make_strand(ioc),net::chrono::seconds(5)), isConnected(false), strand{net::make_strand(ioc_)}{        
         socket.open(endpoint.protocol());
-
-        // После закрытия TCP-соединения сокет некоторое время может считаться занятым,
-        // чтобы компьютеры могли обменяться завершающими пакетами данных.
-        // Однако это может помешать повторно открыть сокет в полузакрытом состоянии.
-        // Флаг reuse_address разрешает открыть сокет, когда он "наполовину закрыт"
         socket.set_option(net::socket_base::reuse_address(true));
         socket.set_option(net::socket_base::enable_connection_aborted(true));
-
-        // Привязываем acceptor к адресу и порту endpoint
-        //socket.bind(endpoint);
-        // Переводим acceptor в состояние, в котором он способен принимать новые соединения
-        // Благодаря этому новые подключения будут помещаться в очередь ожидающих соединений
-        //socket.connect(endpoint);
         }
     ~ClientBase() = default;
 
@@ -89,9 +79,10 @@ private:
     tcp::endpoint endpoint_;
     tcp::socket socket;
     net::steady_timer reconnect_timer;
-    
+    net::strand<net::io_context::executor_type> strand;
+
     virtual std::shared_ptr<ClientBase> GetSharedThis()=0;
-    virtual void AsyncRunSession(tcp::socket&& socket) =0;
+    virtual void AsyncRunSession(tcp::socket&& socket, net::strand<net::io_context::executor_type>&& strand_) =0;
     
     void DoConnect();
     void OnConnect(const sys::error_code& ec, const tcp::endpoint& endpoint);
@@ -113,8 +104,8 @@ private:
         return this->shared_from_this();
     }   
 
-    void AsyncRunSession(tcp::socket&& socket) override{
-        std::make_shared<Session<RequestHandler>>(std::move(socket), request_handler_)->Run();
+    void AsyncRunSession(tcp::socket&& socket, net::strand<net::io_context::executor_type>&& strand) override{
+        std::make_shared<Session<RequestHandler>>(std::move(socket), std::move(strand), request_handler_)->Run();
     }
 };
 

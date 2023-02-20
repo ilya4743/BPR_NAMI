@@ -20,7 +20,7 @@ public:
     /// @brief Конструктор с параметрами
     /// @param matrix4 матрица трансформации
     /// @param speed скорость авто
-    Car(const Ogre::Matrix4 &matrix4, float speed);
+    Car(const TransformMatrix &matrix4, float speed);
 
     /// Конструктор копирования
     Car(const Car&car);

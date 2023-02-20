@@ -28,7 +28,7 @@ const float Node3D::dt[] = { 0,         0.1178097,   -0.1178097};
 //                                         IS ON GRID
 //###################################################
 bool Node3D::isOnGrid(const int width, const int height) const {
-  return x >= 0 && x < width && y >= 0 && y < height && (int)(t / Constants::deltaHeadingRad) >= 0 && (int)(t / Constants::deltaHeadingRad) < Constants::headings;
+  return x >= 0 && x < width && y >= 0 && y < height && (int)(t / Constants::GetInstance().DELTA_HEADING_RAD()) >= 0 && (int)(t / Constants::GetInstance().DELTA_HEADING_RAD()) < Constants::GetInstance().HEADINGS();
 }
 
 
@@ -39,7 +39,7 @@ bool Node3D::isInRange(const Node3D& goal) const {
   int random = rand() % 10 + 1;
   float dx = std::abs(x - goal.x) / random;
   float dy = std::abs(y - goal.y) / random;
-  return (dx * dx) + (dy * dy) < Constants::dubinsShotDistance;
+  return (dx * dx) + (dy * dy) < Constants::GetInstance().DUBINS_SHOOT_DISTANCE();
 }
 
 //###################################################
@@ -77,9 +77,9 @@ void Node3D::updateG() {
     if (pred->prim != prim) {
       // penalize change of direction
       if (pred->prim > 2) {
-        g += dx[0] * Constants::penaltyTurning * Constants::penaltyCOD;
+        g += dx[0] * Constants::GetInstance().PENALTY_TURNING() * Constants::GetInstance().PENALTY_COD();
       } else {
-        g += dx[0] * Constants::penaltyTurning;
+        g += dx[0] * Constants::GetInstance().PENALTY_TURNING();
       }
     } else {
       g += dx[0];
@@ -91,12 +91,12 @@ void Node3D::updateG() {
     if (pred->prim != prim) {
       // penalize change of direction
       if (pred->prim < 3) {
-        g += dx[0] * Constants::penaltyTurning * Constants::penaltyReversing * Constants::penaltyCOD;
+        g += dx[0] * Constants::GetInstance().PENALTY_TURNING() * Constants::GetInstance().PENALTY_REVERSING() * Constants::GetInstance().PENALTY_COD();
       } else {
-        g += dx[0] * Constants::penaltyTurning * Constants::penaltyReversing;
+        g += dx[0] * Constants::GetInstance().PENALTY_TURNING() * Constants::GetInstance().PENALTY_REVERSING();
       }
     } else {
-      g += dx[0] * Constants::penaltyReversing;
+      g += dx[0] * Constants::GetInstance().PENALTY_REVERSING();
     }
   }
 }
@@ -113,13 +113,13 @@ void Node3D::updateG() {
 
 //  // if dubins heuristic is activated calculate the shortest path
 //  // constrained without obstacles
-//  if (Constants::dubins) {
+//  if (Constants::GetInstance().dubins) {
 
 //// ONLY FOR dubinsLookup
 ////    int uX = std::abs((int)goal.x - (int)x);
 ////    int uY = std::abs((int)goal.y - (int)y);
 ////    // if the lookup table flag is set and the vehicle is in the lookup area
-////    if (Constants::dubinsLookup && uX < Constants::dubinsWidth - 1 && uY < Constants::dubinsWidth - 1) {
+////    if (Constants::GetInstance().dubinsLookup && uX < Constants::GetInstance().dubinsWidth - 1 && uY < Constants::GetInstance().dubinsWidth - 1) {
 ////      int X = (int)goal.x - (int)x;
 ////      int Y = (int)goal.y - (int)y;
 ////      int h0;
@@ -127,41 +127,41 @@ void Node3D::updateG() {
 
 ////      // mirror on x axis
 ////      if (X >= 0 && Y <= 0) {
-////        h0 = (int)(helper::normalizeHeadingRad(M_PI_2 - t) / Constants::deltaHeadingRad);
-////        h1 = (int)(helper::normalizeHeadingRad(M_PI_2 - goal.t) / Constants::deltaHeadingRad);
+////        h0 = (int)(helper::normalizeHeadingRad(M_PI_2 - t) / Constants::GetInstance().deltaHeadingRad);
+////        h1 = (int)(helper::normalizeHeadingRad(M_PI_2 - goal.t) / Constants::GetInstance().deltaHeadingRad);
 ////      }
 ////      // mirror on y axis
 ////      else if (X <= 0 && Y >= 0) {
-////        h0 = (int)(helper::normalizeHeadingRad(M_PI_2 - t) / Constants::deltaHeadingRad);
-////        h1 = (int)(helper::normalizeHeadingRad(M_PI_2 - goal.t) / Constants::deltaHeadingRad);
+////        h0 = (int)(helper::normalizeHeadingRad(M_PI_2 - t) / Constants::GetInstance().deltaHeadingRad);
+////        h1 = (int)(helper::normalizeHeadingRad(M_PI_2 - goal.t) / Constants::GetInstance().deltaHeadingRad);
 
 ////      }
 ////      // mirror on xy axis
 ////      else if (X <= 0 && Y <= 0) {
-////        h0 = (int)(helper::normalizeHeadingRad(M_PI - t) / Constants::deltaHeadingRad);
-////        h1 = (int)(helper::normalizeHeadingRad(M_PI - goal.t) / Constants::deltaHeadingRad);
+////        h0 = (int)(helper::normalizeHeadingRad(M_PI - t) / Constants::GetInstance().deltaHeadingRad);
+////        h1 = (int)(helper::normalizeHeadingRad(M_PI - goal.t) / Constants::GetInstance().deltaHeadingRad);
 
 ////      } else {
-////        h0 = (int)(t / Constants::deltaHeadingRad);
-////        h1 = (int)(goal.t / Constants::deltaHeadingRad);
+////        h0 = (int)(t / Constants::GetInstance().deltaHeadingRad);
+////        h1 = (int)(goal.t / Constants::GetInstance().deltaHeadingRad);
 ////      }
 
-////      dubinsCost = dubinsLookup[uX * Constants::dubinsWidth * Constants::headings * Constants::headings
-////                                + uY *  Constants::headings * Constants::headings
-////                                + h0 * Constants::headings
+////      dubinsCost = dubinsLookup[uX * Constants::GetInstance().dubinsWidth * Constants::GetInstance().headings * Constants::GetInstance().headings
+////                                + uY *  Constants::GetInstance().headings * Constants::GetInstance().headings
+////                                + h0 * Constants::GetInstance().headings
 ////                                + h1];
 ////    } else {
 
-//        /*if (Constants::dubinsShot && std::abs(x - goal.x) >= 10 && std::abs(y - goal.y) >= 10)*/
+//        /*if (Constants::GetInstance().dubinsShot && std::abs(x - goal.x) >= 10 && std::abs(y - goal.y) >= 10)*/
 ////      // start
 ////      double q0[] = { x, y, t};
 ////      // goal
 ////      double q1[] = { goal.x, goal.y, goal.t};
 ////      DubinsPath dubinsPath;
-////      dubins_init(q0, q1, Constants::r, &dubinsPath);
+////      dubins_init(q0, q1, Constants::GetInstance().r, &dubinsPath);
 ////      dubinsCost = dubins_path_length(&dubinsPath);
 
-//      ompl::base::DubinsStateSpace dubinsPath(Constants::r);
+//      ompl::base::DubinsStateSpace dubinsPath(Constants::GetInstance().r);
 //      State* dbStart = (State*)dubinsPath.allocState();
 //      State* dbEnd = (State*)dubinsPath.allocState();
 //      dbStart->setXY(x, y);
@@ -172,8 +172,8 @@ void Node3D::updateG() {
 //  }
 
 //  // if reversing is active use a
-//  if (Constants::reverse && !Constants::dubins) {
-//    ompl::base::ReedsSheppStateSpace reedsSheppPath(Constants::r);
+//  if (Constants::GetInstance().reverse && !Constants::GetInstance().dubins) {
+//    ompl::base::ReedsSheppStateSpace reedsSheppPath(Constants::GetInstance().r);
 //    State* rsStart = (State*)reedsSheppPath.allocState();
 //    State* rsEnd = (State*)reedsSheppPath.allocState();
 //    rsStart->setXY(x, y);
@@ -185,7 +185,7 @@ void Node3D::updateG() {
 
 //  // if twoD heuristic is activated determine shortest path
 //  // unconstrained with obstacles
-//  if (Constants::twoD && !nodes2D[(int)y * grid->info.width + (int)x].isDiscovered()) {
+//  if (Constants::GetInstance().twoD && !nodes2D[(int)y * grid->info.width + (int)x].isDiscovered()) {
 //    // create a 2d start node
 //    Node2D start2d(x, y, 0, 0, nullptr);
 //    // create a 2d goal node
@@ -194,7 +194,7 @@ void Node3D::updateG() {
 //    nodes2D[(int)y * grid->info.width + (int)x].setG(Algorithm::aStar(goal2d, start2d, grid, nodes2D, visualization));
 //  }
 
-//  if (Constants::twoD) {
+//  if (Constants::GetInstance().twoD) {
 //    // offset for same node in cell
 //    twoDoffset = sqrt(((x - (long)x) - (goal.x - (long)goal.x)) * ((x - (long)x) - (goal.x - (long)goal.x)) +
 //                      ((y - (long)y) - (goal.y - (long)goal.y)) * ((y - (long)y) - (goal.y - (long)goal.y)));
@@ -209,15 +209,15 @@ void Node3D::updateG() {
 ////###################################################
 ////                                 COLLISION CHECKING
 ////###################################################
-//bool Node3D::isTraversable(const nav_msgs::OccupancyGrid::ConstPtr& grid, Constants::config* collisionLookup) const {
+//bool Node3D::isTraversable(const nav_msgs::OccupancyGrid::ConstPtr& grid, Constants::GetInstance().config* collisionLookup) const {
 //  int X = (int)x;
 //  int Y = (int)y;
-//  int iX = (int)((x - (long)x) * Constants::positionResolution);
+//  int iX = (int)((x - (long)x) * Constants::GetInstance().positionResolution);
 //  iX = iX > 0 ? iX : 0;
-//  int iY = (int)((y - (long)y) * Constants::positionResolution);
+//  int iY = (int)((y - (long)y) * Constants::GetInstance().positionResolution);
 //  iY = iY > 0 ? iY : 0;
-//  int iT = (int)(t / Constants::deltaHeadingRad);
-//  int idx = iY * Constants::positionResolution * Constants::headings + iX * Constants::headings + iT;
+//  int iT = (int)(t / Constants::GetInstance().deltaHeadingRad);
+//  int idx = iY * Constants::GetInstance().positionResolution * Constants::GetInstance().headings + iX * Constants::GetInstance().headings + iT;
 //  int cX;
 //  int cY;
 
@@ -240,7 +240,7 @@ void Node3D::updateG() {
 ////###################################################
 ////                                        DUBINS SHOT
 ////###################################################
-//Node3D* Node3D::dubinsShot(const Node3D& goal, const nav_msgs::OccupancyGrid::ConstPtr& grid, Constants::config* collisionLookup) const {
+//Node3D* Node3D::dubinsShot(const Node3D& goal, const nav_msgs::OccupancyGrid::ConstPtr& grid, Constants::GetInstance().config* collisionLookup) const {
 //  // start
 //  double q0[] = { x, y, t };
 //  // goal
@@ -248,13 +248,13 @@ void Node3D::updateG() {
 //  // initialize the path
 //  DubinsPath path;
 //  // calculate the path
-//  dubins_init(q0, q1, Constants::r, &path);
+//  dubins_init(q0, q1, Constants::GetInstance().r, &path);
 
 //  int i = 0;
 //  float x = 0.f;
 //  float length = dubins_path_length(&path);
 
-//  Node3D* dubinsNodes = new Node3D [(int)(length / Constants::dubinsStepSize) + 1];
+//  Node3D* dubinsNodes = new Node3D [(int)(length / Constants::GetInstance().dubinsStepSize) + 1];
 
 //  while (x <  length) {
 //    double q[3];
@@ -277,7 +277,7 @@ void Node3D::updateG() {
 //        std::cout << "looping shot";
 //      }
 
-//      x += Constants::dubinsStepSize;
+//      x += Constants::GetInstance().dubinsStepSize;
 //      i++;
 //    } else {
 //      //      std::cout << "Dubins shot collided, discarding the path" << "\n";
@@ -297,6 +297,6 @@ void Node3D::updateG() {
 bool Node3D::operator == (const Node3D& rhs) const {
   return (int)x == (int)rhs.x &&
          (int)y == (int)rhs.y &&
-         (std::abs(t - rhs.t) <= Constants::deltaHeadingRad ||
-          std::abs(t - rhs.t) >= Constants::deltaHeadingNegRad);
+         (std::abs(t - rhs.t) <= Constants::GetInstance().DELTA_HEADING_RAD() ||
+          std::abs(t - rhs.t) >= Constants::GetInstance().DELTA_HEADING_NEG_RAD());
 }
