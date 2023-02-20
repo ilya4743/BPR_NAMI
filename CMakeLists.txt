@@ -25,4 +25,4 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} sub::pathfinding)
 
-configure_file(data/config.cfg ${CMAKE_BINARY_DIR}/config.cfg @ONLY)
+configure_file(data/config.json ${CMAKE_BINARY_DIR}/config.json @ONLY)
