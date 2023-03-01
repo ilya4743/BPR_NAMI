@@ -5,7 +5,7 @@
 #include "net.h"
 #include "request_handler.h"
 #include "const.h"
-
+#include "logging_request_handler.h"
 
 namespace sys = boost::system;
 namespace net = boost::asio;
@@ -43,14 +43,17 @@ int main(int argc, char **argv)
         });
 
         // Создаём обработчик запросов
-        RequestHandler handler;
+        auto handler = std::make_shared<handler::RequestHandler>();
 
         const auto address = net::ip::make_address(BPR_NAMI::Constants::GetInstance().IP());
         const unsigned short port = BPR_NAMI::Constants::GetInstance().PORT();
+        
+        LoggingRequestHandler logging_request_handler{[handler](auto&& endpoint, auto&& req, auto&& send) {
+            (*handler)(std::forward<decltype(endpoint)>(endpoint), std::forward<decltype(req)>(req),
+            std::forward<decltype(send)>(send));
+        }};
 
-        ClientBPR(ioc, {address, port}, [&handler](auto&& req, auto&& send) {
-            handler(std::forward<decltype(req)>(req), std::forward<decltype(send)>(send));
-        });
+        ClientBPR(ioc, {address, port}, logging_request_handler);
 
         RunWorkers(num_threads, [&ioc] {
             ioc.run();

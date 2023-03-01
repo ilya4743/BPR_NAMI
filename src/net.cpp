@@ -4,6 +4,11 @@ void ReportError(sys::error_code ec, std::string_view what) {
     std::cerr << what << ": "sv << ec.message() << std::endl;
 }
 
+tcp::endpoint SessionBase::GetEndpoint() const
+{
+        return socket_.remote_endpoint();
+}
+
 void SessionBase::Run() {
     net::dispatch(socket_.get_executor(), std::bind(&SessionBase::Read, GetSharedThis()));
 }

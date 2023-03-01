@@ -20,7 +20,6 @@ add_executable(${PROJECT_NAME}
     src/net.cpp
     src/data_unpacker.cpp
     src/pathfinder.cpp
-    
 )
 
 target_link_libraries(${PROJECT_NAME} sub::pathfinding)

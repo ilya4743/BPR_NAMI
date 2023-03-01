@@ -4,8 +4,10 @@
 #include <iostream>
 #include "data_unpacker.h"
 #include "pathfinder.h"
-
 class PathFinder;
+
+namespace handler{
+
 
 class RequestHandler
 {
@@ -16,7 +18,7 @@ class RequestHandler
     RequestHandler& operator=(const RequestHandler&) = delete;
 
     template <typename Send>
-    void operator()(std::string&& req, Send&& send) 
+    void operator()(tcp::endpoint&& endpoint, std::string&& req, Send&& send) 
     {
       unpacker.unpack(std::move(req));
       if (unpacker.isCompleted())
@@ -39,3 +41,5 @@ class RequestHandler
     DataUnpacker unpacker;
     PathFinder pathfinder;
 };
+
+}
