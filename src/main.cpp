@@ -29,7 +29,8 @@ int main(int argc, char **argv)
     try
     {
         BPR_NAMI::Constants::SetConstatsFromFile("config.json");
-
+        HybridAStar::Constants::SetConstatsFromFile("config_hybrid_a_star.json");
+        
         unsigned num_threads = std::thread::hardware_concurrency();        
         num_threads=0;
 

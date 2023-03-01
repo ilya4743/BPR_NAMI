@@ -14,7 +14,12 @@
 //    Y-COORDINATE => designating the height of the grid
 
 #include <cmath>
+#include <string>
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
+namespace pt=boost::property_tree;
 /*!
     \brief The namespace that wraps the entire project
     \namespace HybridAStar
@@ -28,51 +33,83 @@ namespace HybridAStar {
 class Constants {
 
 private:
+    Constants(){
+        pt::ptree tree;
+        pt::read_json(config_filename,tree);
+        coutDEBUG = tree.get<bool>("coutDEBUG");
+        manual = tree.get<bool>("manual");
+        reverse = tree.get<bool>("reverse");
+        dubinsShot = tree.get<bool>("reverse");
+        dubins = tree.get<bool>("dubins");
+        dubinsLookup = false && dubins;
+        twoD = tree.get<bool>("twoD");
+        iterations = tree.get<int>("iterations");
+        bloating = tree.get<double>("bloating");
+        width = tree.get<double>("width")+2*bloating;
+        length = tree.get<double>("length")+2*bloating;
+        r = tree.get<float>("r");
+        headings = tree.get<int>("headings");
+        deltaHeadingDeg = 360 / (float)headings;
+        deltaHeadingRad = 2 * M_PI / (float)headings;
+        deltaHeadingNegRad = 2 * M_PI - deltaHeadingRad;
+        tieBreaker = tree.get<float>("tieBreaker");
+        penaltyTurning = tree.get<float>("penaltyTurning");
+        penaltyReversing = tree.get<float>("penaltyReversing");
+        penaltyCOD = tree.get<float>("penaltyCOD");
+        dubinsShotDistance = tree.get<float>("dubinsShotDistance");
+        dubinsStepSize = tree.get<float>("dubinsStepSize");
+        dubinsWidth = tree.get<int>("dubinsWidth");
+        dubinsArea = dubinsWidth * dubinsWidth;
+        bbSize = std::ceil((sqrt(width * width + length* length) + 4) / cellSize);
+        positionResolution = tree.get<int>("positionResolution");
+        positions = positionResolution * positionResolution;
+        minRoadWidth =  tree.get<float>("minRoadWidth");
+    }
     // _________________
     // CONFIG FLAGS
 
     /// A flag for additional debugging output via `std::cout`
-    bool coutDEBUG = false;
+    bool coutDEBUG;
     /// A flag for the mode (true = manual; false = dynamic). Manual for static map or dynamic for dynamic map.
-    bool manual = true;
+    bool manual;
     /// A flag to toggle reversing (true = on; false = off)
-    bool reverse = true;
+    bool reverse;
     /// A flag to toggle the connection of the path via Dubin's shot (true = on; false = off)
-    bool dubinsShot = true;
+    bool dubinsShot;
     /// A flag to toggle the Dubin's heuristic, this should be false, if reversing is enabled (true = on; false = off)
-    bool dubins = false;
+    bool dubins;
     /*!
       \var bool dubinsLookup
       \brief A flag to toggle the Dubin's heuristic via lookup, potentially speeding up the search by a lot
       \todo not yet functional
     */
-    bool dubinsLookup = false && dubins;
+    bool dubinsLookup;
     /// A flag to toggle the 2D heuristic (true = on; false = off)
-    bool twoD = false;
+    bool twoD;
 
     // _________________
     // GENERAL CONSTANTS
 
     /// [#] --- Limits the maximum search depth of the algorithm, possibly terminating without the solution
-    int iterations = 30000;
+    int iterations;
     /// [m] --- Uniformly adds a padding around the vehicle
-    double bloating = 0;
+    double bloating;
     /// [m] --- The width of the vehicle
-    double width = 1.75 + 2 * bloating;
+    double width;
     /// [m] --- The length of the vehicle
-    double length = 2.65 + 2 * bloating;
+    double length;
     /// [m] --- The minimum turning radius of the vehicle
-    float r = 6;
+    float r;
     /// [m] --- The number of discretizations in heading
-    int headings = 72;
+    int headings;
     /// [°] --- The discretization value of the heading (goal condition)
-    float deltaHeadingDeg = 360 / (float)headings;
+    float deltaHeadingDeg;
     /// [c*M_PI] --- The discretization value of heading (goal condition)
-    float deltaHeadingRad = 2 * M_PI / (float)headings;
+    float deltaHeadingRad;
     /// [c*M_PI] --- The heading part of the goal condition
-    float deltaHeadingNegRad = 2 * M_PI - deltaHeadingRad;
+    float deltaHeadingNegRad;
     /// [m] --- The cell size of the 2D grid of the world
-    float cellSize = 2;
+    float cellSize=2;
     /*!
       \brief [m] --- The tie breaker breaks ties between nodes expanded in the same cell
 
@@ -81,7 +118,7 @@ private:
       This would lead to the fact that the successor would never be placed and the the one cell could only expand one node. The tieBreaker artificially increases the cost of the predecessor
       to allow the successor being placed in the same cell.
     */
-    float tieBreaker = 0.01;
+    float tieBreaker;
 
     // ___________________
     // HEURISTIC CONSTANTS
@@ -89,42 +126,42 @@ private:
     /// [#] --- A factor to ensure admissibility of the holonomic with obstacles heuristic
     static constexpr float factor2D = std::sqrt(5) / std::sqrt(2) + 1;
     /// [#] --- A movement cost penalty for turning (choosing non straight motion primitives)
-    float penaltyTurning = 1.05;
+    float penaltyTurning;
     /// [#] --- A movement cost penalty for reversing (choosing motion primitives > 2)
-    float penaltyReversing = 2.0;
+    float penaltyReversing;
     /// [#] --- A movement cost penalty for change of direction (changing from primitives < 3 to primitives > 2)
-    float penaltyCOD = 2.0;
+    float penaltyCOD;
     /// [m] --- The distance to the goal when the analytical solution (Dubin's shot) first triggers
-    float dubinsShotDistance = 100;
+    float dubinsShotDistance;
     /// [m] --- The step size for the analytical solution (Dubin's shot) primarily relevant for collision checking
-    float dubinsStepSize = 1;
+    float dubinsStepSize;
 
 
     // ______________________
     // DUBINS LOOKUP SPECIFIC
 
     /// [m] --- The width of the dubinsArea / 2 for the analytical solution (Dubin's shot)
-    int dubinsWidth = 15;
+    int dubinsWidth;
     /// [m] --- The area of the lookup for the analytical solution (Dubin's shot)
-    int dubinsArea = dubinsWidth * dubinsWidth;
+    int dubinsArea;
 
 
     // _________________________
     // COLLISION LOOKUP SPECIFIC
 
     /// [m] -- The bounding box size length and width to precompute all possible headings
-    int bbSize = std::ceil((sqrt(width * width + length* length) + 4) / cellSize);
+    int bbSize;
     /// [#] --- The sqrt of the number of discrete positions per cell
-    int positionResolution = 10;
+    int positionResolution;
     /// [#] --- The number of discrete positions per cell
-    int positions = positionResolution * positionResolution;
+    int positions;
 
     // _________________
     // SMOOTHER SPECIFIC
     /// [m] --- The minimum width of a safe road for the vehicle at hand
-    float minRoadWidth = 2;
-
-    Constants()=default;
+    float minRoadWidth;
+    inline static bool isLoad;
+    inline static std::string config_filename;
 public:
     Constants(const Constants&) = delete;
     Constants& operator=(const Constants&) = delete;
@@ -132,8 +169,19 @@ public:
     Constants& operator=(Constants&&) = delete;
 
     static Constants& GetInstance() {
+      if(isLoad)
+      {
         static Constants obj;
         return obj;
+      }
+      else
+        throw;
+    }
+
+    static void SetConstatsFromFile(std::string filename)
+    {
+        config_filename=filename;
+        isLoad=true;
     }
 
     inline auto COUT_DEBUG() const {return coutDEBUG;}
@@ -152,7 +200,9 @@ public:
     inline auto DELTA_HEADING_DEG() const {return deltaHeadingDeg;}
     inline auto DELTA_HEADING_RAD() const {return deltaHeadingRad;}
     inline auto DELTA_HEADING_NEG_RAD() const {return deltaHeadingNegRad;}
-    inline auto CELL_SIZE() const {return cellSize;}
+    inline auto GET_CELL_SIZE() const {return cellSize;}
+    inline auto SET_CELL_SIZE(float size) {cellSize=size;}
+
     inline auto TIE_BREAKER() const {return tieBreaker;}
     inline auto FACTOR_2D() const {return factor2D;}
     inline auto PENALTY_TURNING() const {return penaltyTurning;}

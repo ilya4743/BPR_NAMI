@@ -12,7 +12,7 @@ namespace handler{
 class RequestHandler
 {
   public:
-    explicit RequestHandler() {};
+    explicit RequestHandler():unpacker(),pathfinder() {};
 
     RequestHandler(const RequestHandler&) = delete;
     RequestHandler& operator=(const RequestHandler&) = delete;

@@ -1,4 +1,5 @@
 #include "pathfinder.h"
+#include "constants.h"
 
 void PathFinder::UpdateData(float width, float height, float resolution, uint32_t center, float x, float y,
     float theta, float speed, size_t n, std::map<uint64_t,TransformMatrix>&& objects)

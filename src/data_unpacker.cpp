@@ -1,5 +1,6 @@
 #include "data_unpacker.h"
 #include "net_headers.h"
+#include "constants.h"
 
 void DataUnpacker::unpackMapProperties(std::string data)
 {
@@ -47,6 +48,8 @@ void DataUnpacker::unpackMapProperties(std::string data)
     map_properties.n = *reinterpret_cast<uint64_t*>(byte8);
 
     isMapPropertiesSet=true;
+    HybridAStar::Constants::GetInstance().SET_CELL_SIZE(map_properties.resolution);
+
 }
 
 void DataUnpacker::unpackObject(std::string&& data, int n)

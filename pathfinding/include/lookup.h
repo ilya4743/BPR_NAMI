@@ -81,7 +81,7 @@ inline void collisionLookup(config* lookup) {
   bool DEBUG = false;
   std::cout << "I am building the collision lookup table...";
   // cell size
-  const float cSize = Constants::GetInstance().CELL_SIZE();
+  const float cSize = Constants::GetInstance().GET_CELL_SIZE();
   // bounding box size length/width
   const int size = Constants::GetInstance().BBSIZE();
 
