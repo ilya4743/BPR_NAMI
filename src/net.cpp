@@ -5,20 +5,22 @@ void ReportError(sys::error_code ec, std::string_view what) {
 }
 
 void SessionBase::Run() {
-    net::dispatch(socket_.get_executor(), net::bind_executor(strand_, std::bind(&SessionBase::Read, GetSharedThis())));
+    net::dispatch(socket_.get_executor(), std::bind(&SessionBase::Read, GetSharedThis()));
 }
 
 void SessionBase::Read() {
     using namespace std::literals;
     request_ = {};
     net::async_read(socket_, net::dynamic_buffer(request_),net::transfer_at_least(1),
-                     net::bind_executor(strand_, (std::bind(&SessionBase::OnRead, GetSharedThis(), std::placeholders::_1, std::placeholders::_2))));                         
+                    (std::bind(&SessionBase::OnRead, GetSharedThis(), std::placeholders::_1, std::placeholders::_2)));                         
 }
     
 void SessionBase::OnRead(sys::error_code ec, [[maybe_unused]] std::size_t bytes_read) {
     if (ec) {
         //return close();
     }
+    std::vector<char> vec={request_.begin(), request_.end()};
+    int s=vec.size();
     HandleRequest(std::move(request_));
     Read();
 }
@@ -32,9 +34,9 @@ void SessionBase::Write(std::string&& response) {
     auto safe_response = std::make_shared<std::string>(std::move(response));
     auto self = GetSharedThis();
     net::async_write(socket_, net::buffer(*safe_response),
-                      net::bind_executor(strand_,[safe_response, self](sys::error_code ec, std::size_t bytes_written) {
+                      [safe_response, self](sys::error_code ec, std::size_t bytes_written) {
                           self->OnWrite(ec, bytes_written);
-                      }));
+                      });
 }
 
 void SessionBase::OnWrite(sys::error_code ec, [[maybe_unused]] std::size_t bytes_written) {
@@ -57,7 +59,7 @@ void ClientBase::Run()
 void ClientBase::DoConnect()
 {           
     reconnect_timer.async_wait(std::bind(&ClientBase::Reconnect, GetSharedThis()));
-    socket.async_connect(endpoint_, net::bind_executor(strand, std::bind(&ClientBase::OnConnect, GetSharedThis(), std::placeholders::_1, endpoint_)));
+    socket.async_connect(endpoint_, std::bind(&ClientBase::OnConnect, GetSharedThis(), std::placeholders::_1, endpoint_));
 }
 
 void ClientBase::OnConnect(const sys::error_code& ec, const tcp::endpoint& endpoint)
@@ -70,7 +72,7 @@ void ClientBase::OnConnect(const sys::error_code& ec, const tcp::endpoint& endpo
     {
         std::cout<<"confirm\n";
         // Асинхронно обрабатываем сессию
-        AsyncRunSession(std::move(socket),std::move(strand));
+        AsyncRunSession(std::move(socket));
     }
 }
 

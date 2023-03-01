@@ -16,15 +16,14 @@ public:
     void Run();
 
 protected:
-    explicit SessionBase(tcp::socket&& socket, net::strand<net::io_context::executor_type>&& strand)
-    : socket_(std::move(socket)), strand_(std::move(strand)){};
+    explicit SessionBase(tcp::socket&& socket)
+    : socket_(std::move(socket)){};
     ~SessionBase() = default;
     void Write(std::string&& response);
     
 private:
     tcp::socket socket_;
     std::string request_;
-    net::strand<net::io_context::executor_type> strand_;
 
     virtual std::shared_ptr<SessionBase> GetSharedThis() = 0;    
     virtual void HandleRequest(std::string&& request) = 0;
@@ -39,8 +38,8 @@ template <typename RequestHandler>
 class Session : public SessionBase, public std::enable_shared_from_this<Session<RequestHandler>> {
 public:
     template <typename Handler>
-    Session(tcp::socket&& socket, net::strand<net::io_context::executor_type>&& strand, Handler&& request_handler)
-        : SessionBase(std::move(socket), std::move(strand))
+    Session(tcp::socket&& socket, Handler&& request_handler)
+        : SessionBase(std::move(socket))
         , request_handler_(std::forward<Handler>(request_handler)) {
     }
 private:
@@ -65,7 +64,7 @@ public:
     
 protected:
     ClientBase(net::io_context& ioc, const tcp::endpoint& endpoint)
-    : ioc_(ioc), endpoint_(endpoint), socket(net::make_strand(ioc)), reconnect_timer(net::make_strand(ioc),net::chrono::seconds(5)), isConnected(false), strand{net::make_strand(ioc_)}{        
+    : ioc_(ioc), endpoint_(endpoint), socket(net::make_strand(ioc)), reconnect_timer(net::make_strand(ioc),net::chrono::seconds(5)), isConnected(false){        
         socket.open(endpoint.protocol());
         socket.set_option(net::socket_base::reuse_address(true));
         socket.set_option(net::socket_base::enable_connection_aborted(true));
@@ -79,10 +78,9 @@ private:
     tcp::endpoint endpoint_;
     tcp::socket socket;
     net::steady_timer reconnect_timer;
-    net::strand<net::io_context::executor_type> strand;
 
     virtual std::shared_ptr<ClientBase> GetSharedThis()=0;
-    virtual void AsyncRunSession(tcp::socket&& socket, net::strand<net::io_context::executor_type>&& strand_) =0;
+    virtual void AsyncRunSession(tcp::socket&& socket) =0;
     
     void DoConnect();
     void OnConnect(const sys::error_code& ec, const tcp::endpoint& endpoint);
@@ -104,8 +102,8 @@ private:
         return this->shared_from_this();
     }   
 
-    void AsyncRunSession(tcp::socket&& socket, net::strand<net::io_context::executor_type>&& strand) override{
-        std::make_shared<Session<RequestHandler>>(std::move(socket), std::move(strand), request_handler_)->Run();
+    void AsyncRunSession(tcp::socket&& socket) override{
+        std::make_shared<Session<RequestHandler>>(std::move(socket), request_handler_)->Run();
     }
 };
 

@@ -62,8 +62,8 @@ void DataUnpacker::unpackObject(std::string&& data, int n)
     {
         size_t shift = sizeof(size_t);
         size_t size_of_mat4 = i * sizeof(Obstacle);
-        std::copy(data.begin() + size_of_mat4, data.begin() + shift + size_of_mat4, id_in_bytes);
-        std::copy(data.begin() + shift + size_of_mat4, data.begin() + size_of_mat4 + sizeof(Obstacle), byte_mat4);
+        std::copy(data.begin() + size_of_map_prop + size_of_mat4, data.begin() + size_of_map_prop + shift + size_of_mat4, id_in_bytes);
+        std::copy(data.begin() + size_of_map_prop + shift + size_of_mat4, data.begin() + size_of_map_prop + size_of_mat4 + sizeof(Obstacle), byte_mat4);
         const size_t *id = reinterpret_cast<const size_t *>(id_in_bytes);
         map_mat4_.emplace(std::make_pair(*id, TransformMatrix{
                                                     mat4[0], mat4[1], mat4[2], mat4[3],
@@ -77,28 +77,31 @@ bool DataUnpacker::isCompleted()
 {
     return isComplete;
 }
-
-void DataUnpacker::unpack(std::string&& data)
+#include <iostream>
+void DataUnpacker::unpack(std::string&& in_data)
 {
-    if((unsigned char)data[0]==0x44 && (unsigned char)data[1]==0x47 && isMapPropertiesSet==false)
+    data+=in_data;
+    if((unsigned char)data[0]==0x44 && (unsigned char)data[1]==0x47)
     {
-        unpackMapProperties(data);
-        isMapPropertiesSet=true; 
-        object_str.append(data.begin()+sizeof(MapProperties)+2,data.end());
-    }    
-    else
-    if(isMapPropertiesSet)
-        object_str.append(data.begin(),data.end());     
+        if(!isMapPropertiesSet && data.size()>=size_of_map_prop){
+            unpackMapProperties({data.begin(), data.begin()+size_of_map_prop});
+            isMapPropertiesSet=true; 
+        }
+        int size_of_packet = map_properties.n*sizeof(Obstacle)+size_of_map_prop;
+        int data_size = data.size() - 1;
+        if(data_size >= size_of_packet){
+            unpackObject(std::move(data),map_properties.n);
+            isComplete=true;
+            isMapPropertiesSet=false;
+            data.clear();
+        }
+        else
+            isComplete=false;
 
-    if(object_str.size()-1>=map_properties.n*sizeof(Obstacle))
-    {
-        isComplete=true;
-        unpackObject(std::move(object_str),map_properties.n);
-        object_str.clear();
-        isMapPropertiesSet=false;
+    }   
+    else{ 
+        data.clear(); 
     }
-    else
-        isComplete=false;
 }
 
 MapProperties DataUnpacker::ExtractMapProperties()
@@ -108,5 +111,6 @@ MapProperties DataUnpacker::ExtractMapProperties()
 
 std::map<uint64_t,TransformMatrix> DataUnpacker::ExtractObject()
 {
+    isComplete=false;
     return map_mat4_;
 }

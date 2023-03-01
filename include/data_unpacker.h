@@ -28,12 +28,14 @@ class DataUnpacker
     private:
     bool isComplete;
     bool isMapPropertiesSet;
+    int size_of_map_prop = sizeof(MapProperties)+2;
     std::string object_str;
     void unpackMapProperties(std::string data);
     void unpackObject(std::string&& data, int n);
     
     MapProperties map_properties;
     std::map<uint64_t,TransformMatrix> map_mat4_;
+    std::string data;
     
     public:
     MapProperties ExtractMapProperties();
