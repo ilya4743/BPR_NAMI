@@ -22,7 +22,6 @@ std::vector<Vector3> HybridAstarAlgo::searchHybridAStar(float x1, float y1, Quat
     int length = width * height * depth;
     Node3D* nodes3D = new Node3D[length]();
     Node2D* nodes2D = new Node2D[width * height]();
-
     // ________________________
     // retrieving goal position
     x1 = x1 / grid.resolution;

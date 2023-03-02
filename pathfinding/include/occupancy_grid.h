@@ -37,6 +37,10 @@ class OccupancyGrid
         width(width),height(height),resolution(resolution),data(data){};
 
         OccupancyGrid(const OccupancyGrid& o):width(o.width), height(o.height), resolution(o.resolution), data(o.data){};
+        
+        OccupancyGrid(OccupancyGrid&& tmp)=default;
+        
+        OccupancyGrid& operator=(OccupancyGrid&& tmp)=default;
 
         bool isInside(Vector4 p){return X(p)<=width*resolution&&X(p)>=0&&Z(p)>=0&&Z(p)<height*resolution;};
         int getI(Vector4 p)const{return X(p)/resolution;};

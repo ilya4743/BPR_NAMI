@@ -3,7 +3,6 @@
 using namespace HybridAStar;
 
 CollisionDetection::CollisionDetection():collisionLookup(Constants::GetInstance().HEADINGS() * Constants::GetInstance().POSITIONS()) {
-  Lookup::collisionLookup(collisionLookup.data());
 }
 
 bool CollisionDetection::configurationTest(float x, float y, float t) const {

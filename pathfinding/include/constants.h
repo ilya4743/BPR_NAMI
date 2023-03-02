@@ -60,7 +60,6 @@ private:
         dubinsStepSize = tree.get<float>("dubinsStepSize");
         dubinsWidth = tree.get<int>("dubinsWidth");
         dubinsArea = dubinsWidth * dubinsWidth;
-        bbSize = std::ceil((sqrt(width * width + length* length) + 4) / cellSize);
         positionResolution = tree.get<int>("positionResolution");
         positions = positionResolution * positionResolution;
         minRoadWidth =  tree.get<float>("minRoadWidth");
@@ -108,8 +107,6 @@ private:
     float deltaHeadingRad;
     /// [c*M_PI] --- The heading part of the goal condition
     float deltaHeadingNegRad;
-    /// [m] --- The cell size of the 2D grid of the world
-    float cellSize=2;
     /*!
       \brief [m] --- The tie breaker breaks ties between nodes expanded in the same cell
 
@@ -149,8 +146,6 @@ private:
     // _________________________
     // COLLISION LOOKUP SPECIFIC
 
-    /// [m] -- The bounding box size length and width to precompute all possible headings
-    int bbSize;
     /// [#] --- The sqrt of the number of discrete positions per cell
     int positionResolution;
     /// [#] --- The number of discrete positions per cell
@@ -200,9 +195,6 @@ public:
     inline auto DELTA_HEADING_DEG() const {return deltaHeadingDeg;}
     inline auto DELTA_HEADING_RAD() const {return deltaHeadingRad;}
     inline auto DELTA_HEADING_NEG_RAD() const {return deltaHeadingNegRad;}
-    inline auto GET_CELL_SIZE() const {return cellSize;}
-    inline auto SET_CELL_SIZE(float size) {cellSize=size;}
-
     inline auto TIE_BREAKER() const {return tieBreaker;}
     inline auto FACTOR_2D() const {return factor2D;}
     inline auto PENALTY_TURNING() const {return penaltyTurning;}
@@ -212,7 +204,6 @@ public:
     inline auto DUBINS_STEP_SIZE() const {return dubinsStepSize;}
     inline auto DUBINS_WIDTH() const {return dubinsWidth;}
     inline auto DUBINS_AREA() const {return dubinsArea;}
-    inline auto BBSIZE() const {return bbSize;}
     inline auto POSITION_RESOLUTION() const {return positionResolution;}
     inline constexpr auto POSITIONS() const {return positions;}
     inline auto MIN_ROAD_WIDTH() const {return minRoadWidth;}  

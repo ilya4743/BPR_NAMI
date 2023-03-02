@@ -77,13 +77,13 @@ inline int sign(double x) {
 
 // _________________________
 // COLLISION LOOKUP CREATION
-inline void collisionLookup(config* lookup) {
+inline void collisionLookup(config* lookup, float cellSize) {
   bool DEBUG = false;
-  std::cout << "I am building the collision lookup table...";
+  //std::cout << "I am building the collision lookup table...";
   // cell size
-  const float cSize = Constants::GetInstance().GET_CELL_SIZE();
+  const float cSize = cellSize;//Constants::GetInstance().GET_CELL_SIZE();
   // bounding box size length/width
-  const int size = Constants::GetInstance().BBSIZE();
+  const int size = std::ceil((sqrt(Constants::GetInstance().WIDTH() * Constants::GetInstance().WIDTH() + Constants::GetInstance().LENGTH()* Constants::GetInstance().LENGTH()) + 4) / cellSize);
 
   struct point {
     double x;
@@ -327,7 +327,7 @@ inline void collisionLookup(config* lookup) {
     }
   }
 
-  std::cout << " done!" << std::endl;
+  //std::cout << " done!" << std::endl;
 }
 
 }

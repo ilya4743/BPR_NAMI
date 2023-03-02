@@ -31,7 +31,6 @@ class CollisionDetection {
   /// Constructor
   CollisionDetection();
 
-
   /*!
      \brief evaluates whether the configuration is safe
      \return true if it is traversable, else false
@@ -84,9 +83,18 @@ class CollisionDetection {
   /*!
      \brief updates the grid with the world map
   */
-  void updateGrid(OccupancyGrid map) {grid = map;}
+  void updateGrid(OccupancyGrid map) {
+    grid = std::move(map);
+    if(cellSize!=grid.resolution){
+      std::cout<<"resize\n";
+      cellSize=grid.resolution;
+      Lookup::collisionLookup(collisionLookup.data(), cellSize);
+    }
+
+  }
 
  private:
+  float cellSize=0;
   /// The occupancy grid
   OccupancyGrid grid;
   /// The collision lookup table
