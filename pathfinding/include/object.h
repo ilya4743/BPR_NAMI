@@ -62,6 +62,27 @@ inline void SetPosition(const Vector4 vec4, TransformMatrix &m) noexcept{
     m.a[3][3]=vec4.a[3];
 }
 
+inline Vector3 ToEulerAngles(Quaternion quaternion) {
+    Vector3 angles;
+
+    // roll (x-axis rotation)
+    double sinr_cosp = 2 * (quaternion.a[0] * quaternion.a[1] + quaternion.a[2] * quaternion.a[3]);
+    double cosr_cosp = 1 - 2 * (quaternion.a[1] * quaternion.a[1] + quaternion.a[2] * quaternion.a[2]);
+    angles.a[0] = std::atan2(sinr_cosp, cosr_cosp);
+
+    // pitch (y-axis rotation)
+    double sinp = std::sqrt(1 + 2 * (quaternion.a[0] * quaternion.a[2] - quaternion.a[1] * quaternion.a[3]));
+    double cosp = std::sqrt(1 - 2 * (quaternion.a[0] * quaternion.a[2] - quaternion.a[1] * quaternion.a[3]));
+    angles.a[1] = 2 * std::atan2(sinp, cosp) - M_PI / 2;
+
+    // yaw (z-axis rotation)
+    double siny_cosp = 2 * (quaternion.a[0] * quaternion.a[3] + quaternion.a[1] * quaternion.a[2]);
+    double cosy_cosp = 1 - 2 * (quaternion.a[2] * quaternion.a[2] + quaternion.a[3] * quaternion.a[3]);
+    angles.a[2] = std::atan2(siny_cosp, cosy_cosp);
+
+    return angles;
+}
+
 class IObject
 {
     public:
