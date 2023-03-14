@@ -21,6 +21,6 @@ class HybridAstarAlgo
     public:
     HybridAstarAlgo();
     ~HybridAstarAlgo();
-    std::vector<Vector3> searchHybridAStar(float x1, float y1, Quaternion t1, float x2, float y2, float t2, const OccupancyGrid& occurancy);
+    std::vector<Eigen::Vector3f> searchHybridAStar(float x1, float y1, Eigen::Quaternionf t1, float x2, float y2, float t2, const OccupancyGrid& occurancy);
 };
 }

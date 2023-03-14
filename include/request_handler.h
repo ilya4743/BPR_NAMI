@@ -31,7 +31,7 @@ class RequestHandler
         stream<<(unsigned char)0x44<<(unsigned char)0x48<<ConvertToBytes<int>(path.size()*2);
         for(auto it=path.begin(); it!=path.end(); ++it)
         {
-          stream<<ConvertToBytes<float>(X(-(*it)))<<ConvertToBytes<float>(Z((*it)));
+          stream<<ConvertToBytes<float>(-(*it)(0))<<ConvertToBytes<float>((*it)(2));
         }
         send(std::move(stream.str()));
         pathfinder.Clear();

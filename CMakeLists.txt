@@ -12,6 +12,9 @@ include_directories(
     include ${OMPL_INCLUDE_DIRS}
 )
 
+include(${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
+conan_basic_setup(TARGETS)
+
 add_subdirectory(pathfinding)
 
 add_executable(${PROJECT_NAME}
@@ -22,7 +25,8 @@ add_executable(${PROJECT_NAME}
     src/pathfinder.cpp
 )
 
-target_link_libraries(${PROJECT_NAME} sub::pathfinding)
+target_include_directories(${PROJECT_NAME} PRIVATE CONAN_PKG::boost CONAN_PKG::eigen)
+target_link_libraries(${PROJECT_NAME} sub::pathfinding CONAN_PKG::boost CONAN_PKG::eigen)
 
 configure_file(data/config.json ${CMAKE_BINARY_DIR}/config.json @ONLY)
 configure_file(data/config_hybrid_a_star.json ${CMAKE_BINARY_DIR}/config_hybrid_a_star.json @ONLY)

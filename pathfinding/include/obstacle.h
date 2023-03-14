@@ -19,16 +19,16 @@ public:
 
     /// @brief Конструктор с параметрами
     /// @param matrix4 матрица трансформации
-    BQuadrAngle(const TransformMatrix &matrix4);
+    BQuadrAngle(const Eigen::Matrix4f &matrix4);
 
     /// Конструктор копирования
     BQuadrAngle(const BQuadrAngle& o);
 
     /// Деструктор
     ~BQuadrAngle()override;
-    std::vector<Vector4> GetVertexes() const {return this->vertexes;};
+    std::vector<Eigen::Vector4f> GetVertexes() const {return this->vertexes;};
 
 private:
     /// Вершины куба
-    std::vector<Vector4> vertexes={Vector4{1,-1,1,1}, Vector4{1,-1,-1,1}, Vector4{-1,-1,-1,1}, Vector4{-1,-1,1,1}};
+    std::vector<Eigen::Vector4f> vertexes={Eigen::Vector4f{1,-1,1,1}, Eigen::Vector4f{1,-1,-1,1}, Eigen::Vector4f{-1,-1,-1,1}, Eigen::Vector4f{-1,-1,1,1}};
 };

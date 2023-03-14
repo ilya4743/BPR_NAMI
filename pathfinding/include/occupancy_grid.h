@@ -42,9 +42,9 @@ class OccupancyGrid
         
         OccupancyGrid& operator=(OccupancyGrid&& tmp)=default;
 
-        bool isInside(Vector4 p){return X(p)<=width*resolution&&X(p)>=0&&Z(p)>=0&&Z(p)<height*resolution;};
-        int getI(Vector4 p)const{return X(p)/resolution;};
-        int getJ(Vector4 p)const{return Z(p)/resolution;};
+        bool isInside(Eigen::Vector4f p){return p(0)<=width*resolution&&p(0)>=0&&p(2)>=0&&p(2)<height*resolution;};
+        int getI(Eigen::Vector4f p)const{return p(0)/resolution;};
+        int getJ(Eigen::Vector4f p)const{return p(2)/resolution;};
         void resize(float width, float height, float resolution)
         {
             int w=static_cast<int>(width/resolution);

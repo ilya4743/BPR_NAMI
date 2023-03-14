@@ -20,7 +20,7 @@ public:
     /// @brief Конструктор с параметрами
     /// @param matrix4 матрица трансформации
     /// @param speed скорость авто
-    Car(const TransformMatrix &matrix4, float speed);
+    Car(const Eigen::Matrix4f &matrix4, float speed);
 
     /// Конструктор копирования
     Car(const Car&car);

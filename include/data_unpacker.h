@@ -34,12 +34,12 @@ class DataUnpacker
     void unpackObject(std::string&& data, int n);
     
     MapProperties map_properties;
-    std::map<uint64_t,TransformMatrix> map_mat4_;
+    std::map<uint64_t,Eigen::Matrix4f> map_mat4_;
     std::string data;
     
     public:
     MapProperties ExtractMapProperties();
-    std::map<uint64_t,TransformMatrix> ExtractObject();
+    std::map<uint64_t,Eigen::Matrix4f> ExtractObject();
 
     DataUnpacker():isComplete(false), isMapPropertiesSet(false){};
     bool isCompleted();
