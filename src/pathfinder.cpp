@@ -8,16 +8,16 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
     auto itCar=objects.find(0);
     objects.erase(itCar);
     Eigen::Matrix4f mat4=(*itCar).second;
-    auto qua=ExtractQuaternion(mat4);
-    auto pos=ExtractPosition(mat4);
-
+    Eigen::Quaternionf qua(mat4.block<3, 3>(0, 0));
+    Eigen::Vector3f pos = mat4.block<3, 1>(0, 3);
     Eigen::Vector4f pos1{-width/2, pos(1), -height/2, 1};
     pos1=mat4*pos1;
     Eigen::Matrix4f mat41(mat4);
-    SetPosition(pos1, mat41);
-    mat4=inverse(mat41)*mat4;
+    
+    mat41.block<3, 1>(0, 3) = pos1.head<3>() / pos1.w();
+    mat4=mat41.inverse()*mat4;
 
-    auto pos_local=ExtractPosition(mat4);
+    auto pos_local=mat4.block<3, 1>(0, 3);
     rotation=qua;
     start=pos_local;
 

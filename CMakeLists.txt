@@ -9,7 +9,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(
     ${PROJECT_SOURCE_DIR}/include/
     ${PROJECT_SOURCE_DIR}/pathfinding/include/
-    include ${OMPL_INCLUDE_DIRS}
 )
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
