@@ -3,10 +3,10 @@ FROM ubuntu:22.04
 
 RUN apt update && \
     apt install -y \
-      cmake \
-      libompl-dev \
-      build-essential \
-      libboost-serialization-dev \
+    cmake \
+    libompl-dev \
+    build-essential \
+    libboost-serialization-dev \
     libboost-filesystem-dev
 
 RUN mkdir app \

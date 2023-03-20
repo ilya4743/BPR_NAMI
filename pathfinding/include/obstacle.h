@@ -1,12 +1,12 @@
 #pragma once
 
-#include "object.h"
 #include <vector>
 
+#include "object.h"
+
 /// @brief Класс прямоугольного препятствия
-class BQuadrAngle: public Object
-{
-public:
+class BQuadrAngle : public Object {
+   public:
     /// Конструктор по умолчанию
     BQuadrAngle();
 
@@ -19,16 +19,16 @@ public:
 
     /// @brief Конструктор с параметрами
     /// @param matrix4 матрица трансформации
-    BQuadrAngle(const Eigen::Matrix4f &matrix4);
+    BQuadrAngle(const Eigen::Matrix4f& matrix4);
 
     /// Конструктор копирования
     BQuadrAngle(const BQuadrAngle& o);
 
     /// Деструктор
-    ~BQuadrAngle()override;
-    std::vector<Eigen::Vector4f> GetVertexes() const {return this->vertexes;};
+    ~BQuadrAngle() override;
+    std::vector<Eigen::Vector4f> GetVertexes() const { return this->vertexes; };
 
-private:
+   private:
     /// Вершины куба
-    std::vector<Eigen::Vector4f> vertexes={Eigen::Vector4f{1,-1,1,1}, Eigen::Vector4f{1,-1,-1,1}, Eigen::Vector4f{-1,-1,-1,1}, Eigen::Vector4f{-1,-1,1,1}};
+    std::vector<Eigen::Vector4f> vertexes = {Eigen::Vector4f{1, -1, 1, 1}, Eigen::Vector4f{1, -1, -1, 1}, Eigen::Vector4f{-1, -1, -1, 1}, Eigen::Vector4f{-1, -1, 1, 1}};
 };

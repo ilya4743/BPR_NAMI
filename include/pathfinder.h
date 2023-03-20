@@ -1,23 +1,24 @@
 #pragma once
 
-#include "obstacle.h"
+#include <memory>
+
 #include "car.h"
+#include "hybridastar.h"
+#include "obstacle.h"
 #include "occupancy_grid.h"
 #include "placer.h"
-#include <memory>
-#include "hybridastar.h"
 
-class PathFinder
-{
-public:
-    PathFinder()=default;
+class PathFinder {
+   public:
+    PathFinder() = default;
     PathFinder(const PathFinder&) = delete;
     PathFinder& operator=(const PathFinder&) = delete;
     void UpdateData(float width, float height, float resolution, uint32_t center, float x, float y,
-    float theta, float speed, size_t n, std::map<uint64_t,Eigen::Matrix4f>&& objects);
+                    float theta, float speed, size_t n, std::map<uint64_t, Eigen::Matrix4f>&& objects);
     std::vector<Eigen::Vector3f> Find();
     void Clear() noexcept;
-private:
+
+   private:
     /// Точка конечного маршрута
     Eigen::Vector3f goal;
 
