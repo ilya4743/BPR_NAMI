@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(
   ${PROJECT_SOURCE_DIR}/include
-  include ${OMPL_INCLUDE_DIRS}
 )
 
 find_package(ompl REQUIRED)
@@ -30,6 +29,10 @@ add_library(${PROJECT_NAME}
   src/car.cpp
 )
 
+target_include_directories(${PROJECT_NAME} PRIVATE ${OMPL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OMPL_LIBRARIES})
 
 add_library(sub::pathfinding ALIAS ${PROJECT_NAME})
+
+add_definitions("-DBOOST_ALLOW_DEPRECATED_HEADERS")
+add_definitions("-DBOOST_BIND_GLOBAL_PLACEHOLDERS")
