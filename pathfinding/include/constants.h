@@ -13,13 +13,12 @@
 //    X-COORDINATE => designating the width of the grid
 //    Y-COORDINATE => designating the height of the grid
 
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <cmath>
 #include <string>
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-
-namespace pt=boost::property_tree;
+namespace pt = boost::property_tree;
 /*!
     \brief The namespace that wraps the entire project
     \namespace HybridAStar
@@ -31,11 +30,10 @@ namespace HybridAStar {
     \namespace Constants
 */
 class Constants {
-
-private:
-    Constants(){
+   private:
+    Constants() {
         pt::ptree tree;
-        pt::read_json(config_filename,tree);
+        pt::read_json(config_filename, tree);
         coutDEBUG = tree.get<bool>("coutDEBUG");
         manual = tree.get<bool>("manual");
         reverse = tree.get<bool>("reverse");
@@ -45,8 +43,8 @@ private:
         twoD = tree.get<bool>("twoD");
         iterations = tree.get<int>("iterations");
         bloating = tree.get<double>("bloating");
-        width = tree.get<double>("width")+2*bloating;
-        length = tree.get<double>("length")+2*bloating;
+        width = tree.get<double>("width") + 2 * bloating;
+        length = tree.get<double>("length") + 2 * bloating;
         r = tree.get<float>("r");
         headings = tree.get<int>("headings");
         deltaHeadingDeg = 360 / (float)headings;
@@ -62,7 +60,7 @@ private:
         dubinsArea = dubinsWidth * dubinsWidth;
         positionResolution = tree.get<int>("positionResolution");
         positions = positionResolution * positionResolution;
-        minRoadWidth =  tree.get<float>("minRoadWidth");
+        minRoadWidth = tree.get<float>("minRoadWidth");
     }
     // _________________
     // CONFIG FLAGS
@@ -133,7 +131,6 @@ private:
     /// [m] --- The step size for the analytical solution (Dubin's shot) primarily relevant for collision checking
     float dubinsStepSize;
 
-
     // ______________________
     // DUBINS LOOKUP SPECIFIC
 
@@ -141,7 +138,6 @@ private:
     int dubinsWidth;
     /// [m] --- The area of the lookup for the analytical solution (Dubin's shot)
     int dubinsArea;
-
 
     // _________________________
     // COLLISION LOOKUP SPECIFIC
@@ -157,74 +153,72 @@ private:
     float minRoadWidth;
     inline static bool isLoad;
     inline static std::string config_filename;
-public:
+
+   public:
     Constants(const Constants&) = delete;
     Constants& operator=(const Constants&) = delete;
     Constants(Constants&&) = delete;
     Constants& operator=(Constants&&) = delete;
 
     static Constants& GetInstance() {
-      if(isLoad)
-      {
-        static Constants obj;
-        return obj;
-      }
-      else
-        throw;
+        if (isLoad) {
+            static Constants obj;
+            return obj;
+        } else
+            throw;
     }
 
-    static void SetConstatsFromFile(std::string filename)
-    {
-        config_filename=filename;
-        isLoad=true;
+    static void SetConstatsFromFile(std::string filename) {
+        config_filename = filename;
+        isLoad = true;
     }
 
-    inline auto COUT_DEBUG() const {return coutDEBUG;}
-    inline auto MANUAL() const {return manual;}
-    inline auto REVERSE() const {return reverse;}
-    inline auto DUBINS_SHOOT() const {return dubinsShot;}
-    inline auto DUBINS() const {return dubins;}
-    inline auto DUBINS_LOOKUP() const {return dubinsLookup;}
-    inline auto TWO_D() const {return twoD;}
-    inline auto ITERATIONS() const {return iterations;}
-    inline auto BLOATING() const {return bloating;}
-    inline auto WIDTH() const {return width;}
-    inline auto LENGTH() const {return length;}
-    inline auto R() const {return r;}
-    inline constexpr auto HEADINGS() const {return headings;}
-    inline auto DELTA_HEADING_DEG() const {return deltaHeadingDeg;}
-    inline auto DELTA_HEADING_RAD() const {return deltaHeadingRad;}
-    inline auto DELTA_HEADING_NEG_RAD() const {return deltaHeadingNegRad;}
-    inline auto TIE_BREAKER() const {return tieBreaker;}
-    inline auto FACTOR_2D() const {return factor2D;}
-    inline auto PENALTY_TURNING() const {return penaltyTurning;}
-    inline auto PENALTY_REVERSING() const {return penaltyReversing;}
-    inline auto PENALTY_COD() const {return penaltyCOD;}
-    inline auto DUBINS_SHOOT_DISTANCE() const {return dubinsShotDistance;}
-    inline auto DUBINS_STEP_SIZE() const {return dubinsStepSize;}
-    inline auto DUBINS_WIDTH() const {return dubinsWidth;}
-    inline auto DUBINS_AREA() const {return dubinsArea;}
-    inline auto POSITION_RESOLUTION() const {return positionResolution;}
-    inline constexpr auto POSITIONS() const {return positions;}
-    inline auto MIN_ROAD_WIDTH() const {return minRoadWidth;}  
+    inline auto COUT_DEBUG() const { return coutDEBUG; }
+    inline auto MANUAL() const { return manual; }
+    inline auto REVERSE() const { return reverse; }
+    inline auto DUBINS_SHOOT() const { return dubinsShot; }
+    inline auto DUBINS() const { return dubins; }
+    inline auto DUBINS_LOOKUP() const { return dubinsLookup; }
+    inline auto TWO_D() const { return twoD; }
+    inline auto ITERATIONS() const { return iterations; }
+    inline auto BLOATING() const { return bloating; }
+    inline auto WIDTH() const { return width; }
+    inline auto LENGTH() const { return length; }
+    inline auto R() const { return r; }
+    inline constexpr auto HEADINGS() const { return headings; }
+    inline auto DELTA_HEADING_DEG() const { return deltaHeadingDeg; }
+    inline auto DELTA_HEADING_RAD() const { return deltaHeadingRad; }
+    inline auto DELTA_HEADING_NEG_RAD() const { return deltaHeadingNegRad; }
+    inline auto TIE_BREAKER() const { return tieBreaker; }
+    inline auto FACTOR_2D() const { return factor2D; }
+    inline auto PENALTY_TURNING() const { return penaltyTurning; }
+    inline auto PENALTY_REVERSING() const { return penaltyReversing; }
+    inline auto PENALTY_COD() const { return penaltyCOD; }
+    inline auto DUBINS_SHOOT_DISTANCE() const { return dubinsShotDistance; }
+    inline auto DUBINS_STEP_SIZE() const { return dubinsStepSize; }
+    inline auto DUBINS_WIDTH() const { return dubinsWidth; }
+    inline auto DUBINS_AREA() const { return dubinsArea; }
+    inline auto POSITION_RESOLUTION() const { return positionResolution; }
+    inline constexpr auto POSITIONS() const { return positions; }
+    inline auto MIN_ROAD_WIDTH() const { return minRoadWidth; }
 };
 
-        /// A structure describing the relative position of the occupied cell based on the center of the vehicle
-    struct relPos {
-      /// the x position relative to the center
-      int x;
-      /// the y position relative to the center
-      int y;
-    };
-    /// A structure capturing the lookup for each theta configuration
-    struct config {
-      /// the number of cells occupied by this configuration of the vehicle
-      int length;
-      /*!
-        \var relPos pos[64]
-        \brief The maximum number of occupied cells
-        \todo needs to be dynamic
-      */
-      relPos pos[64];
-    };
-}
+/// A structure describing the relative position of the occupied cell based on the center of the vehicle
+struct relPos {
+    /// the x position relative to the center
+    int x;
+    /// the y position relative to the center
+    int y;
+};
+/// A structure capturing the lookup for each theta configuration
+struct config {
+    /// the number of cells occupied by this configuration of the vehicle
+    int length;
+    /*!
+      \var relPos pos[64]
+      \brief The maximum number of occupied cells
+      \todo needs to be dynamic
+    */
+    relPos pos[64];
+};
+}  // namespace HybridAStar

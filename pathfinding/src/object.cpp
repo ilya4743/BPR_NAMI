@@ -1,3 +1,3 @@
 #include "object.h"
 
-IObject::~IObject(){}
+IObject::~IObject() {}

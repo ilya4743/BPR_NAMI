@@ -1,17 +1,16 @@
 #pragma once
 
-#include <string>
-#include "object.h"
 #include <map>
+#include <string>
 
-struct Obstacle
-{
+#include "object.h"
+
+struct Obstacle {
     uint64_t id;
     float mat4[16];
 };
 
-struct MapProperties
-{
+struct MapProperties {
     float width;
     float height;
     float resolution;
@@ -23,33 +22,31 @@ struct MapProperties
     size_t n;
 };
 
-class DataUnpacker
-{
-    private:
+class DataUnpacker {
+   private:
     bool isComplete;
     bool isMapPropertiesSet;
-    int size_of_map_prop = sizeof(MapProperties)+2;
+    int size_of_map_prop = sizeof(MapProperties) + 2;
     std::string object_str;
     void unpackMapProperties(std::string data);
     void unpackObject(std::string&& data, int n);
-    
-    MapProperties map_properties;
-    std::map<uint64_t,TransformMatrix> map_mat4_;
-    std::string data;
-    
-    public:
-    MapProperties ExtractMapProperties();
-    std::map<uint64_t,TransformMatrix> ExtractObject();
 
-    DataUnpacker():isComplete(false), isMapPropertiesSet(false){};
+    MapProperties map_properties;
+    std::map<uint64_t, Eigen::Matrix4f> map_mat4_;
+    std::string data;
+
+   public:
+    MapProperties ExtractMapProperties();
+    std::map<uint64_t, Eigen::Matrix4f> ExtractObject();
+
+    DataUnpacker() : isComplete(false), isMapPropertiesSet(false){};
     bool isCompleted();
     void unpack(std::string&& data);
 };
 #include <cstring>
 
-template<typename T> 
-std::string ConvertToBytes(T data)
-{
+template <typename T>
+std::string ConvertToBytes(T data) {
     std::string out;
     out.resize(sizeof(T));
     std::memcpy(&out[0], &data, sizeof(T));

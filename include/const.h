@@ -1,26 +1,23 @@
 #pragma once
 
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <string>
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
+namespace pt = boost::property_tree;
 
-namespace pt=boost::property_tree;
+namespace BPR_NAMI {
 
-namespace BPR_NAMI{
-
-class Constants
-{
-private:
+class Constants {
+   private:
     inline static bool isLoad;
     inline static std::string config_filename;
 
-    Constants()
-    {
+    Constants() {
         pt::ptree tree;
-        pt::read_json(config_filename,tree);
+        pt::read_json(config_filename, tree);
         ip = tree.get<std::string>("IP");
-        port=tree.get<unsigned short>("PORT");
+        port = tree.get<unsigned short>("PORT");
         debug_print = tree.get<bool>("DEBUG_PORT");
         print_log = tree.get<bool>("PRINT_LOG");
         reconnect_time = tree.get<size_t>("RECONNECT_TIME");
@@ -31,7 +28,7 @@ private:
     bool debug_print;
     bool print_log;
     size_t reconnect_time;
-    
+
     /// A flag for additional debugging output via `std::cout`
     bool coutDEBUG;
     /// A flag for the mode (true = manual; false = dynamic). Manual for static map or dynamic for dynamic map.
@@ -109,7 +106,6 @@ private:
     /// [m] --- The area of the lookup for the analytical solution (Dubin's shot)
     int dubinsArea;
 
-
     // _________________________
     // COLLISION LOOKUP SPECIFIC
 
@@ -121,21 +117,21 @@ private:
     int positions;
     /// A structure describing the relative position of the occupied cell based on the center of the vehicle
     struct relPos {
-    /// the x position relative to the center
-    int x;
-    /// the y position relative to the center
-    int y;
+        /// the x position relative to the center
+        int x;
+        /// the y position relative to the center
+        int y;
     };
     /// A structure capturing the lookup for each theta configuration
     struct config {
-    /// the number of cells occupied by this configuration of the vehicle
-    int length;
-    /*!
-        \var relPos pos[64]
-        \brief The maximum number of occupied cells
-        \todo needs to be dynamic
-    */
-    relPos pos[64];
+        /// the number of cells occupied by this configuration of the vehicle
+        int length;
+        /*!
+            \var relPos pos[64]
+            \brief The maximum number of occupied cells
+            \todo needs to be dynamic
+        */
+        relPos pos[64];
     };
 
     // _________________
@@ -143,33 +139,30 @@ private:
     /// [m] --- The minimum width of a safe road for the vehicle at hand
     float minRoadWidth;
 
-public:
+   public:
     Constants(const Constants&) = delete;
     Constants& operator=(const Constants&) = delete;
     Constants(Constants&&) = delete;
     Constants& operator=(Constants&&) = delete;
 
     static Constants& GetInstance() {
-      if(isLoad)
-      {
-        static Constants obj;
-        return obj;
-      }
-      else
-        throw;
+        if (isLoad) {
+            static Constants obj;
+            return obj;
+        } else
+            throw;
     }
 
-    static void SetConstatsFromFile(std::string filename)
-    {
-        config_filename=filename;
-        isLoad=true;
+    static void SetConstatsFromFile(std::string filename) {
+        config_filename = filename;
+        isLoad = true;
     }
 
-    inline std::string IP() const {return ip;}
-    inline unsigned short PORT() const {return port;}
-    inline auto DEBUG_PRINT(){return debug_print;}
-    inline auto PRINT_LOG(){return print_log;}
-    inline auto RECONNECT_TIME(){return reconnect_time;}
+    inline std::string IP() const { return ip; }
+    inline unsigned short PORT() const { return port; }
+    inline auto DEBUG_PRINT() { return debug_print; }
+    inline auto PRINT_LOG() { return print_log; }
+    inline auto RECONNECT_TIME() { return reconnect_time; }
 };
 
-}
+}  // namespace BPR_NAMI

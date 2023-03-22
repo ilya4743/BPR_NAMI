@@ -3,9 +3,8 @@
 #include "object.h"
 
 /// @brief Класс автомобиля
-class Car:public Object
-{
-public:
+class Car : public Object {
+   public:
     /// Конструктор по умолчанию
     Car();
 
@@ -20,12 +19,12 @@ public:
     /// @brief Конструктор с параметрами
     /// @param matrix4 матрица трансформации
     /// @param speed скорость авто
-    Car(const TransformMatrix &matrix4, float speed);
+    Car(const Eigen::Matrix4f &matrix4, float speed);
 
     /// Конструктор копирования
-    Car(const Car&car);
+    Car(const Car &car);
 
-    ~Car()override;
+    ~Car() override;
     /// Скорость авто
     float speed;
 };

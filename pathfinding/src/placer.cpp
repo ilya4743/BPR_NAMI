@@ -22,10 +22,10 @@
 //         }
 //         grid.data[grid.width*y1+x1]=100;
 //         occupancyCell.push_back(grid.width*y1+x1);
-//     }        
+//     }
 // }
 
 // inline void Placer::placeObstacleOnGrid(OccupancyGrid& OccupancyGrid, const BQuadrAngle & obstacle)
 // {
-   
+
 // };
