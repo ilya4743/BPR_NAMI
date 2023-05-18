@@ -1,22 +1,23 @@
 # BPR_NAMI
 Прототип блока принятия решений, в качестве алгоритма поиска используется алгоритм Hybrid A*.<br>
-Реализация основана на базе: https://github.com/karlkurzer/path_planner?_x_tr_sl=auto&_x_tr_tl=ru&_x_tr_hl=ru<br>
-## Зависимости:<br>
+Реализация основана на базе: https://github.com/karlkurzer/path_planner<br>
+### Зависимости:<br>
 OMPL<br>
 BOOST<br>
-## Установка зависимостей:
+### Установка зависимостей:
 ```
 sudo apt install libompl-dev
 libboost-serialization-dev
 libboost-filesystem-dev
 ```
-Сборка:
+### Сборка:
 ```
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release .. && \
 cmake --build .
 ```
+## Описание
 
 Описание конфигурационного файла приложения config.json
 
@@ -60,7 +61,7 @@ cmake --build .
 	</tbody>
 </table>
 
-Описание конфигурационного файла алгоритма поиска пути Hybrid A* config_hybrid_a_star.json
+<BR>Описание конфигурационного файла алгоритма поиска пути Hybrid A* config_hybrid_a_star.json
 <table class="iksweb">
 	<tbody>
 		<tr>
