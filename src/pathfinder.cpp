@@ -1,59 +1,55 @@
 #include "pathfinder.h"
+
+#include <Eigen/Geometry>
+
 #include "constants.h"
-
+#include "constants_app.h"
 void PathFinder::UpdateData(float width, float height, float resolution, uint32_t center, float x, float y,
-    float theta, float speed, size_t n, std::map<uint64_t,Eigen::Matrix4f>&& objects)
-{
+                            float theta, float speed, size_t n, std::map<uint64_t, Eigen::Matrix4f>&& objects) {
     grid.resize(width, height, resolution);
-    auto itCar=objects.find(0);
+    auto itCar = objects.find(0);
     objects.erase(itCar);
-    Eigen::Matrix4f mat4=(*itCar).second;
-    Eigen::Quaternionf qua(mat4.block<3, 3>(0, 0));
-    Eigen::Vector3f pos = mat4.block<3, 1>(0, 3);
-    Eigen::Vector4f pos1{-width/2, pos(1), -height/2, 1};
-    pos1=mat4*pos1;
-    Eigen::Matrix4f mat41(mat4);
-    
-    mat41.block<3, 1>(0, 3) = pos1.head<3>() / pos1.w();
-    mat4=mat41.inverse()*mat4;
+    Eigen::Vector3f goal_point{x, theta, 1.5708f};
+    Eigen::Matrix4f mat4_of_car = (*itCar).second;
+    Eigen::Affine3f affine_of_car(mat4_of_car);
+    rotation = affine_of_car.rotation();
 
-    auto pos_local=mat4.block<3, 1>(0, 3);
-    rotation=qua;
-    start=pos_local;
+    Eigen::Vector3f position_car(affine_of_car.translation().transpose());
+    affine_of_car.translate(Eigen::Vector3f{-width / 2, 0, -height / 2});
 
-    car=std::make_unique<Car>(mat4, speed);
-    goal(0)=x+pos_local(0);
-    goal(1)=theta+pos_local(2);
-    goal(2)=theta;
+    Eigen::Vector3f pos_local = Eigen::Affine3f(affine_of_car.matrix().inverse() * mat4_of_car).translation().transpose();  // выводим позицию вектора
+    car = std::make_unique<Car>(mat4_of_car, speed);
+    mat4_of_car = affine_of_car.matrix();
+    start = pos_local;
+    goal = goal_point + Eigen::Vector3f{
+                            width / 2,
+                            height / 2, 0};
     obstacles.reserve(n);
     placer.clearGrid(grid);
-    for(auto it=objects.begin(); it!=objects.end(); ++it)
-    {
-        auto obstacle=std::make_unique<BQuadrAngle>(mat41.inverse()*(*it).second);
+    for (auto it = objects.begin(); it != objects.end(); ++it) {
+        auto obstacle = std::make_unique<BQuadrAngle>(mat4_of_car.inverse() * (*it).second);
         placer.placeObstacleOnGrid(grid, *(obstacle.get()));
         obstacles.push_back(std::move(obstacle));
     }
-    //std::cout<<qua.a[0]<<'\t'<<qua.a[1]<<'\t'<<qua.a[2]<<'\t'<<qua.a[3]<<'\n';
-    // system("clear");
-    // for(int i=grid.height-1; i>=0; i--)
-    // {
-    //     for (int j=grid.width-1; j>=0; j--)
-    //     {
-    //         if(grid.data[i*grid.width+j]==100)
-    //             std::cout<<1;
-    //          else std::cout<<0;
-    //     }
-    //     std::cout<<std::endl;
-    // }      
+    if (BPR_NAMI::Constants::GetInstance().IS_PRINT_GRID()) {
+        system("clear");
+        for (int i = grid.height - 1; i >= 0; i--) {
+            for (int j = grid.width - 1; j >= 0; j--) {
+                if (grid.data[i * grid.width + j] == 100)
+                    std::cout << 1;
+                else
+                    std::cout << 0;
+            }
+            std::cout << std::endl;
+        }
+    }
 }
 
-std::vector<Eigen::Vector3f> PathFinder::Find()
-{
-    return hybrid_astar.searchHybridAStar(start(0),start(2), rotation, goal(0), goal(1), 1.57, grid);
+std::vector<Eigen::Vector3f> PathFinder::Find() {
+    return hybrid_astar.searchHybridAStar(start(0), start(2), rotation, goal(0), goal(1), goal(2), grid);
 }
 
-void PathFinder::Clear() noexcept
-{
+void PathFinder::Clear() noexcept {
     obstacles.clear();
     car.reset();
 }

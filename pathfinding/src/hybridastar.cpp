@@ -27,7 +27,7 @@ std::vector<Eigen::Vector3f> HybridAstarAlgo::searchHybridAStar(float x1, float 
     Node3D nStart(x1, y1, 1.57, 0, 0, nullptr);
 
     x2 = x2 / grid.resolution;
-    y2 = y2 / grid.resolution;
+    y2 = y2 / grid.resolution - grid.resolution;
     t2 = Helper::normalizeHeadingRad(t2);
     const Node3D nGoal(x2, y2, t2, 0, 0, nullptr);
 
@@ -48,9 +48,11 @@ std::vector<Eigen::Vector3f> HybridAstarAlgo::searchHybridAStar(float x1, float 
     std::vector<Eigen::Vector3f> out;
     auto p = smoother.getPath();
     out.reserve(p.size());
+    Eigen::Vector3f translate_vec{-grid.GetWidthCoord() / 2, 0, -grid.GetWidthCoord() / 2};
     for (int i = 0; i < smoother.getPath().size(); i++) {
-        Eigen::Vector3f ve{p[i].getX() * grid.resolution - grid.GetWidthCoord() / 2, p[i].getT(), p[i].getY() * grid.resolution - grid.GetHeightCoord() / 2};
-        out.push_back(t1 * ve);
+        Eigen::Vector3f ve{p[i].getX() * grid.resolution, p[i].getT(), p[i].getY() * grid.resolution};
+
+        out.push_back(t1 * (ve + translate_vec));
     }
     smoother.ClearPath();
     return out;

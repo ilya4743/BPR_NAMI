@@ -2,10 +2,11 @@
 #include <boost/asio/signal_set.hpp>
 #include <iostream>
 #include <thread>
+
+#include "constants_app.h"
+#include "logging_request_handler.h"
 #include "net.h"
 #include "request_handler.h"
-#include "const.h"
-#include "logging_request_handler.h"
 
 namespace sys = boost::system;
 namespace net = boost::asio;
@@ -23,18 +24,15 @@ void RunWorkers(unsigned n, const Fn& fn) {
     fn();
 }
 
-
-int main(int argc, char **argv)
-{
-    try
-    {
+int main(int argc, char** argv) {
+    try {
         BPR_NAMI::Constants::SetConstatsFromFile("config.json");
         HybridAStar::Constants::SetConstatsFromFile("config_hybrid_a_star.json");
-        
-        unsigned num_threads = std::thread::hardware_concurrency();        
-        num_threads=0;
 
-        net::io_context ioc(num_threads);
+        // unsigned num_threads = std::thread::hardware_concurrency();
+        // num_threads = 0;
+
+        net::io_context ioc;
         // Подписываемся на сигналы и при их получении завершаем работу
         net::signal_set signals(ioc, SIGINT, SIGTERM);
         signals.async_wait([&ioc](const sys::error_code& ec, [[maybe_unused]] int signal_number) {
@@ -43,27 +41,29 @@ int main(int argc, char **argv)
             }
         });
 
-        // Создаём обработчик запросов
-        auto handler = std::make_shared<handler::RequestHandler>();
-
         const auto address = net::ip::make_address(BPR_NAMI::Constants::GetInstance().IP());
         const unsigned short port = BPR_NAMI::Constants::GetInstance().PORT();
-        
-        LoggingRequestHandler logging_request_handler{[handler](auto&& endpoint, auto&& req, auto&& send) {
-            (*handler)(std::forward<decltype(endpoint)>(endpoint), std::forward<decltype(req)>(req),
-            std::forward<decltype(send)>(send));
-        }};
+        auto handler = std::make_shared<handler::RequestHandler>();
 
-        ClientBPR(ioc, {address, port}, logging_request_handler);
-
-        RunWorkers(num_threads, [&ioc] {
-            ioc.run();
-        });
+        if (BPR_NAMI::Constants::GetInstance().IS_PRINT_LOG()) {
+            LoggingRequestHandler logging_request_handler{[handler](auto&& endpoint, auto&& req, auto&& send) {
+                (*handler)(std::forward<decltype(endpoint)>(endpoint), std::forward<decltype(req)>(req),
+                           std::forward<decltype(send)>(send));
+            }};
+            ClientBPR(ioc, {address, port}, logging_request_handler);
+        } else {
+            ClientBPR(ioc, {address, port}, [&handler](auto&& endpoint, auto&& req, auto&& send) {
+                (*handler)(std::forward<decltype(endpoint)>(endpoint), std::forward<decltype(req)>(req),
+                           std::forward<decltype(send)>(send));
+            });
+        }
+        ioc.run();
+        // RunWorkers(num_threads, [&ioc] {
+        //     ioc.run();
+        // });
+    } catch (...) {
+        std::cout << "error";
     }
-    catch(...)
-    {
-        std::cout<<"error";
-    }
 
-  return 0;
+    return 0;
 }

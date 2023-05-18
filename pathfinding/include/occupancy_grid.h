@@ -34,7 +34,9 @@ class OccupancyGrid {
 
     OccupancyGrid(const OccupancyGrid& o) : width(o.width), height(o.height), resolution(o.resolution), data(o.data){};
 
-    OccupancyGrid(OccupancyGrid&& tmp) = default;
+    OccupancyGrid(OccupancyGrid&& tmp) noexcept = default;
+
+    OccupancyGrid& operator=(const OccupancyGrid& tmp) = default;
 
     OccupancyGrid& operator=(OccupancyGrid&& tmp) = default;
 

@@ -23,12 +23,15 @@ class RequestHandler {
             auto p = unpacker.ExtractMapProperties();
             auto o = unpacker.ExtractObject();
             pathfinder.UpdateData(p.width, p.height, p.resolution, p.center, p.x, p.y, p.theta, p.speed, p.n, std::move(o));
-            auto path = pathfinder.Find();
+            std::vector<Eigen::Vector3f> path;
+            if (BPR_NAMI::Constants::GetInstance().IS_FIND_PATH())
+                path = pathfinder.Find();
             std::stringstream stream;
             stream << (unsigned char)0x44 << (unsigned char)0x48 << ConvertToBytes<int>(path.size() * 2);
             for (auto it = path.begin(); it != path.end(); ++it) {
                 stream << ConvertToBytes<float>(-(*it)(0)) << ConvertToBytes<float>((*it)(2));
             }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
             send(std::move(stream.str()));
             pathfinder.Clear();
         }

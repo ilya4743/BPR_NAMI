@@ -27,6 +27,7 @@ class LoggingRequestHandler {
 
    private:
     static void LogRequest(const std::string& ip, const std::string& req) {
+        std::cout << "request\n";
     }
 
     static void LogResponse(const std::string& ip, const std::string& req, std::chrono::system_clock::duration duration) {
