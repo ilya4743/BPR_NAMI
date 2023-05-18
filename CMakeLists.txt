@@ -26,7 +26,6 @@ find_package(Eigen3 REQUIRED)
 add_subdirectory(pathfinding)
 add_executable(${PROJECT_NAME}
     src/main.cpp
-    src/myexception.cpp
     src/net.cpp
     src/data_unpacker.cpp
     src/pathfinder.cpp

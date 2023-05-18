@@ -11,17 +11,39 @@
 namespace sys = boost::system;
 namespace net = boost::asio;
 
-// Запускает функцию fn на n потоках, включая текущий
-template <typename Fn>
-void RunWorkers(unsigned n, const Fn& fn) {
-    n = std::max(1u, n);
-    std::vector<std::jthread> workers;
-    workers.reserve(n - 1);
-    // Запускаем n-1 рабочих потоков, выполняющих функцию fn
-    while (--n) {
-        workers.emplace_back(fn);
+void StartClient() {
+    net::io_context ioc;
+    const auto address = net::ip::make_address(BPR_NAMI::Constants::GetInstance().IP());
+    const unsigned short port = BPR_NAMI::Constants::GetInstance().PORT();
+    auto handler = std::make_shared<handler::RequestHandler>();
+
+    while (true) {
+        try {
+            // Подписываемся на сигналы и при их получении завершаем работу
+            net::signal_set signals(ioc, SIGINT, SIGTERM);
+            signals.async_wait([&ioc](const sys::error_code& ec, [[maybe_unused]] int signal_number) {
+                if (!ec) {
+                    ioc.stop();
+                }
+            });
+
+            if (BPR_NAMI::Constants::GetInstance().IS_PRINT_LOG()) {
+                LoggingRequestHandler logging_request_handler{[handler](auto&& endpoint, auto&& req, auto&& send) {
+                    (*handler)(std::forward<decltype(endpoint)>(endpoint), std::forward<decltype(req)>(req),
+                               std::forward<decltype(send)>(send));
+                }};
+                ClientBPR(ioc, {address, port}, logging_request_handler);
+            } else {
+                ClientBPR(ioc, {address, port}, [&handler](auto&& endpoint, auto&& req, auto&& send) {
+                    (*handler)(std::forward<decltype(endpoint)>(endpoint), std::forward<decltype(req)>(req),
+                               std::forward<decltype(send)>(send));
+                });
+            }
+            ioc.run();
+        } catch (...) {
+            std::cout << "errr";
+        }
     }
-    fn();
 }
 
 int main(int argc, char** argv) {
@@ -29,41 +51,10 @@ int main(int argc, char** argv) {
         BPR_NAMI::Constants::SetConstatsFromFile("config.json");
         HybridAStar::Constants::SetConstatsFromFile("config_hybrid_a_star.json");
 
-        // unsigned num_threads = std::thread::hardware_concurrency();
-        // num_threads = 0;
-
-        net::io_context ioc;
-        // Подписываемся на сигналы и при их получении завершаем работу
-        net::signal_set signals(ioc, SIGINT, SIGTERM);
-        signals.async_wait([&ioc](const sys::error_code& ec, [[maybe_unused]] int signal_number) {
-            if (!ec) {
-                ioc.stop();
-            }
-        });
-
-        const auto address = net::ip::make_address(BPR_NAMI::Constants::GetInstance().IP());
-        const unsigned short port = BPR_NAMI::Constants::GetInstance().PORT();
-        auto handler = std::make_shared<handler::RequestHandler>();
-
-        if (BPR_NAMI::Constants::GetInstance().IS_PRINT_LOG()) {
-            LoggingRequestHandler logging_request_handler{[handler](auto&& endpoint, auto&& req, auto&& send) {
-                (*handler)(std::forward<decltype(endpoint)>(endpoint), std::forward<decltype(req)>(req),
-                           std::forward<decltype(send)>(send));
-            }};
-            ClientBPR(ioc, {address, port}, logging_request_handler);
-        } else {
-            ClientBPR(ioc, {address, port}, [&handler](auto&& endpoint, auto&& req, auto&& send) {
-                (*handler)(std::forward<decltype(endpoint)>(endpoint), std::forward<decltype(req)>(req),
-                           std::forward<decltype(send)>(send));
-            });
-        }
-        ioc.run();
-        // RunWorkers(num_threads, [&ioc] {
-        //     ioc.run();
-        // });
-    } catch (...) {
-        std::cout << "error";
+        StartClient();
+    } catch (const std::exception& e) {
+        std::cout << e.what();
+        StartClient();
     }
-
     return 0;
 }

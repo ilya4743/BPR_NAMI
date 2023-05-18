@@ -31,7 +31,6 @@ class RequestHandler {
             for (auto it = path.begin(); it != path.end(); ++it) {
                 stream << ConvertToBytes<float>(-(*it)(0)) << ConvertToBytes<float>((*it)(2));
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
             send(std::move(stream.str()));
             pathfinder.Clear();
         }

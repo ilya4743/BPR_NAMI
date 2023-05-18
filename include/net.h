@@ -65,7 +65,7 @@ class ClientBase {
 
    protected:
     ClientBase(net::io_context& ioc, const tcp::endpoint& endpoint)
-        : ioc_(ioc), endpoint_(endpoint), socket(net::make_strand(ioc)), reconnect_timer(net::make_strand(ioc), net::chrono::seconds(5)), isConnected(false) {
+        : ioc_(ioc), endpoint_(endpoint), socket(ioc), reconnect_timer(ioc, net::chrono::seconds(5)), isConnected(false) {
         socket.open(endpoint.protocol());
         socket.set_option(net::socket_base::reuse_address(true));
         socket.set_option(net::socket_base::enable_connection_aborted(true));
@@ -85,7 +85,7 @@ class ClientBase {
 
     void DoConnect();
     void OnConnect(const sys::error_code& ec, const tcp::endpoint& endpoint);
-    bool ConfirmConnect();
+    void ConfirmConnect();
     void Reconnect();
 };
 
