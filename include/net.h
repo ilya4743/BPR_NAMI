@@ -65,7 +65,7 @@ class ClientBase {
 
    protected:
     ClientBase(net::io_context& ioc, const tcp::endpoint& endpoint)
-        : ioc_(ioc), endpoint_(endpoint), socket(ioc), reconnect_timer(ioc, net::chrono::seconds(5)), isConnected(false) {
+        : ioc_(ioc), endpoint_(endpoint), socket(ioc), reconnect_timer(ioc), isConnected(false) {
         socket.open(endpoint.protocol());
         socket.set_option(net::socket_base::reuse_address(true));
         socket.set_option(net::socket_base::enable_connection_aborted(true));
@@ -78,7 +78,7 @@ class ClientBase {
     net::io_context& ioc_;
     tcp::endpoint endpoint_;
     tcp::socket socket;
-    net::steady_timer reconnect_timer;
+    net::deadline_timer reconnect_timer;
 
     virtual std::shared_ptr<ClientBase> GetSharedThis() = 0;
     virtual void AsyncRunSession(tcp::socket&& socket) = 0;

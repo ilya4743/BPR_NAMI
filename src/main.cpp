@@ -4,6 +4,7 @@
 #include <thread>
 
 #include "constants_app.h"
+#include "logger.h"
 #include "logging_request_handler.h"
 #include "net.h"
 #include "request_handler.h"
@@ -41,19 +42,22 @@ void StartClient() {
             }
             ioc.run();
         } catch (...) {
-            std::cout << "errr";
+            std::cerr << "errr";
         }
     }
 }
 
 int main(int argc, char** argv) {
     try {
+        // устанавливаем файлы конфигов для синглтонов
         BPR_NAMI::Constants::SetConstatsFromFile("config.json");
         HybridAStar::Constants::SetConstatsFromFile("config_hybrid_a_star.json");
 
+        InitLogger();
         StartClient();
     } catch (const std::exception& e) {
-        std::cout << e.what();
+        std::cerr << e.what();
+        // переподключаемся, если вдруг произошел разрыв соединения
         StartClient();
     }
     return 0;

@@ -21,6 +21,7 @@ class Constants {
         port = tree.get<unsigned short>("PORT");
         is_print_grid = tree.get<bool>("IS_PRINT_GRID");
         is_print_log = tree.get<bool>("IS_PRINT_LOG");
+        is_print_log_to_file = tree.get<bool>("IS_PRINT_LOG_TO_FILE");
         is_find_path = tree.get<bool>("IS_FIND_PATH");
         reconnect_time = tree.get<size_t>("RECONNECT_TIME");
     };
@@ -29,6 +30,7 @@ class Constants {
     unsigned short port;
     bool is_print_grid;
     bool is_print_log;
+    bool is_print_log_to_file;
     bool is_find_path;
     size_t reconnect_time;
 

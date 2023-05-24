@@ -1,8 +1,6 @@
 #include "data_unpacker.h"
 
-#include "net_headers.h"
-
-void DataUnpacker::unpackMapProperties(std::string data) {
+void DataUnpacker::UnpackMapProperties(std::string data) {
     const int s1 = sizeof(float);
     unsigned char byte4[s1];
 
@@ -50,7 +48,7 @@ void DataUnpacker::unpackMapProperties(std::string data) {
     isMapPropertiesSet = true;
 }
 
-void DataUnpacker::unpackObject(std::string &&data, int n) {
+void DataUnpacker::UnpackObjects(std::string &&data, int n) {
     int o_size = sizeof(Obstacle);
     int data_size = data.size();
     unsigned char id_in_bytes[8];
@@ -72,21 +70,23 @@ void DataUnpacker::unpackObject(std::string &&data, int n) {
     }
 }
 
-bool DataUnpacker::isCompleted() {
+bool DataUnpacker::IsCompleted() {
     return isComplete;
 }
 
-void DataUnpacker::unpack(std::string &&in_data) {
+void DataUnpacker::Unpack(std::string &&in_data) {
     data += in_data;
+    // если пришел запрос на построение пути
     if ((unsigned char)data[0] == 0x44 && (unsigned char)data[1] == 0x47) {
         if (!isMapPropertiesSet && data.size() >= size_of_map_prop) {
-            unpackMapProperties({data.begin(), data.begin() + size_of_map_prop});
+            UnpackMapProperties({data.begin(), data.begin() + size_of_map_prop});
             isMapPropertiesSet = true;
         }
         int size_of_packet = map_properties.n * sizeof(Obstacle) + size_of_map_prop;
         int data_size = data.size() - 1;
+        // если размер текущих данных больше или равен необходимому, то распаковываем объект, все остальное отбразываем
         if (data_size >= size_of_packet) {
-            unpackObject(std::move(data), map_properties.n);
+            UnpackObjects(std::move(data), map_properties.n);
             isComplete = true;
             isMapPropertiesSet = false;
             data.clear();
@@ -95,6 +95,7 @@ void DataUnpacker::unpack(std::string &&in_data) {
 
     } else {
         data.clear();
+        data.shrink_to_fit();
     }
 }
 
@@ -102,7 +103,7 @@ MapProperties DataUnpacker::ExtractMapProperties() {
     return map_properties;
 }
 
-std::map<uint64_t, Eigen::Matrix4f> DataUnpacker::ExtractObject() {
+std::map<uint64_t, Eigen::Matrix4f> DataUnpacker::ExtractObjects() {
     isComplete = false;
     return map_mat4_;
 }

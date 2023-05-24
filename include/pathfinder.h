@@ -15,23 +15,23 @@ class PathFinder {
     PathFinder& operator=(const PathFinder&) = delete;
     void UpdateData(float width, float height, float resolution, uint32_t center, float x, float y,
                     float theta, float speed, size_t n, std::map<uint64_t, Eigen::Matrix4f>&& objects);
-    std::vector<Eigen::Vector3f> Find();
+    std::vector<Eigen::Vector3f> FindPath();
     void Clear() noexcept;
 
    private:
-    /// Точка конечного маршрута
+    /// Конечная точка
     Eigen::Vector3f goal;
-
+    /// Начальная точка
     Eigen::Vector3f start;
-
-    Eigen::Quaternionf rotation;
-    /// Матрица занятости
+    /// Ориентация в начальной точке
+    Eigen::Quaternionf rotation_start;
+    /// Сетка занятости
     OccupancyGrid grid;
     /// Автомобиль
     std::unique_ptr<Object> car;
-    /// Список препятствий
+    /// Вектор препятствий
     std::vector<std::unique_ptr<Object>> obstacles;
 
     Placer placer;
-    HybridAStar::HybridAstarAlgo hybrid_astar;
+    HybridAStar::HybridAstarAlgorithm hybrid_astar;
 };

@@ -1,9 +1,10 @@
 #include "net.h"
 
 #include "constants_app.h"
+#include "logger.h"
 
-void ReportError(sys::error_code ec, std::string_view what) {
-    std::cerr << what << ": "sv << ec.message() << std::endl;
+void ReportError(sys::error_code ec, std::string_view where) {
+    BOOST_LOG_TRIVIAL(error) << "where: " << where << " message: " << ec.message();
 }
 
 tcp::endpoint SessionBase::GetEndpoint() const {
@@ -23,7 +24,7 @@ void SessionBase::Read() {
 
 void SessionBase::OnRead(sys::error_code ec, [[maybe_unused]] std::size_t bytes_read) {
     if (ec) {
-        ReportError(ec, "read"sv);
+        ReportError(ec, "OnRead(...)"sv);
         throw ec;
     }
     HandleRequest(std::move(request_));
@@ -47,7 +48,7 @@ void SessionBase::Write(std::string&& response) {
 
 void SessionBase::OnWrite(sys::error_code ec, [[maybe_unused]] std::size_t bytes_written) {
     if (ec) {
-        ReportError(ec, "write"sv);
+        ReportError(ec, "OnWrite(...)"sv);
         return Close();
     }
 }
@@ -57,22 +58,24 @@ void ClientBase::Run() {
 }
 
 void ClientBase::DoConnect() {
+    reconnect_timer.expires_from_now(boost::posix_time::millisec(BPR_NAMI::Constants::GetInstance().RECONNECT_TIME()));
     reconnect_timer.async_wait(std::bind(&ClientBase::Reconnect, GetSharedThis()));
     socket.async_connect(endpoint_, std::bind(&ClientBase::OnConnect, GetSharedThis(), std::placeholders::_1, endpoint_));
 }
 
 void ClientBase::OnConnect(const sys::error_code& ec, const tcp::endpoint& endpoint) {
     if (ec) {
-        return ReportError(ec, "connect"sv);
+        return ReportError(ec, "OnConnect(...)"sv);
     }
-    std::cout << "connected " << endpoint << std::endl;
+    BOOST_LOG_TRIVIAL(info) << "Connected to " << endpoint;
+    BOOST_LOG_TRIVIAL(info) << "Try to confirm connection";
     ConfirmConnect();
 
     if (isConnected) {
-        std::cout << "confirm\n";
-        // Асинхронно обрабатываем сессию
+        BOOST_LOG_TRIVIAL(info) << "Connection confirmed ";
         AsyncRunSession(std::move(socket));
-    }
+    } else
+        BOOST_LOG_TRIVIAL(info) << "Invalid header";
 }
 
 void ClientBase::ConfirmConnect() {
@@ -90,19 +93,9 @@ void ClientBase::ConfirmConnect() {
 }
 
 void ClientBase::Reconnect() {
-    // Check whether the deadline has passed. We compare the deadline against
-    // the current time since a new asynchronous operation may have moved the
-    // deadline before this actor had a chance to run.
-    if (reconnect_timer.expiry() <= net::steady_timer::clock_type::now()) {
-        // The deadline has passed. The socket is closed so that any outstanding
-        // asynchronous operations are cancelled.
+    if (!isConnected) {
         socket.close();
-
-        // There is no longer an active deadline. The expiry is set to the
-        // maximum time point so that the actor takes no action until a new
-        // deadline is set.
-        reconnect_timer.expires_after(net::chrono::milliseconds(BPR_NAMI::Constants::GetInstance().RECONNECT_TIME()));
-        if (!isConnected)
-            DoConnect();
+        BOOST_LOG_TRIVIAL(info) << "Try to reconnect ...";
+        DoConnect();
     }
 }

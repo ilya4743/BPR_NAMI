@@ -13,7 +13,7 @@
 
 namespace HybridAStar {
 
-class HybridAstarAlgo {
+class HybridAstarAlgorithm {
    private:
     DynamicVoronoi* voronoiDiagram;
     CollisionDetection cd;
@@ -21,8 +21,8 @@ class HybridAstarAlgo {
     Smoother smoother;
 
    public:
-    HybridAstarAlgo();
-    ~HybridAstarAlgo();
-    std::vector<Eigen::Vector3f> searchHybridAStar(float x1, float y1, Eigen::Quaternionf t1, float x2, float y2, float t2, const OccupancyGrid& occurancy);
+    HybridAstarAlgorithm();
+    ~HybridAstarAlgorithm();
+    std::vector<HybridAStar::Node3D> SearchHybridAStar(float x0, float y0, float t0, float x1, float y1, float t1, const OccupancyGrid& grid);
 };
 }  // namespace HybridAStar

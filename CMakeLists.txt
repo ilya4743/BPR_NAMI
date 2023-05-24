@@ -22,6 +22,7 @@ include_directories(
 )
 
 find_package(Eigen3 REQUIRED)
+find_package(Boost REQUIRED COMPONENTS log_setup log)
 
 add_subdirectory(pathfinding)
 add_executable(${PROJECT_NAME}
@@ -29,13 +30,15 @@ add_executable(${PROJECT_NAME}
     src/net.cpp
     src/data_unpacker.cpp
     src/pathfinder.cpp
+    src/logger.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${EIGEN_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE sub::pathfinding Eigen3::Eigen)
+target_link_libraries(${PROJECT_NAME} PRIVATE sub::pathfinding Eigen3::Eigen ${Boost_LIBRARIES})
 
 configure_file(data/config.json ${CMAKE_BINARY_DIR}/config.json @ONLY)
 configure_file(data/config_hybrid_a_star.json ${CMAKE_BINARY_DIR}/config_hybrid_a_star.json @ONLY)
 
 add_definitions("-DBOOST_ALLOW_DEPRECATED_HEADERS")
 add_definitions("-DBOOST_BIND_GLOBAL_PLACEHOLDERS")
+add_definitions("-DBOOST_LOG_DYN_LINK")

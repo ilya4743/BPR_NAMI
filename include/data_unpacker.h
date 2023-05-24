@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstring>
 #include <map>
 #include <string>
 
@@ -28,8 +29,8 @@ class DataUnpacker {
     bool isMapPropertiesSet;
     int size_of_map_prop = sizeof(MapProperties) + 2;
     std::string object_str;
-    void unpackMapProperties(std::string data);
-    void unpackObject(std::string&& data, int n);
+    void UnpackMapProperties(std::string data);
+    void UnpackObjects(std::string&& data, int n);
 
     MapProperties map_properties;
     std::map<uint64_t, Eigen::Matrix4f> map_mat4_;
@@ -37,13 +38,12 @@ class DataUnpacker {
 
    public:
     MapProperties ExtractMapProperties();
-    std::map<uint64_t, Eigen::Matrix4f> ExtractObject();
+    std::map<uint64_t, Eigen::Matrix4f> ExtractObjects();
 
     DataUnpacker() : isComplete(false), isMapPropertiesSet(false){};
-    bool isCompleted();
-    void unpack(std::string&& data);
+    bool IsCompleted();
+    void Unpack(std::string&& data);
 };
-#include <cstring>
 
 template <typename T>
 std::string ConvertToBytes(T data) {

@@ -1,6 +1,8 @@
 
 #include <boost/asio/ip/tcp.hpp>
 
+#include "logger.h"
+
 using tcp = boost::asio::ip::tcp;
 
 template <class SomeRequestHandler>
@@ -27,11 +29,11 @@ class LoggingRequestHandler {
 
    private:
     static void LogRequest(const std::string& ip, const std::string& req) {
-        std::cout << "request\n";
+        BOOST_LOG_TRIVIAL(info) << "request from " << ip;
     }
 
     static void LogResponse(const std::string& ip, const std::string& req, std::chrono::system_clock::duration duration) {
-        std::cout << "response time [ms]:" << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() << std::endl;
+        BOOST_LOG_TRIVIAL(info) << "response to " << ip << " response time [ms]:" << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() << std::endl;
     }
 
     SomeRequestHandler decorated_;

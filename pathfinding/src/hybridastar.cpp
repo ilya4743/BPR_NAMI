@@ -2,17 +2,17 @@
 
 namespace HybridAStar {
 
-HybridAstarAlgo::HybridAstarAlgo() {
+HybridAstarAlgorithm::HybridAstarAlgorithm() {
     dubinsLookup = new float[Constants::GetInstance().HEADINGS() * Constants::GetInstance().HEADINGS() * Constants::GetInstance().DUBINS_WIDTH() * Constants::GetInstance().DUBINS_WIDTH()];
     voronoiDiagram = new DynamicVoronoi;
 }
 
-HybridAstarAlgo::~HybridAstarAlgo() {
+HybridAstarAlgorithm::~HybridAstarAlgorithm() {
     delete voronoiDiagram;
     delete[] dubinsLookup;
 }
 
-std::vector<Eigen::Vector3f> HybridAstarAlgo::searchHybridAStar(float x1, float y1, Eigen::Quaternionf t1, float x2, float y2, float t2, const OccupancyGrid& grid) {
+std::vector<HybridAStar::Node3D> HybridAstarAlgorithm::SearchHybridAStar(float x0, float y0, float t0, float x1, float y1, float t1, const OccupancyGrid& grid) {
     int width = grid.width;
     int height = grid.height;
     int depth = Constants::GetInstance().HEADINGS();
@@ -21,15 +21,15 @@ std::vector<Eigen::Vector3f> HybridAstarAlgo::searchHybridAStar(float x1, float 
     Node2D* nodes2D = new Node2D[width * height]();
     // ________________________
     // retrieving goal position
-    x1 = x1 / grid.resolution;
-    y1 = y1 / grid.resolution;
-    // t1 = Helper::normalizeHeadingRad(1.57);
-    Node3D nStart(x1, y1, 1.57, 0, 0, nullptr);
+    x0 = x0 / grid.resolution;
+    y0 = y0 / grid.resolution;
+    t1 = Helper::normalizeHeadingRad(t0);
+    Node3D nStart(x0, y0, t0, 0, 0, nullptr);
 
-    x2 = x2 / grid.resolution;
-    y2 = y2 / grid.resolution - grid.resolution;
-    t2 = Helper::normalizeHeadingRad(t2);
-    const Node3D nGoal(x2, y2, t2, 0, 0, nullptr);
+    x1 = x1 / grid.resolution;
+    y1 = y1 / grid.resolution - grid.resolution;
+    t1 = Helper::normalizeHeadingRad(t1);
+    const Node3D nGoal(x1, y1, t1, 0, 0, nullptr);
 
     cd.updateGrid(grid);
 
@@ -45,17 +45,9 @@ std::vector<Eigen::Vector3f> HybridAstarAlgo::searchHybridAStar(float x1, float 
     // delete voronoiDiagram;
     delete[] nodes3D;
     delete[] nodes2D;
-    std::vector<Eigen::Vector3f> out;
-    auto p = smoother.getPath();
-    out.reserve(p.size());
-    Eigen::Vector3f translate_vec{-grid.GetWidthCoord() / 2, 0, -grid.GetWidthCoord() / 2};
-    for (int i = 0; i < smoother.getPath().size(); i++) {
-        Eigen::Vector3f ve{p[i].getX() * grid.resolution, p[i].getT(), p[i].getY() * grid.resolution};
-
-        out.push_back(t1 * (ve + translate_vec));
-    }
+    auto path = smoother.getPath();
     smoother.ClearPath();
-    return out;
+    return path;
 }
 
 }  // namespace HybridAStar
