@@ -8,6 +8,8 @@
 #include <boost/heap/binomial_heap.hpp>
 
 #include "helper.h"
+#include "logger.h"
+
 typedef ompl::base::SE2StateSpace::StateType State;
 
 using namespace HybridAStar;
@@ -150,6 +152,7 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
             // GOAL TEST
             if (*nPred == goal || iterations > Constants::GetInstance().ITERATIONS()) {
                 // DEBUG
+                BOOST_LOG_TRIVIAL(warning) << "Number of iterations exceeded while finding a path";
                 return nPred;
             }
 

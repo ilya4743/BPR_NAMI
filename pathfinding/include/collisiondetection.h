@@ -87,7 +87,6 @@ class CollisionDetection {
     void updateGrid(OccupancyGrid map) {
         grid = std::move(map);
         if (cellSize != grid.resolution) {
-            std::cout << "resize\n";
             cellSize = grid.resolution;
             Lookup::collisionLookup(collisionLookup.data(), cellSize);
         }

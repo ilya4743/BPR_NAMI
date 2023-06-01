@@ -5,11 +5,11 @@
 #include <boost/geometry/geometries/box.hpp>
 #include <boost/geometry/geometries/point.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
+#include <iostream>
 #include <vector>
 
 #include "obstacle.h"
 #include "stddef.h"
-
 namespace bg = boost::geometry;
 
 typedef bg::model::point<float, 2, bg::cs::cartesian> point;
@@ -51,6 +51,7 @@ class OccupancyGrid {
             this->height = h;
             this->resolution = resolution;
             data.resize(this->width * this->height);
+            std::cout << "resize\n";
         }
     }
     float GetWidthCoord() const {

@@ -14,7 +14,7 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
     objects.erase(itCar);
 
     // создаем промежуточные переменные
-    Eigen::Vector3f goal_point{x, theta, 1.5708f};
+    Eigen::Vector3f goal_point{x, y, theta};
     Eigen::Matrix4f mat4_of_car = (*itCar).second;
     Eigen::Affine3f affine_of_car(mat4_of_car);
     rotation_start = affine_of_car.rotation();
@@ -26,7 +26,7 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
     Eigen::Vector3f pos_local = Eigen::Affine3f(affine_of_car.matrix().inverse() * mat4_of_car).translation().transpose();
     car = std::make_unique<Car>(mat4_of_car, speed);
     mat4_of_car = affine_of_car.matrix();
-    start = pos_local;
+    start = {pos_local(0), pos_local(2), 1.57f};
     goal = goal_point + Eigen::Vector3f{width / 2, height / 2, 0};
 
     // создаем препятствия из единичного куба
@@ -53,16 +53,16 @@ void PathFinder::UpdateData(float width, float height, float resolution, uint32_
 }
 
 std::vector<Eigen::Vector3f> PathFinder::FindPath() {
-    auto path = hybrid_astar.SearchHybridAStar(start(0), start(2), 1.57, goal(0), goal(1), 1.57, grid);
+    auto path = hybrid_astar.SearchHybridAStar(start(0), start(1), start(2), goal(0), goal(1), goal(2), grid);
 
     // смещаем найденный путь, где машина будет точкой отсчета
     std::vector<Eigen::Vector3f> out;
     out.reserve(path.size());
-    Eigen::Vector3f translate_vec{-grid.GetWidthCoord() / 2, 0, -grid.GetHeightCoord() / 2};
+    Eigen::Vector3f translate_vec{-grid.GetWidthCoord() / 2, -grid.GetHeightCoord() / 2, 0};
 
     for (int i = 0; i < path.size(); i++) {
-        Eigen::Vector3f pos{path[i].getX() * grid.resolution, path[i].getT(), path[i].getY() * grid.resolution};
-        out.push_back(rotation_start * (pos + translate_vec));
+        Eigen::Vector3f pos{path[i].getX() * grid.resolution, path[i].getY() * grid.resolution, path[i].getT()};
+        out.push_back((pos + translate_vec));
     }
     return out;
 }

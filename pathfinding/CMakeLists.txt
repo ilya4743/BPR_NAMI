@@ -11,6 +11,7 @@ include_directories(
 )
 
 find_package(ompl REQUIRED)
+find_package(Boost REQUIRED COMPONENTS log_setup log)
 
 add_library(${PROJECT_NAME}    
   src/algorithm.cpp
@@ -31,6 +32,7 @@ add_library(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${OMPL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OMPL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
 
 add_library(sub::pathfinding ALIAS ${PROJECT_NAME})
 

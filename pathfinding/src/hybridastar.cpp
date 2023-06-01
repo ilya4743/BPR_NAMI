@@ -13,6 +13,8 @@ HybridAstarAlgorithm::~HybridAstarAlgorithm() {
 }
 
 std::vector<HybridAStar::Node3D> HybridAstarAlgorithm::SearchHybridAStar(float x0, float y0, float t0, float x1, float y1, float t1, const OccupancyGrid& grid) {
+    smoother.ClearPath();
+
     int width = grid.width;
     int height = grid.height;
     int depth = Constants::GetInstance().HEADINGS();
@@ -45,9 +47,7 @@ std::vector<HybridAStar::Node3D> HybridAstarAlgorithm::SearchHybridAStar(float x
     // delete voronoiDiagram;
     delete[] nodes3D;
     delete[] nodes2D;
-    auto path = smoother.getPath();
-    smoother.ClearPath();
-    return path;
+    return smoother.getPath();
 }
 
 }  // namespace HybridAStar
