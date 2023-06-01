@@ -18,6 +18,11 @@ typedef bg::model::polygon<point> polygon;
 class Placer {
    private:
     inline void Bresenham(int x1, int y1, int x2, int y2, OccupancyGrid& grid) {
+        if (x1 == x2 || y1 == y2) {
+            occupancyCell.push_back(grid.width * y1 + x1);
+            grid.data[grid.width * y1 + x1] = 100;
+            return;
+        }
         const int deltaX = abs(x2 - x1);
         const int deltaY = abs(y2 - y1);
         const int signX = x1 < x2 ? 1 : -1;

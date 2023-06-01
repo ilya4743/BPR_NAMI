@@ -51,7 +51,6 @@ class OccupancyGrid {
             this->height = h;
             this->resolution = resolution;
             data.resize(this->width * this->height);
-            std::cout << "resize\n";
         }
     }
     float GetWidthCoord() const {
