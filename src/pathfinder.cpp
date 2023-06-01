@@ -58,7 +58,7 @@ std::vector<Eigen::Vector3f> PathFinder::FindPath() {
     // смещаем найденный путь, где машина будет точкой отсчета
     std::vector<Eigen::Vector3f> out;
     out.reserve(path.size());
-    Eigen::Vector3f translate_vec{-grid.GetWidthCoord() / 2, 0, -grid.GetWidthCoord() / 2};
+    Eigen::Vector3f translate_vec{-grid.GetWidthCoord() / 2, 0, -grid.GetHeightCoord() / 2};
 
     for (int i = 0; i < path.size(); i++) {
         Eigen::Vector3f pos{path[i].getX() * grid.resolution, path[i].getT(), path[i].getY() * grid.resolution};

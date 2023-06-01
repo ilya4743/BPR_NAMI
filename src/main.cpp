@@ -25,6 +25,7 @@ void StartClient() {
             signals.async_wait([&ioc](const sys::error_code& ec, [[maybe_unused]] int signal_number) {
                 if (!ec) {
                     ioc.stop();
+                    throw;
                 }
             });
 

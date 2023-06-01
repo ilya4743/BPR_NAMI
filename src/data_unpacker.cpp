@@ -83,15 +83,16 @@ void DataUnpacker::Unpack(std::string &&in_data) {
             isMapPropertiesSet = true;
         }
         int size_of_packet = map_properties.n * sizeof(Obstacle) + size_of_map_prop;
-        int data_size = data.size() - 1;
-        // если размер текущих данных больше или равен необходимому, то распаковываем объект, все остальное отбразываем
+        int data_size = data.size();
+        // если размер текущих данных больше или равен необходимому, то распаковываем объект, все остальное отбрасываем
         if (data_size >= size_of_packet) {
             UnpackObjects(std::move(data), map_properties.n);
             isComplete = true;
             isMapPropertiesSet = false;
             data.clear();
-        } else
+        } else {
             isComplete = false;
+        }
 
     } else {
         data.clear();
