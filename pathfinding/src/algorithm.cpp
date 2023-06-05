@@ -152,7 +152,8 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
             // GOAL TEST
             if (*nPred == goal || iterations > Constants::GetInstance().ITERATIONS()) {
                 // DEBUG
-                BOOST_LOG_TRIVIAL(warning) << "Number of iterations exceeded while finding a path";
+                if (iterations > Constants::GetInstance().ITERATIONS())
+                    BOOST_LOG_TRIVIAL(warning) << "Number of iterations exceeded while finding a path";
                 return nPred;
             }
 
@@ -230,9 +231,10 @@ Node3D* Algorithm::hybridAStar(Node3D& start,
     }
 
     if (O.empty()) {
+        BOOST_LOG_TRIVIAL(warning) << "Path length zero";
         return nullptr;
     }
-
+    BOOST_LOG_TRIVIAL(warning) << "Path length zero";
     return nullptr;
 }
 

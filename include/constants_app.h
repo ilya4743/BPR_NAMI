@@ -45,7 +45,7 @@ class Constants {
             static Constants obj;
             return obj;
         } else
-            throw;
+            throw std::runtime_error(config_filename + " not found");
     }
 
     static void SetConstatsFromFile(std::string filename) {

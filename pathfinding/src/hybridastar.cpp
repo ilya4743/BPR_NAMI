@@ -34,7 +34,7 @@ std::vector<HybridAStar::Node3D> HybridAstarAlgorithm::SearchHybridAStar(float x
     const Node3D nGoal(x1, y1, t1, 0, 0, nullptr);
 
     cd.updateGrid(grid);
-
+    // начало поиска пути
     Node3D* nSolution = Algorithm::hybridAStar(nStart, nGoal, nodes3D, nodes2D, grid.width, grid.height, cd, dubinsLookup);
 
     // voronoiDiagram->initializeMap(grid.width, grid.height, grid.data);

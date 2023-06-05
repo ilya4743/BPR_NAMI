@@ -6,7 +6,7 @@
   "dubins": 0,
   "twoD": 0,
   "iterations": 30000,
-  "bloating": 0,
+  "bloating": 0.5,
   "width": 1.75,
   "length": 2.65,
   "r": 6,

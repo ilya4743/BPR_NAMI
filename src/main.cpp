@@ -25,7 +25,7 @@ void StartClient() {
             signals.async_wait([&ioc](const sys::error_code& ec, [[maybe_unused]] int signal_number) {
                 if (!ec) {
                     ioc.stop();
-                    throw;
+                    throw std::runtime_error("Exit from signal"s);
                 }
             });
 
@@ -42,6 +42,10 @@ void StartClient() {
                 });
             }
             ioc.run();
+        } catch (const std::exception& e) {
+            if (e.what() == "Exit from signal"s)
+                throw std::runtime_error("Exit from signal"s);
+            std::cerr << e.what();
         } catch (...) {
             std::cerr << "errr";
         }
@@ -57,9 +61,10 @@ int main(int argc, char** argv) {
         InitLogger();
         StartClient();
     } catch (const std::exception& e) {
-        std::cerr << e.what();
-        // переподключаемся, если вдруг произошел разрыв соединения
-        StartClient();
+        std::cerr << e.what() << std::endl;
+        if (e.what() != "Exit from signal"s)
+            // переподключаемся, если вдруг произошел разрыв соединения
+            StartClient();
     }
     return 0;
 }
