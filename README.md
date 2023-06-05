@@ -179,3 +179,4 @@ cmake --build .
 		</tr>
 	</tbody>
 </table>
+<BR>Протоколы взаимодействия: https://docs.google.com/document/d/1qdJaiPK4RypHkbp05WftyN4BsGhudwQlOPJJ5VXJhsg/edit
