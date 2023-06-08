@@ -18,7 +18,10 @@ typedef bg::model::polygon<point> polygon;
 class Placer {
    private:
     inline void Bresenham(int x1, int y1, int x2, int y2, OccupancyGrid& grid) {
+        // если препятствие слишком маленькое, с 1 ячейку, то просто закрасим её
         if (x1 == x2 || y1 == y2) {
+            // запоминаем какую ячейку закрасили, чтобы потом при очередном запросе быстро можно было очистить сетку занятости
+            // не пересоздавая её полность
             occupancyCell.push_back(grid.width * y1 + x1);
             grid.data[grid.width * y1 + x1] = 100;
             return;
@@ -39,9 +42,12 @@ class Placer {
                 y1 += signY;
             }
             grid.data[grid.width * y1 + x1] = 100;
+            // запоминаем какую ячейку закрасили, чтобы потом при очередном запросе быстро можно было очистить сетку занятости
+            // не пересоздавая её полность
             occupancyCell.push_back(grid.width * y1 + x1);
         }
     }
+    // закрашенные ячейки
     std::list<int> occupancyCell;
 
    public:
@@ -58,6 +64,7 @@ class Placer {
 
         box box{{0, 0}, {width, height - grid.resolution}};
 
+        // Находим пересечение сетки занятости и препятствия
         if (boost::geometry::intersects(box, poly)) {
             std::vector<polygon> output;
             boost::geometry::intersection(box, poly, output);
@@ -73,6 +80,7 @@ class Placer {
 
                     int x2 = grid.getI(out[i]);
                     int y2 = grid.getJ(out[i]);
+                    // закрашиваем
                     Bresenham(x1, y1, x2, y2, grid);
                 }
             } else {
@@ -82,12 +90,14 @@ class Placer {
 
                     int x2 = grid.getI(points[i]);
                     int y2 = grid.getJ(points[i]);
+                    // закрашиваем
                     Bresenham(x1, y1, x2, y2, grid);
                 }
             }
         }
     }
 
+    // очищаем сетку занятости, используя occupancyCell, чтобы не пересоздавать заново
     inline void clearGrid(OccupancyGrid& grid) {
         for (auto it = occupancyCell.cbegin(); it != occupancyCell.end(); ++it)
             grid.data[*it] = 0;

@@ -23,8 +23,6 @@ add_library(${PROJECT_NAME}
   src/node2d.cpp
   src/node3d.cpp
   src/smoother.cpp
-  src/occupancy_grid.cpp
-  src/placer.cpp
   src/object.cpp
   src/obstacle.cpp
   src/car.cpp

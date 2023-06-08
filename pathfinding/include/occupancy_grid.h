@@ -40,9 +40,15 @@ class OccupancyGrid {
 
     OccupancyGrid& operator=(OccupancyGrid&& tmp) = default;
 
+    // находится ли точка внутри матрицы
     bool isInside(Eigen::Vector4f p) { return p(0) <= width * resolution && p(0) >= 0 && p(2) >= 0 && p(2) < height * resolution; };
+    // вернуть индекс ячейки по x вектора
     int getI(Eigen::Vector4f p) const { return p(0) / resolution; };
+    // вернуть индекс ячейки по z вектора
     int getJ(Eigen::Vector4f p) const { return p(2) / resolution; };
+
+    // Изменяем размер матрицы занятости, если его парамметры были изменены
+    //  width = ширина в координатах, height = высота в координатах, resolution = разрешение сетки(шаг)
     void resize(float width, float height, float resolution) {
         int w = static_cast<int>(width / resolution);
         int h = static_cast<int>(height / resolution);
@@ -53,9 +59,11 @@ class OccupancyGrid {
             data.resize(this->width * this->height);
         }
     }
+    // вернуть ширину в координатах
     float GetWidthCoord() const {
         return width * resolution;
     }
+    // вернуть высоту в координатах
     float GetHeightCoord() const {
         return height * resolution;
     }

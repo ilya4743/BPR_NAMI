@@ -1,4 +1,3 @@
-# Не просто создаём образ, но даём ему имя build
 FROM ubuntu:22.04
 
 RUN apt update && \
@@ -7,12 +6,12 @@ RUN apt update && \
     libompl-dev \
     build-essential \
     libboost-serialization-dev \
-    libboost-filesystem-dev
+    libboost-filesystem-dev \
+    libboost-log-dev
 
 RUN mkdir app \
     app/build
 
-# Папка data больше не нужна
 COPY ./src /app/src
 COPY ./include /app/include
 COPY ./data /app/data
@@ -23,5 +22,5 @@ RUN cd /app/build && \
     cmake -DCMAKE_BUILD_TYPE=Release .. && \
     cmake --build .
 
-# Запускаем игровой сервер
+WORKDIR /app/build/
 ENTRYPOINT ["/app/build/BPR_NAMI"] 
