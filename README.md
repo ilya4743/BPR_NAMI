@@ -9,6 +9,7 @@ BOOST<br>
 sudo apt install libompl-dev
 libboost-serialization-dev
 libboost-filesystem-dev
+libboost-log-dev
 ```
 ### Сборка:
 ```
@@ -16,6 +17,12 @@ mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release .. && \
 cmake --build .
+```
+
+### Запуск в контейнере:
+```
+docker build -t bpr .
+docker run --rm --net=host bpr
 ```
 ## Описание
 
